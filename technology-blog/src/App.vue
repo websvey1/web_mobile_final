@@ -28,6 +28,18 @@ export default {
       //
     }
   },
+
+  created(){
+    this.$http.post("/dept/1")
+    .then(res => {
+      alert(res.data)
+      console.log(res.data);
+    })
+    .catch(error => {
+      // alert(error)
+      console.log("안됐지롱");
+    })
+  },
   methods:{
     async readPosts(){
       await FirebaseService.readPosts();
@@ -42,5 +54,5 @@ export default {
 </script>
 
 <style media="screen">
-  
+
 </style>
