@@ -17,10 +17,10 @@
       <v-container grid-list-md>
         <v-layout wrap>
           <v-flex xs12>
-            <v-text-field label="Email*" required v-model="id"></v-text-field>
+            <v-text-field label="Email*" required v-model="id" ref="id" :rules="idRules"></v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-text-field label="Password*" type="password" required v-model="pw"></v-text-field>
+            <v-text-field label="Password*" type="password" required v-model="pw" ref="password" :rules="pwRules"></v-text-field>
           </v-flex>
         </v-layout>
       </v-container>
@@ -47,62 +47,83 @@ export default {
       id: "",
       pw: "",
       dialog: false,
-      islogin: false
+      islogin: false,
+      idRules: [v => !!v || '아이디를 입력해 주세요.'],
+      pwRules: [v => !!v || '비밀번호를 입력해 주세요.']
     }
   },
-  created(){
+  created() {
     var user = this.$session.get("user")
 
-    if(user == null){
+    if (user == null) {
       this.islogin = false
-    }
-    else{
+    } else {
       this.islogin = true
     }
   },
+  computed: {
+    form () {
+      return {
+        id: this.id,
+        password: this.pw
+      }
+    },
+  },
   methods: {
+    checkValidation() {
+      var validation = true;
+
+      Object.keys(this.form).forEach(f => {
+        if (this.$refs[f].validate(true) == false) {
+          validation = false;
+        }
+      })
+
+      return validation;
+    },
+    resetForm() {
+      Object.keys(this.form).forEach(f => {
+        this.$refs[f].reset();
+      })
+    },
     async normal_login() {
-      var user = await FirebaseService.login(this.id, this.pw)
+      if (this.checkValidation()) {
+        this.isLoading = true;
 
-      if(user){
-        this.successLogin(user)
+        this.$http.post("/user/login", this.form)
+          .then((res) => {
+            console.log(res);
+            if (res == null) {
+              alert("아이디와 비밀번호를 확인해 주세요.");
+            } else {
+              alert("로그인 되었습니다.")
+              this.$store.state.user = res;
+            }
+            this.resetForm();
+            this.isLoading = false;
+          })
       }
     },
-    async facebook_login(){
-      var user = await FirebaseService.facebook_login();
+    async facebook_login() {
 
-      if(user){
-        this.successLogin(user)
-      }
     },
-    async google_login(){
-      var user = await FirebaseService.google_login();
+    async google_login() {
 
-      if(user){
-        this.successLogin(user)
-      }
     },
-    successLogin(user){
+    successLogin(user) {
       alert(user.displayName + "님 환영합니다!")
 
       this.$session.set("user", user);
       this.dialog = false;
       this.islogin = !this.islogin;
     },
-    goSignup(){
+    goSignup() {
       this.dialog = false;
       this.$router.push("/signup");
     },
-    async signout(){
-      var state = await FirebaseService.signout();
-
-      if(state === true){
-        this.$session.remove("user");
-        this.islogin = !this.islogin;
-      }
-      else{
-        alert("잘못된 접근입니다.")
-      }
+    async signout() {
+      this.$session.remove("user");
+      this.islogin = !this.islogin;
     }
   }
 }

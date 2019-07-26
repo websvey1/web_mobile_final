@@ -77,21 +77,15 @@ export default {
       isLoading:false,
     }
   },
-  async created(){
-    if(this.$store.state.userInfo != null){
-      LogService.CreatedTime(this);
-    }
 
-    if(this.$store.state.userInfo == null){
-      alert("잘못된 접근입니다.")
-      this.$router.push("/")
-    }
+  computed:{
+
+  },
+  created(){
+
   },
   beforeRouteLeave(to, from, next){
-    if(this.$store.state.logInfo.user != null){
-      LogService.DestroyedTime(this);
-    }
-    next();
+
   },
   methods: {
     goHome(){
@@ -101,7 +95,7 @@ export default {
       this.isLoading = true;
       var imageState = this.$refs.imagePicker.isRandom()
       var url = "https://source.unsplash.com/random/300x300"
-      var user = await FirebaseService.getUser();
+
       if (imageState.picture && !imageState.random) {
         url = await this.$refs.imagePicker.getImageUrl()
       }
