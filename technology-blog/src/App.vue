@@ -30,7 +30,14 @@ export default {
   },
 
   created(){
-    this.$http.post("/dept/1")
+    var config = {
+      id : 'hong',
+      pwd: '12345',
+      dept_no : 1,
+      user_id : 1
+    }
+
+    this.$http.post("/dept",config)
     .then(res => {
       alert(res.data)
       console.log(res.data);

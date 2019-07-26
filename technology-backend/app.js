@@ -9,10 +9,11 @@ var logger = require('morgan');
 
 var app = express();
 // var database = require('./database')
+var mysql = require('mysql');
 
 var deptRouter = require('./routes/dept');
+var userRouter = require('./routes/user');
 
-app.use('/dept', deptRouter);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +25,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/dept', deptRouter);
+app.use('/user', userRouter);
 
+var conn = mysql.createConnection({
+  host:"192.168.31.61",
+  port:3306,
+  user:"root",
+  password:"hello123!",
+  database:"blog"
+})
+
+conn.connect((error) =>{
+  console.log(error);
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
