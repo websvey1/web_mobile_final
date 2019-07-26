@@ -30,22 +30,7 @@ export default {
   },
 
   created(){
-    var config = {
-      id : 'hong',
-      pwd: '12345',
-      dept_no : 1,
-      user_id : 1
-    }
 
-    this.$http.post("/dept",config)
-    .then(res => {
-      alert(res.data)
-      console.log(res.data);
-    })
-    .catch(error => {
-      // alert(error)
-      console.log("안됐지롱");
-    })
   },
   methods:{
     async readPosts(){
