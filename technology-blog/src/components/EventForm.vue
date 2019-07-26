@@ -58,7 +58,7 @@ export default {
                     title: event.title,
                     start: event.start, 
                     end: event.end,
-                    color: event.cssClass,
+                    cssClass: event.cssClass,
                     description: event.data.description,
                 },
                 headers: {
@@ -69,11 +69,10 @@ export default {
 
             this.$http.post('http://192.168.31.63:3000/plan', config)
                 .then((response) => {
-                    alert(response.body)
-                    console.log(response)
+                    console.log("?")
+                    this.$store.state.plan = response.data;
                 })
                 .catch((error) =>{
-                    alert(error)
                     console.log(error)
                 })
             this.resetValues();

@@ -17,7 +17,7 @@ var mysql = require('mysql');
 var deptRouter = require('./routes/dept');
 var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
-
+var getPlan = require('./routes/getPlan');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dept', deptRouter);
 app.use('/plan', plan);
 app.use('/user', userRouter);
+app.use('/getPlan', getPlan);
 
 var conn = mysql.createConnection({
   host:"192.168.31.61",
