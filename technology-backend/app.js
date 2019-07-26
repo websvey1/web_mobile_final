@@ -9,10 +9,14 @@ var cors = require('cors');
 
 var app = express();
 // var database = require('./database')
+
 app.use(cors());
+
+var mysql = require('mysql');
 
 var deptRouter = require('./routes/dept');
 var plan = require('./routes/plan');
+var userRouter = require('./routes/user');
 
 
 // view engine setup
@@ -28,6 +32,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dept', deptRouter);
 app.use('/plan', plan);
+app.use('/user', userRouter);
+
+var conn = mysql.createConnection({
+  host:"192.168.31.61",
+  port:3306,
+  user:"root",
+  password:"hello123!",
+  database:"blog"
+})
+
+conn.connect((error) =>{
+  console.log(error);
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
