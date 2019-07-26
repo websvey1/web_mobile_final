@@ -12,8 +12,8 @@
         </div>
       </v-flex>
       <v-flex xs2 style="margin-top: 3.5px;">
-        <v-select
-          :items="items"
+        <v-select v-model="status"
+          :items="status_items"
           label="프로젝트 상태"
         ></v-select>
       </v-flex>
@@ -29,7 +29,7 @@
               ref="menu1"
               v-model="menu1"
               :close-on-content-click="false"
-              :return-value.sync="date"
+              :return-value.sync="start_date"
               transition="scale-transition"
               offset-y
               full-width
@@ -60,7 +60,7 @@
               ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
-              :return-value.sync="date"
+              :return-value.sync="end_date"
               transition="scale-transition"
               offset-y
               full-width
@@ -78,7 +78,7 @@
               <v-date-picker v-model="end_date" no-title scrollable locale="ko-kr">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menu2= false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.menu2.save(start_date)">OK</v-btn>
+                <v-btn text color="primary" @click="$refs.menu2.save(end_date)">OK</v-btn>
               </v-date-picker>
             </v-menu>
           </v-flex>
@@ -90,7 +90,7 @@
         <fieldset style="margin-right:4px; height:80%">
         <legend>&nbsp;git URL&nbsp;</legend>
         <div style="margin-left: 10px; margin-right: 10px;">
-           <v-text-field
+           <v-text-field v-model="git_url"
             label="git url을 입력해 주세요."
           ></v-text-field>
         </div>
@@ -115,7 +115,9 @@
         <fieldset style="margin-right:4px; height:85%">
           <legend>&nbsp;Technology&nbsp;</legend>
           <div style="margin:16px;" id="hashtag">
-            <HashTag ref="hashtag"></HashTag>
+              <v-text-field v-model="tech"
+                label="프로젝트 주요 기술"
+              ></v-text-field>
           </div>
         </fieldset>
       </v-flex>
@@ -123,9 +125,9 @@
         <fieldset style="margin-left:4px; height:85%">
           <legend>&nbsp;Share&nbsp;</legend>
           <div style="margin:16px;">
-            <v-radio-group v-model="visibility">
-              <v-radio label="Public" color="primary" value="true"></v-radio>
-              <v-radio label="Private" color="error" value="false"></v-radio>
+            <v-radio-group v-model="share">
+              <v-radio label="Public" color="primary" value="1"></v-radio>
+              <v-radio label="Private" color="error" value="0"></v-radio>
             </v-radio-group>
           </div>
         </fieldset>
@@ -133,7 +135,7 @@
     </v-layout>
 
     <div style="text-align:center;" id="write-btn">
-      <v-btn class="v-btn theme--dark" @click="writePost">확인</v-btn>
+      <v-btn class="v-btn theme--dark" @click="createProject">확인</v-btn>
       <v-btn class="v-btn theme--dark" @click="goHome">취소</v-btn>
     </div>
 
@@ -162,28 +164,33 @@ export default {
   },
   data() {
     return {
+      writer: 1,
       title: "",
       goal: "",
-      content: "",
-      start_date: "2019-07-01",
-      end_date: "2019-07-01",
-      writer: "temp_writer",
-      visibility:"true",
-      items: ['계획', '진행중', '완료'],
+      status: '',
+      status_items: [
+        {
+          text: '계획', 
+          value: 'plan'
+        },
+        {
+          text: '진행중', 
+          value: 'progress'
+        },
+        {
+          text: '완료',
+          value: 'done'
+        }
+      ],
       menu1: false,
+      start_date: "2019-07-01",
       menu2: false,
+      end_date: "2019-07-01",
+      git_url: "",
+      content: "",
+      tech: "",
+      share:"1",
       isLoading:false,
-    }
-  },
-
-  async created(){
-    LogService.CreatedTime(this);
-
-    var user = await FirebaseService.getUser();
-
-    if(user == null){
-      alert("로그인 해주세요.")
-      this.$router.push("/")
     }
   },
 
@@ -196,14 +203,48 @@ export default {
     goHome(){
       this.$router.push("/")
     },
+
+    async createProject(){
+      var imgState = this.$refs.imagePicker.isRandom()
+      var url = "https://source.unsplash.com/random/300x300"
+
+      if (imgState.picture && !imgState.random) {
+        url = await this.$refs.imagePicker.getImageUrl()
+      }
+
+      const post = {
+        user: this.writer,
+        title: this.title,
+        goal: this.goal,
+        status: this.status,
+        start_date: this.start_date,
+        end_date: this.end_date,
+        git_url: this.git_url,
+        content: this.content,
+        tech: this.tech,
+        share: this.share,
+        imgurl: url
+      }
+
+      console.log(post);
+      console.log("제발제발");
+
+      
+      this.$http.post("/myproject/create", post)
+      .then((result) => {
+        console.log(result.data);
+      }).catch((error) => {
+        console.log(error);
+      });
+
+
+    },
+
     async writePost() {
       this.isLoading = true;
       var imageState = this.$refs.imagePicker.isRandom()
       var url = "https://source.unsplash.com/random/300x300"
       var user = await FirebaseService.getUser();
-      if (imageState.picture && !imageState.random) {
-        url = await this.$refs.imagePicker.getImageUrl()
-      }
 
       const post = {
         imageUrl:url,
