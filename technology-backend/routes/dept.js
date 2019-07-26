@@ -15,7 +15,7 @@ router.get('/:id', function(req, res, next) {
       console.log(ex);
     }
     else{
-      var query = conn.query('select * from dept where dept_no = ?',dept_no, function (err, result) {
+      var query = conn.query('select dept_name from dept where dept_no = ?',dept_no, function (err, result) {
         if (err) {
           console.error(err);
           throw err;

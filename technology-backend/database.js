@@ -39,3 +39,21 @@ module.exports = {
       return pool;
     }
 };
+
+// var dbConfig ={
+//   host: '192.168.31.61',
+//   user: 'root',
+//   password: 'hello123!',
+//   port: 3306,
+//   database: 'blog'
+// };
+
+// var pool = mysql.createPool(dbConfig);
+
+// pool.getConnection(function(err, connection){
+//   if(!err){
+//     console.log(err);
+//   }
+  
+//   // connection.release();
+// });

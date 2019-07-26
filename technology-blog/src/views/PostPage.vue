@@ -41,7 +41,7 @@ export default {
 			await FirebaseService.postText(this.text)
     },
     showCalendar(){
-      window.open("Calendar", "_blank","width=1100,height=700,left=200,top=25");
+      window.open("Temp", "_blank","width=1100,height=700,left=200,top=25");
     }
 	},
   mounted(){

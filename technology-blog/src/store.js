@@ -20,6 +20,8 @@ export const store = new Vuex.Store({
       page: '',
       enterTime: '',
       exitTime: ''
-    }
+    },
+    
+    plan: []
 	}
 });
