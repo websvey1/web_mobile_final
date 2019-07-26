@@ -60,12 +60,12 @@ export default new Router({
 
 		},
 
-    {
-    path: '/test',
-    name: 'TestPage',
-    component: TestPage
+		{
+		path: '/test',
+		name: 'TestPage',
+		component: TestPage
 
-  },
+		},
 		{
 			path: '/calendar',
 			name: 'Calendar',
@@ -93,7 +93,7 @@ export default new Router({
       		component: RemoveUserPage
 		},
 		{
-			path: '/projectwrite',
+			path: '/myproject/create',
 			name: 'ProjectWritePage',
 			component: ProjectWritePage
 		},
