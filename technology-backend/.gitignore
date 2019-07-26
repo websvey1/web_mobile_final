@@ -25,6 +25,5 @@ yarn-error.log*
 
 # TestFile
 # TestPage.vue
-
-public
 database.js
+public

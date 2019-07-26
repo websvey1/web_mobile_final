@@ -3,15 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var cors = require('cors');
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
 var app = express();
 // var database = require('./database')
+
+app.use(cors());
+
 var mysql = require('mysql');
 
 var deptRouter = require('./routes/dept');
+var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
 
 
@@ -25,7 +29,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/dept', deptRouter);
+app.use('/plan', plan);
 app.use('/user', userRouter);
 
 var conn = mysql.createConnection({
@@ -55,5 +61,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
+  next();
+});
 
 module.exports = app;
