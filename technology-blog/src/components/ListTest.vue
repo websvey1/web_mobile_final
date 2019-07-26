@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     showCalendar(){
-      window.open("Calendar", "_blank","width=1100,height=700,left=200,top=25");
+      window.open("Temp", "_blank","width=1100,height=700,left=200,top=25");
     },
     isVisible(post){
       if(post.visibility == 'true' || (this.$store.state.userInfo != null &&post.visibility == 'false' && post.email == this.$store.state.userInfo.email)){
