@@ -1,38 +1,49 @@
 <template>
-    <v-layout wrap>
-      <v-flex xs12 ma-5>
-        <v-card>
-                <v-card-title>
-                  <span class="headline">SIGN UP</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container grid-list-md>
-                    <v-layout wrap my-5>
-                      <v-flex xs12>
-                        <v-text-field label="Name*" :rules="nameRules" v-model="name" required></v-text-field>
-                      </v-flex>
-                      <v-flex xs12>
-                        <v-text-field label="Email*" :rules="emailRules" v-model="id" required></v-text-field>
-                      </v-flex>
-                      <v-flex xs12>
-                        <v-text-field label="Password*" type="password" :rules="passRules" v-model="pw" required></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                  <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" flat @click="signup">SIGN UP</v-btn>
-                </v-card-actions>
-                <loading :active.sync="isLoading"
-                :can-cancel="false"
-                :is-full-page="true"></loading>
-              </v-card>
-      </v-flex>
-      <Loading :isLoading="isLoading"/>
+<v-layout wrap>
+  <v-flex xs12 ma-5>
+    <v-card>
+      <v-card-title>
+        <span class="headline">회원가입</span>
+      </v-card-title>
+      <v-card-text>
+        <v-container grid-list-md>
+          <v-layout wrap my-5>
+            <v-flex xs12>
+              <v-text-field label="이름*" :rules="nameRules" v-model="user.name" ref="name" required></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field label="ID*" :rules="idRules" v-model="user.id" ref="id" required></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field label="Email*" :rules="emailRules" v-model="user.email" ref="email" required></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field label="비밀번호*" type="password" :rules="passRules" v-model="user.password" ref="password" required></v-text-field>
+            </v-flex>
+            <v-flex xs4>
+              <v-text-field label="관심기술1" v-model="user.tech1"></v-text-field>
+            </v-flex>
+            <v-flex xs4>
+              <v-text-field label="관심기술2" v-model="user.tech2"></v-text-field>
+            </v-flex>
+            <v-flex xs4>
+              <v-text-field label="관심기술3" v-model="user.tech3"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <small>*indicates required field</small>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" flat @click="resetForm">RESET</v-btn>
+        <v-btn color="blue darken-1" flat @click="signup">SIGN UP</v-btn>
+      </v-card-actions>
+      <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
+    </v-card>
+  </v-flex>
+  <Loading :isLoading="isLoading" />
 
-    </v-layout>
+</v-layout>
 </template>
 
 <script>
@@ -41,18 +52,28 @@ import Loading from "@/components/Loading"
 import FirebaseService from '@/services/FirebaseService'
 
 export default {
-	name: 'SignupPage',
-  components:{
+  name: 'SignupPage',
+  components: {
     Loading
   },
   data() {
     return {
-      id: "",
-      pw: "",
-      name: "",
+      user: {
+        id: "",
+        password: "",
+        email: "",
+        name: "",
+        tech1: "",
+        tech2: "",
+        tech3: ""
+      },
       nameRules: [
         v => !!v || 'Name is required',
         v => v.length <= 10 || 'Name must be less than 10 characters'
+      ],
+      idRules: [
+        v => !!v || 'ID is required',
+        v => v.length <= 10 || 'ID must be less than 10 characters'
       ],
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -63,62 +84,77 @@ export default {
         v => v.length >= 6 || 'Password must be longer than 6 characters'
       ],
 
-      isLoading:false
+      isLoading: false,
     }
   },
-	methods: {
+  computed: {
+      form () {
+        return {
+          id: this.user.id,
+          password: this.user.password,
+          email: this.user.email,
+          name: this.user.name
+        }
+      },
+    },
+  methods: {
+    checkValidation(){
+      var validation = true;
+
+      Object.keys(this.form).forEach(f => {
+          if(this.$refs[f].validate(true) == false){
+            validation = false;
+          }
+      })
+
+      return validation;
+    },
+
+    resetForm(){
+      Object.keys(this.form).forEach(f => {
+          this.$refs[f].reset();
+      })
+    },
+
     async signup() {
-      this.isLoading = true;
-      var state = await FirebaseService.signup(this.id, this.pw, this.name)
-      this.isLoading = false;
-      if(state === true){
-        alert("가입을 축하합니다.")
-        this.$router.push("/")
-      }
-      else{
-        var error = state.code
-        if("auth/email-already-in-use" == error){
-          alert("Email이 이미 사용 중입니다.")
-          this.id = ""
-        }
-        else if("auth/invalid-email" == error){
-          alert("잘못된 Email 형식입니다.")
-          this.id = ""
-        }
-        else if("auth/weak-password" == error){
-          alert("비밀번호가 너무 짧습니다.")
-          this.pw = ""
-        }
-        else{
-          alert(error)
-          this.id=""
-          this.pw=""
-          this.name=""
-        }
-      }
-    }
-	},
-  async created(){
-    if(this.$store.state.userInfo.email != null){
-      LogService.CreatedTime(this);
-    }
+      // this.isLoading = true;
+      var validation = this.checkValidation();
 
-    // var user = await FirebaseService.getUser();
+      if(validation){
+        this.isLoading = true;
 
-    if(this.$store.state.userInfo != null){
-      alert("잘못된 접근입니다.")
-      this.$router.push("/")
-    }
+        this.$http.post("/user/adduser", this.form)
+        .then((req) => {
+          if(req.data == "success"){
+            alert("가입 성공")
+          }
+          else{
+            alert("가입 실패")
+            this.resetForm();
+          }
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("ERROR")
+          this.isLoading = false;
+          this.resetForm();
+        })
+      }
+    },
+
   },
-  beforeRouteLeave(to, from, next){
-    if(this.$store.state.logInfo.user != null){
+  async created() {
+
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.$store.state.logInfo.user != null) {
       LogService.DestroyedTime(this);
     }
     next();
   },
-  destroyed(){
+  destroyed() {
 
   }
 }
-
 </script>

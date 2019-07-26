@@ -30,7 +30,7 @@ module.exports = {
     getPool: function () {
       if (pool) return pool;
       pool = mysql.createPool({
-        host: 'localhost',
+        host: '192.168.31.65',
         port: 3306,
         user: 'root',
         password: '12345',
@@ -39,3 +39,21 @@ module.exports = {
       return pool;
     }
 };
+
+// var dbConfig ={
+//   host: '192.168.31.61',
+//   user: 'root',
+//   password: 'hello123!',
+//   port: 3306,
+//   database: 'blog'
+// };
+
+// var pool = mysql.createPool(dbConfig);
+
+// pool.getConnection(function(err, connection){
+//   if(!err){
+//     console.log(err);
+//   }
+  
+//   // connection.release();
+// });

@@ -6,13 +6,16 @@ var db = require("../database")
 router.get('/:id', function(req, res, next) {
   var dept_no = req.params.id;
 
+  console.log(req.params);
+  console.log("dept no : " + req.body);
+
   var pool = db.getPool();
   pool.getConnection((ex, conn) => {
     if(ex){
       console.log(ex);
     }
     else{
-      var query = conn.query('select * from dept where dept_no = ?',dept_no, function (err, result) {
+      var query = conn.query('select dept_name from dept where dept_no = ?',dept_no, function (err, result) {
         if (err) {
           console.error(err);
           throw err;
@@ -27,6 +30,30 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+router.post('/', function(req, res, next) {
+  console.log(req.params);
+  console.log("dept no : " + req.body.dept_no);
+  // console.log(req.param("dept_no"));
+  var pool = db.getPool();
+  pool.getConnection((ex, conn) => {
+    if(ex){
+      console.log(ex);
+    }
+    else{
+      var query = conn.query('select * from dept where dept_no = 1', function (err, result) {
+        if (err) {
+          console.error(err);
+          throw err;
+        }
+
+        // res.json(result);
+        res.send(result);
+
+        conn.release();
+      });
+    }
+  });
+});
 module.exports = router;
 
 //표준
