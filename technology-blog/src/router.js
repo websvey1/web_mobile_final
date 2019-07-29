@@ -98,7 +98,7 @@ export default new Router({
 			component: ProjectWritePage
 		},
 		{
-			path: '/project',
+			path: '/myproject',
 			name: 'ProjectPage',
 			component: ProjectPage
 		}

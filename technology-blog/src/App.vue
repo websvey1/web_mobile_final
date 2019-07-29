@@ -7,7 +7,7 @@
       </v-content>
     </v-app>
 
-    <div id="app">
+    <!-- <div id="app">
       <div class="main">
         <div class="calendar-holder">
           <calendar :events="events" />
@@ -18,7 +18,7 @@
           <event-form />
         </div>
       </div>
-    </div>
+    </div> -->
     <Footer/>
   </div>
 </template>
@@ -126,7 +126,7 @@ export default {
 </script>
 
 <style>
-    #app {
+    /* #app {
       font-family: 'Avenir', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -151,5 +151,5 @@ export default {
       text-align: left;
       margin-left: 30px;
       margin-bottom: 10px;
-    }
+    } */
     </style>

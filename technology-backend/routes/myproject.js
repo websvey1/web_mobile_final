@@ -1,13 +1,33 @@
 var express = require('express');
 var router = express.Router();
-var db = require("../database")
+var db = require("../database");
+var multer = require('multer');
+
+router.get('/', function(req, res, next) {
+  var pool = db.getPool();
+  
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    }
+    else {
+      var movies = conn.query('select * from project', function (err, result) {
+        if (err) {
+          console.log(err);
+          throw err;
+        }
+        res.send(result);
+      });
+    }
+    conn.release();
+  });    
+})
+
 
 router.post('/create', function(req, res, next) {
     var pool = db.getPool();
-    console.log('개씨발닝러ㅏㄴ이ㅏ러닝러닝러ㅏ니ㅏ러니ㅓㅏㅣ');
     
     console.log(req.body);
-    console.log('개씨발닝러ㅏㄴ이ㅏ러닝러닝러ㅏ니ㅏ러니ㅓㅏㅣ');
 
     var user = req.body.user;
     var title = req.body.title;
@@ -19,7 +39,8 @@ router.post('/create', function(req, res, next) {
     var content = req.body.content;
     var tech = req.body.tech;
     var share = req.body.share;
-    var category = '0';
+    var category = '1';
+    var images = req.body.imgArray;
 
     pool.getConnection((ex, conn) => {
         if(ex){
@@ -30,16 +51,67 @@ router.post('/create', function(req, res, next) {
           'project_tech,project_content,project_status,project_git_url,project_share, project_category)' + 
           'values("'+ 1 + '","' + title + '","' + goal + '","' + start_date + '","' + end_date + '","' + tech + '","' + content + '","' +
           status + '","' + git_url + '","' + share + '","' + category + '")',
-            function (err, result) {
+            (err, result) => {
             if (err) {
               console.error(err);
               throw err;
             }
-    
-            res.send("Success");
+            
+            var project_num = result.insertId;
+            console.log(project_num)
+            
+            var img_query = 'insert into image(image_url) values';
+
+            if (images.length > 0) {
+              for (var i=0; i < images.length; i++) {
+                var img = images[i]
+                console.log(img)
+                img_query += '("' + img + '")';
+                if (i+1 == images.length) {
+                  img_query += ';'
+                } else {
+                  img_query += ','
+                }     
+              }
+              
+              var imgquery = conn.query(img_query, (err, result) => {
+                if (err) {
+                  console.error(err);
+                  throw err;
+                }
+                var image_num = result.insertId;
+                console.log(image_num);
+
+                var imgleng = images.length;
+                var imgcnt = image_num + images.length
+                console.log(imgleng)
+  
+                var imgconn_query = 'insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values';
+                for (var j=0; image_num + j < imgcnt; j++) {
+                  var imgnum = image_num + j
+                  imgconn_query += '(' + imgnum + ',' + project_num + ', 1, 0)'
+                  if (imgnum == imgcnt - 1) {
+                    imgconn_query += ';'
+                  } else {
+                    imgconn_query += ','
+                  }
+                }
+  
+                console.log(imgconn_query)
+                var imgconnquery = conn.query(imgconn_query, (err, result) => {
+                  if (err) {
+                    console.error(err);
+                    throw err;
+                  }
+                  res.send("Success");
+                })
+              })
+            } else {
+              res.send("Out of range");
+            }
           });
         }
     });
-}) 
+});
 
 module.exports = router;
