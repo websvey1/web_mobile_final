@@ -120,6 +120,15 @@
       getTags(){
         return this.model;
       },
+      getTagsForDb(){
+        var tags = [];
+
+        for(var i = 0; i < this.model.length; i++){
+          tags.push(this.model[i].text);
+        }
+
+        return tags;
+      },
       edit (index, item) {
         if (!this.editing) {
           this.editing = item

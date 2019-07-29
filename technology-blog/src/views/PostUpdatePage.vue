@@ -8,13 +8,13 @@
     <fieldset>
       <legend>TITLE</legend>
       <div style="margin:0px 16px">
-        <v-text-field xs12 label="제목을 입력해 주세요." v-model='post.title'></v-text-field>
+        <v-text-field xs12 label="제목을 입력해 주세요." v-model='post.post_title'></v-text-field>
       </div>
     </fieldset>
     <fieldset>
       <legend>CONTENT</legend>
       <div style="margin:16px;">
-        <markdown-editor v-model="post.content" ref="markdownEditor"></markdown-editor>
+        <markdown-editor v-model="post.post_content" ref="markdownEditor"></markdown-editor>
       </div>
     </fieldset>
 
@@ -31,9 +31,9 @@
         <fieldset style="margin-left:4px; height:100%">
           <legend>VISIBILILTY</legend>
           <div style="margin:16px;">
-            <v-radio-group v-model="post.visibility">
-              <v-radio label="Public" color="primary" value="true"></v-radio>
-              <v-radio label="Private" color="error" value="false"></v-radio>
+            <v-radio-group v-model="post.post_share">
+              <v-radio label="Public" color="primary" value="0"></v-radio>
+              <v-radio label="Private" color="error" value="1"></v-radio>
             </v-radio-group>
           </div>
         </fieldset>
@@ -46,9 +46,7 @@
       <v-btn class="v-btn theme--dark" @click="goRead">취소</v-btn>
     </div>
 
-    <loading :active.sync="isLoading"
-    :can-cancel="false"
-    :is-full-page="true"></loading>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
   </v-flex>
 </v-layout>
 </template>
@@ -72,113 +70,58 @@ export default {
   },
   data() {
     return {
-      post:{},
-      isLoading:false
+      post: {},
+      isLoading: false,
     }
   },
-  async created(){
-    if(this.$store.state.userInfo != null){
-      LogService.CreatedTime(this);
-    }
-    // var user = await FirebaseService.getUser();
-    //
-    // console.log("asdasd" + (user == null) || (user.email != this.$route.params.email));
-
-    console.log("씨이발" + user.email)
-    console.log(this.$router);
-    console.log("씨발" +this.$route.params.email);
-    if(user.email !== this.$route.params.email){
-      alert("잘못된 접근입니다.")
-      this.$router.push("/")
-      return;
-    }
-    else if(user.email != this.$route.params.email){
-      alert("잘못된 접근입니다.")
-      this.$router.push("/")
-      return;
-    }
-    this.fetchData()
+  async mounted() {
+    await this.fetchData();
   },
-  beforeRouteLeave(to, from, next){
-    if(this.$store.state.logInfo != null){
-      LogService.DestroyedTime(this);
-    }
+  beforeRouteLeave(to, from, next) {
     next();
   },
   methods: {
-    async fetchData(){
-      this.post = {
-        title:"",
-        content:""
-      };
+    async fetchData() {
+      this.post = null;
 
-      await FirebaseService.readPost(this.$route.params.id).then(data => {
-          this.post = data
-          this.$refs.imagePicker.setImage(data.imageUrl)
-          this.$refs.hashtag.setTags(data.tags)
+      await this.$http.get("http://192.168.31.65:3000/post/read/" + this.$route.params.id)
+        .then((response) => {
+          this.post = response.data.post;
+          this.$refs.imagePicker.setImage(response.data.post.image_url);
+
+          var tags = [];
+          var colors = ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'];
+
+          var val = response.data.tags;
+          for (var i = 0; i < val.length; i++) {
+            tags.push({
+              text: val[i].tag_name,
+              color: colors[i % 6]
+            })
+          }
+          this.$refs.hashtag.setTags(tags);
+        })
+        .catch(error => {
+          console.log(error);
         })
     },
-    async updatePost(){
-      this.isLoading = true;
+    async updatePost() {
 
-      var imageState = this.$refs.imagePicker.isRandom()
-      if (imageState.picture && !imageState.random) {
-        this.post.imageUrl = await this.$refs.imagePicker.getImageUrl();
-      }
-      else if(imageState.random){
-        this.post.imageUrl = "https://source.unsplash.com/random/1600x900";
-      }
-
-      this.post.tags = this.$refs.hashtag.getTags();
-      this.post.wdate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-      var state = await FirebaseService.updatePost(this.$route.params.id, this.post)
-
-      this.isLoading = false;
-
-      if(state === true){
-        alert("수정 되었습니다.")
-        this.goRead()
-      }
-      else{
-        alert("error : " + error.code)
-      }
     },
-    async removePost(){
-      var remove = confirm("삭제하시겠습니까?")
-
-      if(!remove){
-        return;
-      }
-
-      this.isLoading = true;
-      this.post = {
-        title:"",
-        content:"",
-        imageUrl:"",
-        tags:[],
-        visibility:true
-      };
-
-      var state = await FirebaseService.removePost(this.$route.params.id);
-      this.isLoading = false;
-
-      console.log(state);
-      console.log(true);
-      console.log(false);
-      if(state === true){
-        alert("삭제되었습니다.");
-        this.goHome();
-      }
-      else{
-        alert("error : " + state)
-      }
+    async removePost() {
+      console.log(this.$refs.imagePicker);
     },
 
-    goRead(){
-      this.$router.push({name:"PostReadPage", params:{id:this.$route.params.id}})
+    goRead() {
+      this.$router.push({
+        name: "PostReadPage",
+        params: {
+          id: this.$route.params.id
+        }
+      })
     },
 
-    goHome(){
+    goHome() {
       this.$router.push("/")
     }
   }
