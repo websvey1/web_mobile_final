@@ -23,6 +23,49 @@ router.get('/', function(req, res, next) {
   });    
 })
 
+router.get('/:id', function(req, res, next) {
+  var pool = db.getPool();
+
+  var project_num = req.params.id;
+  console.log(project_num);
+  
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    }
+    else {
+      var query = conn.query('select * from project where project_num = ' + project_num + ';', 
+        function(err, result) {
+          if (err) {
+            console.error(err);
+            conn.release();
+            throw err;
+          }
+
+          console.log(result);
+          var project = {
+            project: result,
+            images: null,
+          }
+
+          var query = conn.query('select pjt.project_num, pjt.project_title, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + project_num + ';',
+          function(err, result) {
+            if (err) {
+              console.error(err);
+              conn.release();
+              throw err;
+            }
+
+            project.images = result
+
+            console.log(project);
+            res.send(project);
+          })
+        })
+      }
+    conn.release();
+  })
+})
 
 router.post('/create', function(req, res, next) {
     var pool = db.getPool();
