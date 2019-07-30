@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     goHome(){
-      this.$router.push("/post")
+      this.$router.go(-1);
     },
     goUpdate(){
       this.$router.push({name:"PostUpdatePage", params:{id:this.$route.params.id, email:this.post.email}})
