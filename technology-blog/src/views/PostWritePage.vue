@@ -31,9 +31,9 @@
         <fieldset style="margin-left:4px; height:100%">
           <legend>VISIBILILTY</legend>
           <div style="margin:16px;">
-            <v-radio-group v-model="visibility">
-              <v-radio label="Public" color="primary" value="true"></v-radio>
-              <v-radio label="Private" color="error" value="false"></v-radio>
+            <v-radio-group v-model="share">
+              <v-radio label="Public" color="primary" value="0"></v-radio>
+              <v-radio label="Private" color="error" value="1"></v-radio>
             </v-radio-group>
           </div>
         </fieldset>
@@ -79,7 +79,17 @@ export default {
   },
 
   computed:{
-
+    async form () {
+      return {
+        user: this.$store.state.userInfo.user_num,
+        title: this.title,
+        content: this.content,
+        share: this.share,
+        category:0,
+        tags: this.$refs.hashtag.getTagsForDb(),
+        imageUrl: await this.$refs.imagePicker.getImageUrl()
+      }
+    },
   },
   created(){
 
@@ -93,37 +103,25 @@ export default {
     },
     async writePost() {
       this.isLoading = true;
-      var imageState = this.$refs.imagePicker.isRandom()
-      var url = "https://source.unsplash.com/random/300x300"
 
-      if (imageState.picture && !imageState.random) {
-        url = await this.$refs.imagePicker.getImageUrl()
-      }
-
-      const post = {
-        imageUrl:url,
-        title:this.title,
-        content:this.content,
-        email: user.email,
-        writer: user.displayName,
-        wdate:new Date().toJSON().slice(0,10).replace(/-/g,'/'),
-        tags:this.$refs.hashtag.getTags(),
-        visibility:this.visibility
-      }
-
-      console.log("여기까지는 된다.");
-      var state = await FirebaseService.writePost(post);
-      console.log("여기까지는 안된다.");
-
-      this.isLoading = false;
-
-      if(state === true){
-        alert("글 작성 완료");
-        this.$router.push("/")
-      }
-      else{
-        alert(state)
-      }
+      var form = await this.form
+      this.$http.post("http://192.168.31.65:3000/post/create", form)
+      .then((req) => {
+        if(req.data == "Success"){
+          alert("글이 작성되었습니다.");
+          this.isLoading = false;
+          this.goHome();
+        }
+        else{
+          alert("글 작성을 실패하였습니다.")
+          this.isLoading = false;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("ERROR")
+        this.isLoading = false;
+      })
     }
   }
 }

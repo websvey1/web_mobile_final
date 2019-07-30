@@ -93,7 +93,7 @@ export default {
       if (this.checkValidation()) {
         this.isLoading = true;
 
-        this.$http.post("/user/login", this.form)
+        this.$http.post("http://192.168.31.65:3000/user/login", this.form)
           .then((res) => {
             console.log(res.data);
             if (res.data.length == 0) {

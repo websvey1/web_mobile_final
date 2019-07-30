@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 <div style="display: flex; justify-content: center;">
   <v-app id="inspire">
 
@@ -34,6 +35,35 @@
 
   </v-app>
 </div>
+=======
+<v-layout wrap align-center justify-center row fill-height>
+  <v-flex xs12 text-xs-left>
+    <v-img v-if="post != null" :src="post.image_url" aspect-ratio="1.7">
+      <v-layout wrap pa-5 fill-height>
+        <v-flex pa-5 ma-5 white xs12>
+          <h1>{{post.post_title}}</h1>
+          <h3 style="text-align:right;color:grey;">작성자 : {{post.user_name}}</h3>
+          <v-divider></v-divider>
+          <h3 style="text-align:right;color:grey;">마지막 수정 날짜 : {{post.post_updated_at}}</h3>
+          <v-divider dark></v-divider>
+          <div class="content-field">
+            <h3>{{post.post_content}}</h3>
+          </div>
+          <div style="text-align:center;" id="write-btn">
+            <v-chip v-for="tag in tags" outline :color="tag.color" >
+               #{{tag.text}}
+             </v-chip>
+
+            <v-divider dark></v-divider>
+            <v-btn class="v-btn theme--dark" @click="goHome">목록</v-btn>
+            <v-btn v-if="$store.state.userInfo != null && post.user_id == $store.state.userInfo.user_id" class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-img>
+  </v-flex>
+</v-layout>
+>>>>>>> 67c37e570a865306815febc50d1103db2605c049
 </template>
 
 
@@ -72,6 +102,7 @@ export default {
     async fetchData() {
       this.post = null;
 
+<<<<<<< HEAD
       console.log(this.$route.params.id);
       await FirebaseService.readPost(this.$route.params.id).then(async data => {
         console.log("data : " + data);
@@ -99,6 +130,31 @@ export default {
       LogService.CreatedTime(this);
     }
     console.log("log : " + await FirebaseService.getUser());
+=======
+      this.$http.get("http://192.168.31.65:3000/post/read/" + this.$route.params.id)
+      .then((response) => {
+        this.post = response.data.post
+
+        var colors =  ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'];
+
+        this.tags = [];
+
+        for(var i = 0; i < response.data.tags.length; i++){
+          this.tags.push({
+            text:response.data.tags[i].tag_name,
+            color:colors[i%6]
+          })
+        }
+
+        console.log(this.post);
+      })
+      .catch((error) => {
+        alert(error)
+      })
+    }
+  },
+  async created(){
+>>>>>>> 67c37e570a865306815febc50d1103db2605c049
     await this.fetchData();
   },
   beforeRouteLeave(to, from, next) {

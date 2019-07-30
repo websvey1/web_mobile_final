@@ -1,16 +1,16 @@
 <template>
   <!-- <v-layout v-if="outerWidth" v-dragscroll class="overflow"> -->
-<v-layout v-if="!$store.state.isTrans" v-dragscroll class="overflow">
-  <v-flex v-if="isVisible(post)" xs3 v-for="post in $store.state.posts" px-2 py-4>
+<v-layout v-dragscroll class="overflow">
+  <v-flex xs3 v-for="post in $store.state.posts" px-2 py-4>
     <PostCard :post="post"></PostCard>
   </v-flex>
 </v-layout>
-<v-layout v-else v-dragscroll class="overflow">
+<!-- <v-layout v-else v-dragscroll class="overflow">
   <v-btn flat color="warning" @click="showCalendar()">Calendar</v-btn>
   <v-flex v-if="isVisible(post)" xs3 v-for="post in $store.state.trans_posts" px-2 py-4>
     <PostCard :post="post"></PostCard>
   </v-flex>
-</v-layout>
+</v-layout> -->
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     isVisible(post){
-      if(post.visibility == 'true' || (this.$store.state.userInfo != null &&post.visibility == 'false' && post.email == this.$store.state.userInfo.email)){
+      if(post.post_share == '0' || (this.$store.state.userInfo != null &&post.post_share == '1' && post.email == this.$store.state.userInfo.email)){
           return true;
       }
       else{

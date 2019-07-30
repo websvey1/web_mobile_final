@@ -1,12 +1,12 @@
 <template>
 <v-hover>
-  <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="rounded-card" @click="goReadPage(post.key)">
-    <v-img height="230px" :src="post.imageUrl" aspect-ratio="2.75"></v-img>
+  <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="rounded-card" @click="goReadPage(post.post_num)">
+    <v-img height="230px" :src="post.image_url" aspect-ratio="2.75"></v-img>
 
     <v-card-title primary-title>
       <div>
-        <h3 class="headline mb-0 oneline">{{post.title}}</h3>
-        <div class="fourline"> {{post.content}} </div>
+        <h3 class="headline mb-0 oneline">{{post.post_title}}</h3>
+        <div class="fourline"> {{post.post_content}} </div>
       </div>
 
     <v-list-tile avatar @click="" style="overflow:hidden; width:300px;">
@@ -15,8 +15,8 @@
       </v-list-tile-avatar>
 
       <v-list-tile-content>
-        <v-list-tile-title>{{post.wdate}}</v-list-tile-title>
-        <v-list-tile-sub-title class="oneline">{{post.writer}}</v-list-tile-sub-title>
+        <v-list-tile-title>{{post.post_created_at}}</v-list-tile-title>
+        <v-list-tile-sub-title class="oneline">{{post.user_name}}</v-list-tile-sub-title>
       </v-list-tile-content>
       <i v-if="post.visibility=='false'" class="fas fa-lock">&nbsp;&nbsp;</i>
     </v-list-tile>
