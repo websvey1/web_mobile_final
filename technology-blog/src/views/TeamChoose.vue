@@ -17,54 +17,10 @@
                                 <v-flex xs12>
                                     <v-text-field label="Team Name *" v-model="teamName" ref="teamName" :rules="teamRules" required></v-text-field>
                                 </v-flex>
-                                <!--
                                 <v-flex xs12>
-                                    <v-autocomplete label="Member *" :items="members" ref="member" :rules="memberRules" required></v-autocomplete>
-                                </v-flex>
-                                -->
-                                <!--
-                                    <v-text-field label="Member *" required v-model="member" ref="member" :rules="memberRules"></v-text-field>
-                                -->
-
-                                <v-flex xs12>
-                                <!--
-                                    <v-autocomplete v-model="friends" :disabled="isUpdating" :items="people" filled chips 
-                                        color="blue-grey lighten-2" label="Select *" item-text="name" item-value="name" multiple>
-                                    
-                                        <template v-slot:selection="data">
-                                            <v-chip v-bind="data.attrs" :input-value="data.selected" close
-                                                @click="data.select" @click:close="remove(data.item)">
-                                                    {{ data.item.name }}
-                                            </v-chip>
-                                        </template>
-
+                                    <v-autocomplete v-model="members" :disabled="isUpdating" :items="people" filled chips color="blue-grey lighten-2"
+                                        label="Member *" item-text="name" item-value="name" :rules="memberRules" multiple>
                                         <template v-slot:item="data">
-                                            <template v-if="typeof data.item !== 'object'">
-                                                <v-list-item-content v-text="data.item"></v-list-item-content>
-                                            </template>
-                                            <template v-else>
-                                                <v-list-item-content>
-                                                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                                                    <v-list-item-subtitle v-html="data.item.group"></v-list-item-subtitle>
-                                                </v-list-item-content>
-                                            </template>
-                                        </template>
-                                    </v-autocomplete>
-                                    -->
-                                    <v-autocomplete
-                                        v-model="friends"
-                                        :disabled="isUpdating"
-                                        :items="people"
-                                        filled
-                                        chips
-                                        color="blue-grey lighten-2"
-                                        label="Member *"
-                                        item-text="name"
-                                        item-value="name"
-                                        :rules="memberRules"
-                                        multiple
-                                        >
-                                           <template v-slot:item="data">
                                             <template v-if="typeof data.item !== 'object'">
                                                 <v-list-item-content v-text="data.item"></v-list-item-content>
                                             </template>
@@ -79,7 +35,6 @@
                                         </template>
                                     </v-autocomplete>
                                 </v-flex>
-                                
                             </v-layout>
                         </v-container>
                     </v-card-text>
@@ -96,16 +51,16 @@
 </template>
 
 <script>
-
 export default {
     name: 'TeamChoose',
     data() {
         return{
+            teamName: '',
             showModal: false,
             isUpdating: false,
             teamRules: [v => !!v || 'Team Name을 입력해 주세요.'],
             memberRules: [v => !!v || 'Member를 입력해 주세요.'],
-            friends: [],
+            members: [],
             people: [],
         }
     },
@@ -118,6 +73,7 @@ export default {
             for(var i = 0; i < items.length; i++){
                 this.people.push({name: items[i].user_name, id: items[i].user_id});
             }
+            console.log('모든 user 가져오기 완료.')
         })
         .catch((error) =>{
             console.log(error)
@@ -126,8 +82,34 @@ export default {
     methods:{
         addTeam(){
             // 1st. DB에 가서, Team 만들기
-            // 2nd. Team 
+            var temp = {
+                name: this.teamName
+            }
+            /////////////////////////// Team 만들기 /////////////////////////////////
 
+            this.$http.post('http://192.168.31.63:3000/makeTeam', temp)
+            .then((response) => {
+                // 2nd. Team Num 받아와서, member table에 각 user들 이 Team Num값으로 집어넣기
+                console.log('Team 생성 완료.')
+
+                var mem = {
+                    teamNum: response.data,
+                    member: this.members
+                }
+            ////////////////////////// Member table에 user들 넣기 /////////////////////////
+                
+                this.$http.post('http://192.168.31.63:3000/makeMember', mem)
+                .then((response) =>{
+                    console.log('member들 입력 완료.')
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+            this.showModal = !this.showModal
         },
         remove (item) {
             const index = this.friends.indexOf(item.name)

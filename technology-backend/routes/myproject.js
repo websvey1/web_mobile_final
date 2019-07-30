@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../database");
-var multer = require('multer');
 
 router.get('/', function(req, res, next) {
   var pool = db.getPool();

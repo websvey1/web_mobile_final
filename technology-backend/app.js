@@ -22,6 +22,8 @@ var MyProject = require('./routes/myproject');
 
 var getPlan = require('./routes/getPlan');
 var getUser = require('./routes/getUser');
+var makeTeam = require('./routes/makeTeam');
+var makeMember = require('./routes/makeMember');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,6 +43,8 @@ app.use('/user', userRouter);
 app.use('/myproject', MyProject);
 app.use('/getPlan', getPlan);
 app.use('/getUser', getUser);
+app.use('/makeTeam', makeTeam);
+app.use('/makeMember', makeMember);
 
 var conn = mysql.createConnection({
   host:"192.168.31.61",
