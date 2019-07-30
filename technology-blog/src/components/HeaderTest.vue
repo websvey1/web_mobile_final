@@ -27,7 +27,7 @@
       ">
 
         <v-toolbar-title>
-          <router-link id="Main" to="/" style="">
+          <router-link id="Main" to="/" style="margin-right:50px;">
             YEJI's Family ♥
           </router-link>
         </v-toolbar-title>
@@ -78,24 +78,32 @@
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>question_answer</v-icon>
-              <span class="spantag"> Post</span>
+              <span class="spantag"> Personal</span>
             </h1>
           </v-list-tile-content>
         </v-list-tile>
       </template>
       <v-divider />
-      <v-list-tile to="/post" style="background:white;">
+      <v-list-tile to="/myproject" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
-            <span class="spantag">Post 모아보기</span>
+            <span class="spantag">Project</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider />
-      <v-list-tile to="/postwrite" style="background:white;">
+      <v-list-tile to="/post" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
-            <span class="spantag">Post 쓰기</span>
+            <span class="spantag">Post</span>
+          </h1>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-divider/>
+      <v-list-tile to="/calendar" style="background:white;">
+        <v-list-tile-content style="height:auto;">
+          <h1 style="margin-left: 30px;">
+            <span class="spantag">Calendar</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
@@ -123,7 +131,7 @@
       </v-list-tile>
       <v-divider />
     </v-list-group>
-  
+
     <v-list-group>
       <template v-slot:activator>
         <v-list-tile @click="" style="margie-top:10px;">
@@ -196,11 +204,11 @@ export default {
           icon: 'home',
           link: '/'
         },
-        {
-            title: 'Project',
-            icon: 'widgets',
-            link: '/project'
-        },
+        // {
+        //     title: 'Project',
+        //     icon: 'widgets',
+        //     link: '/project'
+        // },
         // {
         //   title: 'Post',
         //   icon: 'question_answer',
