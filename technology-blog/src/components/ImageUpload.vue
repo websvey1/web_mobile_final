@@ -106,7 +106,9 @@ export default {
       if(this.picture == false || this.random == true){
         return "https://source.unsplash.com/random/300x300";
       }
-      this.imgur();
+      if(this.img.imageFile != ''){
+        this.imgur();
+      }
       return this.img.imageUrl
     },
 
