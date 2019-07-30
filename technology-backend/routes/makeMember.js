@@ -10,6 +10,7 @@ router.post('/', function(req, res, next){
     console.log(teamNum);
     console.log(members);
     // console.log(members.length);
+    var list = [];
 
     pool.getConnection((ex, conn) => {
         if(ex){
@@ -24,7 +25,7 @@ router.post('/', function(req, res, next){
                       console.error(err);
                       throw err;
                     }
-
+                    
                     var query = conn.query('insert into blog.member(member_user, member_team, member_auth) values(?, ?, 0)', [result[0].user_num, teamNum], function (err, result) {
                         if (err) {
                           console.error(err);
