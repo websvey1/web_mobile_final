@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <HeaderTest v-if="$router.currentRoute.name != 'HomePage'"/> -->
     <HeaderTest/>
     <v-app>
       <v-content>
@@ -25,34 +24,54 @@
 </template>
 
 <script>
-// import Header from './components/Header'
+import Header from './components/Header'
 import Footer from './components/Footer'
 import FirebaseService from './services/FirebaseService'
 import HeaderTest from './components/HeaderTest'
+
+import Calendar from './components/Calendar.vue'
+import EventForm from './components/EventForm.vue'
+import Pusher from 'pusher-js';
+import {mapState} from 'vuex';
 
 export default {
   name: 'App',
   components: {
     Footer,
-
-    HeaderTest
+    Header,
+    HeaderTest,
+    Calendar,
+    EventForm
   },
   data () {
     return {
       //
+      // events: [
+      //   {
+      //     title     :  'event1',
+      //     start     : '2019-07-09',
+      //     cssClass  : 'blue',
+      //     YOUR_DATA : {}
+      //   },
+      //   {
+      //     title     : 'event2',
+      //     start     : '2019-07-10',
+      //     end       : '2019-07-13',
+      //     cssClass  : ['orange']
+      //   }
+      // ]
+      events: [{
+        title     : 'event2',
+        start     : '2019-07-10',
+        end       : '2019-07-13',
+        cssClass  : ['orange']
+      }]
+      // events: []
     }
   },
 
   created(){
-    this.$http.post("/dept/1")
-    .then(res => {
-      alert(res.data)
-      console.log(res.data);
-    })
-    .catch(error => {
-      // alert(error)
-      console.log("안됐지롱");
-    })
+    this.readPosts();
   },
   methods:{
     async readPosts(){
