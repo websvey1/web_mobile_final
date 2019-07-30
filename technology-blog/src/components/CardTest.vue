@@ -98,7 +98,7 @@ export default {
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical ; 
+  -webkit-box-orient: vertical ;
 }
 
 .pub-date {
