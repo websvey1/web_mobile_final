@@ -15,7 +15,11 @@ import TestPage from './views/TestPage.vue'
 import PostPage from './views/PostPage.vue'
 import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
+<<<<<<< HEAD
 import ProjectReadPage from './views/ProjectReadPage.vue'
+=======
+import TeamChoose from './views/TeamChoose.vue'
+>>>>>>> 508e45314dd079a440f0d055201e91c901b35560
 
 Vue.use(Router)
 
@@ -80,7 +84,15 @@ export default new Router({
 			component: ProjectReadPage
 		},
 		////////////////////////////////////////////////////////////  
-
+		
+		/////////////////////////// Team /////////////////////////// 
+		{
+			path: '/teamChoose',
+			name: 'TeamChoose',
+			component: TeamChoose
+		},
+		//////////////////////////////////////////////////////////// 
+		
 		///////////////////////// Calendar ///////////////////////// 
 		{
 			path: '/calendar',
