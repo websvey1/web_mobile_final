@@ -6,6 +6,22 @@
         <router-view/>
       </v-content>
     </v-app>
+
+    <!--
+    <div id="app">
+      <div class="main">
+        <div class="calendar-holder">
+          <calendar :events="events" />
+        </div>
+
+        <div class="form-holder">
+          <h3>Schedule an event</h3>
+          <event-form />
+        </div>
+      </div>
+    </div>
+    -->
+
     <Footer/>
   </div>
 </template>
