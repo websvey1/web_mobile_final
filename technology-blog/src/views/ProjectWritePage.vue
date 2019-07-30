@@ -103,6 +103,19 @@
       <ImageUpload :random_picture="true" ref="imagePicker"></ImageUpload>
     </fieldset>
 
+    <fieldset style="margin-bottom: 5px; height:100%">
+      <legend>PICTURE</legend>
+        <label style="margin-left: 20px;">Files 
+          <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()"/> 
+        </label>
+        <button v-on:click="addFiles()" style="margin-right: 20px;">Add Files</button> 
+        <button v-on:click="submitFiles()">Submit</button>
+
+        <div v-for="(file, key) in files" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">{{ file.name }}
+          <span class="remove-file" v-on:click="removeFile( key )">Remove</span>
+        </div>
+    </fieldset>
+
     <fieldset>
       <legend>CONTENT</legend>
       <div style="margin:16px;">
@@ -164,6 +177,12 @@ export default {
   },
   data() {
     return {
+      img: {
+        imgName: '',
+        imgUrl: '',
+        imgFile: '',
+      },
+
       writer: 1,
       title: "",
       goal: "",
@@ -171,15 +190,15 @@ export default {
       status_items: [
         {
           text: '계획', 
-          value: 'plan'
+          value: '계획'
         },
         {
           text: '진행중', 
-          value: 'progress'
+          value: '진행중'
         },
         {
           text: '완료',
-          value: 'done'
+          value: '완료'
         }
       ],
       menu1: false,
@@ -191,6 +210,9 @@ export default {
       tech: "",
       share:"1",
       isLoading:false,
+
+      files: [],
+      imgUrls: [],
     }
   },
 
@@ -205,11 +227,8 @@ export default {
     },
 
     async createProject(){
-      var imgState = this.$refs.imagePicker.isRandom()
-      var url = "https://source.unsplash.com/random/300x300"
-
-      if (imgState.picture && !imgState.random) {
-        url = await this.$refs.imagePicker.getImageUrl()
+      if (this.imgUrls.length == 0) {
+        this.imgUrls.push('https://source.unsplash.com/random/300x300')
       }
 
       const post = {
@@ -223,55 +242,85 @@ export default {
         content: this.content,
         tech: this.tech,
         share: this.share,
-        imgurl: url
+        imgArray: this.imgUrls
       }
 
       console.log(post);
-      console.log("제발제발");
-
       
-      this.$http.post("/myproject/create", post)
+      this.$http.post("http://192.168.31.61:3000/myproject/create", post)
       .then((result) => {
         console.log(result.data);
       }).catch((error) => {
         console.log(error);
-      });
+      })
+      .then(() => {
+        alert("글 작성 완료");
+        this.$router.push("/myproject")
+      })
 
 
     },
 
-    async writePost() {
-      this.isLoading = true;
-      var imageState = this.$refs.imagePicker.isRandom()
-      var url = "https://source.unsplash.com/random/300x300"
-      var user = await FirebaseService.getUser();
+    handleFileUploads() { 
+      // this.files = this.$refs.files.files;  
+      // console.log(this.files);
+       let uploadedFiles = this.$refs.files.files; 
+       for( var i = 0; i < uploadedFiles.length; i++ ){
+          this.files.push( uploadedFiles[i] ); 
+        }
+        console.log(uploadedFiles);
+    },
 
-      const post = {
-        imageUrl:url,
-        title:this.title,
-        content:this.content,
-        email: user.email,
-        writer: user.displayName,
-        wdate:new Date().toJSON().slice(0,10).replace(/-/g,'/'),
-        tags:this.$refs.hashtag.getTags(),
-        visibility:this.visibility
+    submitFiles(){ 
+      for( var i = 0; i < this.files.length; i++ ){
+        let file = this.files[i];
+        console.log(file)
+
+        if (file !== undefined) {
+          this.img.imgName = file.name;
+          if (this.img.imgName.lastIndexOf('.') <= 0) {
+            return
+          }
+          const fr = new FileReader();
+          fr.readAsDataURL(file);
+          fr.addEventListener('load', () => {
+            this.img.imageUrl = fr.result
+            this.img.imageFile = file
+          })
+
+          var img_file = this.img.imageFile;
+          if (file != '') {
+            var xmlHttpRequest = new XMLHttpRequest();
+            xmlHttpRequest.open('POST', 'https://api.imgur.com/3/image/', false);
+            xmlHttpRequest.setRequestHeader("Authorization", "Client-ID cec4916437ef1c8");
+            xmlHttpRequest.onreadystatechange = (function() {
+              if (xmlHttpRequest.readyState == 4) {
+                if (xmlHttpRequest.status == 200) {
+                  var result = JSON.parse(xmlHttpRequest.responseText);
+                  this.img.imageUrl = result["data"]["link"]
+                  console.log(this.img.imageUrl)
+                  var url = this.img.imageUrl
+                  this.imgUrls.push(url)
+                  console.log(this.imgUrls)
+                } else {
+                  console.log("upload failed");
+                }
+              }
+            }).bind(this);
+            xmlHttpRequest.send(file);
+          }
+        }
       }
+    },
 
-      console.log("여기까지는 된다.");
-      var state = await FirebaseService.writePost(post);
-      console.log("여기까지는 안된다.");
+    addFiles(){ 
+      this.$refs.files.click(); 
+    },
+    removeFile( key ){
+       this.files.splice( key, 1 ); 
+    },
 
-      this.isLoading = false;
-
-      if(state === true){
-        alert("글 작성 완료");
-        this.$router.push("/")
-      }
-      else{
-        alert(state)
-      }
-    }
-  }
+  },
 }
 </script>
 
@@ -299,4 +348,8 @@ export default {
   font-size: 25px;
   font-weight: 300;
 }
+
+/* input[type="file"] { 
+  position: absolute;
+} */
 </style>

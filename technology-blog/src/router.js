@@ -100,7 +100,7 @@ export default new Router({
 		},
 		
 		{
-			path: '/project',
+			path: '/myproject',
 			name: 'ProjectPage',
 			component: ProjectPage
 		},
