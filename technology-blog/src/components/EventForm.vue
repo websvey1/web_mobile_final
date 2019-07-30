@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style>
-    form {
+/*     form {
       display: flex;
       flex-direction: column;
       margin-left: 30px;
@@ -148,5 +148,5 @@ export default {
       border: 2px solid orangered;
       outline: none;
       box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
-    }
+    } */
 </style>

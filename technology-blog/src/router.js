@@ -15,6 +15,7 @@ import TestPage from './views/TestPage.vue'
 import PostPage from './views/PostPage.vue'
 import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
+import TeamChoose from './views/TeamChoose.vue'
 
 Vue.use(Router)
 
@@ -74,7 +75,15 @@ export default new Router({
 			component: ProjectWritePage
 		},
 		////////////////////////////////////////////////////////////  
-
+		
+		/////////////////////////// Team /////////////////////////// 
+		{
+			path: '/teamChoose',
+			name: 'TeamChoose',
+			component: TeamChoose
+		},
+		//////////////////////////////////////////////////////////// 
+		
 		///////////////////////// Calendar ///////////////////////// 
 		{
 			path: '/calendar',
