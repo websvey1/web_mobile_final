@@ -1,22 +1,14 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <HeaderTest v-if="$router.currentRoute.name != 'HomePage'"/>  
-=======
     <HeaderTest/>
->>>>>>> 4d88b3bfb56d562a77b04450a45acfcd0033e116
     <v-app>
       <v-content>
         <router-view/>
       </v-content>
     </v-app>
 
-<<<<<<< HEAD
     <!--
     <div id="app">
-=======
-    <!-- <div id="app">
->>>>>>> 4d88b3bfb56d562a77b04450a45acfcd0033e116
       <div class="main">
         <div class="calendar-holder">
           <calendar :events="events" />
@@ -27,12 +19,8 @@
           <event-form />
         </div>
       </div>
-<<<<<<< HEAD
     </div>
     -->
-=======
-    </div> -->
->>>>>>> 4d88b3bfb56d562a77b04450a45acfcd0033e116
     <Footer/>
   </div>
 </template>

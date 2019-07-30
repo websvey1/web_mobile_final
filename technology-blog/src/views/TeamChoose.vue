@@ -114,19 +114,20 @@ export default {
         this.$http.post('http://192.168.31.63:3000/getUser')
         .then((response) => {
             var items = response.body;
-            // console.log(items)
+
             for(var i = 0; i < items.length; i++){
                 this.people.push({name: items[i].user_name, id: items[i].user_id});
             }
-        // console.log(this.events)
         })
         .catch((error) =>{
-        // console.log(error)
+            console.log(error)
         })
     },
     methods:{
         addTeam(){
-            // 1st. DB에 가서, Team Name 중복되는 지 확인하기
+            // 1st. DB에 가서, Team 만들기
+            // 2nd. Team 
+
         },
         remove (item) {
             const index = this.friends.indexOf(item.name)
