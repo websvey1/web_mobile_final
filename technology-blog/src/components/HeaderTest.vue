@@ -24,6 +24,7 @@
   <!-- 메뉴 누르면 나오는 drawer-->
   <v-navigation-drawer v-model="drawer" fixed temporary hide-overlay style="background-color: #fefaff;">
     <v-list>
+    <v-list>
       <div ></div>
       <v-list-tile avatar style="height:75px">
         <v-list-tile-content style="margin-left: 13px;">

@@ -47,35 +47,41 @@ export default new Router({
     		path: '/signup',
 			name: 'SignupPage',
 			component: SignupPage
-    	},
+		},
+		/////////////////////// Git graph //////////////////////////
     	{
     		path: '/graph',
 			name: 'GraphPage',
 			component: GraphPage
-    	},
+		},
+		////////////////////////////////////////////////////////////
+
+		///////////////////// Personal Project /////////////////////
     	{
 			path: '/post',
 			name: 'PageTest',
 			component: PageTest
 
 		},
-
 		{
-		path: '/test',
-		name: 'TestPage',
-		component: TestPage
-
+			path: '/postwrite',
+			name: 'PostWritePage',
+			component: PostWritePage
 		},
+		{
+			path: '/myproject/create',
+			name: 'ProjectWritePage',
+			component: ProjectWritePage
+		},
+		////////////////////////////////////////////////////////////  
+
+		///////////////////////// Calendar ///////////////////////// 
 		{
 			path: '/calendar',
 			name: 'Calendar',
 			component: Calendar
 		},
-  		{
-      		path: '/postwrite',
-      		name: 'PostWritePage',
-      		component: PostWritePage
-    	},
+		//////////////////////////////////////////////////////////// 
     	{
       		path: '/postupdate/:id',
       		name: 'PostUpdatePage',
@@ -92,15 +98,17 @@ export default new Router({
       		name: 'RemoveUserPage',
       		component: RemoveUserPage
 		},
-		{
-			path: '/myproject/create',
-			name: 'ProjectWritePage',
-			component: ProjectWritePage
-		},
+		
 		{
 			path: '/myproject',
 			name: 'ProjectPage',
 			component: ProjectPage
-		}
+		},
+		{
+			path: '/test',
+			name: 'TestPage',
+			component: TestPage
+
+		},
   ]
 })
