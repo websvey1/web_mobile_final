@@ -51,7 +51,7 @@
             <router-link to="/updateuser" style="margin-right:20px;">UpdateUser</router-link> -->
 
   <!-- 메뉴 누르면 나오는 drawer-->
-  <v-navigation-drawer v-model="drawer" fixed temporary hide-overlay style="background-color: #fefaff;">
+  <v-navigation-drawer v-model="drawer" fixed temporary hide-overlay style="background-color: rgb(255, 255, 255);">
     <v-list>
     <v-list>
       <div ></div>
