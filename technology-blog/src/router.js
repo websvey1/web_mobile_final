@@ -15,6 +15,7 @@ import TestPage from './views/TestPage.vue'
 import PostPage from './views/PostPage.vue'
 import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
+import ProjectReadPage from './views/ProjectReadPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
 
 Vue.use(Router)
@@ -74,23 +75,28 @@ export default new Router({
 			name: 'ProjectWritePage',
 			component: ProjectWritePage
 		},
-		////////////////////////////////////////////////////////////  
-		
-		/////////////////////////// Team /////////////////////////// 
+		{
+			path: '/myproject/:id',
+			name: 'ProjectReadPage',
+			component: ProjectReadPage
+		},
+		////////////////////////////////////////////////////////////
+
+		/////////////////////////// Team ///////////////////////////
 		{
 			path: '/teamChoose',
 			name: 'TeamChoose',
 			component: TeamChoose
 		},
-		//////////////////////////////////////////////////////////// 
-		
-		///////////////////////// Calendar ///////////////////////// 
+		////////////////////////////////////////////////////////////
+
+		///////////////////////// Calendar /////////////////////////
 		{
 			path: '/calendar',
 			name: 'Calendar',
 			component: Calendar
 		},
-		//////////////////////////////////////////////////////////// 
+		////////////////////////////////////////////////////////////
     	{
       		path: '/postupdate/:id',
       		name: 'PostUpdatePage',
@@ -107,7 +113,7 @@ export default new Router({
       		name: 'RemoveUserPage',
       		component: RemoveUserPage
 		},
-		
+
 		{
 			path: '/myproject',
 			name: 'ProjectPage',
