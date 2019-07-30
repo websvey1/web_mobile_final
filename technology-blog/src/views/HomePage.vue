@@ -1,8 +1,9 @@
 <template>
-<div class="body">
+<div class="body" style="padding-top: 50px;">
+
     <div class="container">
         <div class="website">
-            <div class="nav">
+            <!-- <div class="nav">
             <ul>
                 <li> Yeji's Family</li>
                 <li><LoginHome></LoginHome></li>
@@ -10,22 +11,26 @@
                 <li @click.stop="drawer = !drawer">Menu</li>
                 <li @click="trans">Translate</li>
             </ul>
-            </div>
-            <div class="main-page" style="padding-top: 10px;">
+            </div> -->
+
+
+            <div class="main-page" style="position:relative; z-index:2;">
                 <PostList></PostList>
-            <footer>
-            </footer>
+                  <PostList></PostList>
+                    <PostList></PostList>
+                    <PostList></PostList>
+
             </div>
         </div>
     </div>
 
-    <v-navigation-drawer v-model="drawer" fixed temporary hide-overlay style="background-color: #fefaff;">
+    <!-- <v-navigation-drawer v-model="drawer" fixed temporary hide-overlay style="background-color: #fefaff;">
       <v-list>
         <div ></div>
         <v-list-tile avatar style="height:75px">
           <v-list-tile-content style="margin-left: 13px;">
             <span id="SSAFY">
-              <b>Hello</b>
+              <b>SSAFY</b>
             </span>
           </v-list-tile-content>
         </v-list-tile>
@@ -38,14 +43,14 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
-<!-- <<<<<<<<<<<<<<<<<< Personal Project >>>>>>>>>>>>>>>>>> -->
+
       <v-list-group>
         <template v-slot:activator>
           <v-list-tile @click="" style="margie-top:10px;">
             <v-list-tile-content style="height:auto;">
               <h1 style="margin-left: 15px;">
                 <v-icon>question_answer</v-icon>
-                <span class="spantag"> Personal</span>
+                <span class="spantag"> Post</span>
               </h1>
             </v-list-tile-content>
           </v-list-tile>
@@ -63,14 +68,6 @@
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 30px;">
               <span class="spantag">Post 쓰기</span>
-            </h1>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider/>
-        <v-list-tile to="/myproject/create" style="background:white;">
-          <v-list-tile-content style="height:auto;">
-            <h1 style="margin-left: 30px;">
-              <span class="spantag">Project 쓰기</span>
             </h1>
           </v-list-tile-content>
         </v-list-tile>
@@ -140,7 +137,7 @@
 
       <Weather></Weather>
     </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 </div>
 </template>
 
@@ -196,105 +193,6 @@ export default {
 </script>
 
 <style scoped>
-    .body{
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(110deg, #ffbdbd  50%, #f8ed8e 50%);
-    }
-
-
-    .website{
-    overflow: hidden;
-    display: flex;
-    background-color: white;
-    width: 1300px;
-    height: 800px;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    position: relative;
-    margin-top: 600px;
-    flex-direction: column;
-    background-color: white;
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: 600px;
-    border-radius: 15px;
-    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-
-    }
-
-    .nav {
-    display: flex;
-    justify-content: center;
-    font-family: 'Raleway', Arial;
-    color: #ff1744  ;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-transform: uppercase;
-    }
-
-    .nav ul{
-    display: flex;
-    list-style-type: none;
-    }
-
-    .nav ul li{
-    margin: 30px;
-    transition: .4s;
-    }
-
-    .link {
-        color: #ff1744;
-        text-decoration: none;
-    }
-
-    .nav ul li:hover{
-    color:#12527c;
-    cursor: pointer;
-    }
-    .nav ul li img{
-    width: 90px;
-    margin-top: -30px;
-    }
-
-    .main-page{
-    display: flex;
-    flex-direction: column;
-    }
-
-    .main-page h1{
-    font-family: 'Raleway', Arial;
-    font-size: 70px;
-    margin-left: 60px;
-    }
-
-    .main-page p{
-    font-family: 'Raleway';
-    font-weight: strong;
-    font-size: 15px;
-    margin-left: 60px;
-    margin-top: -40px;
-    }
-
-    .view-products{
-    width: 170px;
-    height: 50px;
-    margin-left: 60px;
-    margin-top: 70px;
-    background-color: #12527c;
-    border: none;
-    border-radius: 20px;
-    color: white;
-    transition: .4s ease-in-out;
-    }
-
-    .view-products:hover{
-    background-color: #ff1744;
-        cursor: pointer;
-    }
-
     #SSAFY {
     font-family: 'Lato', sans-serif;
     font-size: 60px;

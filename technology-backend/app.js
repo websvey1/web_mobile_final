@@ -15,6 +15,7 @@ app.use(cors());
 var mysql = require('mysql');
 
 var deptRouter = require('./routes/dept');
+var postRouter = require('./routes/post');
 var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
 var MyProject = require('./routes/myproject');
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/dept', deptRouter);
+app.use('/post', postRouter);
 app.use('/plan', plan);
 app.use('/user', userRouter);
 app.use('/myproject', MyProject);

@@ -30,6 +30,28 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+router.post('/create', function(req, res, next) {
+  var pool = db.getPool();
+  pool.getConnection((ex, conn) => {
+    if(ex){
+      console.log(ex);
+    }
+    else{
+      var query = conn.query('insert into dept values(4, "https://source.unsplash.com/random/300x300")', function (err, result) {
+        if (err) {
+          console.error(err);
+          throw err;
+        }
+
+        // res.json(result);
+        res.send(result);
+
+        conn.release();
+      });
+    }
+  });
+});
+
 router.post('/', function(req, res, next) {
   console.log(req.params);
   console.log("dept no : " + req.body.dept_no);

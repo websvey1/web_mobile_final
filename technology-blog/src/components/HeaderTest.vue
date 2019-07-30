@@ -1,28 +1,58 @@
 <template>
-<div>
-  <div class="container">
-    <header>
-      <div id="main-nav" style="display: flex; justify-content: space-between;">
-        <ul style="width:100%">
-          <li style="float: left;">
-            <router-link to="/"><b> Yeji's Family</b></router-link>
-          </li>
-          <li class="right" style="">
+<div style="z-index:4;">
+  <!-- 첫번째 헤더 -->
+  <v-toolbar flat style="background-color:rgb(255, 255, 255);
+
+      z-index:4;
+      color:rgb(0, 0, 0);
+      height:80px;
+      border-bottom: 1px solid rgb(208, 208, 208);
+      padding: 10px 10px 20px 20px;
+      ">
+      <v-toolbar-title class="header__container">
+            <router-link to="/"> <img src="../assets/logo2.jpg" alt=""> </router-link>
+            <v-btn flat class="outlined" @click=""><LoginHome class="login"></LoginHome></v-btn>
+      </v-toolbar-title>
+    </v-toolbar>
+
+  <!-- 두번째 헤더 (고정될 헤더) -->
+  <fixed-header>
+    <div class="navbar" >
+      <v-toolbar flat style="background-color: rgb(255, 255, 255);
+      z-index:4;
+      color:rgb(0, 0, 0);
+      box-shadow: 0 4px 0 rgba(182, 182, 182, 0.18) !important;
+      display: flex;
+      justify-content: center;
+      ">
+
+        <v-toolbar-title>
+          <router-link id="Main" to="/" style="">
+            YEJI's Family ♥
+          </router-link>
+        </v-toolbar-title>
+
+        <!-- <v-spacer></v-spacer> -->
+
+        <!-- <Translate /> -->
+        <v-toolbar-items>
+          <v-btn flat to="/home">home</v-btn>
+          <v-btn flat @click="trans">Project</v-btn>
+          <v-btn flat to="/postwrite">Post</v-btn>
+          <v-btn flat @click.stop="drawer = !drawer">Menu</v-btn>
+          <v-btn flat @click=""><LoginHome class="login"></LoginHome></v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+    </div>
+  </fixed-header>
+
             <!-- <router-link to="/postwrite" style="margin-right:20px;">PostWrite</router-link>
             <router-link to="/removeuser"style="margin-right:20px;">RemoveUser</router-link>
             <router-link to="/updateuser" style="margin-right:20px;">UpdateUser</router-link> -->
-            <a @click.stop="drawer = !drawer">Menu</a>
-              <span style="cursor:default">&nbsp;&nbsp;</span>
-            <a>
-              <LoginHome class="login"></LoginHome>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </header>
-  </div>
+
   <!-- 메뉴 누르면 나오는 drawer-->
   <v-navigation-drawer v-model="drawer" fixed temporary hide-overlay style="background-color: #fefaff;">
+    <v-list>
     <v-list>
       <div ></div>
       <v-list-tile avatar style="height:75px">
@@ -122,6 +152,7 @@
 import Weather from './WeatherInfo'
 import LoginForm from './LoginForm'
 import LoginHome from './LoginHome'
+import FixedHeader from 'vue-fixed-header'
 
 export default {
   name: "HeaderTest",
@@ -129,10 +160,12 @@ export default {
     LoginForm,
     Weather,
     LoginHome,
+    FixedHeader
   },
   methods: {
 
   },
+
   data() {
     return {
       drawer: null,
@@ -160,16 +193,36 @@ export default {
       ]
     }
   },
+
+
 }
 </script>
 <style scoped>
-    header {
-        width: 100%;
-        margin: 0 auto;
-        position:relative;
-        z-index:2;
-        /*background: #ededed;*/
-        /*border-bottom: 1px solid #ccc;*/
+  template{
+    z-index: 4;
+    height: 100%;
+  }
+  .navbar.vue-fixed-header--isFixed {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    z-index:4;
+  }
+  .v-btn.outlined {
+      border: 1px solid rgb(57, 117, 72);
+      border-radius:10%;
+      height: 50px;
+      width: 60px;
+      color: rgb(57, 117, 72);
+    }
+
+    #Main {
+      text-decoration: none;
+      /* font-family: "Trebuchet MS", serif; */
+      font-family: 'Acme', sans-serif;
+      font-size: 30px;
+      color: rgba(0, 0, 0, .87);
     }
     #main-nav {
         width: 90%;
@@ -249,4 +302,13 @@ export default {
       color: rgb(134, 90, 127);
       /* color:lightcyan */
     }
+
+    .header__container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: 100px;
+    }
+
 </style>
