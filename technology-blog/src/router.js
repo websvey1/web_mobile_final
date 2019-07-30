@@ -15,16 +15,9 @@ import TestPage from './views/TestPage.vue'
 import PostPage from './views/PostPage.vue'
 import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
-<<<<<<< HEAD
-<<<<<<< HEAD
-import ProjectReadPage from './views/ProjectReadPage.vue'
-=======
-import TeamChoose from './views/TeamChoose.vue'
->>>>>>> 508e45314dd079a440f0d055201e91c901b35560
-=======
 import ProjectReadPage from './views/ProjectReadPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
->>>>>>> 835e674b40b2cd249014d67da9bf374d96fc334e
+
 
 Vue.use(Router)
 
@@ -88,23 +81,23 @@ export default new Router({
 			name: 'ProjectReadPage',
 			component: ProjectReadPage
 		},
-		////////////////////////////////////////////////////////////  
-		
-		/////////////////////////// Team /////////////////////////// 
+		////////////////////////////////////////////////////////////
+
+		/////////////////////////// Team ///////////////////////////
 		{
 			path: '/teamChoose',
 			name: 'TeamChoose',
 			component: TeamChoose
 		},
-		//////////////////////////////////////////////////////////// 
-		
-		///////////////////////// Calendar ///////////////////////// 
+		////////////////////////////////////////////////////////////
+
+		///////////////////////// Calendar /////////////////////////
 		{
 			path: '/calendar',
 			name: 'Calendar',
 			component: Calendar
 		},
-		//////////////////////////////////////////////////////////// 
+		////////////////////////////////////////////////////////////
     	{
       		path: '/postupdate/:id',
       		name: 'PostUpdatePage',
@@ -121,7 +114,7 @@ export default new Router({
       		name: 'RemoveUserPage',
       		component: RemoveUserPage
 		},
-		
+
 		{
 			path: '/myproject',
 			name: 'ProjectPage',
