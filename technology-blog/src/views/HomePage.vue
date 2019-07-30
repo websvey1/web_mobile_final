@@ -25,7 +25,7 @@
         <v-list-tile avatar style="height:75px">
           <v-list-tile-content style="margin-left: 13px;">
             <span id="SSAFY">
-              <b>SSAFY</b>
+              <b>Our project :)</b>
             </span>
           </v-list-tile-content>
         </v-list-tile>
@@ -38,14 +38,14 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
-
+<!-- <<<<<<<<<<<<<<<<<< Personal Project >>>>>>>>>>>>>>>>>> -->
       <v-list-group>
         <template v-slot:activator>
           <v-list-tile @click="" style="margie-top:10px;">
             <v-list-tile-content style="height:auto;">
               <h1 style="margin-left: 15px;">
                 <v-icon>question_answer</v-icon>
-                <span class="spantag"> Post</span>
+                <span class="spantag"> Personal</span>
               </h1>
             </v-list-tile-content>
           </v-list-tile>
@@ -76,7 +76,29 @@
         </v-list-tile>
         <v-divider/>
       </v-list-group>
-
+<!-- <<<<<<<<<<<<<<<<<< Team Project >>>>>>>>>>>>>>>>>> -->
+      <v-list-group>
+        <template v-slot:activator>
+          <v-list-tile @click="" style="margie-top:10px;">
+            <v-list-tile-content style="height:auto;">
+              <h1 style="margin-left: 15px;">
+                <v-icon>question_answer</v-icon>
+                <span class="spantag"> Team</span>
+              </h1>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+        <v-divider />
+        <v-list-tile to="/post" style="background:white;">
+          <v-list-tile-content style="height:auto;">
+            <h1 style="margin-left: 30px;">
+              <span class="spantag">Team 선택</span>
+            </h1>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider />
+      </v-list-group>
+<!-- <<<<<<<<<<<<<<<<<< User >>>>>>>>>>>>>>>>>> -->
       <v-list-group>
         <template v-slot:activator>
           <v-list-tile @click="" style="margie-top:10px;">

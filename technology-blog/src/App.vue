@@ -59,7 +59,7 @@ export default {
       //     end       : '2019-07-13',
       //     cssClass  : ['orange']
       //   }
-      // ] 
+      // ]
       events: [{
         title     : 'event2',
         start     : '2019-07-10',
@@ -71,39 +71,28 @@ export default {
   },
 
   created(){
-    console.log(this.events);
-    var config = {
-      id : 'hong',
-      pwd: '12345',
-      dept_no : 1,
-      user_id : 1
-    }
-
-    this.$http.post("/dept",config)
-    .then(res => {
-      alert(res.data)
-      console.log(res.data);
-    })
-    .catch(error => {
-      // alert(error)
-      console.log("안됐지롱");
-    })
-
+    this.readPosts();
   },
   methods:{
     async readPosts(){
-      await FirebaseService.readPosts();
+      // await FirebaseService.readPosts();
+      var posts = await this.$http.get("http://192.168.31.65:3000/post")
+      .then((response) => {
+        console.log(response.data);
+        this.$store.state.posts = response.data;
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
     }
   },
   mounted(){
-    this.readPosts();
-
     this.$http.post('http://192.168.31.63:3000/getPlan')
       .then((response) => {
         var items = response.body;
         console.log(items)
         for(var i = 0; i < items.length; i++){
-          this.events.push({title: items[i].cal_title, start: items[i].cal_start, 
+          this.events.push({title: items[i].cal_title, start: items[i].cal_start,
                   end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description});
         }
 

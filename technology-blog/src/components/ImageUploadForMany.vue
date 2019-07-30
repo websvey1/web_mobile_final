@@ -54,7 +54,6 @@ export default {
 
     onFilePicked(e) {
       const files = e.target.files
-      console.log(files);
       if (files[0] !== undefined) {
         this.img.imageName = files[0].name
         if (this.img.imageName.lastIndexOf('.') <= 0) {
