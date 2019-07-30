@@ -25,7 +25,7 @@
         <v-list-tile avatar style="height:75px">
           <v-list-tile-content style="margin-left: 13px;">
             <span id="SSAFY">
-              <b>Our project :)</b>
+              <b>Hello</b>
             </span>
           </v-list-tile-content>
         </v-list-tile>
@@ -89,7 +89,7 @@
           </v-list-tile>
         </template>
         <v-divider />
-        <v-list-tile to="/post" style="background:white;">
+        <v-list-tile to="/teamChoose" style="background:white;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 30px;">
               <span class="spantag">Team 선택</span>
