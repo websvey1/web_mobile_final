@@ -51,19 +51,11 @@ app.use('/user', userRouter);
 app.use('/myproject', MyProject);
 app.use('/getPlan', getPlan);
 app.use('/another', Another);
-<<<<<<< HEAD
-
-=======
->>>>>>> 442079c97d82f341ed1c424c85b62f08077ce030
 
 app.use('/team', team);
 ////////////// team으로 합칠 내용들 ////////////////
 app.use('/getTeamList', getTeamList);
 app.use('/getUser', getUser);
-<<<<<<< HEAD
-=======
-
->>>>>>> 442079c97d82f341ed1c424c85b62f08077ce030
 app.use('/makeTeam', makeTeam);
 app.use('/makeMember', makeMember);
 //////////////////////////////////////
