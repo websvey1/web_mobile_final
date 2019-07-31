@@ -67,7 +67,7 @@ export default {
                 }
             }
 
-            this.$http.post('http://192.168.31.63:3000/plan', config)
+            this.$http.post('/plan', config)
                 .then((response) => {
                     console.log("?")
                     this.$store.state.plan = response.data;

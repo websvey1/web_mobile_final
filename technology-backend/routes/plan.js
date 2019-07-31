@@ -4,7 +4,7 @@ var db = require("../database");
 
 router.post('/', function(req, res, next){
     var data = req.body.body;
-    console.log(data)
+    // console.log(data)
     
     var pool = db.getPool();
 
