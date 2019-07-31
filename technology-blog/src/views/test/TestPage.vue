@@ -16,6 +16,7 @@
        <div v-for="element in myArray3" :key="element.id">{{element.content}}</div>
     </draggable>
     </v-flex>
+    <v-btn class="v-btn theme--dark" @click="writePost">확인</v-btn>
   </v-layout>
 </template>
 
@@ -48,7 +49,7 @@ export default {
 	  methods: {
       async temp(){
         var form = await this.form
-        this.$http.get("http://192.168.31.85:3000/todos", form) // 호출
+        this.$http.get("http://192.168.31.65:3000/todos") // 호출
         .then(result=> {
           console.log(result.data);
           //--
