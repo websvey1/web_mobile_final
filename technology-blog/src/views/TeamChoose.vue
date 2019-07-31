@@ -74,7 +74,7 @@ export default {
     },
     mounted(){
         // 1st. DB에 가서, 존재하는 모든 Name 가져오기
-        this.$http.post('http://192.168.31.63:3000/team/getUser')
+        this.$http.post('http://192.168.31.63:3000/team/getUser',{})
         .then((response) => {
             var items = response.body;
 
