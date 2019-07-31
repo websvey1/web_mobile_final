@@ -21,9 +21,15 @@ var userRouter = require('./routes/user');
 var MyProject = require('./routes/myproject');
 
 var getPlan = require('./routes/getPlan');
+
+var team = require('./routes/team');
+///////////////////// team으로 합칠 내용들 /////////////////////////
+var getTeamList = require('./routes/getTeamList');
 var getUser = require('./routes/getUser');
 var makeTeam = require('./routes/makeTeam');
 var makeMember = require('./routes/makeMember');
+////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,15 +48,22 @@ app.use('/plan', plan);
 app.use('/user', userRouter);
 app.use('/myproject', MyProject);
 app.use('/getPlan', getPlan);
+
+
+app.use('/team', team);
+////////////// team으로 합칠 내용들 ////////////////
+app.use('/getTeamList', getTeamList);
 app.use('/getUser', getUser);
 app.use('/makeTeam', makeTeam);
 app.use('/makeMember', makeMember);
+//////////////////////////////////////
+//////////////////////////////////////
 
 var conn = mysql.createConnection({
-  host:"192.168.31.61",
+  host:"192.168.31.65",
   port:3306,
   user:"root",
-  password:"hello123!",
+  password:"12345",
   database:"blog"
 })
 

@@ -1,6 +1,7 @@
  <template>
  <sequential-entrance fromTop>
-  <v-card max-width="1000" max-height="170">
+
+  <v-card v-for="item in items" max-width="1000" max-height="170" style="margin: auto">
     <v-layout py-4 pl-4>
       <v-flex shrink>
         <v-img height="120" width="120" src="https://cdn.vuetifyjs.com/images/cards/store.jpg" style="border-radius: 50%;"></v-img>
@@ -9,21 +10,21 @@
         <v-container grid-list-lg style="margin-left: 10px;">
           <v-layout column>
             <v-flex style="padding-top: 20px;">
-              <h1>예지와 언니오빠들</h1>
+              <h1>{{ item.title }}</h1>
             </v-flex>
             <v-flex style="margin-left: auto;">
-              <v-btn color="warning" dark>팀원보기</v-btn>
-              <v-btn color="warning" dark>수락</v-btn>
-              <v-btn color="warning" dark>거절</v-btn>
+              <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
+              <v-btn color="info">수락</v-btn>
+              <v-btn color="error">거절</v-btn>
             </v-flex>
             <v-flex>
-             
             </v-flex>
           </v-layout>
         </v-container>
       </v-flex>
     </v-layout>
   </v-card>
+  
  </sequential-entrance>
  </template>
 
@@ -37,16 +38,41 @@ export default {
     },
     data(){
         return{
-
+          items: [
+            { title: "예지와 언니오빠들" , member: "준호, 호중, 예지, 명, 명신" },
+            { title: "새로운 팀", member: "예지, 호중" },
+            { title: "Is it right?", member: "영신" }
+          ]
         }
     },
     props: {
         post: {}
     },
+    mounted(){
+      // TeamList.vue가 활성화 되자 마자, Member table에 가서, 지금 user가 속한 팀 리스트 모두 뽑아와야함
+      // Team table에서 팀 리스트 뽑고, 그 팀 리스트 별로 memeber들 다 가져오기.
+      var temp = {
+        num : this.$store.state.userInfo.user_num
+      }
+      console.log(temp)
+
+
+      this.$http.post('http://192.168.31.63:3000/getTeamList', temp)
+      .then((response) => {
+        console.log("getTeamList success")
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
     methods: {
         goReadPage(postNum, email){
             console.log(postNum);
             router.push({name:"PostReadPage", params:{id:postNum}})
+        },
+        show(data){
+          alert(data)
         }
     }
   }

@@ -14,7 +14,7 @@ router.post('/', function(req, res, next){
                   console.error(err);
                   throw err;
                 }
-                console.log(result)
+                // console.log(result)
                 res.send(result);
         
                 conn.release();
