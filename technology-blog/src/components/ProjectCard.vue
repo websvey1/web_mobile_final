@@ -35,7 +35,7 @@
         {{ project.project_status }}
         </v-chip>
 
-        <v-chip v-else style="float: right;"
+        <v-chip v-if="project.project_status ==='완료'" style="float: right;"
           class="ma-2" color="rgb(255, 180, 180)"
         >
         {{ project.project_status }}
