@@ -18,7 +18,10 @@ var deptRouter = require('./routes/dept');
 var postRouter = require('./routes/post');
 var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
+
 var MyProject = require('./routes/myproject');
+
+var Another = require('./routes/another');
 
 var getPlan = require('./routes/getPlan');
 
@@ -47,12 +50,13 @@ app.use('/plan', plan);
 app.use('/user', userRouter);
 app.use('/myproject', MyProject);
 app.use('/getPlan', getPlan);
-
+app.use('/another', Another);
 
 app.use('/team', team);
 ////////////// team으로 합칠 내용들 ////////////////
 app.use('/getTeamList', getTeamList);
 app.use('/getUser', getUser);
+
 app.use('/makeTeam', makeTeam);
 app.use('/makeMember', makeMember);
 //////////////////////////////////////

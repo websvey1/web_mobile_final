@@ -25,6 +25,7 @@ import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
 import ProjectReadPage from './views/ProjectReadPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
+import AnotherUser from './views/AnotherUser.vue'
 
 Vue.use(Router)
 
