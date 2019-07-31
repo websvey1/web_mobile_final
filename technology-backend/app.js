@@ -18,7 +18,10 @@ var deptRouter = require('./routes/dept');
 var postRouter = require('./routes/post');
 var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
+
 var MyProject = require('./routes/myproject');
+
+var Another = require('./routes/another');
 
 var getPlan = require('./routes/getPlan');
 var getUser = require('./routes/getUser');
@@ -41,6 +44,7 @@ app.use('/user', userRouter);
 app.use('/myproject', MyProject);
 app.use('/getPlan', getPlan);
 app.use('/getUser', getUser);
+app.use('/another', Another);
 
 var conn = mysql.createConnection({
   host:"192.168.31.61",

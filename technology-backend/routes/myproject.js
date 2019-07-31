@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../database");
-var multer = require('multer');
 
 router.get('/', function(req, res, next) {
   var pool = db.getPool();
@@ -27,7 +26,7 @@ router.get('/:id', function(req, res, next) {
   var pool = db.getPool();
 
   var project_num = req.params.id;
-  console.log(project_num);
+  // console.log(project_num);
   
   pool.getConnection((ex, conn) => {
     if (ex) {
@@ -42,7 +41,7 @@ router.get('/:id', function(req, res, next) {
             throw err;
           }
 
-          console.log(result);
+          // console.log(result);
           var project = {
             project: result,
             images: null,
@@ -58,7 +57,7 @@ router.get('/:id', function(req, res, next) {
 
             project.images = result
 
-            console.log(project);
+            // console.log(project);
             res.send(project);
           })
         })
@@ -70,7 +69,7 @@ router.get('/:id', function(req, res, next) {
 router.post('/create', function(req, res, next) {
     var pool = db.getPool();
     
-    console.log(req.body);
+    // console.log(req.body);
 
     var user = req.body.user;
     var title = req.body.title;
@@ -82,7 +81,7 @@ router.post('/create', function(req, res, next) {
     var content = req.body.content;
     var tech = req.body.tech;
     var share = req.body.share;
-    var category = '1';
+    var category = '0';
     var images = req.body.imgArray;
 
     pool.getConnection((ex, conn) => {
@@ -92,7 +91,7 @@ router.post('/create', function(req, res, next) {
         else{
           var query = conn.query('insert into project(project_user, project_title, project_goal, project_start_date, project_end_date,' + 
           'project_tech,project_content,project_status,project_git_url,project_share, project_category)' + 
-          'values("'+ 1 + '","' + title + '","' + goal + '","' + start_date + '","' + end_date + '","' + tech + '","' + content + '","' +
+          'values("'+ user + '","' + title + '","' + goal + '","' + start_date + '","' + end_date + '","' + tech + '","' + content + '","' +
           status + '","' + git_url + '","' + share + '","' + category + '")',
             (err, result) => {
             if (err) {
@@ -101,14 +100,14 @@ router.post('/create', function(req, res, next) {
             }
             
             var project_num = result.insertId;
-            console.log(project_num)
+            // console.log(project_num)
             
             var img_query = 'insert into image(image_url) values';
 
             if (images.length > 0) {
               for (var i=0; i < images.length; i++) {
                 var img = images[i]
-                console.log(img)
+                // console.log(img)
                 img_query += '("' + img + '")';
                 if (i+1 == images.length) {
                   img_query += ';'
@@ -123,11 +122,11 @@ router.post('/create', function(req, res, next) {
                   throw err;
                 }
                 var image_num = result.insertId;
-                console.log(image_num);
+                // console.log(image_num);
 
                 var imgleng = images.length;
                 var imgcnt = image_num + images.length
-                console.log(imgleng)
+                // console.log(imgleng)
   
                 var imgconn_query = 'insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values';
                 for (var j=0; image_num + j < imgcnt; j++) {
@@ -140,7 +139,7 @@ router.post('/create', function(req, res, next) {
                   }
                 }
   
-                console.log(imgconn_query)
+                // console.log(imgconn_query)
                 var imgconnquery = conn.query(imgconn_query, (err, result) => {
                   if (err) {
                     console.error(err);

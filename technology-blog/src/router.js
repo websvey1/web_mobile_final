@@ -15,16 +15,9 @@ import TestPage from './views/TestPage.vue'
 import PostPage from './views/PostPage.vue'
 import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
-<<<<<<< HEAD
-<<<<<<< HEAD
-import ProjectReadPage from './views/ProjectReadPage.vue'
-=======
-import TeamChoose from './views/TeamChoose.vue'
->>>>>>> 508e45314dd079a440f0d055201e91c901b35560
-=======
 import ProjectReadPage from './views/ProjectReadPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
->>>>>>> 835e674b40b2cd249014d67da9bf374d96fc334e
+import AnotherUser from './views/AnotherUser.vue'
 
 Vue.use(Router)
 
@@ -64,19 +57,14 @@ export default new Router({
 			name: 'GraphPage',
 			component: GraphPage
 		},
+
 		////////////////////////////////////////////////////////////
 
 		///////////////////// Personal Project /////////////////////
-    	{
-			path: '/post',
-			name: 'PageTest',
-			component: PageTest
-
-		},
 		{
-			path: '/postwrite',
-			name: 'PostWritePage',
-			component: PostWritePage
+			path: '/myproject',
+			name: 'ProjectPage',
+			component: ProjectPage
 		},
 		{
 			path: '/myproject/create',
@@ -88,6 +76,22 @@ export default new Router({
 			name: 'ProjectReadPage',
 			component: ProjectReadPage
 		},
+
+		////////////////////////////////////////////////////////////
+
+		///////////////////// Personal Post /////////////////////
+    	{
+			path: '/post',
+			name: 'PageTest',
+			component: PageTest
+
+		},
+		{
+			path: '/postwrite',
+			name: 'PostWritePage',
+			component: PostWritePage
+		},
+
 		////////////////////////////////////////////////////////////  
 		
 		/////////////////////////// Team /////////////////////////// 
@@ -96,6 +100,7 @@ export default new Router({
 			name: 'TeamChoose',
 			component: TeamChoose
 		},
+
 		//////////////////////////////////////////////////////////// 
 		
 		///////////////////////// Calendar ///////////////////////// 
@@ -104,6 +109,17 @@ export default new Router({
 			name: 'Calendar',
 			component: Calendar
 		},
+
+		//////////////////////////////////////////////////////////// 
+
+		///////////////////////// Another User /////////////////////////
+		{
+			path: '/another',
+			name: 'AnotherUser',
+			component: AnotherUser
+		},
+
+
 		//////////////////////////////////////////////////////////// 
     	{
       		path: '/postupdate/:id',
@@ -121,17 +137,10 @@ export default new Router({
       		name: 'RemoveUserPage',
       		component: RemoveUserPage
 		},
-		
-		{
-			path: '/myproject',
-			name: 'ProjectPage',
-			component: ProjectPage
-		},
 		{
 			path: '/test',
 			name: 'TestPage',
 			component: TestPage
-
 		},
   ]
 })

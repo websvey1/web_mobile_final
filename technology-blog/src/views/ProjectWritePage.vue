@@ -183,7 +183,7 @@ export default {
         imgFile: '',
       },
 
-      writer: 1,
+      writer: 5,
       title: "",
       goal: "",
       status: '',
