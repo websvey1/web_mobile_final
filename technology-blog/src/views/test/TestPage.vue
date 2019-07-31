@@ -37,9 +37,18 @@ export default {
     mounted(){
       this.temp();
     },
+    computed:{
+      async form () {
+        return {
+          state: this.state,
+          content: this.content
+        }
+      }
+    },
 	  methods: {
-      temp(){
-        this.$http.get("http://192.168.31.85:3000/todos") // 호출
+      async temp(){
+        var form = await this.form
+        this.$http.get("http://192.168.31.85:3000/todos", form) // 호출
         .then(result=> {
           console.log(result.data);
           //--
