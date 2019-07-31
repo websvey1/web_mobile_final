@@ -36,7 +36,7 @@
 import Loading from "@/components/Loading"
 
 export default {
-  name: 'RemoveUserPage',
+  name: 'UserDeletePage',
   components: {
     Loading
   },

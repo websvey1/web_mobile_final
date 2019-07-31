@@ -81,9 +81,6 @@ export default {
     await this.fetchData();
   },
   beforeRouteLeave(to, from, next){
-    if(this.$store.state.logInfo != null){
-      LogService.DestroyedTime(this);
-    }
     next();
   },
   destroyed(){

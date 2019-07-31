@@ -102,7 +102,6 @@ export default {
             } else {
               alert("로그인 되었습니다.")
               this.isLogin = true;
-              this.$store.state.userInfo = res.data[0];
               this.$session.set("userInfo", res.data[0]);
               this.closeDialog();
             }
@@ -113,13 +112,11 @@ export default {
 
     goSignup() {
       this.dialog = false;
-      this.$router.push("/signup");
+      this.$router.push("/user/create");
     },
 
     signout() {
       this.isLogin = false;
-
-      this.$store.state.userInfo = null;
       this.$session.remove("userInfo");
 
       this.resetForm();

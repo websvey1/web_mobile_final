@@ -5,17 +5,22 @@ import ProjectWritePage from './views/ProjectWritePage.vue'
 
 //// post ////
 import PostPage from './views/post/PostPage.vue'
-import PostWritePage from './views/post/PostWritePage.vue'
+import PostCreatePage from './views/post/PostCreatePage.vue'
 import PostUpdatePage from './views/post/PostUpdatePage.vue'
 import PostReadPage from './views/post/PostReadPage.vue'
 //// post ////
 
-import LoginPage from './views/LoginPage.vue'
-import SignupPage from './views/SignupPage.vue'
-import UpdateUserPage from './views/UpdateUserPage.vue'
-import RemoveUserPage from './views/RemoveUserPage.vue'
-import PageTest from './views/PageTest.vue'
-import TestPage from './views/TestPage.vue'
+//// user ////
+import UserCreatePage from './views/user/UserCreatePage.vue'
+import UserUpdatePage from './views/user/UserUpdatePage.vue'
+import UserDeletePage from './views/user/UserDeletePage.vue'
+//// user ////
+
+//// test ////
+import PageTest from './views/test/PageTest.vue'
+import TestPage from './views/test/TestPage.vue'
+//// test ////
+
 import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
 import ProjectReadPage from './views/ProjectReadPage.vue'
@@ -25,92 +30,91 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  routes: [
-	  	{
-      		path: '/',
-      		name: 'HomePage',
-      		component: HomePage,
-		},
-    	{
-    		path: '/postupdate/:id',
-    		name: 'PostUpdatePage',
-    		component: PostUpdatePage,
-    		props:true
-  		},
-    	{
-			path: '/postread/:id',
-			name: 'PostReadPage',
-			component: PostReadPage,
-      		props:true
-		},
-    	{
-    		path: '/login',
-			name: 'LoginPage',
-			component: LoginPage
-    	},
-    	{
-    		path: '/signup',
-			name: 'SignupPage',
-			component: SignupPage
-		},
-		///////////////////// Personal Project /////////////////////
-    	{
-			path: '/post',
-			name: 'PageTest',
-			component: PageTest
-		},
-		{
-			path: '/postwrite',
-			name: 'PostWritePage',
-			component: PostWritePage
-		},
-		{
-			path: '/myproject/create',
-			name: 'ProjectWritePage',
-			component: ProjectWritePage
-		},
-		{
-			path: '/myproject/:id',
-			name: 'ProjectReadPage',
-			component: ProjectReadPage
-		},
-		////////////////////////////////////////////////////////////
+  routes: [{
+      path: '/',
+      name: 'HomePage',
+      component: HomePage,
+    },
+    {
+      path: '/postupdate/:id',
+      name: 'PostUpdatePage',
+      component: PostUpdatePage,
+      props: true
+    },
+    {
+      path: '/postread/:id',
+      name: 'PostReadPage',
+      component: PostReadPage,
+      props: true
+    },
 
-		/////////////////////////// Team ///////////////////////////
-		{
-			path: '/teamChoose',
-			name: 'TeamChoose',
-			component: TeamChoose
-		},
-		////////////////////////////////////////////////////////////
+    ///////////////////// Personal Project /////////////////////
+    {
+      path: '/post',
+      name: 'PageTest',
+      component: PageTest
+    },
+    {
+      path: '/post/create',
+      name: 'PostCreatePage',
+      component: PostCreatePage
+    },
+    {
+      path: '/myproject/create',
+      name: 'ProjectWritePage',
+      component: ProjectWritePage
+    },
+    {
+      path: '/myproject/:id',
+      name: 'ProjectReadPage',
+      component: ProjectReadPage
+    },
+    ////////////////////////////////////////////////////////////
 
-		///////////////////////// Calendar /////////////////////////
-		{
-			path: '/calendar',
-			name: 'Calendar',
-			component: Calendar
-		},
-    	{
-      		path: '/updateuser',
-      		name: 'UpdateUserPage',
-      		component: UpdateUserPage
-    	},
-    	{
-      		path: '/removeuser',
-      		name: 'RemoveUserPage',
-      		component: RemoveUserPage
-		},
+    /////////////////////////// Team ///////////////////////////
+    {
+      path: '/teamChoose',
+      name: 'TeamChoose',
+      component: TeamChoose
+    },
+    ////////////////////////////////////////////////////////////
 
-		{
-			path: '/myproject',
-			name: 'ProjectPage',
-			component: ProjectPage
-		},
-		{
-			path: '/test',
-			name: 'TestPage',
-			component: TestPage
+    ///////////////////////// Calendar /////////////////////////
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: Calendar
+    },
+    ////////////////////////////////////////////////////////////
 
-		},
+    ///////////////////////// user /////////////////////////////
+    {
+      path: '/user/update',
+      name: 'UserUpdatePage',
+      component: UserUpdatePage
+    },
+    {
+      path: '/user/delete',
+      name: 'UserDeletePage',
+      component: UserDeletePage
+    },
+    {
+      path: '/user/create',
+      name: 'UserCreatePage',
+      component: UserCreatePage
+    },
+    ////////////////////////////////////////////////////////////
+
+    {
+      path: '/myproject',
+      name: 'ProjectPage',
+      component: ProjectPage
+    },
+    {
+      path: '/test',
+      name: 'TestPage',
+      component: TestPage
+
+    },
   ]
 })

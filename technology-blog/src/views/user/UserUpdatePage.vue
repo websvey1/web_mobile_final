@@ -40,7 +40,7 @@
 import Loading from "@/components/Loading"
 
 export default {
-  name: 'UpdateUserPage',
+  name: 'UserUpdatePage',
   components: {
     Loading
   },
