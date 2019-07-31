@@ -53,12 +53,10 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import FirebaseService from '@/services/FirebaseService'
 import ImageUpload from "@/components/ImageUpload"
 import HashTag from "@/components/HashTag"
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import LogService from '@/services/LogService'
 import Time from "@/services/Time"
 
 export default {

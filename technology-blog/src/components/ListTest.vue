@@ -15,8 +15,6 @@
 
 <script>
 import CardTest from './CardTest'
-import FirebaseService from '@/services/FirebaseService'
-
 
 export default {
   name: "ListTest",

@@ -76,7 +76,7 @@
         </v-layout>
       </div>
       <v-sheet height="500">
-      
+
         <v-calendar :now="today" :value="today" color="primary">
           <template v-slot:day="{ date }">
             <!-- below is the part of event days-->
@@ -123,8 +123,6 @@
 </template>
 
 <script>
-import LogService from '@/services/LogService'
-
   export default {
     data() {
       return {
@@ -281,7 +279,7 @@ import LogService from '@/services/LogService'
                         }
                       }
                     }
-                  }  
+                  }
                 }else{ // 시작 년도인데, 시작 년도와 끝 년도가 다르면
                   for(var month = startMonth; month <= 12; month++){
                     if(month === 4 || month === 6 || month === 9 || month === 11){
@@ -367,10 +365,8 @@ import LogService from '@/services/LogService'
       this.month = mm;
     },
     created(){
-      LogService.CreatedTime(this);
     },
     beforeRouteLeave(to, from, next){
-      LogService.DestroyedTime(this);
       next();
     },
     destroyed(){

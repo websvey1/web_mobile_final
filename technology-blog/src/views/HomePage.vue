@@ -15,18 +15,13 @@
 
 
 <script>
-import FirebaseService from '@/services/FirebaseService'
 import PostList from '@/components/PostList'
-import LoginHome from "@/components/LoginHome"
 import Weather from '@/components/WeatherInfo'
-import LogService from '@/services/LogService'
-
 
 export default {
     name: 'HomePage',
     components: {
         PostList,
-        LoginHome,
         Weather,
     },
     data() {
@@ -46,20 +41,13 @@ export default {
         }
     },
     created(){
-        if(this.$store.state.userInfo != null){
-          LogService.CreatedTime(this);
-        }
+
     },
     beforeRouteLeave(to, from, next){
-      if(this.$store.state.logInfo){
-        LogService.DestroyedTime(this);
-      }
       next();
     },
     methods: {
-        trans(){
-            this.$store.state.isTrans = !this.$store.state.isTrans;
-        }
+
     },
 }
 </script>

@@ -69,7 +69,6 @@
 
 <script>
 import ImageUpload from "@/components/ImageUpload"
-import LogService from '@/services/LogService'
 
 export default {
   name: 'ProjectReadPage',
@@ -103,8 +102,7 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/post")
-    },
-
+    }
   }
 }
 </script>

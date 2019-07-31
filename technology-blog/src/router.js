@@ -2,17 +2,20 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from './views/HomePage.vue'
 import ProjectWritePage from './views/ProjectWritePage.vue'
-import PostWritePage from './views/PostWritePage.vue'
-import PostUpdatePage from './views/PostUpdatePage.vue'
-import PostReadPage from './views/PostReadPage.vue'
+
+//// post ////
+import PostPage from './views/post/PostPage.vue'
+import PostWritePage from './views/post/PostWritePage.vue'
+import PostUpdatePage from './views/post/PostUpdatePage.vue'
+import PostReadPage from './views/post/PostReadPage.vue'
+//// post ////
+
 import LoginPage from './views/LoginPage.vue'
 import SignupPage from './views/SignupPage.vue'
 import UpdateUserPage from './views/UpdateUserPage.vue'
 import RemoveUserPage from './views/RemoveUserPage.vue'
-import GraphPage from './views/GraphPage.vue'
 import PageTest from './views/PageTest.vue'
 import TestPage from './views/TestPage.vue'
-import PostPage from './views/PostPage.vue'
 import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
 import ProjectReadPage from './views/ProjectReadPage.vue'
@@ -50,20 +53,11 @@ export default new Router({
 			name: 'SignupPage',
 			component: SignupPage
 		},
-		/////////////////////// Git graph //////////////////////////
-    	{
-    		path: '/graph',
-			name: 'GraphPage',
-			component: GraphPage
-		},
-		////////////////////////////////////////////////////////////
-
 		///////////////////// Personal Project /////////////////////
     	{
 			path: '/post',
 			name: 'PageTest',
 			component: PageTest
-
 		},
 		{
 			path: '/postwrite',
@@ -96,13 +90,6 @@ export default new Router({
 			name: 'Calendar',
 			component: Calendar
 		},
-		////////////////////////////////////////////////////////////
-    	{
-      		path: '/postupdate/:id',
-      		name: 'PostUpdatePage',
-      		component: PostUpdatePage,
-      		props: true
-    	},
     	{
       		path: '/updateuser',
       		name: 'UpdateUserPage',
