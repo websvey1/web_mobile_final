@@ -15,7 +15,6 @@
 
 <script>
 import PostCard from "./PostCard"
-import FirebaseService from '@/services/FirebaseService'
 
 import {
   dragscroll
@@ -45,10 +44,21 @@ export default {
       else{
         return false;
       }
+    },
+
+    async readPosts(){
+      var posts = await this.$http.get("http://192.168.31.65:3000/post")
+      .then((response) => {
+        console.log(response.data);
+        this.$store.state.posts = response.data;
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
     }
   },
   mounted(){
-
+    this.readPosts();
   }
 }
 </script>

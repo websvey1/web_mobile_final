@@ -53,11 +53,10 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import FirebaseService from '@/services/FirebaseService'
 import ImageUpload from "@/components/ImageUpload"
 import HashTag from "@/components/HashTag"
-import LogService from '@/services/LogService'
 import Loading from "@/components/Loading"
+import Time from "@/services/Time"
 
 export default {
   name: 'PostWritePage',
@@ -72,56 +71,49 @@ export default {
       title: "",
       content: "",
       writer: "temp_writer",
-      visibility:"true",
-
-      isLoading:false,
+      share:"0",
+      isLoading:false
     }
   },
-
+  created(){
+    if(!this.$session.has("userInfo")){
+      alert("로그인 해주세요.")
+      this.$router.go(-1)
+    }
+  },
   computed:{
     async form () {
       return {
-        user: this.$store.state.userInfo.user_num,
+        user: this.$session.get("userInfo").user_num,
         title: this.title,
         content: this.content,
         share: this.share,
+        created_at:Time.getFullDate(),
         category:0,
         tags: this.$refs.hashtag.getTagsForDb(),
         imageUrl: await this.$refs.imagePicker.getImageUrl()
       }
     },
   },
-  created(){
-
-  },
-  beforeRouteLeave(to, from, next){
-
-  },
   methods: {
-    goHome(){
-      this.$router.push("/")
-    },
     async writePost() {
       this.isLoading = true;
 
       var form = await this.form
-      this.$http.post("http://192.168.31.65:3000/post/create", form)
+
+      await this.$http.post("http://192.168.31.65:3000/post/create", form)
       .then((req) => {
-        if(req.data == "Success"){
-          alert("글이 작성되었습니다.");
-          this.isLoading = false;
-          this.goHome();
-        }
-        else{
-          alert("글 작성을 실패하였습니다.")
-          this.isLoading = false;
-        }
+        alert("글이 작성되었습니다.");
+        this.isLoading = false;
+        this.goHome();
       })
       .catch((error) => {
-        console.log(error);
-        alert("ERROR")
         this.isLoading = false;
       })
+    },
+
+    goHome(){
+      this.$router.go(-1);
     }
   }
 }

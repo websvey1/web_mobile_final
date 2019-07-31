@@ -47,12 +47,10 @@
 </template>
 
 <script>
-import LogService from '@/services/LogService'
 import Loading from "@/components/Loading"
-import FirebaseService from '@/services/FirebaseService'
 
 export default {
-  name: 'SignupPage',
+  name: 'UserCreatePage',
   components: {
     Loading
   },
@@ -148,9 +146,6 @@ export default {
 
   },
   beforeRouteLeave(to, from, next) {
-    if (this.$store.state.logInfo.user != null) {
-      LogService.DestroyedTime(this);
-    }
     next();
   },
   destroyed() {

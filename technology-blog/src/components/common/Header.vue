@@ -10,8 +10,8 @@
       padding: 10px 10px 20px 20px;
       ">
       <v-toolbar-title class="header__container">
-            <router-link to="/"> <img src="../assets/logo2.jpg" alt=""> </router-link>
-            <v-btn flat class="outlined" @click=""><LoginHome class="login"></LoginHome></v-btn>
+            <router-link to="/"> <img src="@/assets/logo2.jpg" alt=""> </router-link>
+            <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn>
       </v-toolbar-title>
     </v-toolbar>
 
@@ -27,7 +27,7 @@
       ">
 
         <v-toolbar-title>
-          <router-link id="Main" to="/" style="">
+          <router-link id="Main" to="/" style="margin-right:50px;">
             YEJI's Family ♥
           </router-link>
         </v-toolbar-title>
@@ -36,11 +36,10 @@
 
         <!-- <Translate /> -->
         <v-toolbar-items>
-          <v-btn flat to="/home">home</v-btn>
-          <v-btn flat @click="trans">Project</v-btn>
-          <v-btn flat to="/postwrite">Post</v-btn>
+          <v-btn flat to="/">home</v-btn>
+          <v-btn flat to="/home">Project</v-btn>
+          <v-btn flat to="/post/create">Post</v-btn>
           <v-btn flat @click.stop="drawer = !drawer">Menu</v-btn>
-          <v-btn flat @click=""><LoginHome class="login"></LoginHome></v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </div>
@@ -78,24 +77,32 @@
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>question_answer</v-icon>
-              <span class="spantag"> Post</span>
+              <span class="spantag"> Personal</span>
             </h1>
           </v-list-tile-content>
         </v-list-tile>
       </template>
       <v-divider />
-      <v-list-tile to="/post" style="background:white;">
+      <v-list-tile to="/myproject" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
-            <span class="spantag">Post 모아보기</span>
+            <span class="spantag">Project</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider />
-      <v-list-tile to="/postwrite" style="background:white;">
+      <v-list-tile to="/post" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
-            <span class="spantag">Post 쓰기</span>
+            <span class="spantag">Post</span>
+          </h1>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-divider/>
+      <v-list-tile to="/calendar" style="background:white;">
+        <v-list-tile-content style="height:auto;">
+          <h1 style="margin-left: 30px;">
+            <span class="spantag">Calendar</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
@@ -123,7 +130,7 @@
       </v-list-tile>
       <v-divider />
     </v-list-group>
-  
+
     <v-list-group>
       <template v-slot:activator>
         <v-list-tile @click="" style="margie-top:10px;">
@@ -154,15 +161,6 @@
       <v-divider/>
     </v-list-group>
 
-    <v-list-tile @click="" to="/graph" style="margie-top:10px;">
-      <v-list-tile-content style="height:auto;">
-        <h1 style="margin-left: 15px;">
-          <v-icon>show_chart</v-icon>
-          <span class="spantag"> Graph</span>
-        </h1>
-      </v-list-tile-content>
-    </v-list-tile>
-
     <Weather></Weather>
   </v-list>
   </v-navigation-drawer>
@@ -171,9 +169,8 @@
 
 
 <script>
-import Weather from './WeatherInfo'
-import LoginForm from './LoginForm'
-import LoginHome from './LoginHome'
+import Weather from '@/components/WeatherInfo'
+import LoginForm from '@/components/LoginForm'
 import FixedHeader from 'vue-fixed-header'
 
 export default {
@@ -181,7 +178,6 @@ export default {
   components: {
     LoginForm,
     Weather,
-    LoginHome,
     FixedHeader
   },
   methods: {
@@ -196,11 +192,11 @@ export default {
           icon: 'home',
           link: '/'
         },
-        {
-            title: 'Project',
-            icon: 'widgets',
-            link: '/project'
-        },
+        // {
+        //     title: 'Project',
+        //     icon: 'widgets',
+        //     link: '/project'
+        // },
         // {
         //   title: 'Post',
         //   icon: 'question_answer',

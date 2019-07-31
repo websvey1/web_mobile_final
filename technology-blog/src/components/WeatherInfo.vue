@@ -36,40 +36,6 @@
     </div>
   </div>
 </v-btn>
-<!-- </v-flex> -->
-<!-- </v-layout> -->
-<!-- <section>
-  <div v-show="!isLoading" class="loading">{{ errorMsg }}</div>
-  <div v-show="isLoading" class="app" v-bind:style="styleObject">
-    <div class="header">
-      <custom-icon name="cloud" base-class="custom-icon"></custom-icon>
-      {{cloud}}
-
-      <custom-icon name="droplet" base-class="custom-icon"></custom-icon>
-      {{humidity}}
-
-      <custom-icon name="wind" base-class="custom-icon"></custom-icon>
-      {{wind}}
-    </div>
-
-    <v-layout row>
-      <div class="temperature">
-        {{ temperature }}
-      </div>
-      <div>
-        <div class="weatherIcon">
-          <custom-icon :name="weatherIconName" base-class="custom-icon"></custom-icon>
-        </div>
-        <div class="description">
-          {{ description }}
-        </div>
-      </div>
-    </v-layout>
-    <div class="city">
-      {{ geocity }}
-    </div>
-  </div>
-</section> -->
 </template>
 
 <script>
@@ -184,7 +150,7 @@ export default {
         this.description = this.dataObj.weather[0].main;
         this.isLoading = true;
 
-        this.getCity();
+        // this.getCity();
       }, function(response) {
         // console.log('error');
         // console.log(response);

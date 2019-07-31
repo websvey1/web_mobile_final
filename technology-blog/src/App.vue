@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderTest/>
+    <Header/>
     <v-app>
       <v-content>
         <router-view/>
@@ -26,10 +26,8 @@
 </template>
 
 <script>
-import Header from './components/Header'
-import Footer from './components/Footer'
-import FirebaseService from './services/FirebaseService'
-import HeaderTest from './components/HeaderTest'
+import Header from './components/common/Header'
+import Footer from './components/common/Footer'
 
 import Calendar from './components/Calendar.vue'
 import EventForm from './components/EventForm.vue'
@@ -41,7 +39,6 @@ export default {
   components: {
     Footer,
     Header,
-    HeaderTest,
     Calendar,
     EventForm
   },
@@ -73,20 +70,10 @@ export default {
   },
 
   created(){
-    this.readPosts();
+
   },
   methods:{
-    async readPosts(){
-      // await FirebaseService.readPosts();
-      var posts = await this.$http.get("http://192.168.31.65:3000/post")
-      .then((response) => {
-        console.log(response.data);
-        this.$store.state.posts = response.data;
-      })
-      .catch((error) =>{
-        console.log(error);
-      })
-    }
+
   },
   mounted(){
     this.$http.post('http://192.168.31.63:3000/getPlan')
@@ -97,8 +84,6 @@ export default {
           this.events.push({title: items[i].cal_title, start: items[i].cal_start,
                   end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description});
         }
-
-        // console.log(this.events)
       })
       .catch((error) =>{
         // console.log(error)

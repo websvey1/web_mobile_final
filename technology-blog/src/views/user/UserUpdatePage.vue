@@ -37,12 +37,10 @@
 </template>
 
 <script>
-import LogService from '@/services/LogService'
-import FirebaseService from '@/services/FirebaseService'
 import Loading from "@/components/Loading"
 
 export default {
-  name: 'UpdateUserPage',
+  name: 'UserUpdatePage',
   components: {
     Loading
   },
@@ -71,26 +69,7 @@ export default {
   },
   methods: {
     async updateUser() {
-      this.isLoading = true;
-      var state = await FirebaseService.updateUser(this.before_pw, this.after_pw);
-      this.isLoading = false;
 
-      if (state === true) {
-        alert("정보가 수정되었습니다.")
-        this.$router.push("/")
-      } else {
-        var error = state.code
-        if ("auth/weak-password" == error) {
-          alert("비밀번호가 너무 짧습니다.")
-          this.before_pw = ""
-          this.after_pw = ""
-
-        } else {
-          alert(error)
-          this.before_pw = ""
-          this.after_pw = ""
-        }
-      }
     },
 
      goRemoveUser(){
@@ -101,25 +80,10 @@ export default {
    }
   },
   async created(){
-    if(this.$store.state.userInfo != null){
-      LogService.CreatedTime(this);
-    }
-    // var user = await FirebaseService.getUser()
-    var user = this.$store.state.userInfo;
-    console.log(user);
-    if (user == null) {
-      alert("잘못된 접근입니다.")
-      this.$router.push("/")
-    } else {
-      this.id = user.email;
-      this.name = user.displayName;
-    }
 
   },
   beforeRouteLeave(to, from, next) {
-    if(this.$store.state.logInfo != null){
-      LogService.DestroyedTime(this);
-    }
+
     next();
   },
   destroyed() {
