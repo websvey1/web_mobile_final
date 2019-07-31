@@ -19,7 +19,7 @@
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-autocomplete v-model="members" :disabled="isUpdating" :items="people" filled chips color="blue-grey lighten-2"
-                                        label="Member *" item-text="name" item-value="name" :rules="memberRules" multiple>
+                                        label="Member *" item-text="name" item-value="name" :rules="memberRules" required multiple>
                                         <template v-slot:item="data">
                                             <template v-if="typeof data.item !== 'object'">
                                                 <v-list-item-content v-text="data.item"></v-list-item-content>
@@ -27,7 +27,7 @@
                                             <template v-else>
                                                 <v-list-item-content>
                                                     <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;(
+                                                    &nbsp;&nbsp;(
                                                     <v-list-item-subtitle v-html="data.item.id"></v-list-item-subtitle>
                                                     )
                                                 </v-list-item-content>
@@ -41,18 +41,25 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="blue darken-1" flat @click="addTeam">Add</v-btn>
-                        <v-btn color="blue darken-1" flat @click="showModal = false">CANCEL</v-btn>
+                        <v-btn color="blue darken-1" flat @click="close">CANCEL</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
+            
             <!-- 이 밑에 div로 새로 파서, 지금 user가 속해있는 팀 list 뿌려줘야 함 -->
         </div>
+        <TeamList/>
     </div>
 </template>
 
 <script>
+import TeamList from '@/components/TeamList'
+
 export default {
     name: 'TeamChoose',
+    components: {
+        TeamList,   
+    },
     data() {
         return{
             teamName: '',
@@ -109,12 +116,17 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
+            this.resetValues();
             this.showModal = !this.showModal
         },
-        remove (item) {
-            const index = this.friends.indexOf(item.name)
-            if (index >= 0) this.friends.splice(index, 1)
+        close(){
+            this.resetValues();
+            this.showModal = !this.showModal
         },
+        resetValues(){
+            this.teamName = '';
+            this.members = []
+        }
     }
 
 }

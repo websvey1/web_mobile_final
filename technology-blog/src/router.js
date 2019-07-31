@@ -18,7 +18,6 @@ import ProjectPage from './views/ProjectPage.vue'
 import ProjectReadPage from './views/ProjectReadPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
 
-
 Vue.use(Router)
 
 export default new Router({
