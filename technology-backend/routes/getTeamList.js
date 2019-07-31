@@ -6,7 +6,7 @@ router.post('/', function(req, res, next){
     // console.log(req.body.num);
     var userNum = req.body.num;
     var pool = db.getPool();
-
+    console.log("ajsdlfjkasldkfjalsdfjklaskdfjlasdkjflasdkj")
     pool.getConnection((ex, conn) => {
         if(ex){
             console.log(ex);
@@ -31,7 +31,9 @@ router.post('/', function(req, res, next){
                         }
                         teamName = result.team_name;
                     })
-
+                    console.log("Here!!!!!!")
+                    console.log(query);
+                    console.log(teamName);
                     // 각 Team에 << 속해있는 member들 >> 을 가져옴
                     var query = conn.query('select member_user from blog.member where member_team = ?', result[i].member_team, function (err, result){
                         if (err){

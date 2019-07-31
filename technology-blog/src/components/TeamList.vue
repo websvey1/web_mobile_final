@@ -52,7 +52,7 @@ export default {
       // TeamList.vue가 활성화 되자 마자, Member table에 가서, 지금 user가 속한 팀 리스트 모두 뽑아와야함
       // Team table에서 팀 리스트 뽑고, 그 팀 리스트 별로 memeber들 다 가져오기.
       var temp = {
-        num : this.$store.state.userInfo.user_num
+        num : this.$session.get('userInfo').user_num
       }
       console.log(temp)
 
