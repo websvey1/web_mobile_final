@@ -38,11 +38,7 @@ export default {
     },
     data(){
         return{
-          items: [
-            { title: "예지와 언니오빠들" , member: "준호, 호중, 예지, 명, 명신" },
-            { title: "새로운 팀", member: "예지, 호중" },
-            { title: "Is it right?", member: "영신" }
-          ]
+          items: []
         }
     },
     props: {
@@ -54,17 +50,33 @@ export default {
       var temp = {
         num : this.$session.get('userInfo').user_num
       }
-      console.log(temp)
 
-
-      this.$http.post('http://192.168.31.63:3000/getTeamList', temp)
+      this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
       .then((response) => {
-        console.log("getTeamList success")
-        console.log(response)
+        for(var i = 0; i < response.body.length; i++){
+          var data = {
+            teamNum : response.body[i].team_num
+          }
+
+          this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+          .then((response) => {
+            var tempMember = '';
+
+            for(var k = 0; k < response.body.length; k++){
+              tempMember += response.body[k].user_name + " "
+            }
+
+            this.items.push({ title: response.body[0].team_name, member: tempMember })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        }
       })
       .catch((error) => {
         console.log(error)
       })
+      
     },
     methods: {
         goReadPage(postNum, email){
