@@ -20,14 +20,20 @@
             <v-flex xs12>
               <v-text-field label="비밀번호*" type="password" :rules="passRules" v-model="user.password" ref="password" required></v-text-field>
             </v-flex>
-            <v-flex xs4>
-              <v-text-field label="관심기술1" v-model="user.tech1"></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-              <v-text-field label="관심기술2" v-model="user.tech2"></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-              <v-text-field label="관심기술3" v-model="user.tech3"></v-text-field>
+            <v-flex xs12>
+              <v-autocomplete v-model="favor" :items="techs" filled chips color="blue-grey lighten-2"
+                  label="관심기술 *" item-text="name" item-value="name" required multiple>
+                  <template v-slot:item="data">
+                      <template v-if="typeof data.item !== 'object'">
+                          <v-list-item-content v-text="data.item"></v-list-item-content>
+                      </template>
+                      <template v-else>
+                          <v-list-item-content>
+                              <v-list-item-title v-html="data.item.tech_name"></v-list-item-title>
+                          </v-list-item-content>
+                      </template>
+                  </template>
+              </v-autocomplete>
             </v-flex>
           </v-layout>
         </v-container>
@@ -61,9 +67,9 @@ export default {
         password: "",
         email: "",
         name: "",
-        tech1: "",
-        tech2: "",
-        tech3: ""
+        favor:[],
+        techs: [],
+        isUpdating: false,
       },
       nameRules: [
         v => !!v || 'Name is required',
@@ -121,7 +127,7 @@ export default {
       if(validation){
         this.isLoading = true;
 
-        this.$http.post("/user/adduser", this.form)
+        this.$http.post("/user/create", this.form)
         .then((req) => {
           if(req.data == "success"){
             alert("가입 성공")
@@ -145,6 +151,14 @@ export default {
   async created() {
 
   },
+
+  mounted(){
+      this.$http.get("http://192.168.31.65:3000/user/tech")
+      .then((req) => {
+        this.techs = req.data;
+      })
+  },
+
   beforeRouteLeave(to, from, next) {
     next();
   },
