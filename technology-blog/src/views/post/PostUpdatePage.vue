@@ -42,7 +42,7 @@
 
     <div style="text-align:center;" id="write-btn">
       <v-btn class="v-btn theme--dark" @click="updatePost">수정</v-btn>
-      <v-btn class="v-btn theme--dark" @click="removePost">삭제</v-btn>
+      <v-btn class="v-btn theme--dark" @click="deletePost">삭제</v-btn>
       <v-btn class="v-btn theme--dark" @click="goRead">취소</v-btn>
     </div>
 
@@ -53,12 +53,11 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import FirebaseService from '@/services/FirebaseService'
 import ImageUpload from "@/components/ImageUpload"
 import HashTag from "@/components/HashTag"
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import LogService from '@/services/LogService'
+import Time from "@/services/Time"
 
 export default {
   name: 'PostUpdatePage',
@@ -77,6 +76,22 @@ export default {
   async mounted() {
     await this.fetchData();
   },
+  computed:{
+    async form () {
+      return {
+        title: this.post.post_title,
+        content: this.post.post_content,
+        share: this.post.post_share,
+        category:0,
+        updated_at:Time.getFullDate(),
+        tags: this.$refs.hashtag.getTagsForDb(),
+        imageUrl: await this.$refs.imagePicker.getImageUrl(),
+        user_num:this.post.user_num,
+        image_num:this.post.image_num,
+        imageconn_num: this.post.imageconn_num
+      }
+    },
+  },
   beforeRouteLeave(to, from, next) {
     next();
   },
@@ -87,18 +102,23 @@ export default {
       await this.$http.get("http://192.168.31.65:3000/post/read/" + this.$route.params.id)
         .then((response) => {
           this.post = response.data.post;
+
           this.$refs.imagePicker.setImage(response.data.post.image_url);
 
           var tags = [];
           var colors = ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'];
 
+          console.log(response.data);
           var val = response.data.tags;
+          console.log(val);
           for (var i = 0; i < val.length; i++) {
             tags.push({
               text: val[i].tag_name,
               color: colors[i % 6]
             })
           }
+
+          console.log(tags);
           this.$refs.hashtag.setTags(tags);
         })
         .catch(error => {
@@ -106,23 +126,40 @@ export default {
         })
     },
     async updatePost() {
+      this.isLoading = true;
+      var post = await this.form;
 
+      this.$http.put("http://192.168.31.65:3000/post/update/"+this.$route.params.id, post)
+      .then((response) => {
+        alert("수정이 완료 되었습니다.");
+        this.isLoading = false;
+        this.$router.go(-1);
+      })
+      .catch((error) => {
+        alert("수정 실패하였습니다.")
+        this.isLoading = false;
+      })
     },
-    async removePost() {
-      console.log(this.$refs.imagePicker);
+    async deletePost() {
+      var isDelete = confirm("정말 삭제하시겠습니까?");
+
+      if(isDelete){
+        this.isLoading = true;
+        this.$http.delete("http://192.168.31.65:3000/post/delete/" + this.$route.params.id)
+        .then((response) => {
+          alert("삭제되었습니다.")
+          this.isLoading = false;
+          this.$router.push("/")
+        })
+        .catch((error) => {
+          alert("삭제 실패하였습니다.")
+          this.isLoading = false;
+        })
+      }
     },
 
     goRead() {
-      this.$router.push({
-        name: "PostReadPage",
-        params: {
-          id: this.$route.params.id
-        }
-      })
-    },
-
-    goHome() {
-      this.$router.push("/")
+      this.$router.go(-1);
     }
   }
 }

@@ -14,10 +14,7 @@
 </template>
 
 <script>
-import FirebaseService from '@/services/FirebaseService'
 import PostList from '@/components/PostList'
-import firebase from 'firebase'
-import LogService from '@/services/LogService'
 
 export default {
 	name: 'PostTest',
@@ -38,7 +35,7 @@ export default {
   },
 	methods: {
     async postText() {
-			await FirebaseService.postText(this.text)
+
     },
     showCalendar(){
       window.open("Temp", "_blank","width=1100,height=700,left=200,top=25");
@@ -48,14 +45,10 @@ export default {
 
   },
   created(){
-    if(this.$store.state.userInfo.email != null){
-      LogService.CreatedTime(this);
-    }
+
   },
   beforeRouteLeave(to, from, next){
-    if(this.$store.state.logInfo.user != null){
-      LogService.DestroyedTime(this);
-    }
+
     next();
   },
   destroyed(){

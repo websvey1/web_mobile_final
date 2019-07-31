@@ -5,7 +5,7 @@
   </div>
 </div>
 </template>
- 
+
 
  <script>
 import ProjectList from '@/components/ProjectList'
@@ -28,7 +28,7 @@ export default {
 
  }
  </script>
- 
+
  <style>
    .container.project {
     background-color: white;
@@ -36,4 +36,3 @@ export default {
     margin: 0 auto;
   }
  </style>
- 

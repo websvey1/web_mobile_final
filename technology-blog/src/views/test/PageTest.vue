@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import LogService from '@/services/LogService'
 import CardTest from '@/components/CardTest'
 import ListTest from '@/components/ListTest'
 
@@ -30,14 +28,10 @@ export default {
         }
 	},
   created(){
-    if(this.$store.state.userInfo.email != null){
-      LogService.CreatedTime(this);
-    }
+
   },
   beforeRouteLeave(to, from, next){
-    if(this.$store.state.logInfo.user != null){
-      LogService.DestroyedTime(this);
-    }
+
     next();
   },
   destroyed(){

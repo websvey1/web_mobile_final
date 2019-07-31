@@ -33,12 +33,10 @@
 </template>
 
 <script>
-import LogService from '@/services/LogService'
-import FirebaseService from '@/services/FirebaseService'
 import Loading from "@/components/Loading"
 
 export default {
-  name: 'RemoveUserPage',
+  name: 'UserDeletePage',
   components: {
     Loading
   },
@@ -64,7 +62,6 @@ export default {
 
       if(pw != null){
         this.isLoading = true;
-        var state = await FirebaseService.removeUser(pw);
         this.isLoading = false;
 
         if (state === true) {
@@ -89,9 +86,6 @@ export default {
     }
   },
   async created(){
-    if(this.$store.state.userInfo != null){
-      LogService.CreatedTime(this);
-    }
     if (this.$store.state.userInfo == null) {
       alert("잘못된 접근입니다.")
       this.$router.push("/")
@@ -101,9 +95,6 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    if(this.$store.state.logInfo != null){
-      LogService.DestroyedTime(this);
-    }
     next();
   },
   destroyed() {

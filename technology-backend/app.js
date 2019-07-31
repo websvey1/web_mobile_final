@@ -24,7 +24,14 @@ var MyProject = require('./routes/myproject');
 var Another = require('./routes/another');
 
 var getPlan = require('./routes/getPlan');
+
+var team = require('./routes/team');
+///////////////////// team으로 합칠 내용들 /////////////////////////
+var getTeamList = require('./routes/getTeamList');
 var getUser = require('./routes/getUser');
+var makeTeam = require('./routes/makeTeam');
+var makeMember = require('./routes/makeMember');
+var todosRouter = require('./routes/todos');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,21 +43,30 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use('/todos', todosRouter); // 
 app.use('/dept', deptRouter);
 app.use('/post', postRouter);
 app.use('/plan', plan);
 app.use('/user', userRouter);
 app.use('/myproject', MyProject);
 app.use('/getPlan', getPlan);
-app.use('/getUser', getUser);
 app.use('/another', Another);
 
+
+app.use('/team', team);
+////////////// team으로 합칠 내용들 ////////////////
+app.use('/getTeamList', getTeamList);
+app.use('/getUser', getUser);
+app.use('/makeTeam', makeTeam);
+app.use('/makeMember', makeMember);
+//////////////////////////////////////
+//////////////////////////////////////
+
 var conn = mysql.createConnection({
-  host:"192.168.31.61",
+  host:"192.168.31.65",
   port:3306,
   user:"root",
-  password:"hello123!",
+  password:"12345",
   database:"blog"
 })
 
