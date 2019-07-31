@@ -75,10 +75,16 @@ export default {
       isLoading:false
     }
   },
+  created(){
+    if(!this.$session.has("userInfo")){
+      alert("로그인 해주세요.")
+      this.$router.go(-1)
+    }
+  },
   computed:{
     async form () {
       return {
-        user: this.$store.state.userInfo.user_num,
+        user: this.$session.get("userInfo").user_num,
         title: this.title,
         content: this.content,
         share: this.share,

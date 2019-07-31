@@ -50,7 +50,7 @@
 import Loading from "@/components/Loading"
 
 export default {
-  name: 'SignupPage',
+  name: 'UserCreatePage',
   components: {
     Loading
   },

@@ -215,7 +215,6 @@ export default {
   },
 
   beforeRouteLeave(to, from, next){
-    LogService.DestroyedTime(this);
     next();
   },
 
