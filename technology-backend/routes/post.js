@@ -26,7 +26,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/create', function(req, res, next) {
   var pool = db.getPool();
-
+                                  // PostWritePage.vue의 compited에서 선언한 form의 변수를 불러옴
+                                  
   var user = req.body.user;
   var title = req.body.title;
   var content = req.body.content;

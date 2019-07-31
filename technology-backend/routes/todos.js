@@ -41,21 +41,11 @@ router.get('/:id', function(req, res, next){
                         conn.release();
                         throw err;
                     }
-
-                    // console.log(reqult);
-                    // var project = {
-                    //     project : result,
-                    //     images : null,
-                    // }
-                    // var query = conn.query('select ')
-                }
-
-            )
-        }
+                })
+            }
         conn.release();
+        })
     })
-}
-)
 
 // router.post('/create', function(req, res, next){
 //     vaar pool = db.getPool();
