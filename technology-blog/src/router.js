@@ -114,16 +114,11 @@ export default new Router({
       path: '/test',
       name: 'TestPage',
       component: TestPage
-
-<<<<<<< HEAD
 	},
 	{
 		path: '/another',
 		name: 'AnotherUser',
 		component: AnotherUser
 	},
-=======
-    },
->>>>>>> 442079c97d82f341ed1c424c85b62f08077ce030
   ]
 })
