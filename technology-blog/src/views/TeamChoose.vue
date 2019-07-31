@@ -2,7 +2,7 @@
     <div style="background-color: white;">
         <div class="container">
             <!-- Login 시, 각 user의 name에 따라 ~~님의 팀으로 되도록 바꾸어 주어야 함! -->
-            <h1 class="teamName" style="margin-left: 3em">{{ this.$store.state.userInfo.user_name }}님의 팀</h1>
+            <h1 class="teamName" style="margin-left: 3em">{{ this.$session.get('userInfo').user_name }}님의 팀</h1>
             
             <v-btn class="teamBtn" @click="showModal = true" outline color="indigo" style="float: right; margin-right: 5em" round>Team 추가</v-btn>
 
