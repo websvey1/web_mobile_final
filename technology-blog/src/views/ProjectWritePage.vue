@@ -97,7 +97,7 @@
         </fieldset>
       </v-flex>
     </v-layout>
-  
+
     <fieldset style="margin-bottom: 5px;">
       <legend>PICTURE</legend>
       <ImageUpload :random_picture="true" ref="imagePicker"></ImageUpload>
@@ -105,10 +105,10 @@
 
     <fieldset style="margin-bottom: 5px; height:100%">
       <legend>PICTURE</legend>
-        <label style="margin-left: 20px;">Files 
-          <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()"/> 
+        <label style="margin-left: 20px;">Files
+          <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()"/>
         </label>
-        <button v-on:click="addFiles()" style="margin-right: 20px;">Add Files</button> 
+        <button v-on:click="addFiles()" style="margin-right: 20px;">Add Files</button>
         <button v-on:click="submitFiles()">Submit</button>
 
         <div v-for="(file, key) in files" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">{{ file.name }}
@@ -161,10 +161,8 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import FirebaseService from '@/services/FirebaseService'
 import ImageUpload from "@/components/ImageUpload"
 import HashTag from "@/components/HashTag"
-import LogService from '@/services/LogService'
 import Loading from "@/components/Loading"
 
 export default {
@@ -189,11 +187,11 @@ export default {
       status: '',
       status_items: [
         {
-          text: '계획', 
+          text: '계획',
           value: '계획'
         },
         {
-          text: '진행중', 
+          text: '진행중',
           value: '진행중'
         },
         {
@@ -217,7 +215,6 @@ export default {
   },
 
   beforeRouteLeave(to, from, next){
-    LogService.DestroyedTime(this);
     next();
   },
 
@@ -246,7 +243,7 @@ export default {
       }
 
       console.log(post);
-      
+
       this.$http.post("http://192.168.31.61:3000/myproject/create", post)
       .then((result) => {
         console.log(result.data);
@@ -261,17 +258,17 @@ export default {
 
     },
 
-    handleFileUploads() { 
-      // this.files = this.$refs.files.files;  
+    handleFileUploads() {
+      // this.files = this.$refs.files.files;
       // console.log(this.files);
-       let uploadedFiles = this.$refs.files.files; 
+       let uploadedFiles = this.$refs.files.files;
        for( var i = 0; i < uploadedFiles.length; i++ ){
-          this.files.push( uploadedFiles[i] ); 
+          this.files.push( uploadedFiles[i] );
         }
         console.log(uploadedFiles);
     },
 
-    submitFiles(){ 
+    submitFiles(){
       for( var i = 0; i < this.files.length; i++ ){
         let file = this.files[i];
         console.log(file)
@@ -313,11 +310,11 @@ export default {
       }
     },
 
-    addFiles(){ 
-      this.$refs.files.click(); 
+    addFiles(){
+      this.$refs.files.click();
     },
     removeFile( key ){
-       this.files.splice( key, 1 ); 
+       this.files.splice( key, 1 );
     },
 
   },
@@ -349,7 +346,7 @@ export default {
   font-weight: 300;
 }
 
-/* input[type="file"] { 
+/* input[type="file"] {
   position: absolute;
 } */
 </style>

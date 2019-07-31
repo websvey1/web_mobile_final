@@ -28,8 +28,7 @@ var getTeamList = require('./routes/getTeamList');
 var getUser = require('./routes/getUser');
 var makeTeam = require('./routes/makeTeam');
 var makeMember = require('./routes/makeMember');
-////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
+var todosRouter = require('./routes/todos');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,7 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use('/todos', todosRouter); // 
 app.use('/dept', deptRouter);
 app.use('/post', postRouter);
 app.use('/plan', plan);

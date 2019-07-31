@@ -10,8 +10,8 @@
       padding: 10px 10px 20px 20px;
       ">
       <v-toolbar-title class="header__container">
-            <router-link to="/"> <img src="../assets/logo2.jpg" alt=""> </router-link>
-            <v-btn flat class="outlined" @click=""><LoginHome class="login"></LoginHome></v-btn>
+            <router-link to="/"> <img src="@/assets/logo2.jpg" alt=""> </router-link>
+            <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn>
       </v-toolbar-title>
     </v-toolbar>
 
@@ -36,11 +36,10 @@
 
         <!-- <Translate /> -->
         <v-toolbar-items>
-          <v-btn flat to="/home">home</v-btn>
-          <v-btn flat @click="trans">Project</v-btn>
-          <v-btn flat to="/postwrite">Post</v-btn>
+          <v-btn flat to="/">home</v-btn>
+          <v-btn flat to="/home">Project</v-btn>
+          <v-btn flat to="/post/create">Post</v-btn>
           <v-btn flat @click.stop="drawer = !drawer">Menu</v-btn>
-          <v-btn flat @click=""><LoginHome class="login"></LoginHome></v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </div>
@@ -162,15 +161,6 @@
       <v-divider/>
     </v-list-group>
 
-    <v-list-tile @click="" to="/graph" style="margie-top:10px;">
-      <v-list-tile-content style="height:auto;">
-        <h1 style="margin-left: 15px;">
-          <v-icon>show_chart</v-icon>
-          <span class="spantag"> Graph</span>
-        </h1>
-      </v-list-tile-content>
-    </v-list-tile>
-
     <Weather></Weather>
   </v-list>
   </v-navigation-drawer>
@@ -179,9 +169,8 @@
 
 
 <script>
-import Weather from './WeatherInfo'
-import LoginForm from './LoginForm'
-import LoginHome from './LoginHome'
+import Weather from '@/components/WeatherInfo'
+import LoginForm from '@/components/LoginForm'
 import FixedHeader from 'vue-fixed-header'
 
 export default {
@@ -189,7 +178,6 @@ export default {
   components: {
     LoginForm,
     Weather,
-    LoginHome,
     FixedHeader
   },
   methods: {

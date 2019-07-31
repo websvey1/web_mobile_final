@@ -69,7 +69,6 @@
 
 <script>
 import ImageUpload from "@/components/ImageUpload"
-import LogService from '@/services/LogService'
 
 export default {
   name: 'ProjectReadPage',
@@ -91,10 +90,7 @@ export default {
     console.log(`http://192.168.31.61:3000/myproject/${id}`)
     this.$http.get(`http://192.168.31.61:3000/myproject/${id}`)
       .then((res) => {
-        // console.log(res)
         this.project = res.data.project[0];
-        // console.log(res.data);
-        // console.log(this.project)
         this.images = res.data.images;
         console.log(this.images)
         console.log(this.images[0].image_url)
@@ -103,8 +99,7 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/post")
-    },
-
+    }
   }
 }
 </script>

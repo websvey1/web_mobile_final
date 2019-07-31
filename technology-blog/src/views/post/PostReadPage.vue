@@ -30,9 +30,7 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import FirebaseService from '@/services/FirebaseService'
 import ImageUpload from "@/components/ImageUpload"
-import LogService from '@/services/LogService'
 
 export default {
   name: 'PostReadPage',
@@ -83,9 +81,6 @@ export default {
     await this.fetchData();
   },
   beforeRouteLeave(to, from, next){
-    if(this.$store.state.logInfo != null){
-      LogService.DestroyedTime(this);
-    }
     next();
   },
   destroyed(){
