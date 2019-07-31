@@ -1,16 +1,9 @@
 <template>
-  <!-- <v-layout v-if="outerWidth" v-dragscroll class="overflow"> -->
 <v-layout v-dragscroll class="overflow">
   <v-flex xs3 v-for="post in $store.state.posts" px-2 py-4>
     <PostCard :post="post"></PostCard>
   </v-flex>
 </v-layout>
-<!-- <v-layout v-else v-dragscroll class="overflow">
-  <v-btn flat color="warning" @click="showCalendar()">Calendar</v-btn>
-  <v-flex v-if="isVisible(post)" xs3 v-for="post in $store.state.trans_posts" px-2 py-4>
-    <PostCard :post="post"></PostCard>
-  </v-flex>
-</v-layout> -->
 </template>
 
 <script>
@@ -33,31 +26,30 @@ export default {
 
     }
   },
-  filter:{
+  filter: {
 
   },
   methods: {
-    isVisible(post){
-      if(post.post_share == '0' || (this.$store.state.userInfo != null &&post.post_share == '1' && post.email == this.$store.state.userInfo.email)){
-          return true;
-      }
-      else{
+    isVisible(post) {
+      if (post.post_share == '0' || (this.$store.state.userInfo != null && post.post_share == '1' && post.email == this.$store.state.userInfo.email)) {
+        return true;
+      } else {
         return false;
       }
     },
 
-    async readPosts(){
+    async readPosts() {
       var posts = await this.$http.get("http://192.168.31.65:3000/post")
-      .then((response) => {
-        console.log(response.data);
-        this.$store.state.posts = response.data;
-      })
-      .catch((error) =>{
-        console.log(error);
-      })
+        .then((response) => {
+          console.log(response.data);
+          this.$store.state.posts = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
   },
-  mounted(){
+  mounted() {
     this.readPosts();
   }
 }

@@ -37,13 +37,13 @@ export default new Router({
       component: HomePage,
     },
     {
-      path: '/postupdate/:id',
+      path: '/post/update/:id',
       name: 'PostUpdatePage',
       component: PostUpdatePage,
       props: true
     },
     {
-      path: '/postread/:id',
+      path: '/post/read/:id',
       name: 'PostReadPage',
       component: PostReadPage,
       props: true
@@ -51,20 +51,20 @@ export default new Router({
     ///////////////////// Personal Post /////////////////////
     {
       path: '/post',
-      name: 'PageTest',
-      component: PageTest
+      name: 'PostPage',
+      component: PostPage
     },
     {
       path: '/post/create',
       name: 'PostCreatePage',
       component: PostCreatePage
-	},
-	///////////////////// Personal Project /////////////////////
-	{
-		path: '/myproject',
-		name: 'ProjectPage',
-		component: ProjectPage
-	},
+    },
+    ///////////////////// Personal Project /////////////////////
+    {
+      path: '/myproject',
+      name: 'ProjectPage',
+      component: ProjectPage
+    },
     {
       path: '/myproject/create',
       name: 'ProjectWritePage',
@@ -74,7 +74,7 @@ export default new Router({
       path: '/myproject/:id',
       name: 'ProjectReadPage',
       component: ProjectReadPage
-	},
+    },
     ////////////////////////////////////////////////////////////
 
     /////////////////////////// Team ///////////////////////////

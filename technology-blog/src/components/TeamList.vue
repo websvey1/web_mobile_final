@@ -24,7 +24,7 @@
       </v-flex>
     </v-layout>
   </v-card>
-  
+
  </sequential-entrance>
  </template>
 
@@ -34,15 +34,11 @@ import router from '@/router'
 export default {
     name: 'TeamList',
     components: {
-      
+
     },
     data(){
         return{
-          items: [
-            { title: "예지와 언니오빠들" , member: "준호, 호중, 예지, 명, 명신" },
-            { title: "새로운 팀", member: "예지, 호중" },
-            { title: "Is it right?", member: "영신" }
-          ]
+          items: []
         }
     },
     props: {
@@ -52,19 +48,35 @@ export default {
       // TeamList.vue가 활성화 되자 마자, Member table에 가서, 지금 user가 속한 팀 리스트 모두 뽑아와야함
       // Team table에서 팀 리스트 뽑고, 그 팀 리스트 별로 memeber들 다 가져오기.
       var temp = {
-        num : this.$store.state.userInfo.user_num
+        num : this.$session.get('userInfo').user_num
       }
-      console.log(temp)
 
-
-      this.$http.post('http://192.168.31.63:3000/getTeamList', temp)
+      this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
       .then((response) => {
-        console.log("getTeamList success")
-        console.log(response)
+        for(var i = 0; i < response.body.length; i++){
+          var data = {
+            teamNum : response.body[i].team_num
+          }
+
+          this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+          .then((response) => {
+            var tempMember = '';
+
+            for(var k = 0; k < response.body.length; k++){
+              tempMember += response.body[k].user_name + " "
+            }
+
+            this.items.push({ title: response.body[0].team_name, member: tempMember })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        }
       })
       .catch((error) => {
         console.log(error)
       })
+
     },
     methods: {
         goReadPage(postNum, email){
@@ -138,7 +150,7 @@ export default {
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical ; 
+  -webkit-box-orient: vertical ;
 }
 
 .pub-date {

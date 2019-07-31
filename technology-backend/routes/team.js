@@ -78,4 +78,48 @@ router.post('/makeMember', function(req, res, next){
     });
 });
 
+router.post('/getTeamList', function(req, res, next){
+    var userNum = req.body.num;
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }else{
+            var query = conn.query('select * from user as u inner join blog.member as m on u.user_num = m.member_user inner join team as t on m.member_team = t.team_num where u.user_num = ?', userNum, function(err, result){
+                if(err){
+                    console.log(err)
+                    throw err
+                }
+                // console.log(result)
+                res.send(result);
+            })
+
+            conn.release();
+        }
+    });
+});
+
+router.post('/getMember', function(req, res, next){
+    var teamNum = req.body.teamNum;
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }else{
+            var query = conn.query('select * from team as t inner join blog.member as m on t.team_num = m.member_team inner join user as u on m.member_user = u.user_num where t.team_num = ?', teamNum, function(err, result){
+                if(err){
+                    console.log(err)
+                    throw err
+                }
+                // console.log(result)
+                res.send(result);
+            })
+
+            conn.release();
+        }
+    });
+});
+
 module.exports = router;

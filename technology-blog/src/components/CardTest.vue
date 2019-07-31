@@ -37,9 +37,7 @@ export default {
 
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Jura:300,400,500,600);
-
 @import url(https://fonts.googleapis.com/css?family=Play);
-
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
 
 .logo {
