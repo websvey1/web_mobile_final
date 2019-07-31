@@ -19,7 +19,7 @@
 
             <v-divider dark></v-divider>
             <v-btn class="v-btn theme--dark" @click="goHome">목록</v-btn>
-            <v-btn v-if="$store.state.userInfo != null && post.user_id == $store.state.userInfo.user_id" class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
+            <v-btn v-if="$session.has('userInfo') && post.user_id == $session.get('userInfo').user_id" class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
           </div>
         </v-flex>
       </v-layout>
