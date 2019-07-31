@@ -58,13 +58,13 @@ export default new Router({
       path: '/post/create',
       name: 'PostCreatePage',
       component: PostCreatePage
-	},
-	///////////////////// Personal Project /////////////////////
-	{
-		path: '/myproject',
-		name: 'ProjectPage',
-		component: ProjectPage
-	},
+    },
+    ///////////////////// Personal Project /////////////////////
+    {
+      path: '/myproject',
+      name: 'ProjectPage',
+      component: ProjectPage
+    },
     {
       path: '/myproject/create',
       name: 'ProjectWritePage',
@@ -74,7 +74,7 @@ export default new Router({
       path: '/myproject/:id',
       name: 'ProjectReadPage',
       component: ProjectReadPage
-	},
+    },
     ////////////////////////////////////////////////////////////
 
     /////////////////////////// Team ///////////////////////////
@@ -115,15 +115,11 @@ export default new Router({
       name: 'TestPage',
       component: TestPage
 
-<<<<<<< HEAD
-	},
-	{
-		path: '/another',
-		name: 'AnotherUser',
-		component: AnotherUser
-	},
-=======
     },
->>>>>>> 442079c97d82f341ed1c424c85b62f08077ce030
+    {
+      path: '/another',
+      name: 'AnotherUser',
+      component: AnotherUser
+    },
   ]
 })
