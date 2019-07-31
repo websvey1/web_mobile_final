@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next) {
   });
 });
 
-router.post('/adduser', function(req, res, next) {
+router.post('/create', function(req, res, next) {
   var pool = db.getPool();
   var id = req.body.id;
   var password = req.body.password;
@@ -50,6 +50,83 @@ router.post('/adduser', function(req, res, next) {
         }
 
         res.send("Success");
+      });
+    }
+    conn.release();
+  });
+});
+
+router.put('/update', function(req, res, next) {
+  var pool = db.getPool();
+  var id = req.body.id;
+  var password = req.body.password;
+  var email = req.body.password;
+  var name = req.body.name;
+
+  pool.getConnection((ex, conn) => {
+    if(ex){
+      console.log(ex);
+    }
+    else{
+      var query = conn.query('insert into user(user_id, user_password, user_email, user_name) values("'+id+'","' +password+'","'+email+'","' +name + '")',
+        function (err, result) {
+        if (err) {
+          console.error(err);
+          conn.release();
+          throw err;
+        }
+
+        res.send("Success");
+      });
+    }
+    conn.release();
+  });
+});
+
+router.delete('/delete', function(req, res, next) {
+  var pool = db.getPool();
+  var id = req.body.id;
+  var password = req.body.password;
+  var email = req.body.password;
+  var name = req.body.name;
+
+  pool.getConnection((ex, conn) => {
+    if(ex){
+      console.log(ex);
+    }
+    else{
+      var query = conn.query('insert into user(user_id, user_password, user_email, user_name) values("'+id+'","' +password+'","'+email+'","' +name + '")',
+        function (err, result) {
+        if (err) {
+          console.error(err);
+          conn.release();
+          throw err;
+        }
+
+        res.send("Success");
+      });
+    }
+    conn.release();
+  });
+});
+
+router.get('/tech', function(req, res, next) {
+  var pool = db.getPool();
+
+  pool.getConnection((ex, conn) => {
+    if(ex){
+      console.log(ex);
+    }
+    else{
+      var query = conn.query('select * from tech',
+        function (err, result) {
+        if (err) {
+          console.error(err);
+          conn.release();
+          throw err;
+        }
+
+        res.send(result);
       });
     }
     conn.release();

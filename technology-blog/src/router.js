@@ -36,13 +36,13 @@ export default new Router({
       component: HomePage,
     },
     {
-      path: '/postupdate/:id',
+      path: '/post/update/:id',
       name: 'PostUpdatePage',
       component: PostUpdatePage,
       props: true
     },
     {
-      path: '/postread/:id',
+      path: '/post/read/:id',
       name: 'PostReadPage',
       component: PostReadPage,
       props: true
@@ -51,8 +51,8 @@ export default new Router({
     ///////////////////// Personal Project /////////////////////
     {
       path: '/post',
-      name: 'PageTest',
-      component: PageTest
+      name: 'PostPage',
+      component: PostPage
     },
     {
       path: '/post/create',
