@@ -114,12 +114,11 @@ export default new Router({
       path: '/test',
       name: 'TestPage',
       component: TestPage
-
-    },
-    {
-      path: '/another',
-      name: 'AnotherUser',
-      component: AnotherUser
-    },
+	},
+	{
+		path: '/another',
+		name: 'AnotherUser',
+		component: AnotherUser
+	},
   ]
 })

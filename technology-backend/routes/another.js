@@ -3,7 +3,29 @@ var router = express.Router();
 var db = require("../database");
 var async = require('async')
 
-router.get('/', function(req, res, next) {
+router.post('/getUsers', function(req, res, next) {
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex);
+        }
+        else{
+            var query = conn.query('select user_num from user', 
+            function(err, result){
+                if(err) {
+                    console.error(err);
+                    throw err;
+                }
+                res.send(result);
+            })
+        }
+        conn.release();
+    })
+})
+
+router.post('/getInfo', function(req, res, next) {
+    var userNum = req.body.userNum;
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -11,96 +33,69 @@ router.get('/', function(req, res, next) {
             console.log(ex);
         }
         else {
-            var query = conn.query('select user_num, user_id, user_email from user', 
-            (err, result) => {
-                if (err) {
+            var userTech = null;
+
+            var query = conn.query(
+            'select t.tech_name from user as u inner join favor as f on f.favor_user = u.user_num inner join tech as t on f.favor_tech = t.tech_num where u.user_num =' + userNum + ';',
+            function(err, result) {
+                if (err){
                     console.error(err);
                     throw err;
                 }
-                var users = result
 
-                var getUsers = []
-
-                async.forEachOf(users, function(getuser, i, cb) {
-                    var person = {
-                        user_num: null, 
-                        user_id: '',
-                        user_email: '',
-                        user_project: null,
-                        user_post: null,
-                        user_tech: null,
+                var info = {
+                    userN: '',
+                    userId: '',
+                    userEmail: '',
+                    userTech: [],
+                    userProject: '',
+                    userPost: ''
+                }
+                if (result == '[]') {
+                    info.userTech = null
+                }
+                else {
+                    for (var i=0; i < result.length; i++){
+                        info.userTech.push(result[i].tech_name)
                     }
-                    console.log(getuser)
-                    var user_num = getuser.user_num;
-                    person.user_num = user_num
-                    person.user_id = getuser.user_id;
-                    person.user_email = getuser.user_email;
-                    getUsers.push(person)
-                    console.log(getUsers)
-                    
-                    async.series([
-                        function(callback){
-                            if (err) {
-                                callback('fail');
+
+                    var query = conn.query('select project_num from project where project_user =' + userNum + ';',
+                    function(err, result) {
+                        if (err){
+                            console.error(err);
+                            throw err;
+                        }
+                        info.userProject = result.length
+
+                        var query = conn.query('select post_num from post where post_user =' + userNum + ';',
+                        function(err, result) {
+                            if (err){
+                                console.error(err);
+                                throw err;
                             }
-                            var query = conn.query(
-                            'select t.tech_name from user as u inner join favor as f on f.favor_user = u.user_num inner join tech as t on f.favor_tech = t.tech_num where u.user_num =' + user_num + ';',
-                            (err, result) => {
+                            
+                            info.userPost = result.length
+
+                            var query = conn.query('select user_num, user_id, user_email from user where user_num = ' + userNum + ';',
+                            function(err, result) {
                                 if (err){
                                     console.error(err);
                                     throw err;
                                 }
-
-                                person.user_tech = result;
-                                console.log(person.user_tech)
-                                console.log(person)
+                                info.userN = result[0].user_num
+                                info.userId = result[0].user_id
+                                info.userEmail = result[0].user_email
+                                
+                                res.send(info)
                             })
-                            getUsers.push(person)
-
-                        },
-
-                        function(callback) {
-                            if (err) {
-                                callback('fail');
-                            }
-                            var query = conn.query('select count(post_num) from post where post_user =' + user_num + ';',
-                            (err, result) => {
-                                if (err) {
-                                    console.error(err);
-                                    throw err;
-                                }
-                                person.user_post = result;
-                            })
-                        },
-
-                        function(callback) {
-                            if (err) {
-                                callback('fail');
-                            }
-                            var query = conn.query('select count(project_num) from project where project_user =' + user_num + ';',
-                            (err, result) => {
-                                if (err) {
-                                    console.error(err);
-                                    throw err;
-                                }
-                                person.user_project = result;
-                            })
-                        }],
-                        function(err, results) {
-                            if(err) {
-                                console.log(err);
-                            }
-                            console.log(result)
-                            console.log(person)
-                            getUsers.push(person)
-                    });
-                     
-                })
-                res.send(getUsers);
+                        })
+                    })
+                }
             })
         }
-    conn.release();
+        conn.release();
     })
 })
+
 
 module.exports = router;
