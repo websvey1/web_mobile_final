@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import FirebaseService from '@/services/FirebaseService'
 
 export default {
   name: 'ImageUpload',
