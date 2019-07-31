@@ -56,7 +56,6 @@ app.use('/team', team);
 ////////////// team으로 합칠 내용들 ////////////////
 app.use('/getTeamList', getTeamList);
 app.use('/getUser', getUser);
-
 app.use('/makeTeam', makeTeam);
 app.use('/makeMember', makeMember);
 //////////////////////////////////////
