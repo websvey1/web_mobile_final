@@ -24,7 +24,7 @@
       </v-flex>
     </v-layout>
   </v-card>
-  
+
  </sequential-entrance>
  </template>
 
@@ -34,7 +34,7 @@ import router from '@/router'
 export default {
     name: 'TeamList',
     components: {
-      
+
     },
     data(){
         return{
@@ -76,7 +76,7 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-      
+
     },
     methods: {
         goReadPage(postNum, email){
@@ -150,7 +150,7 @@ export default {
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical ; 
+  -webkit-box-orient: vertical ;
 }
 
 .pub-date {
