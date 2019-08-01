@@ -1,13 +1,13 @@
 <template>
 
 <div id="top__container" style="
-  padding: 0 20%;
+  width: 73%; margin: 0 auto;
   ">
   <v-container>
-    <div>
+    <div style="margin-top: 30px;">
       <!-- 사진 -->
       <v-carousel hide-delimiters style="
-      width:45%; height:45%; float:left;
+      width:50%; height:45%; float:left; margin-top: 3px;
       ">
         <v-carousel-item v-resize="onResize" v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
       </v-carousel>
@@ -15,9 +15,9 @@
       <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
       <!-- 상세 -->
       <v-layout wrap align-center justify-center row fill-height style="
-      width:50%; height:50%; float:right;
+      width:47%; height:50%; float:right;
       ">
-        <v-flex>
+        <v-flex wrap>
           <fieldset style="margin-right:4px; height:80%; padding:10px 15px;">
             <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
             <div style="margin:15px 20p;">
@@ -43,6 +43,10 @@
 
               <h2>Status</h2>
               <v-btn rounded color="warning" dark>{{ project.project_status }}</v-btn>
+              <br>
+
+              <h2 style="padding:5px 0;">git_url</h2>
+              <p>{{ project.git_url }}darkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdark</p>
 
             </div>
           </fieldset>
