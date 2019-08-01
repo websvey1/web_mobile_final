@@ -43,13 +43,8 @@ export default {
       this.isActive = !this.isActive
     },
 
-<<<<<<< HEAD:technology-blog/src/components/PostCard.vue
-    goReadPage(postNum, email){
-      // console.log(postNum);
-=======
     goReadPage(postNum){
       console.log(postNum);
->>>>>>> 3892d4da54248d25f66c1c222a1afb7007e88f3d:technology-blog/src/components/post/PostCard.vue
       router.push({name:"PostReadPage", params:{id:postNum}})
     }
   }

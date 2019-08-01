@@ -37,167 +37,99 @@
 import router from '@/router'
 
 export default {
-    name: 'TeamList',
-    components: {
+  name: 'TeamList',
+  components: {
 
-    },
-    data(){
-        return{
-          items: []
-        }
-    },
-    props: {
-        post: {}
-    },
-    mounted(){
-      this.start();
-    },
-    methods: {
-      async start(){
-        var temp = {
-          num : this.$session.get('userInfo').user_num
-        }
+  },
+  data() {
+    return {
+      items: []
+    }
+  },
+  props: {
+    post: {}
+  },
+  mounted() {
+    this.start();
+  },
+  methods: {
+    async start() {
+      var temp = {
+        num: this.$session.get('userInfo').user_num
+      }
 
-<<<<<<< HEAD
-        await this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
+      await this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
         .then(async (response) => {
           // 속해있는 여러 개의 팀이 response.body를 통해 전달됨
-          for(var i = 0; i < response.body.length; i++){
+          for (var i = 0; i < response.body.length; i++) {
             // 여러 개의 팀 중, 1개씩 순서대로 실행
             var data = {
-              teamNum : response.body[i].team_num
+              teamNum: response.body[i].team_num
             }
             // 선택된 팀에 속한 member들을 구함
             await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
-            .then(async (response) => {
-              var tempTeamName = response.body[0].team_name;
-              var tempMember = '';
+              .then(async (response) => {
+                var tempTeamName = response.body[0].team_name;
+                var tempMember = '';
 
-              for(var k = 0; k < response.body.length; k++){
-                tempMember += response.body[k].user_name + " "
-              }
-=======
-      // this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
-      this.$http.post('http://192.168.31.65:3000/team/getTeamList', temp)
-      .then((response) => {
-        for(var i = 0; i < response.body.length; i++){
-          var data = {
-            teamNum : response.body[i].team_num
-          }
+                for (var k = 0; k < response.body.length; k++) {
+                  tempMember += response.body[k].user_name + " "
+                }
 
-          // this.$http.post('http://192.168.31.63:3000/team/getMember', data)
-          this.$http.post('http://192.168.31.65:3000/team/getMember', data)
-          .then((response) => {
-            var tempMember = '';
->>>>>>> 3892d4da54248d25f66c1c222a1afb7007e88f3d
-
-              var tempData = {
-                num : this.$session.get('userInfo').user_num,
-                teamNum : response.body[0].team_num
-              }
-              await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
-              .then((response) => {
-                this.items.push({ title: tempTeamName, member: tempMember, auth: response.body[0].member_auth, exist: true })
+                var tempData = {
+                  num: this.$session.get('userInfo').user_num,
+                  teamNum: response.body[0].team_num
+                }
+                await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
+                  .then((response) => {
+                    this.items.push({
+                      title: tempTeamName,
+                      member: tempMember,
+                      auth: response.body[0].member_auth,
+                      exist: true
+                    })
+                  })
+                  .catch((error) => {
+                    console.log(error)
+                  })
               })
               .catch((error) => {
                 console.log(error)
               })
-            })
-            .catch((error) => {
-              console.log(error)
-            })
           }
         })
         .catch((error) => {
           console.log(error)
         })
-      },
-      goReadPage(postNum, email){
-          console.log(postNum);
-          router.push({name:"PostReadPage", params:{id:postNum}})
-      },
-      show(memberData){
-        alert(memberData)
-      },
-      accept(titleData){
-        var temp = {
-          num : this.$session.get('userInfo').user_num,
-          teamName : titleData
+    },
+    goReadPage(postNum, email) {
+      console.log(postNum);
+      router.push({
+        name: "PostReadPage",
+        params: {
+          id: postNum
         }
-        this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
+      })
+    },
+    show(memberData) {
+      alert(memberData)
+    },
+    accept(titleData) {
+      var temp = {
+        num: this.$session.get('userInfo').user_num,
+        teamName: titleData
+      }
+      this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
         .then((response) => {
           // console.log(response.body[0].team_num)
 
           var auth = {
-            num : this.$session.get('userInfo').user_num,
-            teamNum : response.body[0].team_num
+            num: this.$session.get('userInfo').user_num,
+            teamNum: response.body[0].team_num
           }
           this.$http.post('http://192.168.31.63:3000/team/changeAuth', auth)
-          .then((response) => {
-            console.log("Change complete")
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      },
-      del(titleData){
-        for(var i = 0; i < this.items.length; i++){
-          if(this.items[i].title == titleData){
-            this.items[i].exist = false
-          }
-        }
-
-        var temp = {
-          num : this.$session.get('userInfo').user_num,
-          teamName : titleData
-        }
-        this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
-        .then((response) => {
-          var auth = {
-            num : this.$session.get('userInfo').user_num,
-            teamNum : response.body[0].team_num
-          }
-          this.$http.post('http://192.168.31.63:3000/team/deleteTeam', auth)
-          .then((response) => {
-            console.log("Delete complete")
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      },
-      async update(pk){
-        var temp = {
-          num : this.$session.get('userInfo').user_num,
-          teamNum : pk
-        }
-
-        await this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', temp)
-        .then(async (response) => {
-          console.log('team name:')
-          console.log(response.body)
-          
-          var data = {
-            teamNum : pk
-          }
-            // 선택된 팀에 속한 member들을 구함
-            await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
-            .then(async (response) => {
-              var tempTeamName = response.body[0].team_name;
-              var tempMember = '';
-
-              for(var k = 0; k < response.body.length; k++){
-                tempMember += response.body[k].user_name + " "
-              }
-
-              this.items.push({ title: tempTeamName, member: tempMember, auth: 0, exist: true })
+            .then((response) => {
+              console.log("Change complete")
             })
             .catch((error) => {
               console.log(error)
@@ -206,10 +138,78 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    del(titleData) {
+      for (var i = 0; i < this.items.length; i++) {
+        if (this.items[i].title == titleData) {
+          this.items[i].exist = false
+        }
       }
+
+      var temp = {
+        num: this.$session.get('userInfo').user_num,
+        teamName: titleData
+      }
+      this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
+        .then((response) => {
+          var auth = {
+            num: this.$session.get('userInfo').user_num,
+            teamNum: response.body[0].team_num
+          }
+          this.$http.post('http://192.168.31.63:3000/team/deleteTeam', auth)
+            .then((response) => {
+              console.log("Delete complete")
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    async update(pk) {
+      var temp = {
+        num: this.$session.get('userInfo').user_num,
+        teamNum: pk
+      }
+
+      await this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', temp)
+        .then(async (response) => {
+          console.log('team name:')
+          console.log(response.body)
+
+          var data = {
+            teamNum: pk
+          }
+          // 선택된 팀에 속한 member들을 구함
+          await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+            .then(async (response) => {
+              var tempTeamName = response.body[0].team_name;
+              var tempMember = '';
+
+              for (var k = 0; k < response.body.length; k++) {
+                tempMember += response.body[k].user_name + " "
+              }
+
+              this.items.push({
+                title: tempTeamName,
+                member: tempMember,
+                auth: 0,
+                exist: true
+              })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
+
 </script>
 
 <style scoped>
@@ -272,7 +272,7 @@ export default {
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical ;
+  -webkit-box-orient: vertical;
 }
 
 .pub-date {
@@ -325,7 +325,7 @@ export default {
   border-radius: 5%;
   height: 40px;
   width: 60px;
-  font-weight:bold;
+  font-weight: bold;
   color: rgb(255, 177, 0);
   background-color: white;
 }
@@ -335,7 +335,7 @@ export default {
   border-radius: 5%;
   height: 40px;
   width: 60px;
-  font-weight:bold;
+  font-weight: bold;
   color: rgb(0, 68, 194);
   background-color: white;
 }
@@ -345,7 +345,7 @@ export default {
   border-radius: 5%;
   height: 40px;
   width: 60px;
-  font-weight:bold;
+  font-weight: bold;
   color: rgb(224, 0, 0);
   background-color: white;
 }
