@@ -81,7 +81,8 @@ export default {
     },
     mounted(){
         // 1st. DB에 가서, 존재하는 모든 Name 가져오기
-        this.$http.post('http://192.168.31.63:3000/team/getUser',{})
+        this.$http.post('http://192.168.31.65:3000/team/getUser',{})
+        // this.$http.post('http://192.168.31.63:3000/team/getUser',{})
         .then((response) => {
 
             var items = response.body;
@@ -121,7 +122,6 @@ export default {
                     member: this.members
                 }
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
-                
                 await this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
                 .then(async (response) =>{
                     console.log('member 입력 완료.')

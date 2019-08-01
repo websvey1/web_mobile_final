@@ -1,14 +1,14 @@
 <template>
-  <div >
+  <div>
     <div id="app">
-      <div class="main" >
+      <div class="main">
         <div class="calendar-holder">
           <calendar :events="events" />
         </div>
 
         <div class="form-holder">
           <h3>Schedule an event</h3>
-          <event-form />
+          <team-event-form />
         </div>
       </div>
     </div>
@@ -17,14 +17,14 @@
 
 <script>
 import Calendar from '@/components/Calendar.vue'
-import EventForm from '@/components/EventForm.vue'
+import TeamEventForm from '@/components/TeamEventForm.vue'
 import {mapState} from 'vuex';
 
 export default {
-  name: 'CalendarPage',
+  name: 'TeamCalendarPage',
   components: {
     Calendar,
-    EventForm
+    TeamEventForm
   },
   data(){
     return {
@@ -35,17 +35,17 @@ export default {
     var data = {
         num : this.$session.get('userInfo').user_num
     }
-    this.$http.post('http://192.168.31.63:3000/plan/getPlan', data)
+    this.$http.post('http://192.168.31.63:3000/plan/getTeamPlan', data)
       .then((response) => {
         var items = response.body;
-        // console.log(items)
+
         for(var i = 0; i < items.length; i++){
           this.events.push({title: items[i].cal_title, start: items[i].cal_start,
                   end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description});
         }
       })
       .catch((error) =>{
-        // console.log(error)
+        console.log(error)
       })
   },
   computed:
@@ -59,34 +59,31 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* text-align: center; */
+    text-align: center;
     color: #2c3e50;
-    background-color: rgb(255, 255, 255);
+    margin-top: 60px;
   }
   .main {
-    padding: 5% 10%;
     display: flex;
     align-items: center;
   }
-
   .calendar-holder {
     width: 65%;
   }
-
   .form-holder {
-    padding-left: 5%;
     width: 35%;
   }
   .form-holder > h3 {
-    color: rgb(155, 20, 255);
+    color: orangered;
     text-transform: uppercase;
     font-size: 16px;
     text-align: left;
+    margin-left: 30px;
+   margin-bottom: 10px;
   }
-
 </style>

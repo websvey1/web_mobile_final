@@ -4,11 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
 
 var app = express();
-// var database = require('./database')
 
 app.use(cors());
 
@@ -18,15 +15,9 @@ var deptRouter = require('./routes/dept');
 var postRouter = require('./routes/post');
 var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
-
 var MyProject = require('./routes/myproject');
-
 var Another = require('./routes/another');
-
-var getPlan = require('./routes/getPlan');
-
 var team = require('./routes/team');
-
 var todosRouter = require('./routes/todos'); // 같은 경로의 todos.js파일을 불러와 선언한 변수로 저장
 
 // view engine setup
@@ -45,7 +36,6 @@ app.use('/post', postRouter);
 app.use('/plan', plan);
 app.use('/user', userRouter);
 app.use('/myproject', MyProject);
-app.use('/getPlan', getPlan);
 app.use('/another', Another);
 
 app.use('/team', team);
