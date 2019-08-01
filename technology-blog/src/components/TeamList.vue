@@ -40,7 +40,6 @@ import router from '@/router'
 export default {
   name: 'TeamList',
   components: {
-
   },
   data() {
     return {
@@ -74,15 +73,14 @@ export default {
               var tempMember = '';
               var tempTeamNum = response.body[0].team_num;
 
-                for (var k = 0; k < response.body.length; k++) {
-                  tempMember += response.body[k].user_name + " "
-                }
+              for (var k = 0; k < response.body.length; k++) {
+                tempMember += response.body[k].user_name + " "
+              }
 
               var tempData = {
                 num : this.$session.get('userInfo').user_num,
                 teamNum : response.body[0].team_num
               }
-
 
               await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
               .then((response) => {
@@ -91,6 +89,10 @@ export default {
               .catch((error) => {
                 console.log(error)
               })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
           }
         })
         .catch((error) => {
@@ -204,8 +206,6 @@ export default {
       }
     }
   }
-}
-
 </script>
 
 <style scoped>
