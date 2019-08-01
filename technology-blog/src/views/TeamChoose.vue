@@ -89,8 +89,6 @@ export default {
             for(var i = 0; i < items.length; i++){
                 this.people.push({name: items[i].user_name, id: items[i].user_id});
             }
-
-            console.log(this.people);
             console.log('모든 user 가져오기 완료.')
         })
         .catch((error) =>{
@@ -118,12 +116,10 @@ export default {
             .then(async (response) => {
                 // 2nd. Team Num 받아와서, member table에 각 user들 이 Team Num값으로 집어넣기
                 console.log('Team 생성 완료.')
-                console.log(response.data)
                 var mem = {
                     teamNum: response.data,
                     member: this.members
                 }
-                console.log(this.members)
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
                 
                 await this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
