@@ -15,7 +15,7 @@
 
 
 <script>
-import PostList from '@/components/PostList'
+import PostList from '@/components/post/PostList'
 import Weather from '@/components/WeatherInfo'
 
 export default {

@@ -51,14 +51,16 @@ export default {
         num : this.$session.get('userInfo').user_num
       }
 
-      this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
+      // this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
+      this.$http.post('http://192.168.31.65:3000/team/getTeamList', temp)
       .then((response) => {
         for(var i = 0; i < response.body.length; i++){
           var data = {
             teamNum : response.body[i].team_num
           }
 
-          this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+          // this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+          this.$http.post('http://192.168.31.65:3000/team/getMember', data)
           .then((response) => {
             var tempMember = '';
 

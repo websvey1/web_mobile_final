@@ -81,7 +81,8 @@ export default {
     },
     mounted(){
         // 1st. DB에 가서, 존재하는 모든 Name 가져오기
-        this.$http.post('http://192.168.31.63:3000/team/getUser',{})
+        this.$http.post('http://192.168.31.65:3000/team/getUser',{})
+        // this.$http.post('http://192.168.31.63:3000/team/getUser',{})
         .then((response) => {
 
             var items = response.body;
@@ -114,7 +115,8 @@ export default {
             // 1st. DB에 가서, Team 만들기
             /////////////////////////// Team 만들기 /////////////////////////////////
 
-            this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
+            // this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
+            this.$http.post('http://192.168.31.65:3000/team/makeTeam', temp)
             .then((response) => {
                 // 2nd. Team Num 받아와서, member table에 각 user들 이 Team Num값으로 집어넣기
                 console.log('Team 생성 완료.')
@@ -125,7 +127,8 @@ export default {
                 }
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
 
-                this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
+            this.$http.post('http://192.168.31.65:3000/team/makeMember', mem)
+                // this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
                 .then((response) =>{
                     console.log('member 입력 완료.')
                 })

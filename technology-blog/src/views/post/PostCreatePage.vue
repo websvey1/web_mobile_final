@@ -53,9 +53,9 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import ImageUpload from "@/components/ImageUpload"
-import HashTag from "@/components/HashTag"
-import Loading from "@/components/Loading"
+import ImageUpload from "@/components/common/ImageUpload"
+import HashTag from "@/components/common/HashTag"
+import Loading from "@/components/common/Loading"
 import Time from "@/services/Time"
 
 export default {

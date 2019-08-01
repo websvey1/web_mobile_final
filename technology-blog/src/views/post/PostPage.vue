@@ -2,38 +2,31 @@
 <div style="background-color: white;">
       <v-layout wrap row pa-5>
         <v-flex fill-height d-flex xs12>
-          <PostList></PostList>
+          <!-- <PostList></PostList> -->
+          <PostDownList></PostDownList>
         </v-flex>
       </v-layout>
 </div>
 </template>
 
 <script>
-import PostList from '@/components/PostList'
+import PostList from '@/components/post/PostList'
+import PostDownList from '@/components/post/PostDownList'
 
 export default {
 	name: 'PostTest',
   components:{
-    PostList
+    PostList,
+    PostDownList
   },
   data() {
     return {
-      text: '',
-      drawer: null,
-      items: [
-        { title: 'Home', icon: 'home' , link:'/'},
-        { title: 'Portfolio', icon: 'widgets' ,link:'/portfolio'},
-        { title: 'Post', icon: 'question_answer', link:'/post' },
-        { title: 'LogIn', icon: 'people_outline', link:'/login' }
-      ]
+
     }
   },
 	methods: {
     async postText() {
 
-    },
-    showCalendar(){
-      window.open("Temp", "_blank","width=1100,height=700,left=200,top=25");
     }
 	},
   mounted(){

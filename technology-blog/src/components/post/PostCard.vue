@@ -43,7 +43,7 @@ export default {
       this.isActive = !this.isActive
     },
 
-    goReadPage(postNum, email){
+    goReadPage(postNum){
       console.log(postNum);
       router.push({name:"PostReadPage", params:{id:postNum}})
     }
