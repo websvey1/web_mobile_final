@@ -21,7 +21,7 @@
       </draggable>
     </v-flex>
 
-    
+
   </v-layout>
   <v-btn class="v-btn theme--dark" @click="updateTodo">확인</v-btn>
 </v-container>
@@ -61,8 +61,8 @@ export default {
 	  methods: {
       async temp(){
       console.log("?")
-        
-        this.$http.get("http://192.168.31.85:3000/todos") // 호출
+
+        this.$http.get("http://192.168.31.65:3000/todos") // 호출
         .then(result=> {
           console.log(result.data);
           //--
@@ -81,7 +81,7 @@ export default {
           }
 
           console.log(this.myArray1);
-          
+
 
 
           // --
@@ -91,8 +91,10 @@ export default {
       },
       async updateTodo() {
         var form = await this.form
-        this.$http.put("http://192.168.31.85:3000/todos/update", form) // 호출
-        
+        this.$http.put("http://192.168.31.65:3000/todos/update", form) // 호출
+        .then((req) => {
+          alert(req.data)
+        })
       }
 	},
 
