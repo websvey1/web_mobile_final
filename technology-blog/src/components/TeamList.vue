@@ -5,7 +5,7 @@
   <div v-if="item.exist == true">
     <v-layout py-4 pl-4>
       <v-flex shrink>
-        <v-img height="120" width="120" src="https://cdn.vuetifyjs.com/images/cards/store.jpg" style="border-radius: 50%;"></v-img>
+        <v-img height="120" width="120" src="https://www.colourbox.com/preview/18068844-doodle-team-icon.jpg" style="border-radius: 50%;"></v-img>
       </v-flex>
       <v-flex text-center>
         <v-container grid-list-lg style="margin-left: 10px;">
@@ -194,6 +194,7 @@ export default {
       }
     }
   }
+}
 </script>
 
 <style scoped>
@@ -235,7 +236,7 @@ export default {
 }
 
 .post-container:last-child .post {
-    padding-bottom: 60px;
+  padding-bottom: 60px;
 }
 
 .posth1 {
@@ -246,12 +247,12 @@ export default {
   font-size: 30px;
   margin: 0;
   text-transform: uppercase;
-   /* 여러 줄 자르기 추가 스타일 */
+  /* 여러 줄 자르기 추가 스타일 */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
   line-height: 1.2;
-  height:1.2em;
+  height: 1.2em;
   text-align: left;
   word-wrap: break-word;
   display: -webkit-box;
@@ -302,5 +303,35 @@ export default {
   padding: 0px !important;
   padding-top: 25px !important;
   padding-bottom: 5px !important;
+}
+
+.v-btn.outlined_first {
+  border: 1.3px solid rgb(255, 177, 0);
+  border-radius: 5%;
+  height: 40px;
+  width: 60px;
+  font-weight:bold;
+  color: rgb(255, 177, 0);
+  background-color: white;
+}
+
+.v-btn.outlined_second {
+  border: 1.3px solid rgb(0, 68, 194);
+  border-radius: 5%;
+  height: 40px;
+  width: 60px;
+  font-weight:bold;
+  color: rgb(0, 68, 194);
+  background-color: white;
+}
+
+.v-btn.outlined_third {
+  border: 1.3px solid rgb(224, 0, 0);
+  border-radius: 5%;
+  height: 40px;
+  width: 60px;
+  font-weight:bold;
+  color: rgb(224, 0, 0);
+  background-color: white;
 }
 </style>

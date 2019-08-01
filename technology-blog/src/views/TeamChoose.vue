@@ -1,5 +1,5 @@
-<template>
-    <div style="background-color: white;">
+<template style="min-height:100%;">
+    <div style="background-color: white; padding-top:30px;">
         <div class="container">
             <!-- Login 시, 각 user의 name에 따라 ~~님의 팀으로 되도록 바꾸어 주어야 함! -->
             <h1 class="teamName" style="margin-left: 3em">{{ this.$session.get('userInfo').user_name }}님의 팀</h1>
