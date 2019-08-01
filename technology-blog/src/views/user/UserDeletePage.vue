@@ -58,40 +58,17 @@ export default {
   },
   methods: {
     async removeUser() {
-      var pw = prompt("비밀번호를 입력해주세요.");
-
-      if(pw != null){
-        this.isLoading = true;
-        this.isLoading = false;
-
-        if (state === true) {
-          alert("삭제되었습니다.")
-          this.$store.state.userInfo = null;
-          this.$store.state.isLogin = false;
-          this.$router.push("/")
-        } else {
-          var error = state.code
-
-          if(state.code == "auth/user-mismatch"){
-            alert("존재하지 않는 계정입니다.");
-            this.goHome();
-            return;
-          }
-          alert("error")
-        }
-      }
+      alert("안되용 가지마세용!")
+      this.goHome();
     },
     goHome(){
       this.$router.push("/");
     }
   },
   async created(){
-    if (this.$store.state.userInfo == null) {
+    if (!this.$session.has("userInfo")) {
       alert("잘못된 접근입니다.")
       this.$router.push("/")
-    } else {
-      this.id = user.email;
-      this.name = user.displayName;
     }
   },
   beforeRouteLeave(to, from, next) {

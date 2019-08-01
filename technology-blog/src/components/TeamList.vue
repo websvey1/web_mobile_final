@@ -68,34 +68,31 @@ export default {
             }
             // 선택된 팀에 속한 member들을 구함
             await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
-              .then(async (response) => {
-                var tempTeamName = response.body[0].team_name;
-                var tempMember = '';
+            .then(async (response) => {
+              var tempTeamName = response.body[0].team_name;
+              var tempMember = '';
+              var tempTeamNum = response.body[0].team_num;
 
-                for (var k = 0; k < response.body.length; k++) {
-                  tempMember += response.body[k].user_name + " "
-                }
+              for (var k = 0; k < response.body.length; k++) {
+                tempMember += response.body[k].user_name + " "
+              }
 
-                var tempData = {
-                  num: this.$session.get('userInfo').user_num,
-                  teamNum: response.body[0].team_num
-                }
-                await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
-                  .then((response) => {
-                    this.items.push({
-                      title: tempTeamName,
-                      member: tempMember,
-                      auth: response.body[0].member_auth,
-                      exist: true
-                    })
-                  })
-                  .catch((error) => {
-                    console.log(error)
-                  })
+              var tempData = {
+                num : this.$session.get('userInfo').user_num,
+                teamNum : response.body[0].team_num
+              }
+
+              await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
+              .then((response) => {
+                this.items.push({ title: tempTeamName, member: tempMember, auth: response.body[0].member_auth, exist: true, teamNum: tempTeamNum })
               })
               .catch((error) => {
                 console.log(error)
               })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
           }
         })
         .catch((error) => {
@@ -190,17 +187,13 @@ export default {
             .then(async (response) => {
               var tempTeamName = response.body[0].team_name;
               var tempMember = '';
+              var tempTeamNum = response.body[0].team_num;
 
               for (var k = 0; k < response.body.length; k++) {
                 tempMember += response.body[k].user_name + " "
               }
 
-              this.items.push({
-                title: tempTeamName,
-                member: tempMember,
-                auth: 0,
-                exist: true
-              })
+              this.items.push({ title: tempTeamName, member: tempMember, auth: 0, exist: true, teamNum: tempTeamNum })
             })
             .catch((error) => {
               console.log(error)
@@ -209,10 +202,13 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+      },
+      go(id){
+        console.log(id)
+        this.$router.push({ name: "TeamProjectPage", params: {id: id} })
+      }
     }
   }
-}
-
 </script>
 
 <style scoped>

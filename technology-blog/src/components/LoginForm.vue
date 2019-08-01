@@ -17,7 +17,7 @@
       <v-container grid-list-md>
         <v-layout wrap @keydown.enter="loginWithId">
           <v-flex xs12>
-            <v-text-field label="Email*" required v-model="id" ref="id" :rules="idRules"></v-text-field>
+            <v-text-field label="Id*" required v-model="id" ref="id" :rules="idRules"></v-text-field>
           </v-flex>
           <v-flex xs12>
             <v-text-field label="Password*" type="password" required v-model="pw" ref="password" :rules="pwRules"></v-text-field>
@@ -105,7 +105,7 @@ export default {
         this.$http.post("http://192.168.31.65:3000/user/login", this.form)
           .then((res) => {
             console.log(res.data);
-            if (res.data.length == 0) {
+            if (res.data == "fail") {
               alert("아이디와 비밀번호를 확인해 주세요.");
               this.resetForm();
             } else {

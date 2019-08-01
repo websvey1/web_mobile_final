@@ -19,6 +19,7 @@ var MyProject = require('./routes/myproject');
 var Another = require('./routes/another');
 var team = require('./routes/team');
 var todosRouter = require('./routes/todos'); // 같은 경로의 todos.js파일을 불러와 선언한 변수로 저장
+var teamProject = require('./routes/teamProject');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,7 +40,7 @@ app.use('/myproject', MyProject);
 app.use('/another', Another);
 
 app.use('/team', team);
-
+app.use('/teamProject', teamProject);
 
 var conn = mysql.createConnection({
   host:"192.168.31.65",
