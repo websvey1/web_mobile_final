@@ -20,10 +20,9 @@
              <v-btn flat class="outlined_third" @click="del(item.title)">거절</v-btn>
            </v-flex>
            <v-flex v-else style="margin-left: auto;">
-             <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
+             <v-btn flat class="outlined_first" @click="modal=true">팀원보기</v-btn>
            </v-flex>
-           <v-flex>
-           </v-flex>
+
          </v-layout>
        </v-container>
      </v-flex>
@@ -40,11 +39,11 @@ import router from '@/router'
 export default {
   name: 'TeamList',
   components: {
-
   },
   data() {
     return {
-      items: []
+      modal:false,
+      items: [],
     }
   },
   props: {
@@ -114,6 +113,9 @@ export default {
     },
     show(memberData) {
       alert(memberData)
+    },
+    ModalHide() {
+      this.modal = false;
     },
     accept(titleData) {
       var temp = {
@@ -349,5 +351,19 @@ export default {
   /* font-weight:bold; */
   color: rgb(224, 0, 0);
   background-color: rgb(224, 0, 0,0.1);
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>

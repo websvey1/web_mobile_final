@@ -1,7 +1,7 @@
 <template>
   <div >
     <div id="app">
-      <div class="main" >
+      <div class="main2" >
         <div class="calendar-holder">
           <calendar :events="events" />
         </div>
@@ -68,8 +68,8 @@ export default {
     color: #2c3e50;
     background-color: rgb(255, 255, 255);
   }
-  .main {
-    padding: 5% 10%;
+  .main2 {
+    padding: 0 5% 10% 10%;
     display: flex;
     align-items: center;
   }
