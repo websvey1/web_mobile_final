@@ -11,7 +11,8 @@
       ">
       <v-toolbar-title class="header__container">
             <router-link to="/"> <img src="@/assets/logo2.jpg" alt=""> </router-link>
-            <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn>
+            <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
+            <LoginForm class="login"></LoginForm>
       </v-toolbar-title>
     </v-toolbar>
 
