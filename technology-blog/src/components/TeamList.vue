@@ -29,7 +29,7 @@
     </v-layout>
     </div>
   </v-card>
-  
+
  </sequential-entrance>
  </template>
 
@@ -39,7 +39,7 @@ import router from '@/router'
 export default {
     name: 'TeamList',
     components: {
-      
+
     },
     data(){
         return{
@@ -256,7 +256,7 @@ export default {
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical ; 
+  -webkit-box-orient: vertical ;
 }
 
 .pub-date {

@@ -20,14 +20,17 @@
             <v-flex xs12>
               <v-text-field label="비밀번호*" type="password" :rules="passRules" v-model="user.password" ref="password" required></v-text-field>
             </v-flex>
-            <v-flex xs4>
-              <v-text-field label="관심기술1" v-model="user.tech1"></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-              <v-text-field label="관심기술2" v-model="user.tech2"></v-text-field>
-            </v-flex>
-            <v-flex xs4>
-              <v-text-field label="관심기술3" v-model="user.tech3"></v-text-field>
+            <v-flex xs12>
+              <v-autocomplete v-model="favor" :items="techs" filled chips color="blue-grey lighten-2" label="관심기술" item-text="tech_name" item-value="tech_num" multiple>
+                  <template v-slot:item="data">
+                      <template v-if="typeof data.item !== 'object'">
+                          <span v-text="data.item"></span>
+                      </template>
+                      <template v-else>
+                        <span v-text="data.item.tech_name"></span>
+                      </template>
+                  </template>
+              </v-autocomplete>
             </v-flex>
           </v-layout>
         </v-container>
@@ -56,14 +59,14 @@ export default {
   },
   data() {
     return {
+      favor:[],
+      techs: [],
       user: {
         id: "",
         password: "",
         email: "",
         name: "",
-        tech1: "",
-        tech2: "",
-        tech3: ""
+        isUpdating: false,
       },
       nameRules: [
         v => !!v || 'Name is required',
@@ -81,8 +84,8 @@ export default {
         v => !!v || 'Password is required',
         v => v.length >= 6 || 'Password must be longer than 6 characters'
       ],
-
       isLoading: false,
+      validation: false
     }
   },
   computed: {
@@ -91,39 +94,39 @@ export default {
           id: this.user.id,
           password: this.user.password,
           email: this.user.email,
-          name: this.user.name
+          name: this.user.name,
+          favor: this.favor
         }
       },
     },
   methods: {
     checkValidation(){
-      var validation = true;
-
       Object.keys(this.form).forEach(f => {
-          if(this.$refs[f].validate(true) == false){
-            validation = false;
+          if(this.$refs[f] != undefined && this.$refs[f].validate(true) == false){
+            return false;
           }
       })
 
-      return validation;
+      return true;
     },
 
     resetForm(){
       Object.keys(this.form).forEach(f => {
+        if(this.$refs[f] != undefined){
           this.$refs[f].reset();
+        }
       })
     },
 
     async signup() {
       // this.isLoading = true;
-      var validation = this.checkValidation();
-
-      if(validation){
+      if(this.checkValidation()){
         this.isLoading = true;
-
-        this.$http.post("/user/adduser", this.form)
+        var form = this.form;
+        console.log(form);
+        this.$http.post("http://192.168.31.65:3000/user/create", form)
         .then((req) => {
-          if(req.data == "success"){
+          if(req.data == "Success"){
             alert("가입 성공")
           }
           else{
@@ -143,8 +146,16 @@ export default {
 
   },
   async created() {
+    await this.$http.get("http://192.168.31.65:3000/user/tech")
+    .then((req) => {
+      this.techs = req.data;
+    })
+  },
+
+  mounted(){
 
   },
+
   beforeRouteLeave(to, from, next) {
     next();
   },

@@ -18,7 +18,10 @@ var deptRouter = require('./routes/dept');
 var postRouter = require('./routes/post');
 var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
+
 var MyProject = require('./routes/myproject');
+
+var Another = require('./routes/another');
 
 var getPlan = require('./routes/getPlan');
 
@@ -28,7 +31,7 @@ var getTeamList = require('./routes/getTeamList');
 var getUser = require('./routes/getUser');
 var makeTeam = require('./routes/makeTeam');
 var makeMember = require('./routes/makeMember');
-var todosRouter = require('./routes/todos');
+var todosRouter = require('./routes/todos'); // 같은 경로의 todos.js파일을 불러와 선언한 변수로 저장
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,14 +43,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/todos', todosRouter); // 
+app.use('/todos', todosRouter); //  사용할 url을 정의. localhost:3000/todos 로 접속하면 todosRouter인 todos.js가 load
 app.use('/dept', deptRouter);
 app.use('/post', postRouter);
 app.use('/plan', plan);
 app.use('/user', userRouter);
 app.use('/myproject', MyProject);
 app.use('/getPlan', getPlan);
-
+app.use('/another', Another);
 
 app.use('/team', team);
 ////////////// team으로 합칠 내용들 ////////////////

@@ -25,6 +25,7 @@ import Calendar from './views/Calendar.vue'
 import ProjectPage from './views/ProjectPage.vue'
 import ProjectReadPage from './views/ProjectReadPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
+import AnotherUser from './views/AnotherUser.vue'
 
 Vue.use(Router)
 
@@ -36,28 +37,33 @@ export default new Router({
       component: HomePage,
     },
     {
-      path: '/postupdate/:id',
+      path: '/post/update/:id',
       name: 'PostUpdatePage',
       component: PostUpdatePage,
       props: true
     },
     {
-      path: '/postread/:id',
+      path: '/post/read/:id',
       name: 'PostReadPage',
       component: PostReadPage,
       props: true
     },
-
-    ///////////////////// Personal Project /////////////////////
+    ///////////////////// Personal Post /////////////////////
     {
       path: '/post',
-      name: 'PageTest',
-      component: PageTest
+      name: 'PostPage',
+      component: PostPage
     },
     {
       path: '/post/create',
       name: 'PostCreatePage',
       component: PostCreatePage
+    },
+    ///////////////////// Personal Project /////////////////////
+    {
+      path: '/myproject',
+      name: 'ProjectPage',
+      component: ProjectPage
     },
     {
       path: '/myproject/create',
@@ -104,17 +110,15 @@ export default new Router({
       component: UserCreatePage
     },
     ////////////////////////////////////////////////////////////
-
-    {
-      path: '/myproject',
-      name: 'ProjectPage',
-      component: ProjectPage
-    },
     {
       path: '/test',
       name: 'TestPage',
       component: TestPage
-
-    },
+	},
+	{
+		path: '/another',
+		name: 'AnotherUser',
+		component: AnotherUser
+	},
   ]
 })
