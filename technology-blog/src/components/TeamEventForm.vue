@@ -27,7 +27,7 @@ import format from 'date-fns/format';
 import ColorPicker from './ColorPicker';
 
 export default {
-    name: 'EventForm',
+    name: 'TeamEventForm',
     data(){
         return {
             event: {
@@ -70,7 +70,7 @@ export default {
                 }
             }
 
-            this.$http.post('http://192.168.31.63:3000/plan/personal', config)
+            this.$http.post('http://192.168.31.63:3000/plan/team', config)
                 .then((response) => {
                     this.$store.state.plan = response.data;
                 })

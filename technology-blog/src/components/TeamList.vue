@@ -303,6 +303,4 @@ export default {
   padding-top: 25px !important;
   padding-bottom: 5px !important;
 }
-
-
 </style>
