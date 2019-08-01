@@ -1,5 +1,5 @@
 <template>
-    <div class="picker-main"> 
+    <div class="picker-main">
         <h4 class="header">Select event theme</h4>
         <div class="color-picker">
             <div class="color" v-for="(theme, index) in colors" :key="index" @click="selectColor(theme)" :class="{selected: color === theme, [theme]: theme}"></div>
@@ -26,12 +26,12 @@ export default {
 
 <style scoped>
     .picker-main {
-        width: 55%;
+        width: 65%;
     }
     .header {
         font-size: 14px;
         text-transform: uppercase;
-        color: orangered;
+        color: rgb(155, 20, 255);
         letter-spacing: 0.5px;
         margin: 0 0 6px;
         text-align: left;

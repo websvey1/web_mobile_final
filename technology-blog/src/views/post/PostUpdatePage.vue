@@ -41,9 +41,9 @@
     </v-layout>
 
     <div style="text-align:center;" id="write-btn">
-      <v-btn class="v-btn theme--dark" @click="updatePost">수정</v-btn>
-      <v-btn class="v-btn theme--dark" @click="deletePost">삭제</v-btn>
-      <v-btn class="v-btn theme--dark" @click="goRead">취소</v-btn>
+      <v-btn class="v-btn theme--dark" @click="">수정</v-btn>
+      <v-btn class="v-btn theme--dark" @click="">삭제</v-btn>
+      <v-btn class="v-btn theme--dark" @click="">취소</v-btn>
     </div>
 
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
@@ -53,8 +53,8 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import ImageUpload from "@/components/ImageUpload"
-import HashTag from "@/components/HashTag"
+import ImageUpload from "@/components/common/ImageUpload"
+import HashTag from "@/components/common/HashTag"
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Time from "@/services/Time"

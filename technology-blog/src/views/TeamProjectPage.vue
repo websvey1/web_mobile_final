@@ -5,7 +5,7 @@
     <!-- <ProjectList></ProjectList> -->
     <v-layout wrap>
         <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
-            <ProjectCard :project="project"></ProjectCard>
+            <TeamProjectCard :project="project"></TeamProjectCard>
         </v-flex>
     </v-layout>
   </div>
@@ -14,7 +14,7 @@
 
 
  <script>
-import ProjectCard from '@/components/ProjectCard'
+import TeamProjectCard from '@/components/TeamProjectCard'
 
 export default {
     name: 'TeamProjectPage',

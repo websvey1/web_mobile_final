@@ -1,5 +1,5 @@
-<template>
-    <div style="background-color: white;">
+<template style="min-height:100%;">
+    <div style="background-color: white; padding-top:30px;">
         <div class="container">
             <!-- Login 시, 각 user의 name에 따라 ~~님의 팀으로 되도록 바꾸어 주어야 함! -->
             <h1 class="teamName" style="margin-left: 3em">{{ this.$session.get('userInfo').user_name }}님의 팀</h1>
@@ -74,7 +74,8 @@ export default {
     },
     mounted(){
         // 1st. DB에 가서, 존재하는 모든 Name 가져오기
-        this.$http.post('http://192.168.31.63:3000/team/getUser')
+        this.$http.post('http://192.168.31.65:3000/team/getUser',{})
+        // this.$http.post('http://192.168.31.63:3000/team/getUser',{})
         .then((response) => {
 
             var items = response.body;
@@ -114,7 +115,6 @@ export default {
                     member: this.members
                 }
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
-                
                 await this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
                 .then(async (response) =>{
                     console.log('member 입력 완료.')

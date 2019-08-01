@@ -2,15 +2,16 @@ var express = require('express');
 var router = express.Router();
 var db = require("../database");
 
-router.get('/', function(req, res, next) {
+router.post('/getPjt', function(req, res, next) {
   var pool = db.getPool();
-  
+  var userNum = req.body.userNum;
+
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
     }
     else {
-      var movies = conn.query('select * from project', function (err, result) {
+      var query = conn.query('select project_num from project where project_user = ' + userNum + ';', function (err, result) {
         if (err) {
           console.log(err);
           throw err;
@@ -21,6 +22,53 @@ router.get('/', function(req, res, next) {
     conn.release();
   });    
 })
+
+router.post('/getProject', function(req, res, next) {
+  var pool = db.getPool();  
+  var pjtNum = req.body.pjtNum;
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex);
+    }
+    else {
+      var query = conn.query('select * from project where project_num = ' + pjtNum + ';', function(err, result) {
+        if (err) {
+          console.log(err);
+          throw err;
+        }
+
+        var project = {
+          project: result,
+          image: null
+        }
+
+        var query = conn.query('select pjt.project_num, pjt.project_title, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + pjtNum + ';',
+        function(err, result) {
+          if (err) {
+            console.error(err);
+            conn.release();
+            throw err;
+          }
+
+          console.log(result)
+          if (result.length > 0) {
+            project.image = result[0].image_url
+          }
+          else {
+            project.image = 'https://source.unsplash.com/random/300x300'
+          }
+
+          res.send(project);
+        })
+        
+      })
+    }
+    conn.release();
+  })
+
+})
+
 
 router.get('/:id', function(req, res, next) {
   var pool = db.getPool();
