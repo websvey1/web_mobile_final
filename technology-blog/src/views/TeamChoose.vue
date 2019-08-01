@@ -50,7 +50,7 @@
         </div>
             <!-- 이 밑에 div로 새로 파서, 지금 user가 속해있는 팀 list 뿌려줘야 함 -->
         <div>
-        <TeamList/>
+            <TeamList ref="teamList"/>
         </div>
     </div>
 </template>
@@ -98,7 +98,7 @@ export default {
         })
     },
     methods:{
-        addTeam(){
+        async addTeam(){
             if(this.teamName == ''){
                 alert("Team Name을 입력하세요.")
                 return
@@ -114,20 +114,23 @@ export default {
             // 1st. DB에 가서, Team 만들기
             /////////////////////////// Team 만들기 /////////////////////////////////
 
-            this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
-            .then((response) => {
+            await this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
+            .then(async (response) => {
                 // 2nd. Team Num 받아와서, member table에 각 user들 이 Team Num값으로 집어넣기
                 console.log('Team 생성 완료.')
-
+                console.log(response.data)
                 var mem = {
                     teamNum: response.data,
                     member: this.members
                 }
+                console.log(this.members)
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
-
-                this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
-                .then((response) =>{
+                
+                await this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
+                .then(async (response) =>{
                     console.log('member 입력 완료.')
+                    await this.$refs.teamList.update(mem.teamNum);
+                    this.close();
                 })
                 .catch((error) => {
                     console.log(error)
@@ -136,8 +139,6 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
-            this.resetValues();
-            this.showModal = !this.showModal
         },
         close(){
             this.resetValues();
