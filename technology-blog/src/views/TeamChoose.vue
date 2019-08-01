@@ -23,15 +23,8 @@
                                         <template v-slot:item="data">
                                             <template v-if="typeof data.item !== 'object'">
                                                 <span v-text="data.item"></span>
-                                                <!-- <v-list-item-content v-text="data.item"></v-list-item-content> -->
                                             </template>
                                             <template v-else>
-                                                <!-- <v-list-item-content>
-                                                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                                                    &nbsp;&nbsp;(
-                                                    <v-list-item-subtitle v-html="data.item.id"></v-list-item-subtitle>
-                                                    )
-                                                </v-list-item-content> -->
                                                 <span>{{data.item.name}} ({{data.item.id}})</span>
                                             </template>
                                         </template>
@@ -81,7 +74,7 @@ export default {
     },
     mounted(){
         // 1st. DB에 가서, 존재하는 모든 Name 가져오기
-        this.$http.post('http://192.168.31.63:3000/team/getUser',{})
+        this.$http.post('http://192.168.31.63:3000/team/getUser')
         .then((response) => {
 
             var items = response.body;

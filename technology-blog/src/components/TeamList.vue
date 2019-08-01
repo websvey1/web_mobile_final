@@ -20,6 +20,7 @@
             </v-flex>
             <v-flex v-else style="margin-left: auto;">
               <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
+              <v-btn color="success" @click="go(item.teamNum)">선택</v-btn>
             </v-flex>
             <v-flex>
             </v-flex>
@@ -71,6 +72,7 @@ export default {
             .then(async (response) => {
               var tempTeamName = response.body[0].team_name;
               var tempMember = '';
+              var tempTeamNum = response.body[0].team_num;
 
               for(var k = 0; k < response.body.length; k++){
                 tempMember += response.body[k].user_name + " "
@@ -80,9 +82,11 @@ export default {
                 num : this.$session.get('userInfo').user_num,
                 teamNum : response.body[0].team_num
               }
+
+
               await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
               .then((response) => {
-                this.items.push({ title: tempTeamName, member: tempMember, auth: response.body[0].member_auth, exist: true })
+                this.items.push({ title: tempTeamName, member: tempMember, auth: response.body[0].member_auth, exist: true, teamNum: tempTeamNum })
               })
               .catch((error) => {
                 console.log(error)
@@ -177,12 +181,13 @@ export default {
             .then(async (response) => {
               var tempTeamName = response.body[0].team_name;
               var tempMember = '';
+              var tempTeamNum = response.body[0].team_num;
 
               for(var k = 0; k < response.body.length; k++){
                 tempMember += response.body[k].user_name + " "
               }
 
-              this.items.push({ title: tempTeamName, member: tempMember, auth: 0, exist: true })
+              this.items.push({ title: tempTeamName, member: tempMember, auth: 0, exist: true, teamNum: tempTeamNum })
             })
             .catch((error) => {
               console.log(error)
@@ -191,6 +196,10 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+      },
+      go(id){
+        console.log(id)
+        this.$router.push({ name: "TeamProjectPage", params: {id: id} })
       }
     }
   }

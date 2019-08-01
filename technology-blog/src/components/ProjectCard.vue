@@ -1,46 +1,30 @@
  <template>
-   <v-card
-      class="mx-auto"
-      max-width="470"
-      flat
-    >
-      <v-img
-        class="white--text"
-        height="275px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-        style="border: 1px solid #c5c5c5;"
-      >
+   <v-card class="mx-auto" max-width="470" flat>
+      <v-img class="white--text" height="275px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" style="border: 1px solid #c5c5c5;">
       </v-img>
 
       <v-card-title>
-      <div class="posth1">{{ project.project_title }}</div>
+        <div class="posth1">{{ project.project_title }}</div>
       </v-card-title>
 
       <v-card-text>
-      <span class="ptag">{{ project.project_content }}</span><br>
+        <span class="ptag">{{ project.project_content }}</span><br>
       </v-card-text>
 
       <v-divider class="mx-1"></v-divider>
 
       <v-card-text>
-        <v-chip style="float: right;"
-          class="ma-2" color="#c9e2f7"
-        >
+        <v-chip style="float: right;" class="ma-2" color="#c9e2f7">
           {{ project.project_start_date }}~ {{ project.project_end_date }}
         </v-chip>
 
-        <v-chip v-if="project.project_status ==='진행중'" style="float: right;"
-          class="ma-2" color="rgb(245, 251, 191)"
-        >
-        {{ project.project_status }}
+        <v-chip v-if="project.project_status ==='진행중'" style="float: right;" class="ma-2" color="rgb(245, 251, 191)">
+          {{ project.project_status }}
         </v-chip>
 
-        <v-chip v-if="project.project_status ==='완료'" style="float: right;"
-          class="ma-2" color="rgb(255, 180, 180)"
-        >
-        {{ project.project_status }}
+        <v-chip v-if="project.project_status ==='완료'" style="float: right;" class="ma-2" color="rgb(255, 180, 180)">
+          {{ project.project_status }}
         </v-chip>
-
       </v-card-text>
     </v-card>
  </template>
@@ -50,9 +34,11 @@ import router from '@/router'
 
 export default {
     name: 'ProjectCard',
-    data: () => ({
-
-    }),
+    data(){
+      return{
+        
+      }
+    },
 
     props: {
         project: {}
