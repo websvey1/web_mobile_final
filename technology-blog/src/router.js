@@ -21,7 +21,7 @@ import PageTest from './views/test/PageTest.vue'
 import TestPage from './views/test/TestPage.vue'
 //// test ////
 
-import Calendar from './views/Calendar.vue'
+import CalendarPage from './views/CalendarPage.vue'
 import ProjectPage from './views/ProjectPage.vue'
 import ProjectReadPage from './views/ProjectReadPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
@@ -88,8 +88,8 @@ export default new Router({
     ///////////////////////// Calendar /////////////////////////
     {
       path: '/calendar',
-      name: 'Calendar',
-      component: Calendar
+      name: 'CalendarPage',
+      component: CalendarPage
     },
     ////////////////////////////////////////////////////////////
 

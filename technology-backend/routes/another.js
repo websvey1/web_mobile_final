@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../database");
-var async = require('async')
 
 router.post('/getUsers', function(req, res, next) {
     var pool = db.getPool();

@@ -67,7 +67,7 @@ export default {
                 }
             }
 
-            this.$http.post('/plan', config)
+            this.$http.post('http://192.168.31.63:3000/plan', config)
                 .then((response) => {
                     console.log("?")
                     this.$store.state.plan = response.data;
@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style>
-/*     form {
+    form {
       display: flex;
       flex-direction: column;
       margin-left: 30px;
@@ -148,5 +148,5 @@ export default {
       border: 2px solid orangered;
       outline: none;
       box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
-    } */
+    }
 </style>
