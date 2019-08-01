@@ -106,6 +106,13 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
+      <v-list-tile to="/test" style="background:white;">
+        <v-list-tile-content style="height:auto;">
+          <h1 style="margin-left: 30px;">
+            <span class="spantag">Todolist</span>
+          </h1>
+        </v-list-tile-content>
+      </v-list-tile>
       <v-divider/>
     </v-list-group>
 
