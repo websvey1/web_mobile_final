@@ -11,7 +11,13 @@
       ">
       <v-toolbar-title class="header__container">
             <router-link to="/"> <img src="@/assets/logo2.jpg" alt=""> </router-link>
-            <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn>
+            <!-- <span v-if="this.$session.has('userInfo')" style="width:100%;text-align:right;">{{this.$session.get('userInfo').user_name}}님 </span> -->
+            <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
+            <div>
+              <LoginForm class="login"></LoginForm>
+            </div>
+
+            <!-- <span>?</span> -->
       </v-toolbar-title>
     </v-toolbar>
 
@@ -99,6 +105,14 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
+      <v-list-tile to="/test" style="background:white;">
+        <v-list-tile-content style="height:auto;">
+          <h1 style="margin-left: 30px;">
+            <span class="spantag">Todolist</span>
+          </h1>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-divider/>
       <v-list-tile to="/calendar" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -129,6 +143,15 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider />
+            <v-list-tile to="/teamCalendar" style="background:white;">
+        <v-list-tile-content style="height:auto;">
+          <h1 style="margin-left: 30px;">
+            <span class="spantag">Calendar</span>
+          </h1>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-divider/>
+
     </v-list-group>
 
     <v-list-group>

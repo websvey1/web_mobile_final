@@ -4,11 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
 
 var app = express();
-// var database = require('./database')
 
 app.use(cors());
 
@@ -18,19 +15,9 @@ var deptRouter = require('./routes/dept');
 var postRouter = require('./routes/post');
 var plan = require('./routes/plan');
 var userRouter = require('./routes/user');
-
 var MyProject = require('./routes/myproject');
-
 var Another = require('./routes/another');
-
-var getPlan = require('./routes/getPlan');
-
 var team = require('./routes/team');
-///////////////////// team으로 합칠 내용들 /////////////////////////
-var getTeamList = require('./routes/getTeamList');
-var getUser = require('./routes/getUser');
-var makeTeam = require('./routes/makeTeam');
-var makeMember = require('./routes/makeMember');
 var todosRouter = require('./routes/todos'); // 같은 경로의 todos.js파일을 불러와 선언한 변수로 저장
 
 // view engine setup
@@ -49,17 +36,10 @@ app.use('/post', postRouter);
 app.use('/plan', plan);
 app.use('/user', userRouter);
 app.use('/myproject', MyProject);
-app.use('/getPlan', getPlan);
 app.use('/another', Another);
 
 app.use('/team', team);
-////////////// team으로 합칠 내용들 ////////////////
-app.use('/getTeamList', getTeamList);
-app.use('/getUser', getUser);
-app.use('/makeTeam', makeTeam);
-app.use('/makeMember', makeMember);
-//////////////////////////////////////
-//////////////////////////////////////
+
 
 var conn = mysql.createConnection({
   host:"192.168.31.65",

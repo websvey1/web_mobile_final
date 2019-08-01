@@ -2,9 +2,10 @@
  <sequential-entrance fromTop>
 
   <v-card v-for="item in items" max-width="1000" max-height="170" style="margin: auto">
+  <div v-if="item.exist == true">
     <v-layout py-4 pl-4>
       <v-flex shrink>
-        <v-img height="120" width="120" src="https://cdn.vuetifyjs.com/images/cards/store.jpg" style="border-radius: 50%;"></v-img>
+        <v-img height="120" width="120" src="https://www.colourbox.com/preview/18068844-doodle-team-icon.jpg" style="border-radius: 50%;"></v-img>
       </v-flex>
       <v-flex text-center>
         <v-container grid-list-lg style="margin-left: 10px;">
@@ -12,10 +13,13 @@
             <v-flex style="padding-top: 20px;">
               <h1>{{ item.title }}</h1>
             </v-flex>
-            <v-flex style="margin-left: auto;">
+            <v-flex v-if="item.auth == 0" style="margin-left: auto;">
               <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
-              <v-btn color="info">수락</v-btn>
-              <v-btn color="error">거절</v-btn>
+              <v-btn color="info" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
+              <v-btn color="error" @click="del(item.title)">거절</v-btn>
+            </v-flex>
+            <v-flex v-else style="margin-left: auto;">
+              <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
             </v-flex>
             <v-flex>
             </v-flex>
@@ -23,6 +27,7 @@
         </v-container>
       </v-flex>
     </v-layout>
+    </div>
   </v-card>
 
  </sequential-entrance>
@@ -45,49 +50,151 @@ export default {
         post: {}
     },
     mounted(){
-      // TeamList.vue가 활성화 되자 마자, Member table에 가서, 지금 user가 속한 팀 리스트 모두 뽑아와야함
-      // Team table에서 팀 리스트 뽑고, 그 팀 리스트 별로 memeber들 다 가져오기.
-      var temp = {
-        num : this.$session.get('userInfo').user_num
-      }
+      this.start();
+    },
+    methods: {
+      async start(){
+        var temp = {
+          num : this.$session.get('userInfo').user_num
+        }
 
-      this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
-      .then((response) => {
-        for(var i = 0; i < response.body.length; i++){
-          var data = {
-            teamNum : response.body[i].team_num
-          }
-
-          this.$http.post('http://192.168.31.63:3000/team/getMember', data)
-          .then((response) => {
-            var tempMember = '';
-
-            for(var k = 0; k < response.body.length; k++){
-              tempMember += response.body[k].user_name + " "
+        await this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
+        .then(async (response) => {
+          // 속해있는 여러 개의 팀이 response.body를 통해 전달됨
+          for(var i = 0; i < response.body.length; i++){
+            // 여러 개의 팀 중, 1개씩 순서대로 실행
+            var data = {
+              teamNum : response.body[i].team_num
             }
+            // 선택된 팀에 속한 member들을 구함
+            await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+            .then(async (response) => {
+              var tempTeamName = response.body[0].team_name;
+              var tempMember = '';
 
-            this.items.push({ title: response.body[0].team_name, member: tempMember })
+              for(var k = 0; k < response.body.length; k++){
+                tempMember += response.body[k].user_name + " "
+              }
+
+              var tempData = {
+                num : this.$session.get('userInfo').user_num,
+                teamNum : response.body[0].team_num
+              }
+              await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
+              .then((response) => {
+                this.items.push({ title: tempTeamName, member: tempMember, auth: response.body[0].member_auth, exist: true })
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
+      goReadPage(postNum, email){
+          console.log(postNum);
+          router.push({name:"PostReadPage", params:{id:postNum}})
+      },
+      show(memberData){
+        alert(memberData)
+      },
+      accept(titleData){
+        var temp = {
+          num : this.$session.get('userInfo').user_num,
+          teamName : titleData
+        }
+        this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
+        .then((response) => {
+          // console.log(response.body[0].team_num)
+
+          var auth = {
+            num : this.$session.get('userInfo').user_num,
+            teamNum : response.body[0].team_num
+          }
+          this.$http.post('http://192.168.31.63:3000/team/changeAuth', auth)
+          .then((response) => {
+            console.log("Change complete")
           })
           .catch((error) => {
             console.log(error)
           })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
+      del(titleData){
+        for(var i = 0; i < this.items.length; i++){
+          if(this.items[i].title == titleData){
+            this.items[i].exist = false
+          }
         }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
 
-    },
-    methods: {
-        goReadPage(postNum, email){
-            console.log(postNum);
-            router.push({name:"PostReadPage", params:{id:postNum}})
-        },
-        show(data){
-          alert(data)
+        var temp = {
+          num : this.$session.get('userInfo').user_num,
+          teamName : titleData
         }
+        this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
+        .then((response) => {
+          var auth = {
+            num : this.$session.get('userInfo').user_num,
+            teamNum : response.body[0].team_num
+          }
+          this.$http.post('http://192.168.31.63:3000/team/deleteTeam', auth)
+          .then((response) => {
+            console.log("Delete complete")
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
+      async update(pk){
+        var temp = {
+          num : this.$session.get('userInfo').user_num,
+          teamNum : pk
+        }
+
+        await this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', temp)
+        .then(async (response) => {
+          console.log('team name:')
+          console.log(response.body)
+          
+          var data = {
+            teamNum : pk
+          }
+            // 선택된 팀에 속한 member들을 구함
+            await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+            .then(async (response) => {
+              var tempTeamName = response.body[0].team_name;
+              var tempMember = '';
+
+              for(var k = 0; k < response.body.length; k++){
+                tempMember += response.body[k].user_name + " "
+              }
+
+              this.items.push({ title: tempTeamName, member: tempMember, auth: 0, exist: true })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
     }
   }
+}
 </script>
 
 <style scoped>
@@ -129,7 +236,7 @@ export default {
 }
 
 .post-container:last-child .post {
-    padding-bottom: 60px;
+  padding-bottom: 60px;
 }
 
 .posth1 {
@@ -140,12 +247,12 @@ export default {
   font-size: 30px;
   margin: 0;
   text-transform: uppercase;
-   /* 여러 줄 자르기 추가 스타일 */
+  /* 여러 줄 자르기 추가 스타일 */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
   line-height: 1.2;
-  height:1.2em;
+  height: 1.2em;
   text-align: left;
   word-wrap: break-word;
   display: -webkit-box;
@@ -198,5 +305,33 @@ export default {
   padding-bottom: 5px !important;
 }
 
+.v-btn.outlined_first {
+  border: 1.3px solid rgb(255, 177, 0);
+  border-radius: 5%;
+  height: 40px;
+  width: 60px;
+  font-weight:bold;
+  color: rgb(255, 177, 0);
+  background-color: white;
+}
 
+.v-btn.outlined_second {
+  border: 1.3px solid rgb(0, 68, 194);
+  border-radius: 5%;
+  height: 40px;
+  width: 60px;
+  font-weight:bold;
+  color: rgb(0, 68, 194);
+  background-color: white;
+}
+
+.v-btn.outlined_third {
+  border: 1.3px solid rgb(224, 0, 0);
+  border-radius: 5%;
+  height: 40px;
+  width: 60px;
+  font-weight:bold;
+  color: rgb(224, 0, 0);
+  background-color: white;
+}
 </style>

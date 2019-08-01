@@ -1,5 +1,5 @@
-<template>
-    <div style="background-color: white;">
+<template style="min-height:100%;">
+    <div style="background-color: white; padding-top:30px;">
         <div class="container">
             <!-- Login 시, 각 user의 name에 따라 ~~님의 팀으로 되도록 바꾸어 주어야 함! -->
             <h1 class="teamName" style="margin-left: 3em">{{ this.$session.get('userInfo').user_name }}님의 팀</h1>
@@ -50,7 +50,7 @@
         </div>
             <!-- 이 밑에 div로 새로 파서, 지금 user가 속해있는 팀 list 뿌려줘야 함 -->
         <div>
-        <TeamList/>
+            <TeamList ref="teamList"/>
         </div>
     </div>
 </template>
@@ -89,8 +89,6 @@ export default {
             for(var i = 0; i < items.length; i++){
                 this.people.push({name: items[i].user_name, id: items[i].user_id});
             }
-
-            console.log(this.people);
             console.log('모든 user 가져오기 완료.')
         })
         .catch((error) =>{
@@ -98,7 +96,7 @@ export default {
         })
     },
     methods:{
-        addTeam(){
+        async addTeam(){
             if(this.teamName == ''){
                 alert("Team Name을 입력하세요.")
                 return
@@ -114,20 +112,21 @@ export default {
             // 1st. DB에 가서, Team 만들기
             /////////////////////////// Team 만들기 /////////////////////////////////
 
-            this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
-            .then((response) => {
+            await this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
+            .then(async (response) => {
                 // 2nd. Team Num 받아와서, member table에 각 user들 이 Team Num값으로 집어넣기
                 console.log('Team 생성 완료.')
-
                 var mem = {
                     teamNum: response.data,
                     member: this.members
                 }
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
-
-                this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
-                .then((response) =>{
+                
+                await this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
+                .then(async (response) =>{
                     console.log('member 입력 완료.')
+                    await this.$refs.teamList.update(mem.teamNum);
+                    this.close();
                 })
                 .catch((error) => {
                     console.log(error)
@@ -136,8 +135,6 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
-            this.resetValues();
-            this.showModal = !this.showModal
         },
         close(){
             this.resetValues();

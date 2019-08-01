@@ -47,22 +47,26 @@ router.get('/:id', function(req, res, next){
         })
     })
 
-// router.post('/create', function(req, res, next){
-//     vaar pool = db.getPool();
+router.put('/update', function(req, res, next){
+    var pool = db.getPool();
 
-//     console.log(req.body);
+    console.log(req.body);
 
-//     var content = req.body.content;
-//     var state = req.body.state;
+    var myArray1 = req.body.myArray1;
+    var myArray2 = req.body.myArray2;
+    var myArray3 = req.body.myArray3;
 
-//     pool.getConnection((ex, conn) => {
-//         if(ex){
-//             console.log(ex);
-
-//         }
-//         else{
-//             var query = conn.query()
-//         }
-//     })
-// }) 
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }
+        else{
+            /*var sql = ""
+            var query = conn.query('update todos set status =' + state + '')
+*/
+            console.log('TTTT')
+            res.send("suc")
+        }
+    })
+}) 
 module.exports = router;

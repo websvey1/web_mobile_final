@@ -145,7 +145,4 @@ ul{
 			margin-right: 0px;
 		}
 
-			ul a i:hover{
-				transform: scale(1.5);
-			}
 </style>
