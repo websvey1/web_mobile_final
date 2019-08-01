@@ -44,7 +44,7 @@ export default {
     },
 
     goReadPage(postNum, email){
-      console.log(postNum);
+      // console.log(postNum);
       router.push({name:"PostReadPage", params:{id:postNum}})
     }
   }
