@@ -64,28 +64,72 @@ router.put('/update', function(req, res, next){
             console.log(ex);
         }
         else{
-            
+
             // var query = conn.query('select * from todos');
             var query = conn.query('delete from todos');
             var add_query = 'insert into todos(content, state) values';
 
-            for (var [key,value] of Object.entries(big)){ // dict key 호출
-                for (var j=1; j<4; j++){        // 범위 : 1,2,3 == state
-                    for (var i=0; i<value.length; i++){ // 범위 : 0~길이만큼      
-                                                  
-                        add_query += '("' + big[key][i]['content'] + '",' + j +');'  
-                        console.log(add_query);
-                    }
+            for(var i = 0; i < myArray1.length; i++){
+              add_query += '("' + myArray1[i].content + '",' + state_1 +')'
+
+              if(i + 1 == myArray1.length){
+                if(myArray2.length == 0 && myArray3 == 0){
+                  add_query += ";"
                 }
+                else{
+                  add_query += ","
+                }
+              }
+              else{
+                add_query += ","
+              }
             }
+
+            for(var i = 0; i < myArray2.length; i++){
+              add_query += '("' + myArray2[i].content + '",' + state_2 +')'
+
+              if(i + 1 == myArray2.length){
+                if(myArray3 == 0){
+                  add_query += ";"
+                }
+                else{
+                  add_query += ","
+                }
+              }
+              else{
+                add_query += ","
+              }
+            }
+
+            for(var i = 0; i < myArray3.length; i++){
+              add_query += '("' + myArray3[i].content + '",' + state_3 +')'
+
+              if(i + 1 == myArray3.length){
+                add_query += ";"
+              }
+              else{
+                add_query += ","
+              }
+            }
+
+
+
+            // for (var [key,value] of Object.entries(big)){ // dict key 호출
+            //     for (var j=1; j<4; j++){        // 범위 : 1,2,3 == state
+            //         for (var i=0; i<value.length; i++){ // 범위 : 0~길이만큼
+            //
+            //             add_query += '("' + big[key][i]['content'] + '",' + j +')'
+            //             console.log(add_query);
+            //         }
+            //     }
+            // }
             var query = conn.query(add_query, (err, result) => {
                 if (err) {
                     throw err;
                 }
-                res.send("SUCCESS");
-            }) 
-            res.send("suc");
+                res.send("success");
+            })
         }
     })
-}) 
+})
 module.exports = router;
