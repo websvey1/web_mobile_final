@@ -1,14 +1,15 @@
 <template>
 <div style="background-color: white;">
-  <div class="container project">
+    <v-btn @click="move" outline color="indigo" round>Project 추가</v-btn>
+    <div class="container project">
     <!-- <v-btn class="v-btn theme--dark">프로젝트 작성(아직 비연결상태)</v-btn> -->
     <!-- <ProjectList></ProjectList> -->
-    <v-layout wrap>
-        <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
-            <TeamProjectCard :project="project"></TeamProjectCard>
-        </v-flex>
-    </v-layout>
-  </div>
+        <v-layout wrap>
+            <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
+                <TeamProjectCard :project="project"></TeamProjectCard>
+            </v-flex>
+        </v-layout>
+    </div>
 </div>
 </template>
 
@@ -19,7 +20,7 @@ import TeamProjectCard from '@/components/TeamProjectCard'
 export default {
     name: 'TeamProjectPage',
     components: {
-        ProjectCard
+        TeamProjectCard
     },
     data() {
         return {
@@ -42,7 +43,9 @@ export default {
 
     },
     methods: {
-
+        move(){
+            this.$router.push({ name: "TeamProjectWritePage", params: {id: this.$route.params.id} })
+        }
     },
 
  }

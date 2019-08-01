@@ -17,7 +17,7 @@
       <v-container grid-list-md>
         <v-layout wrap @keydown.enter="loginWithId">
           <v-flex xs12>
-            <v-text-field label="Email*" required v-model="id" ref="id" :rules="idRules"></v-text-field>
+            <v-text-field label="Id*" required v-model="id" ref="id" :rules="idRules"></v-text-field>
           </v-flex>
           <v-flex xs12>
             <v-text-field label="Password*" type="password" required v-model="pw" ref="password" :rules="pwRules"></v-text-field>
