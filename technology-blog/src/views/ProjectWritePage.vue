@@ -3,12 +3,12 @@
 <v-layout wrap align-center justify-center row fill-height>
   <v-flex xs12 ma-5 text-xs-left>
     <div style="margin: 0px 16px 1px">
-      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='title'></v-text-field>
+      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='title' counter="20" :maxlength="20"></v-text-field>
     </div>
     <v-layout wrap>
       <v-flex xs10>
         <div style="margin: 8px 16px 1px">
-          <v-text-field xs12 label="Goal" placeholder="프로젝트 목표를 입력해 주세요." v-model='goal'></v-text-field>
+          <v-text-field xs12 label="Goal" placeholder="프로젝트 목표를 입력해 주세요." v-model='goal' counter="20" :maxlength="20"></v-text-field>
         </div>
       </v-flex>
       <v-flex xs2 style="margin-top: 3.5px;">
@@ -89,9 +89,9 @@
       <v-flex xs7>
         <fieldset style="margin-right:4px; height:80%">
         <legend>&nbsp;git URL&nbsp;</legend>
-        <div style="margin-left: 10px; margin-right: 10px;">
+        <div style="margin-left: 10px; margin-right: 10px; padding-bottom: 30px;">
            <v-text-field v-model="git_url"
-            label="git url을 입력해 주세요."
+            label="git url을 입력해 주세요." counter="20" :maxlength="20"
           ></v-text-field>
         </div>
         </fieldset>
@@ -128,7 +128,7 @@
         <fieldset style="margin-right:4px; height:85%">
           <legend>&nbsp;Technology&nbsp;</legend>
           <div style="margin:16px;" id="hashtag">
-              <v-text-field v-model="tech"
+              <v-text-field v-model="tech" counter="20" :maxlength="20"
                 label="프로젝트 주요 기술"
               ></v-text-field>
           </div>
@@ -181,7 +181,7 @@ export default {
         imgFile: '',
       },
 
-      writer: 1,
+      writer: 5,
       title: "",
       goal: "",
       status: '',

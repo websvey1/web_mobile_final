@@ -38,7 +38,7 @@
         <v-toolbar-items>
           <v-btn flat to="/">home</v-btn>
           <v-btn flat to="/home">Project</v-btn>
-          <v-btn flat to="/post/create">Post</v-btn>
+          <v-btn flat to="/post">Post</v-btn>
           <v-btn flat @click.stop="drawer = !drawer">Menu</v-btn>
         </v-toolbar-items>
       </v-toolbar>

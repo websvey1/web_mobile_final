@@ -2,8 +2,8 @@
     <div style="background-color: white;">
         <div class="container">
             <!-- Login 시, 각 user의 name에 따라 ~~님의 팀으로 되도록 바꾸어 주어야 함! -->
-            <h1 class="teamName" style="margin-left: 3em">영신님의 팀</h1>
-            
+            <h1 class="teamName" style="margin-left: 3em">{{ this.$session.get('userInfo').user_name }}님의 팀</h1>
+
             <v-btn class="teamBtn" @click="showModal = true" outline color="indigo" style="float: right; margin-right: 5em" round>Team 추가</v-btn>
 
             <v-dialog v-model="showModal" persistent max-width="600px">
@@ -22,15 +22,17 @@
                                         label="Member *" item-text="name" item-value="name" :rules="memberRules" required multiple>
                                         <template v-slot:item="data">
                                             <template v-if="typeof data.item !== 'object'">
-                                                <v-list-item-content v-text="data.item"></v-list-item-content>
+                                                <span v-text="data.item"></span>
+                                                <!-- <v-list-item-content v-text="data.item"></v-list-item-content> -->
                                             </template>
                                             <template v-else>
-                                                <v-list-item-content>
+                                                <!-- <v-list-item-content>
                                                     <v-list-item-title v-html="data.item.name"></v-list-item-title>
                                                     &nbsp;&nbsp;(
                                                     <v-list-item-subtitle v-html="data.item.id"></v-list-item-subtitle>
                                                     )
-                                                </v-list-item-content>
+                                                </v-list-item-content> -->
+                                                <span>{{data.item.name}} ({{data.item.id}})</span>
                                             </template>
                                         </template>
                                     </v-autocomplete>
@@ -45,10 +47,11 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-            
-            <!-- 이 밑에 div로 새로 파서, 지금 user가 속해있는 팀 list 뿌려줘야 함 -->
         </div>
+            <!-- 이 밑에 div로 새로 파서, 지금 user가 속해있는 팀 list 뿌려줘야 함 -->
+        <div>
         <TeamList/>
+        </div>
     </div>
 </template>
 
@@ -58,7 +61,7 @@ import TeamList from '@/components/TeamList'
 export default {
     name: 'TeamChoose',
     components: {
-        TeamList,   
+        TeamList,
     },
     data() {
         return{
@@ -71,15 +74,23 @@ export default {
             people: [],
         }
     },
+    watch:{
+      members(v){
+        console.log(v);
+      }
+    },
     mounted(){
         // 1st. DB에 가서, 존재하는 모든 Name 가져오기
-        this.$http.post('http://192.168.31.63:3000/getUser')
+        this.$http.post('http://192.168.31.63:3000/team/getUser',{})
         .then((response) => {
+
             var items = response.body;
 
             for(var i = 0; i < items.length; i++){
                 this.people.push({name: items[i].user_name, id: items[i].user_id});
             }
+
+            console.log(this.people);
             console.log('모든 user 가져오기 완료.')
         })
         .catch((error) =>{
@@ -88,13 +99,22 @@ export default {
     },
     methods:{
         addTeam(){
-            // 1st. DB에 가서, Team 만들기
+            if(this.teamName == ''){
+                alert("Team Name을 입력하세요.")
+                return
+            }else if(this.members == ''){
+                alert("Team Member를 등록하세요.")
+                return
+            }
+
             var temp = {
                 name: this.teamName
             }
+
+            // 1st. DB에 가서, Team 만들기
             /////////////////////////// Team 만들기 /////////////////////////////////
 
-            this.$http.post('http://192.168.31.63:3000/makeTeam', temp)
+            this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
             .then((response) => {
                 // 2nd. Team Num 받아와서, member table에 각 user들 이 Team Num값으로 집어넣기
                 console.log('Team 생성 완료.')
@@ -104,10 +124,10 @@ export default {
                     member: this.members
                 }
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
-                
-                this.$http.post('http://192.168.31.63:3000/makeMember', mem)
+
+                this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
                 .then((response) =>{
-                    console.log('member들 입력 완료.')
+                    console.log('member 입력 완료.')
                 })
                 .catch((error) => {
                     console.log(error)
@@ -128,7 +148,6 @@ export default {
             this.members = []
         }
     }
-
 }
 </script>
 
