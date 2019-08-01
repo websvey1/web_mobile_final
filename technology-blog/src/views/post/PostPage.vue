@@ -1,15 +1,10 @@
 <template>
 <div style="background-color: white;">
-  <div class="container">
-    <div id="page">
-      <v-layout wrap>
-        <v-flex>
-          <v-btn flat color="warning" @click="showCalendar()">Calendar</v-btn>
+      <v-layout wrap row pa-5>
+        <v-flex fill-height d-flex xs12>
           <PostList></PostList>
         </v-flex>
       </v-layout>
-    </div>
-  </div>
 </div>
 </template>
 
@@ -61,6 +56,7 @@ export default {
   #page {
     background-color: white;
     width: 90%;
+    height: 100%;
     margin: 0 auto;
   }
 </style>

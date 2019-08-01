@@ -1,23 +1,31 @@
 <template>
-  <v-layout wrap>
+<v-container>
+  <v-layout row>
+
     <v-flex xs12>
-      <h1>array 1</h1>
-      <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
-        <div v-for="element in myArray1" :key="element.id">{{element.content}}</div>
-     </draggable>
-
-     <h2>array 2</h2>
-     <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
-       <div v-for="element in myArray2" :key="element.id">{{element.content}}</div>
-    </draggable>
-
-    <h2>array 3</h2>
-     <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
-       <div v-for="element in myArray3" :key="element.id">{{element.content}}</div>
-    </draggable>
+        <h2>미래</h2>
+        <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
+          <div v-for="element in myArray1" :key="element.id">{{element.content}}</div>
+      </draggable>
     </v-flex>
-    <v-btn class="v-btn theme--dark" @click="writePost">확인</v-btn>
+    <v-flex xs12>
+     <h2>현재진행</h2>
+      <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
+        <div v-for="element in myArray2" :key="element.id">{{element.content}}</div>
+      </draggable>
+      </v-flex>
+    <v-flex xs12>
+      <h2>과거완료</h2>
+      <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
+        <div v-for="element in myArray3" :key="element.id">{{element.content}}</div>
+      </draggable>
+    </v-flex>
+
+    
   </v-layout>
+  <v-btn class="v-btn theme--dark" @click="updateTodo">확인</v-btn>
+</v-container>
+
 </template>
 
 <script>
@@ -36,20 +44,25 @@ export default {
         }
     },
     mounted(){
+      console.log("?")
       this.temp();
+      console.log("?")
+
     },
     computed:{
       async form () {
         return {
-          state: this.state,
-          content: this.content
+          myArray1:this.myArray1,
+          myArray2:this.myArray2,
+          myArray3:this.myArray3
         }
       }
     },
 	  methods: {
       async temp(){
-        var form = await this.form
-        this.$http.get("http://192.168.31.65:3000/todos") // 호출
+      console.log("?")
+        
+        this.$http.get("http://192.168.31.85:3000/todos") // 호출
         .then(result=> {
           console.log(result.data);
           //--
@@ -75,6 +88,11 @@ export default {
 
         })
 
+      },
+      async updateTodo() {
+        var form = await this.form
+        this.$http.put("http://192.168.31.85:3000/todos/update", form) // 호출
+        
       }
 	},
 

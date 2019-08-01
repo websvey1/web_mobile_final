@@ -22,15 +22,17 @@
                                         label="Member *" item-text="name" item-value="name" :rules="memberRules" required multiple>
                                         <template v-slot:item="data">
                                             <template v-if="typeof data.item !== 'object'">
-                                                <v-list-item-content v-text="data.item"></v-list-item-content>
+                                                <span v-text="data.item"></span>
+                                                <!-- <v-list-item-content v-text="data.item"></v-list-item-content> -->
                                             </template>
                                             <template v-else>
-                                                <v-list-item-content>
+                                                <!-- <v-list-item-content>
                                                     <v-list-item-title v-html="data.item.name"></v-list-item-title>
                                                     &nbsp;&nbsp;(
                                                     <v-list-item-subtitle v-html="data.item.id"></v-list-item-subtitle>
                                                     )
-                                                </v-list-item-content>
+                                                </v-list-item-content> -->
+                                                <span>{{data.item.name}} ({{data.item.id}})</span>
                                             </template>
                                         </template>
                                     </v-autocomplete>
@@ -48,7 +50,7 @@
         </div>
             <!-- 이 밑에 div로 새로 파서, 지금 user가 속해있는 팀 list 뿌려줘야 함 -->
         <div>
-        <TeamList/>
+            <TeamList ref="teamList"/>
         </div>
     </div>
 </template>
@@ -72,15 +74,23 @@ export default {
             people: [],
         }
     },
+    watch:{
+      members(v){
+        console.log(v);
+      }
+    },
     mounted(){
         // 1st. DB에 가서, 존재하는 모든 Name 가져오기
         this.$http.post('http://192.168.31.63:3000/team/getUser',{})
         .then((response) => {
+
             var items = response.body;
 
             for(var i = 0; i < items.length; i++){
                 this.people.push({name: items[i].user_name, id: items[i].user_id});
             }
+
+            console.log(this.people);
             console.log('모든 user 가져오기 완료.')
         })
         .catch((error) =>{
@@ -88,7 +98,7 @@ export default {
         })
     },
     methods:{
-        addTeam(){
+        async addTeam(){
             if(this.teamName == ''){
                 alert("Team Name을 입력하세요.")
                 return
@@ -104,20 +114,23 @@ export default {
             // 1st. DB에 가서, Team 만들기
             /////////////////////////// Team 만들기 /////////////////////////////////
 
-            this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
-            .then((response) => {
+            await this.$http.post('http://192.168.31.63:3000/team/makeTeam', temp)
+            .then(async (response) => {
                 // 2nd. Team Num 받아와서, member table에 각 user들 이 Team Num값으로 집어넣기
                 console.log('Team 생성 완료.')
-
+                console.log(response.data)
                 var mem = {
                     teamNum: response.data,
                     member: this.members
                 }
+                console.log(this.members)
             ////////////////////////// Member table에 user들 넣기 /////////////////////////
-
-                this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
-                .then((response) =>{
+                
+                await this.$http.post('http://192.168.31.63:3000/team/makeMember', mem)
+                .then(async (response) =>{
                     console.log('member 입력 완료.')
+                    await this.$refs.teamList.update(mem.teamNum);
+                    this.close();
                 })
                 .catch((error) => {
                     console.log(error)
@@ -126,8 +139,6 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
-            this.resetValues();
-            this.showModal = !this.showModal
         },
         close(){
             this.resetValues();
