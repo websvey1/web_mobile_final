@@ -1,35 +1,35 @@
 <template>
 <sequential-entrance fromTop>
 
- <!-- <v-card flat v-for="item in items" max-width="1000" max-height="170" style="margin: auto; margin-bottom:30px; border:1px solid rgb(143, 143, 143);"> -->
-   <v-card  v-for="item in items" max-width="1000" max-height="170" style="margin: auto; margin-bottom:30px;">
-    <div v-if="item.exist == true">
-   <v-layout py-4 pl-4>
-     <v-flex shrink>
-       <v-img height="120" width="120" src="https://www.colourbox.com/preview/18068844-doodle-team-icon.jpg" style="border-radius: 50%;"></v-img>
-     </v-flex>
-     <v-flex>
-       <v-container grid-list-lg style="margin-left: 10px;">
-         <v-layout column>
-           <v-flex style="padding-top: 20px;">
-             <h1>{{ item.title }}</h1>
-           </v-flex>
-           <v-flex v-if="item.auth == 0" style="margin-left: auto;">
-             <v-btn flat class="outlined_first" @click="show(item.member)">팀원보기</v-btn>
-             <v-btn flat class="outlined_second" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
-             <v-btn flat class="outlined_third" @click="del(item.title)">거절</v-btn>
-           </v-flex>
-           <v-flex v-else style="margin-left: auto;">
-             <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
-           </v-flex>
-           <v-flex>
-           </v-flex>
-         </v-layout>
-       </v-container>
-     </v-flex>
-   </v-layout>
-   </div>
- </v-card>
+  <v-card v-for="item in items" max-width="1000" max-height="170" style="margin: auto">
+  <div v-if="item.exist == true">
+    <v-layout py-4 pl-4>
+      <v-flex shrink>
+        <v-img height="120" width="120" src="https://cdn.vuetifyjs.com/images/cards/store.jpg" style="border-radius: 50%;"></v-img>
+      </v-flex>
+      <v-flex text-center>
+        <v-container grid-list-lg style="margin-left: 10px;">
+          <v-layout column>
+            <v-flex style="padding-top: 20px;">
+              <h1>{{ item.title }}</h1>
+            </v-flex>
+            <v-flex v-if="item.auth == 0" style="margin-left: auto;">
+              <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
+              <v-btn color="info" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
+              <v-btn color="error" @click="del(item.title)">거절</v-btn>
+            </v-flex>
+            <v-flex v-else style="margin-left: auto;">
+              <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
+              <v-btn color="success" @click="go(item.teamNum)">선택</v-btn>
+            </v-flex>
+            <v-flex>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-flex>
+    </v-layout>
+    </div>
+  </v-card>
 
 </sequential-entrance>
 </template>
@@ -69,30 +69,24 @@ export default {
             }
             // 선택된 팀에 속한 member들을 구함
             await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
-              .then(async (response) => {
-                var tempTeamName = response.body[0].team_name;
-                var tempMember = '';
+            .then(async (response) => {
+              var tempTeamName = response.body[0].team_name;
+              var tempMember = '';
+              var tempTeamNum = response.body[0].team_num;
 
                 for (var k = 0; k < response.body.length; k++) {
                   tempMember += response.body[k].user_name + " "
                 }
 
-                var tempData = {
-                  num: this.$session.get('userInfo').user_num,
-                  teamNum: response.body[0].team_num
-                }
-                await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
-                  .then((response) => {
-                    this.items.push({
-                      title: tempTeamName,
-                      member: tempMember,
-                      auth: response.body[0].member_auth,
-                      exist: true
-                    })
-                  })
-                  .catch((error) => {
-                    console.log(error)
-                  })
+              var tempData = {
+                num : this.$session.get('userInfo').user_num,
+                teamNum : response.body[0].team_num
+              }
+
+
+              await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
+              .then((response) => {
+                this.items.push({ title: tempTeamName, member: tempMember, auth: response.body[0].member_auth, exist: true, teamNum: tempTeamNum })
               })
               .catch((error) => {
                 console.log(error)
@@ -188,17 +182,13 @@ export default {
             .then(async (response) => {
               var tempTeamName = response.body[0].team_name;
               var tempMember = '';
+              var tempTeamNum = response.body[0].team_num;
 
               for (var k = 0; k < response.body.length; k++) {
                 tempMember += response.body[k].user_name + " "
               }
 
-              this.items.push({
-                title: tempTeamName,
-                member: tempMember,
-                auth: 0,
-                exist: true
-              })
+              this.items.push({ title: tempTeamName, member: tempMember, auth: 0, exist: true, teamNum: tempTeamNum })
             })
             .catch((error) => {
               console.log(error)
@@ -207,6 +197,11 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+      },
+      go(id){
+        console.log(id)
+        this.$router.push({ name: "TeamProjectPage", params: {id: id} })
+      }
     }
   }
 }

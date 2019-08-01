@@ -23,15 +23,8 @@
                                         <template v-slot:item="data">
                                             <template v-if="typeof data.item !== 'object'">
                                                 <span v-text="data.item"></span>
-                                                <!-- <v-list-item-content v-text="data.item"></v-list-item-content> -->
                                             </template>
                                             <template v-else>
-                                                <!-- <v-list-item-content>
-                                                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                                                    &nbsp;&nbsp;(
-                                                    <v-list-item-subtitle v-html="data.item.id"></v-list-item-subtitle>
-                                                    )
-                                                </v-list-item-content> -->
                                                 <span>{{data.item.name}} ({{data.item.id}})</span>
                                             </template>
                                         </template>
