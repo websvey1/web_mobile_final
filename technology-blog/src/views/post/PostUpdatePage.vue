@@ -41,9 +41,9 @@
     </v-layout>
 
     <div style="text-align:center;" id="write-btn">
-      <v-btn class="v-btn theme--dark" @click="">수정</v-btn>
-      <v-btn class="v-btn theme--dark" @click="">삭제</v-btn>
-      <v-btn class="v-btn theme--dark" @click="">취소</v-btn>
+      <v-btn class="v-btn theme--dark" @click="updatePost">수정</v-btn>
+      <v-btn class="v-btn theme--dark" @click="deletePost">삭제</v-btn>
+      <v-btn class="v-btn theme--dark" @click="goRead">취소</v-btn>
     </div>
 
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>

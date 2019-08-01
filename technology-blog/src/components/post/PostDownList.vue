@@ -32,7 +32,7 @@ export default {
     },
 
     async readPosts() {
-      var posts = await this.$http.get("http://192.168.31.65:3000/post")
+      var posts = await this.$http.get("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num)
         .then((response) => {
           console.log(response.data);
           this.$store.state.posts = response.data;

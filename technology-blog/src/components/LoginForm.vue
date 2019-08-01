@@ -105,7 +105,7 @@ export default {
         this.$http.post("http://192.168.31.65:3000/user/login", this.form)
           .then((res) => {
             console.log(res.data);
-            if (res.data.length == 0) {
+            if (res.data == "fail") {
               alert("아이디와 비밀번호를 확인해 주세요.");
               this.resetForm();
             } else {

@@ -68,7 +68,7 @@ router.post('/create', function(req, res, next) {
 
               if (tags.length > 0) {
                 var tag_query = 'insert into tag(tag_post, tag_name) values';
-                
+
                 for (var i = 0; i < tags.length; i++) {
                   tag_query += '(' + post_num + ', "' + tags[i] + '")'
                   if (i + 1 == tags.length) {
@@ -135,6 +135,30 @@ router.get('/read/:id', function(req, res, next) {
               res.send(post);
             }
           )
+        })
+    }
+    conn.release();
+  })
+});
+
+router.get('/list/:id', function(req, res, next) {
+  var pool = db.getPool();
+
+  var user_num = req.params.id;
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    } else {
+      var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p inner join imageconnector as ic on p.post_num = ic.imageconn_post inner join image as i on ic.imageconn_image = i.image_num inner join user as u on p.post_user = u.user_num where imageconn_index = 0 and p.post_user = ? order by p.post_num desc;'
+      var query = conn.query(sql, user_num, function(err, result) {
+          if (err) {
+            console.error(err);
+            conn.release();
+            throw err;
+          }
+
+          res.send(result);
         })
     }
     conn.release();
