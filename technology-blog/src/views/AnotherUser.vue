@@ -1,19 +1,20 @@
 <template>
 <div class="container">
-    <v-layout wrap v-for="userInfo in users" v-bind:key="userInfo.user_num">
-    <v-flex xs4>
+    <v-layout wrap>
+    <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
     <div class="card">
-        <div class="banner">
-            <div class="avatar"></div>
-        </div>
-            <h3>Callum Brown</h3>
-        <a href="mailto:cabrown96@live.com">📧 cabrown96@live.com</a>
-        <a href="">📱 +1 123-456-7890</a>
+    <div class="banner">
+        <div class="avatar"></div>
+    </div>
+        <h3><b>{{ userInfo.userId }}</b></h3>
+    <a href="mailto:cabrown96@live.com">📧 {{ userInfo.userEmail }}</a>
+    <a href="">📱 Project - {{ userInfo.userProject }}</a>
+    <a href="">📱 Post - {{ userInfo.userPost }}</a>
         <ul>
         </ul>
     </div>
     </v-flex>
-    <v-layout>
+    </v-layout>
 </div>
 </template>
 
@@ -54,11 +55,12 @@ export default {
     }
 }
 </script>
-<style>
+
+<style scoped>
 .card{
    height: auto;
-	max-height: 300px;
-	width: 225px; 
+	max-height:299px;
+	width: 225px; /* ⬅ Size - Small (width: 200px), Medium (width: 225px), Large (width: 250px) */
 	overflow: hidden;
 	background-color: #FFFFFF;
 	border-radius: 10px;
@@ -80,18 +82,18 @@ export default {
 .banner{
 	height: 100px;
 	width: 100%;
+   background-image: url("https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&auto=format&fit=crop&w=1004&q=80");
 	padding-top: 35px;
-    background-image: url("https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&auto=format&fit=crop&w=1004&q=80");
 	background-color: #FAFAFA;
 	background-size: cover;
 	background-position: center;
 }
 
+
 .avatar{
 	height: 100px;
 	width: 100px;
 	margin: auto;
-   background-image: url("https://pbs.twimg.com/profile_images/1152340777382612992/A8GyrnBu_400x400.jpg");
 	background-size: cover;
 	background-position: center;
 	background-color: #F1F1F1;
@@ -99,6 +101,7 @@ export default {
 	border-radius: 100%;
 	box-shadow: 0 2px 2px rgba(0,0,0,0.1);
 }
+
 h3, a, i{
 	font-family: 'Roboto', sans-serif;
 	font-weight: lighter;
@@ -117,8 +120,9 @@ h3, a, i{
 		display: block;
 		padding: 5px 0px;
 		font-size: 14px;
-		color: #9E9E9E;
+		color: rgb(71, 71, 71);
 		text-decoration: none;
+		font-weight: 400
 	}
 
 		a:hover{
@@ -145,4 +149,3 @@ ul{
 				transform: scale(1.5);
 			}
 </style>
-
