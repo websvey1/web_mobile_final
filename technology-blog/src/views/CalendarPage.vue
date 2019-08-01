@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div >
     <div id="app">
-      <div class="main">
+      <div class="main" >
         <div class="calendar-holder">
           <calendar :events="events" />
         </div>
@@ -59,31 +59,34 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+    /* text-align: center; */
     color: #2c3e50;
-    margin-top: 60px;
+    background-color: rgb(255, 255, 255);
   }
   .main {
+    padding: 5% 10%;
     display: flex;
     align-items: center;
   }
+
   .calendar-holder {
     width: 65%;
   }
+
   .form-holder {
+    padding-left: 5%;
     width: 35%;
   }
   .form-holder > h3 {
-    color: orangered;
+    color: rgb(155, 20, 255);
     text-transform: uppercase;
     font-size: 16px;
     text-align: left;
-    margin-left: 30px;
-   margin-bottom: 10px;
   }
+
 </style>
