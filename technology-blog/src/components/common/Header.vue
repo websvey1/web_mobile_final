@@ -11,7 +11,13 @@
       ">
       <v-toolbar-title class="header__container">
             <router-link to="/"> <img src="@/assets/logo2.jpg" alt=""> </router-link>
-            <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn>
+            <!-- <span v-if="this.$session.has('userInfo')" style="width:100%;text-align:right;">{{this.$session.get('userInfo').user_name}}님 </span> -->
+            <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
+            <div>
+              <LoginForm class="login"></LoginForm>
+            </div>
+
+            <!-- <span>?</span> -->
       </v-toolbar-title>
     </v-toolbar>
 
