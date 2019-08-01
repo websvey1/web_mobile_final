@@ -188,7 +188,7 @@
         </v-list-tile>
       </template>
       <v-divider />
-      <v-list-tile to="/updateUser" style="background:white;">
+      <v-list-tile to="/user/update" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">회원 정보 수정</span>
@@ -196,7 +196,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider />
-      <v-list-tile to="/removeUser" style="background:white;">
+      <v-list-tile to="/user/delete" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">회원 탈퇴</span>

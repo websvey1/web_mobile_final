@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Loading from '@/components/Loading';
+import Loading from '@/components/common/Loading';
 
 export default {
   name: "LoginForm",
@@ -63,6 +63,10 @@ export default {
     this.isLoading = true;
 
     this.isLogin = this.$session.has("userInfo")
+
+    if(this.isLogin){
+      console.log(this.$session.get("userInfo"));
+    }
   },
   mounted(){
     this.isLoading = false;
@@ -107,7 +111,7 @@ export default {
             } else {
               alert("로그인 되었습니다.")
               this.isLogin = true;
-              this.$session.set("userInfo", res.data[0]);
+              this.$session.set("userInfo", res.data);
               this.closeDialog();
             }
             this.isLoading = false;

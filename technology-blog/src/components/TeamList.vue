@@ -58,6 +58,7 @@ export default {
           num : this.$session.get('userInfo').user_num
         }
 
+<<<<<<< HEAD
         await this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
         .then(async (response) => {
           // 속해있는 여러 개의 팀이 response.body를 통해 전달됨
@@ -75,6 +76,20 @@ export default {
               for(var k = 0; k < response.body.length; k++){
                 tempMember += response.body[k].user_name + " "
               }
+=======
+      // this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
+      this.$http.post('http://192.168.31.65:3000/team/getTeamList', temp)
+      .then((response) => {
+        for(var i = 0; i < response.body.length; i++){
+          var data = {
+            teamNum : response.body[i].team_num
+          }
+
+          // this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+          this.$http.post('http://192.168.31.65:3000/team/getMember', data)
+          .then((response) => {
+            var tempMember = '';
+>>>>>>> 3892d4da54248d25f66c1c222a1afb7007e88f3d
 
               var tempData = {
                 num : this.$session.get('userInfo').user_num,

@@ -30,7 +30,7 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import ImageUpload from "@/components/ImageUpload"
+import ImageUpload from "@/components/common/ImageUpload"
 
 export default {
   name: 'PostReadPage',

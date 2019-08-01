@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import ImageUpload from "@/components/ImageUpload"
+import ImageUpload from "@/components/common/ImageUpload"
 
 export default {
   name: 'ProjectReadPage',

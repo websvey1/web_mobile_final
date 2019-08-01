@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import PostCard from "./PostCard"
+import PostCard from "@/components/post/PostCard"
 
 import {
   dragscroll
