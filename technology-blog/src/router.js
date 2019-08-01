@@ -120,5 +120,6 @@ export default new Router({
 		name: 'AnotherUser',
 		component: AnotherUser
 	},
+
   ]
 })
