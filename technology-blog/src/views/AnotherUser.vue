@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 <div class="container">
     <v-layout wrap>
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
@@ -16,6 +17,9 @@
     </v-flex>
     </v-layout>
 </div>
+=======
+
+>>>>>>> 3892d4da54248d25f66c1c222a1afb7007e88f3d
 </template>
 
 <script>
@@ -55,6 +59,7 @@ export default {
     }
 }
 </script>
+<<<<<<< HEAD
 
 <style scoped>
 .card{
@@ -146,3 +151,5 @@ ul{
 		}
 
 </style>
+=======
+>>>>>>> 3892d4da54248d25f66c1c222a1afb7007e88f3d
