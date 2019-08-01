@@ -4,10 +4,10 @@
         <input type="text" placeholder="Event title" v-model="event.title"/>
     </div>
     <div class="input-holder">
-        <date-picker :placeholder="'Start date'" v-model="event.start" /> 
+        <date-picker :placeholder="'Start date'" v-model="event.start" />
     </div>
     <div class="input-holder">
-        <date-picker :placeholder="'End date'" v-model="event.end"/> 
+        <date-picker :placeholder="'End date'" v-model="event.end"/>
     </div>
     <div class="input-holder">
         <textarea placeholder="Event description" rows="4" v-model="event.data.description" ></textarea>
@@ -41,7 +41,7 @@ export default {
             }
         }
     },
-      
+
     methods: {
         async handleSubmit(){
             const start = format(this.event.start, 'YYYY-MM-DD');
@@ -56,7 +56,7 @@ export default {
                 // body: JSON.stringify(event),
                 body: {
                     title: event.title,
-                    start: event.start, 
+                    start: event.start,
                     end: event.end,
                     cssClass: event.cssClass,
                     description: event.data.description,
@@ -147,7 +147,7 @@ export default {
     input:focus,
     textarea:focus,
     button:focus {
-      border: 2px solid orangered;
+      /* border: 2px solid orangered; */
       outline: none;
       box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
     }
