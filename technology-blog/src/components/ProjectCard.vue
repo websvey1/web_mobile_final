@@ -8,7 +8,7 @@
         class="white--text"
         height="285px"
         :src="project.image"
-        style="border: 1px solid #c5c5c5; cursor:pointer;"
+        style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
         @click="goReadProject(project.pjt.project_num)"
       >
       </v-img>
@@ -21,31 +21,31 @@
       <span class="ptag">{{ project.pjt.project_goal }}</span><br>
       </v-card-text>
 
-      <v-divider class="mx-1"></v-divider>
+      <v-divider class="mx-0"></v-divider>
 
       <v-card-text>
         <v-chip style="float: right;"
           class="ma-2" color="#c9e2f7"
         >
-          {{ project.pjt.project_start_date }}~ {{ project.pjt.project_end_date }}
+          <b>{{ project.pjt.project_start_date }}~ {{ project.pjt.project_end_date }}</b>
         </v-chip>
 
         <v-chip v-if="project.pjt.project_status ==='계획'" style="float: right;"
           class="ma-2" color="rgb(255, 247, 135)"
         >
-        {{ project.pjt.project_status }}
+        <b>{{ project.pjt.project_status }}</b>
         </v-chip>
 
         <v-chip v-if="project.pjt.project_status ==='진행중'" style="float: right;"
           class="ma-2" color="rgb(166, 255, 143)"
         >
-        {{ project.pjt.project_status }}
+        <b>{{ project.pjt.project_status }}</b>
         </v-chip>
 
         <v-chip v-if="project.pjt.project_status ==='완료'" style="float: right;"
           class="ma-2" color="rgb(255, 180, 180)"
         >
-        {{ project.pjt.project_status }}
+        <b>{{ project.pjt.project_status }}</b>
         </v-chip>
       </v-card-text>
     </v-card>
@@ -109,7 +109,7 @@ export default {
   font-family: Open Sans;
   color: #333;
   line-height: 1.6;
-  font-size: 14px;
+  font-size: 16px;
   margin-top: 0;
   text-overflow: ellipsis;
   /* 여러 줄 자르기 추가 스타일 */
