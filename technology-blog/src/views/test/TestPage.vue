@@ -21,7 +21,7 @@
       </draggable>
     </v-flex>
 
-    
+
   </v-layout>
   <v-btn class="v-btn theme--dark" @click="updateTodo">확인</v-btn>
 </v-container>
@@ -47,13 +47,14 @@ export default {
       this.temp();
     },
 	  methods: {
-      temp(){
-        this.$http.get("http://192.168.31.63:3000/todos") // 호출
-        .then((response) => {
-          console.log("response.data =>")
-          console.log(response.data);
+      async temp(){
+      console.log("?")
 
-          var todos = response.data;
+        this.$http.get("http://192.168.31.65:3000/todos") // 호출
+        .then(result=> {
+          console.log(result.data);
+          //--
+          var todos = result.data;
 
           for(var i = 0; i < todos.length; i++){
             if(todos[i].state == "1"){
@@ -77,19 +78,24 @@ export default {
         console.log(this.myArray2)
         console.log(this.myArray3)
 
-        var form = {
-          one : this.myArray1,
-          two : this.myArray2,
-          three : this.myArray3
-        }
+          console.log(this.myArray1);
+
+
+
+          // --
 
         this.$http.post("http://192.168.31.63:3000/todos/update", form)
         .then((response) => {
           console.log(response)
         })
-        .catch((error) => {
-          console.log(error)
-        }) // 호출
+
+      },
+      async updateTodo() {
+        var form = await this.form
+        this.$http.put("http://192.168.31.65:3000/todos/update", form) // 호출
+        .then((req) => {
+          alert(req.data)
+        })
       }
 	},
 

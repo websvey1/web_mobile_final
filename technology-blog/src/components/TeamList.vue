@@ -139,6 +139,9 @@ export default {
     show(memberData) {
       alert(memberData)
     },
+    ModalHide() {
+      this.modal = false;
+    },
     accept(titleData) {
       var temp = {
         num: this.$session.get('userInfo').user_num,
@@ -372,5 +375,19 @@ export default {
   /* font-weight:bold; */
   color: rgb(224, 0, 0);
   background-color: rgb(224, 0, 0,0.1);
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>
