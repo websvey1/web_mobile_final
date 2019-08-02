@@ -47,17 +47,18 @@ router.get('/:id', function(req, res, next){
         })
     })
 
-router.put('/update', function(req, res, next){
+router.post('/update', function(req, res, next){
+    console,log("This is Back-End")
     var pool = db.getPool();
-
-    // console.log(req.body);
+    console.log(req.body);
     var big = req.body;
-    var myArray1 = req.body.myArray1;
-    var myArray2 = req.body.myArray2;
-    var myArray3 = req.body.myArray3;
-    var state_1 = 1;
-    var state_2 = 2;
-    var state_3 = 3;
+    res.send("asd")
+    // var myArray1 = req.body.myArray1;
+    // var myArray2 = req.body.myArray2;
+    // var myArray3 = req.body.myArray3;
+    // var state_1 = 1;
+    // var state_2 = 2;
+    // var state_3 = 3;
 
     pool.getConnection((ex, conn) => {
         if(ex){
