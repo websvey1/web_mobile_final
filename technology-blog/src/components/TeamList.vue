@@ -34,7 +34,7 @@
 <v-dialog hide-overlay v-model="dialog" persistent max-width="600px">
   <v-card>
     <v-card-title>
-      <span class="headline">MEMBERS</span>
+      <span class="headline" > 팀원을 확인하세요!</span>
     </v-card-title>
     <v-card-text>
       <v-container grid-list-md>

@@ -1,8 +1,10 @@
 <template>
-<div class="body" style="padding-top: 50px;">
+<div class="body">
+  <v-img height="100%" width="auto" src="https://advancedtech.airliquide.com/sites/abt_at/files/styles/web_page_cover/public/2016/10/05/banner_space_1366x520px.jpg?itok=_28TaB8h"></v-img>
     <div class="container">
         <div class="website">
             <div class="main-page" style="position:relative; z-index:2;">
+
                 <PostList></PostList>
                   <PostList></PostList>
                     <PostList></PostList>

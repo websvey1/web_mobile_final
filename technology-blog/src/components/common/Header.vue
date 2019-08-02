@@ -246,11 +246,16 @@ export default {
     }
   },
   created(){
-    this.hasTeam = this.$session.has("teamInfo")
-
-    if(this.hasTeam){
-      console.log(this.$session.get("teamInfo"));
+    console.log("1111",this.$route.params.id)
+    var data = {
+        id : this.$route.params.id
     }
+    this.$http.post('http://192.168.31.63:3000/teamProject', data)
+    .then((response) => {
+        console.log("2222",response.data)
+        this.projects = response.data
+        console.log("333",this.projects)
+    })
   }
 
 
