@@ -65,6 +65,10 @@
         </fieldset>
       </v-flex>
     </v-layout>
+    <div style="text-align:center; margin-top: 20px;" id="write-btn">
+      <v-btn class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
+      <v-btn class="v-btn theme--dark" @click="goHome">목록</v-btn>
+    </div>
 
   </v-container>
 </div>
@@ -101,7 +105,11 @@ export default {
   },
   methods: {
     goHome() {
-      this.$router.push("/post")
+      this.$router.push("/myproject")
+    },
+    goUpdate() {
+      var id =this.$route.params.id;
+      this.$router.push(`/myproject/update/${id}`)
     }
   }
 }

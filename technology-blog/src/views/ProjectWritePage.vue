@@ -98,16 +98,39 @@
       </v-flex>
     </v-layout>
 
-    <fieldset style="margin-bottom: 5px; height:100%">
+    <fieldset style="margin-top: -18px; margin-bottom: 5px; height:100%">
       <legend>PICTURE</legend>
-        <label style="margin-left: 20px;">Files
-          <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()"/>
+        <label style="margin-left: 20px;"><span style="font-size: 18px; font-weight: 500;">Files&nbsp;&nbsp;</span>
+          <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()" 
+          style="border: 2px solid rgb(231, 241, 247); padding: 1px 1px 0px 0.5px; border-radius: 3px;"/>
         </label>
-        <button v-on:click="addFiles()" style="margin-right: 20px;">Add Files</button>
-        <button v-on:click="submitFiles()">Submit</button>
+
+        <v-btn
+          small
+          style="border-radius: 15px; margin-left:16px;"
+          v-on:click="addFiles()"
+          color="blue lighten-2"
+        >
+          Add Files
+          <v-icon right dark style="margin-left: -0.1px;">add</v-icon>
+        </v-btn>
+        <!-- <button v-on:click="addFiles()">Add Files</button> -->
+        <!-- <button v-on:click="submitFiles()">Submit</button> -->
+         <v-btn
+          small
+          style="border-radius: 15px;"
+          v-on:click="submitFiles()"
+          color="blue-grey"
+          class="ma-2 white--text"
+        >
+          Submit
+          <v-icon right dark>cloud_upload</v-icon>
+        </v-btn>
+
+        <div style="height: 10px"></div>
 
         <div v-for="(file, key) in files" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">{{ file.name }}
-          <span class="remove-file" v-on:click="removeFile( key )">Remove</span>
+          <v-btn class="remove-file" v-on:click="removeFile( key )" dark small style="border-radius: 15px;">Remove</v-btn>
         </div>
     </fieldset>
 
@@ -215,7 +238,7 @@ export default {
 
   methods: {
     goHome(){
-      this.$router.push("/")
+      this.$router.push("/myproject")
     },
 
     async createProject(){

@@ -1,7 +1,6 @@
 <template>
 <v-app>
 <sequential-entrance fromTop>
-
  <!-- <v-card flat v-for="item in items" max-width="1000" max-height="170" style="margin: auto; margin-bottom:30px; border:1px solid rgb(143, 143, 143);"> -->
    <v-card  v-for="item in items" max-width="900" max-height="135" style="margin: auto; margin-bottom:30px; border-radius: 15px;">
     <div v-if="item.exist == true">
