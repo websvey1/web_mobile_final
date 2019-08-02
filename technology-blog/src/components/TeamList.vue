@@ -31,14 +31,13 @@
    </div>
  </v-card>
 </sequential-entrance>
-<v-dialog hide-overlay v-model="dialog" persistent max-width="600px">
+<v-dialog hide-overlay v-model="dialog" persistent max-width="400px">
   <v-card>
-    <v-card-title>
-      <span style="text-align: center;"> 팀원을 확인하세요! </span>
+    <v-card-title style="display:flex; justify-content:center;">
+      <h2> 팀원을 확인하세요! </h2>
     </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text>
-      <v-container grid-list-md>
+    <v-card-text style="text-align:center;" >
+      <v-container grid-list-md style="display:flex; justify-content:center;">
         <v-layout wrap>
           <v-flex xs12>
             {{ this.selectItem.member }}
@@ -46,9 +45,9 @@
         </v-layout>
       </v-container>
     </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" flat @click="closeDialog">CANCEL</v-btn>
+    <v-card-actions style="display:flex; justify-content:center;">
+      <!-- <v-spacer></v-spacer> -->
+      <v-btn color="blue darken-1" flat @click="closeDialog">OK!</v-btn>
     </v-card-actions>
   </v-card>
 </v-dialog>
