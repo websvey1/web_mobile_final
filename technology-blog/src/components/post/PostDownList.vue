@@ -1,33 +1,26 @@
 <template>
-<v-layout v-dragscroll class="overflow">
-  <v-flex xs3 v-for="post in $store.state.posts" px-2 py-4>
-    <PostCard :post="post"></PostCard>
+<v-layout wrap>
+  <v-flex v-for="post in $store.state.posts" xs12 px-2 style="margin-bottom: 35px;">
+    <PostDownCard :post="post"></PostDownCard>
   </v-flex>
 </v-layout>
 </template>
 
 <script>
-import PostCard from "./PostCard"
-
-import {
-  dragscroll
-} from 'vue-dragscroll'
+import PostDownCard from '@/components/post/PostDownCard'
 
 export default {
-  name: "PostList",
+  name: "PostDownList",
   components: {
-    PostCard
-  },
-  directives: {
-    'dragscroll': dragscroll
+    PostDownCard
   },
   data() {
     return {
 
     }
   },
-  filter: {
-
+  created(){
+    this.readPosts();
   },
   methods: {
     isVisible(post) {
@@ -39,9 +32,9 @@ export default {
     },
 
     async readPosts() {
-      var posts = await this.$http.get("http://192.168.31.65:3000/post")
+      var posts = await this.$http.get("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num)
         .then((response) => {
-          // console.log(response.data);
+          console.log(response.data);
           this.$store.state.posts = response.data;
         })
         .catch((error) => {
@@ -50,18 +43,10 @@ export default {
     }
   },
   mounted() {
-    this.readPosts();
+    // this.readPosts();
   }
 }
 </script>
 
-<style media="screen" scoped>
-.overflow {
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.overflow::-webkit-scrollbar {
-  display: none;
-}
+<style media="screen">
 </style>

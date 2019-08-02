@@ -36,7 +36,7 @@ export default {
             start     : '2018-07-10',
             end       : '2018-07-13',
             cssClass  : ['orange']
-          }] 
+          }]
         }
       }
     }
@@ -61,7 +61,7 @@ export default {
       width: 35%;
     }
     .form-holder > h3 {
-      color: orangered;
+      /* color: orangered; */
       text-transform: uppercase;
       font-size: 16px;
       text-align: left;

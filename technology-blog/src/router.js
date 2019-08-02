@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from './views/HomePage.vue'
-import ProjectWritePage from './views/ProjectWritePage.vue'
 
 //// post ////
 import PostPage from './views/post/PostPage.vue'
@@ -23,6 +22,11 @@ import TestPage from './views/test/TestPage.vue'
 
 //// myproject ////
 import ProjectPage from './views/ProjectPage.vue'
+import TeamProjectPage from './views/TeamProjectPage.vue'
+
+import ProjectWritePage from './views/ProjectWritePage.vue'
+import TeamProjectWritePage from './views/TeamProjectWritePage.vue'
+
 import ProjectReadPage from './views/ProjectReadPage.vue'
 import ProjectUpdatePage from './views/ProjectUpdatePage.vue'
 //// myproject ////
@@ -92,6 +96,19 @@ export default new Router({
       path: '/teamChoose',
       name: 'TeamChoose',
       component: TeamChoose
+    },
+    ////////////////////////////////////////////////////////////
+
+    /////////////////////// Team Project ///////////////////////
+    {
+      path: '/teamProject/:id',
+      name: 'TeamProjectPage',
+      component: TeamProjectPage
+    },
+    {
+      path: '/teamProject/write',
+      name: 'TeamProjectWritePage',
+      component: TeamProjectWritePage
     },
     ////////////////////////////////////////////////////////////
 

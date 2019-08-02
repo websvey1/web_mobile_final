@@ -2,6 +2,22 @@ var express = require('express');
 var router = express.Router();
 var db = require("../database")
 
+
+/*
+기본 폼
+
+var sql = ""
+var query = conn.query(sql,function (err, result) {
+  if (err) {
+    console.error(err);
+    conn.release();
+    throw err;
+  }
+
+  res.send("Success");
+});
+
+*/
 /* GET users listing. */
 router.get('/:id', function(req, res, next) {
   var dept_no = req.params.id;

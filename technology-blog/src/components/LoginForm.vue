@@ -17,7 +17,7 @@
       <v-container grid-list-md>
         <v-layout wrap @keydown.enter="loginWithId">
           <v-flex xs12>
-            <v-text-field label="Email*" required v-model="id" ref="id" :rules="idRules"></v-text-field>
+            <v-text-field label="Id*" required v-model="id" ref="id" :rules="idRules"></v-text-field>
           </v-flex>
           <v-flex xs12>
             <v-text-field label="Password*" type="password" required v-model="pw" ref="password" :rules="pwRules"></v-text-field>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Loading from '@/components/Loading';
+import Loading from '@/components/common/Loading';
 
 export default {
   name: "LoginForm",
@@ -63,6 +63,10 @@ export default {
     this.isLoading = true;
 
     this.isLogin = this.$session.has("userInfo")
+
+    if(this.isLogin){
+      console.log(this.$session.get("userInfo"));
+    }
   },
   mounted(){
     this.isLoading = false;
@@ -101,7 +105,7 @@ export default {
         this.$http.post("http://192.168.31.65:3000/user/login", this.form)
           .then((res) => {
             console.log(res.data);
-            if (res.data.length == 0) {
+            if (res.data == "fail") {
               alert("아이디와 비밀번호를 확인해 주세요.");
               this.resetForm();
             } else {

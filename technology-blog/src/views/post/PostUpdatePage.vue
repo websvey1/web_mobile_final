@@ -53,8 +53,8 @@
 
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
-import ImageUpload from "@/components/ImageUpload"
-import HashTag from "@/components/HashTag"
+import ImageUpload from "@/components/common/ImageUpload"
+import HashTag from "@/components/common/HashTag"
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Time from "@/services/Time"
