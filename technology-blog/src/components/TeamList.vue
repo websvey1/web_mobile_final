@@ -34,8 +34,9 @@
 <v-dialog hide-overlay v-model="dialog" persistent max-width="600px">
   <v-card>
     <v-card-title>
-      <span class="headline" > 팀원을 확인하세요!</span>
+      <h2 style="text-align: center;"> 팀원을 확인하세요! </h2>
     </v-card-title>
+    <v-divider></v-divider>
     <v-card-text>
       <v-container grid-list-md>
         <v-layout wrap>
