@@ -199,7 +199,7 @@ export default {
         imgFile: '',
       },
 
-      writer: 5,
+      writer: this.$session.get('userInfo').user_num,
       title: "",
       goal: "",
       status: '',
@@ -277,8 +277,6 @@ export default {
     },
 
     handleFileUploads() {
-      // this.files = this.$refs.files.files;
-      // console.log(this.files);
        let uploadedFiles = this.$refs.files.files;
        for( var i = 0; i < uploadedFiles.length; i++ ){
           this.files.push( uploadedFiles[i] );
