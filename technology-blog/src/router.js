@@ -21,10 +21,14 @@ import PageTest from './views/test/PageTest.vue'
 import TestPage from './views/test/TestPage.vue'
 //// test ////
 
-import CalendarPage from './views/CalendarPage.vue'
-import TeamCalendarPage from './views/TeamCalendarPage.vue'
+//// myproject ////
 import ProjectPage from './views/ProjectPage.vue'
 import ProjectReadPage from './views/ProjectReadPage.vue'
+import ProjectUpdatePage from './views/ProjectUpdatePage.vue'
+//// myproject ////
+
+import CalendarPage from './views/CalendarPage.vue'
+import TeamCalendarPage from './views/TeamCalendarPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
 import AnotherUser from './views/AnotherUser.vue'
 
@@ -75,6 +79,11 @@ export default new Router({
       path: '/myproject/:id',
       name: 'ProjectReadPage',
       component: ProjectReadPage
+    },
+    {
+      path: '/myproject/update/:id',
+      name: 'ProjectUpdatePage',
+      component: ProjectUpdatePage
     },
     ////////////////////////////////////////////////////////////
 

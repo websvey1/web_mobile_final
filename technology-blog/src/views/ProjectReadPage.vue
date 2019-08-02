@@ -46,8 +46,7 @@
               <br>
 
               <h2 style="padding:5px 0;">git_url</h2>
-              <p>{{ project.git_url }}darkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdarkdark</p>
-
+              <p>{{ project.project_git_url }}</p>
             </div>
           </fieldset>
         </v-flex>

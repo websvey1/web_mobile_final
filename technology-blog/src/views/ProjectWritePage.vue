@@ -98,11 +98,6 @@
       </v-flex>
     </v-layout>
 
-    <fieldset style="margin-bottom: 5px;">
-      <legend>PICTURE</legend>
-      <ImageUpload :random_picture="true" ref="imagePicker"></ImageUpload>
-    </fieldset>
-
     <fieldset style="margin-bottom: 5px; height:100%">
       <legend>PICTURE</legend>
         <label style="margin-left: 20px;">Files
@@ -121,7 +116,7 @@
       <div style="margin:16px;">
         <markdown-editor v-model="content" ref="markdownEditor"></markdown-editor>
       </div>
-    </fieldset>
+    </fieldset> 
 
     <v-layout wrap>
       <v-flex xs9>
