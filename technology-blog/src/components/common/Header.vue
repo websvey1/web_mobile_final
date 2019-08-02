@@ -27,10 +27,11 @@
       <v-toolbar flat style="background-color: rgb(255, 255, 255);
       z-index:4;
       color:rgb(0, 0, 0);
-      box-shadow: 0 4px 0 rgba(182, 182, 182, 0.18) !important;
       display: flex;
+      border-bottom: 1px solid rgb(208, 208, 208);
       justify-content: center;
       ">
+      <!-- box-shadow: 0 4px 0 rgba(182, 182, 182, 0.18) !important; -->
 
         <v-toolbar-title>
           <router-link id="Main" to="/" style="margin-right:50px;">
