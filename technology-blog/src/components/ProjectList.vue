@@ -1,6 +1,6 @@
 <template>
 <v-layout wrap>
-    <v-flex v-for="project in projects" xs6 style="margin-top: 40px; margin-bottom: 15px;">
+    <v-flex v-for="project in projects" xs6 style=" margin-bottom: 40px;">
         <ProjectCard :project="project"></ProjectCard>
     </v-flex>
 </v-layout>

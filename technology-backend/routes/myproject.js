@@ -2,6 +2,100 @@ var express = require('express');
 var router = express.Router();
 var db = require("../database");
 
+/////////////////////////////////////////// create //////////////////////////////////////////
+router.post('/create', function(req, res, next) {
+  var pool = db.getPool();
+  
+  // console.log(req.body);
+
+  var user = req.body.user;
+  var title = req.body.title;
+  var goal = req.body.goal;
+  var status = req.body.status;
+  var start_date = req.body.start_date;
+  var end_date = req.body.end_date;
+  var git_url = req.body.git_url;
+  var content = req.body.content;
+  var tech = req.body.tech;
+  var share = req.body.share;
+  var category = '0';
+  var images = req.body.imgArray;
+
+  pool.getConnection((ex, conn) => {
+      if(ex){
+        console.log(ex);
+      }
+      else{
+        var query = conn.query('insert into project(project_user, project_title, project_goal, project_start_date, project_end_date,' + 
+        'project_tech,project_content,project_status,project_git_url,project_share, project_category)' + 
+        'values("'+ user + '","' + title + '","' + goal + '","' + start_date + '","' + end_date + '","' + tech + '","' + content + '","' +
+        status + '","' + git_url + '","' + share + '","' + category + '")',
+          (err, result) => {
+          if (err) {
+            console.error(err);
+            throw err;
+          }
+          
+          var project_num = result.insertId;
+          // console.log(project_num)
+          
+          var img_query = 'insert into image(image_url) values';
+
+          if (images.length > 0) {
+            for (var i=0; i < images.length; i++) {
+              var img = images[i]
+              // console.log(img)
+              img_query += '("' + img + '")';
+              if (i+1 == images.length) {
+                img_query += ';'
+              } else {
+                img_query += ','
+              }     
+            }
+            
+            var imgquery = conn.query(img_query, (err, result) => {
+              if (err) {
+                console.error(err);
+                throw err;
+              }
+              var image_num = result.insertId;
+              // console.log(image_num);
+
+              var imgleng = images.length;
+              var imgcnt = image_num + images.length
+              // console.log(imgleng)
+
+              var imgconn_query = 'insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values';
+              for (var j=0; image_num + j < imgcnt; j++) {
+                var imgnum = image_num + j
+                imgconn_query += '(' + imgnum + ',' + project_num + ', 1, 0)'
+                if (imgnum == imgcnt - 1) {
+                  imgconn_query += ';'
+                } else {
+                  imgconn_query += ','
+                }
+              }
+
+              // console.log(imgconn_query)
+              var imgconnquery = conn.query(imgconn_query, (err, result) => {
+                if (err) {
+                  console.error(err);
+                  throw err;
+                }
+                res.send("Success");
+              })
+            })
+          } else {
+            res.send("Out of range");
+          }
+        });
+      }
+      conn.release();
+  });
+});
+
+
+/////////////////////////////////////////// Read //////////////////////////////////////////
 router.post('/getPjt', function(req, res, next) {
   var pool = db.getPool();
   var userNum = req.body.userNum;
@@ -11,7 +105,7 @@ router.post('/getPjt', function(req, res, next) {
       console.log(ex);
     }
     else {
-      var query = conn.query('select project_num from project where project_user = ' + userNum + ';', function (err, result) {
+      var query = conn.query('select project_num from project where project_user = ?', userNum, function (err, result) {
         if (err) {
           console.log(err);
           throw err;
@@ -114,94 +208,128 @@ router.get('/:id', function(req, res, next) {
   })
 })
 
-router.post('/create', function(req, res, next) {
-    var pool = db.getPool();
-    
-    // console.log(req.body);
+/////////////////////////////////////////// update //////////////////////////////////////////
+router.post('/update/getProject', function(req, res, next) {
+  var pool = db.getPool();
+  var pjtNum = req.body.pjtNum
 
-    var user = req.body.user;
-    var title = req.body.title;
-    var goal = req.body.goal;
-    var status = req.body.status;
-    var start_date = req.body.start_date;
-    var end_date = req.body.end_date;
-    var git_url = req.body.git_url;
-    var content = req.body.content;
-    var tech = req.body.tech;
-    var share = req.body.share;
-    var category = '0';
-    var images = req.body.imgArray;
-
-    pool.getConnection((ex, conn) => {
-        if(ex){
-          console.log(ex);
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select * from project where project_num = ?', pjtNum, 
+      function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
         }
-        else{
-          var query = conn.query('insert into project(project_user, project_title, project_goal, project_start_date, project_end_date,' + 
-          'project_tech,project_content,project_status,project_git_url,project_share, project_category)' + 
-          'values("'+ user + '","' + title + '","' + goal + '","' + start_date + '","' + end_date + '","' + tech + '","' + content + '","' +
-          status + '","' + git_url + '","' + share + '","' + category + '")',
-            (err, result) => {
-            if (err) {
-              console.error(err);
-              throw err;
-            }
-            
-            var project_num = result.insertId;
-            // console.log(project_num)
-            
-            var img_query = 'insert into image(image_url) values';
 
-            if (images.length > 0) {
-              for (var i=0; i < images.length; i++) {
-                var img = images[i]
-                // console.log(img)
-                img_query += '("' + img + '")';
-                if (i+1 == images.length) {
-                  img_query += ';'
-                } else {
-                  img_query += ','
-                }     
-              }
-              
-              var imgquery = conn.query(img_query, (err, result) => {
-                if (err) {
-                  console.error(err);
-                  throw err;
-                }
-                var image_num = result.insertId;
-                // console.log(image_num);
-
-                var imgleng = images.length;
-                var imgcnt = image_num + images.length
-                // console.log(imgleng)
-  
-                var imgconn_query = 'insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values';
-                for (var j=0; image_num + j < imgcnt; j++) {
-                  var imgnum = image_num + j
-                  imgconn_query += '(' + imgnum + ',' + project_num + ', 1, 0)'
-                  if (imgnum == imgcnt - 1) {
-                    imgconn_query += ';'
-                  } else {
-                    imgconn_query += ','
-                  }
-                }
-  
-                // console.log(imgconn_query)
-                var imgconnquery = conn.query(imgconn_query, (err, result) => {
-                  if (err) {
-                    console.error(err);
-                    throw err;
-                  }
-                  res.send("Success");
-                })
-              })
-            } else {
-              res.send("Out of range");
-            }
-          });
+        var project = {
+          project: result,
+          images: null
         }
-    });
-});
+
+        var query = conn.query('select i.image_num, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + pjtNum + ';',
+        function(err, result) {
+          if (err) {
+            console.error(err);
+            conn.release();
+            throw err;
+          }
+
+          var image = []
+          for (var i=0; i < result.length; i++){
+            image.push(result[i].image_url);
+          }
+
+          project.images = image
+          res.send(project);
+        })
+      })
+    }
+    conn.release()
+  }) 
+})
+
+router.post('/delete/image', function(req, res, next) {
+  var pool = db.getPool();
+  var imgurl = req.body.imgDel;
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('delete from image where image_url = ?', imgurl,
+      function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send("Success")
+      })
+    }
+    conn.release()
+  })
+})
+
+router.post('/update/project', function(req, res, next) {
+  var pool = db.getPool();
+  var pjtNum = req.body.pjtNum;
+  var project = req.body.project;
+  console.log(project)
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('update project set project_title = ?, project_goal = ?, project_status = ?, project_start_date = ?, project_end_date = ?, project_content = ?, project_tech = ?, project_share = ? where project_num = ' + pjtNum + ';', 
+      [project.project_title, project.project_goal, project.project_status, project.project_start_date, project.project_end_date, project.project_content, project.project_tech, project.project_share],
+      function(err, result) {
+        if (err){
+          console.err(err)
+          throw err
+        }
+        res.send("UpdateProjectSuccess")
+      })
+    }
+    conn.release()
+  })
+})
+
+router.post('/update/image', function(req, res, next) {
+  var pool = db.getPool();
+  var pjtNum = req.body.pjtNum
+  var newimg = req.body.image
+  console.log(newimg)
+  
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('insert into image(image_url) values (?)', newimg, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        
+        var imgNum = result.insertId;
+        console.log(imgNum)
+        var query = conn.query('insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values (?, ?, 0, 0)',
+        [imgNum, pjtNum], function(err, result) {
+          if(err) {
+            console.error(err)
+            throw err
+          }
+          res.send("UpdateImageSuccess")
+        })
+      }) 
+    }
+  })
+})
+
 
 module.exports = router;

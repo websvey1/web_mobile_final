@@ -112,6 +112,7 @@ export default {
               alert("로그인 되었습니다.")
               this.isLogin = true;
               this.$session.set("userInfo", res.data);
+              console.log(this.$session.get('userInfo').user_num)
               this.closeDialog();
             }
             this.isLoading = false;
