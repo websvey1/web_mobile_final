@@ -1,6 +1,6 @@
 <template>
 <v-container>
-  <v-layout row>
+  <v-layout row style="min-height:300px; margin-top:40px;">
 
     <v-flex xs12 class="Todo">
         <h2>해야할 일</h2>
@@ -23,7 +23,9 @@
 
 
   </v-layout>
+  <div style="display:flex; justify-content:center; margin-top:50px; margin-bottom:20px;">
   <v-btn class="v-btn theme--dark" @click="updateTodo">확인</v-btn>
+  </div>
 </v-container>
 
 </template>
@@ -103,12 +105,14 @@ export default {
 
 <style scoped>
 .Todo {
-  border: 4mm ridge rgba(94, 87, 87, 0.6);
+  border: 2px solid rgba(94, 87, 87, 0.6);
+
   margin-right: 5px;
-  padding : 2px;  
+  padding : 2px;
   text-align: center;
 }
 .Todo > h2{
   font-size: 25pt;
+  padding:30px 0;
 }
 </style>
