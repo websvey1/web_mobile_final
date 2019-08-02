@@ -1,6 +1,6 @@
 <template>
-<div style="background-color: white;">
-  <div class="container">
+<div style="background-color: white; padding-top: 30px;">
+  <div class="container" >
         <v-btn class="v-btn theme--dark" style="margin-bottom: 20px;" to="/myproject/create">프로젝트 작성</v-btn>
         <ProjectList></ProjectList>
   </div>
@@ -28,7 +28,7 @@ export default {
 
  }
  </script>
- 
+
  <style scoped>
    .container {
     background-color: white;
