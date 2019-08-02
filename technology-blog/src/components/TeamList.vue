@@ -5,15 +5,15 @@
   <div v-if="item.exist == true">
     <v-layout py-4 pl-4>
       <v-flex shrink>
-        <v-img height="120" width="120" src="https://cdn.vuetifyjs.com/images/cards/store.jpg" style="border-radius: 50%;"></v-img>
+        <v-img height="120" width="120" src="https://www.colourbox.com/preview/18068844-doodle-team-icon.jpg" style="border-radius: 50%; margin-top: -17px;"></v-img>
       </v-flex>
       <v-flex text-center>
-        <v-container grid-list-lg style="margin-left: 10px;">
+        <v-container grid-list-lg style="margin-left: 0px;">
           <v-layout column>
-            <v-flex style="padding-top: 20px;">
+            <v-flex style="padding-top: 3px;">
               <h1>{{ item.title }}</h1>
             </v-flex>
-            <v-flex v-if="item.auth == 0" style="margin-left: auto;">
+             <v-flex v-if="item.auth == 0" style="margin-top: -20px; margin-left: auto;">
             <v-btn flat class="outlined_first" @click="openDialog(item)">팀원보기</v-btn>
              <v-btn flat class="outlined_second" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
              <v-btn flat class="outlined_third" @click="del(item.title)">거절</v-btn>
@@ -32,7 +32,7 @@
 <v-dialog hide-overlay v-model="dialog" persistent max-width="600px">
   <v-card>
     <v-card-title>
-      <span class="headline">MEMBERS</span>
+      <span class="headline" > 팀원을 확인하세요!</span>
     </v-card-title>
     <v-card-text>
       <v-container grid-list-md>
