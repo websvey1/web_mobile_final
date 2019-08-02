@@ -1,9 +1,15 @@
 <template>
 <div style="background-color: white;">
+    
       <v-layout wrap row pa-5>
         <v-flex fill-height d-flex xs12>
+          <div class="container">
           <!-- <PostList></PostList> -->
-          <PostDownList></PostDownList>
+          <v-btn class="v-btn theme--dark" to="/post/create">POST 작성</v-btn>
+          <PostDownList>
+            
+          </PostDownList>
+          </div>
         </v-flex>
       </v-layout>
 

@@ -2,19 +2,19 @@
 <v-container>
   <v-layout row>
 
-    <v-flex xs12>
+    <v-flex xs12 class="Todo">
         <h2>해야할 일</h2>
         <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
           <div v-for="element in myArray1" :key="element.id">{{element.todo_content}}</div>
       </draggable>
     </v-flex>
-    <v-flex xs12>
+    <v-flex xs12 class="Todo">
      <h2>하고 있는 일</h2>
       <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray2" :key="element.id">{{element.todo_content}}</div>
       </draggable>
       </v-flex>
-    <v-flex xs12>
+    <v-flex xs12 class="Todo">
       <h2>완성할 일</h2>
       <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray3" :key="element.id">{{element.todo_content}}</div>
@@ -102,5 +102,13 @@ export default {
 </script>
 
 <style scoped>
-
+.Todo {
+  border: 4mm ridge rgba(94, 87, 87, 0.6);
+  margin-right: 5px;
+  padding : 2px;  
+  text-align: center;
+}
+.Todo > h2{
+  font-size: 25pt;
+}
 </style>
