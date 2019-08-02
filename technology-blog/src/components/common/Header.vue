@@ -166,27 +166,14 @@
 
     </v-list-group>
 
-    <v-list-group>
-        <template v-slot:activator>
-          <v-list-tile @click="" style="margie-top:10px;">
-            <v-list-tile-content style="height:auto;">
-              <h1 style="margin-left: 15px;">
-                <v-icon>question_answer</v-icon>
-                <span class="spantag"> AnotherUser</span>
-              </h1>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
-        <v-divider />
         <v-list-tile to="/another" style="background:white;">
           <v-list-tile-content style="height:auto;">
-            <h1 style="margin-left: 30px;">
-              <span class="spantag"> AnotherUser 보기</span>
+            <h1 style="margin-left: 15px;">
+              <v-icon>account_circle</v-icon>
+              <span class="spantag"> AnotherUser</span>
             </h1>
           </v-list-tile-content>
         </v-list-tile>
-        <v-divider />
-      </v-list-group>
 
     <v-list-group>
       <template v-slot:activator>

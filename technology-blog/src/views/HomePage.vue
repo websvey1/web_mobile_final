@@ -6,9 +6,6 @@
             <div class="main-page" style="position:relative; z-index:2;">
 
                 <PostList></PostList>
-                  <PostList></PostList>
-                    <PostList></PostList>
-                    <PostList></PostList>
             </div>
         </div>
     </div>
