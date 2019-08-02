@@ -1,18 +1,18 @@
 <template>
 <div class="container">
 <v-layout wrap align-center justify-center row fill-height>
-  <v-flex xs12.; ma-5 text-xs-left>
+  <v-flex xs12 ma-5 text-xs-left>
     <div style="margin: 0px 16px 1px">
-      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='title' counter="20" :maxlength="20"></v-text-field>
+      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='project.title' counter="20" :maxlength="20"></v-text-field>
     </div>
     <v-layout wrap>
       <v-flex xs10>
         <div style="margin: 8px 16px 1px">
-          <v-text-field xs12 label="Goal" placeholder="프로젝트 목표를 입력해 주세요." v-model='goal' counter="20" :maxlength="20"></v-text-field>
+          <v-text-field xs12 label="Goal" placeholder="프로젝트 목표를 입력해 주세요." v-model='project.goal' counter="20" :maxlength="20"></v-text-field>
         </div>
       </v-flex>
       <v-flex xs2 style="margin-top: 3.5px;">
-        <v-select v-model="status"
+        <v-select v-model="project.status"
           :items="status_items"
           label="프로젝트 상태"
         ></v-select>
@@ -29,7 +29,7 @@
               ref="menu1"
               v-model="menu1"
               :close-on-content-click="false"
-              :return-value.sync="start_date"
+              :return-value.sync="project.start_date"
               transition="scale-transition"
               offset-y
               full-width
@@ -38,29 +38,29 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="start_date"
+                  v-model="project.start_date"
                   label="프로젝트 시작일"
                   prepend-icon="event"
                   readonly
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="start_date" no-title scrollable locale="ko-kr">
+              <v-date-picker v-model="project.start_date" no-title scrollable locale="ko-kr">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menu1 = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.menu1.save(start_date)">OK</v-btn>
+                <v-btn text color="primary" @click="$refs.menu1.save(project.start_date)">OK</v-btn>
               </v-date-picker>
             </v-menu>
           </v-flex>
 
-          <span id="date_div">~</span>
+          <span id="date_div" style="width:30px; margin-left: 10px; margin-top: 20px;">~</span>
 
           <v-flex style="width: 20%; margin-right: 18px;">
             <v-menu
               ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
-              :return-value.sync="end_date"
+              :return-value.sync="project.end_date"
               transition="scale-transition"
               offset-y
               full-width
@@ -68,17 +68,17 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="end_date"
+                  v-model="project.end_date"
                   label="프로젝트 마감일"
                   prepend-icon="event"
                   readonly
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="end_date" no-title scrollable locale="ko-kr">
+              <v-date-picker v-model="project.end_date" no-title scrollable locale="ko-kr">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="menu2= false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.menu2.save(end_date)">OK</v-btn>
+                <v-btn text color="primary" @click="$refs.menu2.save(project.end_date)">OK</v-btn>
               </v-date-picker>
             </v-menu>
           </v-flex>
@@ -90,7 +90,7 @@
         <fieldset style="margin-right:4px; height:80%">
         <legend>&nbsp;git URL&nbsp;</legend>
         <div style="margin-left: 10px; margin-right: 10px; padding-bottom: 30px;">
-           <v-text-field v-model="git_url"
+           <v-text-field v-model="project.git_url"
             label="git url을 입력해 주세요." counter="20" :maxlength="20"
           ></v-text-field>
         </div>
@@ -137,7 +137,7 @@
     <fieldset>
       <legend>CONTENT</legend>
       <div style="margin:16px;">
-        <markdown-editor v-model="content" ref="markdownEditor"></markdown-editor>
+        <markdown-editor v-model="project.content" ref="markdownEditor"></markdown-editor>
       </div>
     </fieldset> 
 
@@ -146,7 +146,7 @@
         <fieldset style="margin-right:4px; height:85%">
           <legend>&nbsp;Technology&nbsp;</legend>
           <div style="margin:16px;" id="hashtag">
-              <v-text-field v-model="tech" counter="20" :maxlength="20"
+              <v-text-field v-model="project.tech" counter="20" :maxlength="20"
                 label="프로젝트 주요 기술"
               ></v-text-field>
           </div>
@@ -156,9 +156,9 @@
         <fieldset style="margin-left:4px; height:85%">
           <legend>&nbsp;Share&nbsp;</legend>
           <div style="margin:16px;">
-            <v-radio-group v-model="share">
-              <v-radio label="Public" color="primary" value="1"></v-radio>
-              <v-radio label="Private" color="error" value="0"></v-radio>
+            <v-radio-group v-model="project.share">
+              <v-radio label="Public" color="primary" value="0"></v-radio>
+              <v-radio label="Private" color="error" value="1"></v-radio>
             </v-radio-group>
           </div>
         </fieldset>
@@ -185,18 +185,108 @@ export default {
     },
     data(){
         return{
-
+        project: {
+            user: this.$session.get('userInfo').user_num,
+            title: '',
+            goal: '',
+            captain: '',
+            status: '',
+            start_date: '2019-08-02',
+            end_date: '2019-08-02',
+            git_url: '',
+            content: '',
+            tech: '',
+            share: '0',
+            modify: this.$session.get('userInfo').user_num
+        },
+        status_items: [
+            {
+                text: '계획',
+                value: '계획'
+            },
+            {
+                text: '진행중',
+                value: '진행중'
+            },
+            {
+                text: '완료',
+                value: '완료'
+            }
+        ],
+        menu1: false,
+        menu2: false,
+        imageUrls: [],
         }
     },
     mounted(){
         console.log(this.$route.params.id)
     },
     methods:{
+        goHome(){
+            this.$router.push("/myproject")
+        },
+            handleFileUploads() {
+       let uploadedFiles = this.$refs.files.files;
+       for( var i = 0; i < uploadedFiles.length; i++ ){
+          this.files.push( uploadedFiles[i] );
+        }
+        console.log(uploadedFiles);
+        },
 
+        submitFiles(){
+            for( var i = 0; i < this.files.length; i++ ){
+                let file = this.files[i];
+                console.log(file)
+
+                if (file !== undefined) {
+                this.img.imgName = file.name;
+                if (this.img.imgName.lastIndexOf('.') <= 0) {
+                    return
+                }
+                const fr = new FileReader();
+                fr.readAsDataURL(file);
+                fr.addEventListener('load', () => {
+                    this.img.imageUrl = fr.result
+                    this.img.imageFile = file
+                })
+
+                var img_file = this.img.imageFile;
+                if (file != '') {
+                    var xmlHttpRequest = new XMLHttpRequest();
+                    xmlHttpRequest.open('POST', 'https://api.imgur.com/3/image/', false);
+                    xmlHttpRequest.setRequestHeader("Authorization", "Client-ID cec4916437ef1c8");
+                    xmlHttpRequest.onreadystatechange = (function() {
+                    if (xmlHttpRequest.readyState == 4) {
+                        if (xmlHttpRequest.status == 200) {
+                        var result = JSON.parse(xmlHttpRequest.responseText);
+                        this.img.imageUrl = result["data"]["link"]
+                        console.log(this.img.imageUrl)
+                        var url = this.img.imageUrl
+                        this.imgUrls.push(url)
+                        console.log(this.imgUrls)
+                        } else {
+                        console.log("upload failed");
+                        }
+                    }
+                    }).bind(this);
+                    xmlHttpRequest.send(file);
+                }
+                }
+            }
+        },
+
+        addFiles(){
+            this.$refs.files.click();
+        },
+        removeFile( key ){
+            this.files.splice( key, 1 );
+        },
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+.container {
+    padding-top: 10px !important; 
+}
 </style>
