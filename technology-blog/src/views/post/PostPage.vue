@@ -6,6 +6,7 @@
           <PostDownList></PostDownList>
         </v-flex>
       </v-layout>
+      <v-btn @click="move" outline color="indigo" round>Post 추가</v-btn>
 
       <div class="searchbar-total">
         <div class="searchbar-first">
@@ -52,6 +53,9 @@ export default {
 	methods: {
     async postText() {
 
+    },
+    move(){
+      this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id} })
     }
 	},
   mounted(){
