@@ -2,9 +2,20 @@
 <div class="container">
 <v-layout wrap align-center justify-center row fill-height>
   <v-flex xs12 ma-5 text-xs-left>
-    <div style="margin: 0px 16px 1px">
-      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='project.title' counter="20" :maxlength="20"></v-text-field>
-    </div>
+    <v-layout wrap>
+      <v-flex xs10>
+        <div style="margin: 8px 16px 1px">
+          <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='project.title' counter="20" :maxlength="20"></v-text-field>
+        </div>
+      </v-flex>
+      <v-flex xs2 style="margin-top: 3.5px;">
+        <v-select v-model="project.captain"
+          :items="members"
+          label="프로젝트 팀장"
+        ></v-select>
+      </v-flex>
+    </v-layout>
+
     <v-layout wrap>
       <v-flex xs10>
         <div style="margin: 8px 16px 1px">
@@ -166,11 +177,9 @@
     </v-layout>
 
     <div style="text-align:center;" id="write-btn">
-      <v-btn class="v-btn theme--dark" @click="createProject">확인</v-btn>
+      <v-btn class="v-btn theme--dark" @click="createTeamProject">확인</v-btn>
       <v-btn class="v-btn theme--dark" @click="goHome">취소</v-btn>
     </div>
-
-    <Loading :isLoading="isLoading" />
 
   </v-flex>
 </v-layout>
@@ -178,6 +187,7 @@
 </template>
 
 <script>
+import { async } from 'q';
 export default {
     name: 'TeamProjectWritePage',
     components: {
@@ -185,54 +195,100 @@ export default {
     },
     data(){
         return{
-        project: {
-            user: this.$session.get('userInfo').user_num,
-            title: '',
-            goal: '',
-            captain: '',
-            status: '',
-            start_date: '2019-08-02',
-            end_date: '2019-08-02',
-            git_url: '',
-            content: '',
-            tech: '',
-            share: '0',
-            modify: this.$session.get('userInfo').user_num
-        },
-        status_items: [
-            {
-                text: '계획',
-                value: '계획'
+            project: {
+                user: this.$session.get('userInfo').user_num,
+                title: '',
+                goal: '',
+                captain: '',
+                status: '',
+                start_date: '2019-08-02',
+                end_date: '2019-08-02',
+                git_url: '',
+                content: '',
+                tech: '',
+                share: '0',
+                category: '1',
+                modify: this.$session.get('userInfo').user_num
             },
-            {
-                text: '진행중',
-                value: '진행중'
-            },
-            {
-                text: '완료',
-                value: '완료'
-            }
-        ],
-        menu1: false,
-        menu2: false,
-        imageUrls: [],
+            status_items: [
+                {
+                    text: '계획',
+                    value: '계획'
+                },
+                {
+                    text: '진행중',
+                    value: '진행중'
+                },
+                {
+                    text: '완료',
+                    value: '완료'
+                }
+            ],
+            menu1: false,
+            menu2: false,
+            files: [],
+            imgUrls: [],
+            members: []
         }
     },
     mounted(){
         console.log(this.$route.params.id)
+        this.getMember()
     },
     methods:{
         goHome(){
             this.$router.push("/myproject")
         },
-            handleFileUploads() {
-       let uploadedFiles = this.$refs.files.files;
-       for( var i = 0; i < uploadedFiles.length; i++ ){
-          this.files.push( uploadedFiles[i] );
-        }
-        console.log(uploadedFiles);
+        handleFileUploads() {
+            let uploadedFiles = this.$refs.files.files;
+            for( var i = 0; i < uploadedFiles.length; i++ ){
+                this.files.push( uploadedFiles[i] );
+                }
+                console.log(uploadedFiles);
         },
-
+        getMember() {
+            var data = {
+                teamNum: this.$route.params.id
+            }
+            this.$http.post('http://192.168.31.61:3000/team/getMember', data)
+            .then((res) => {
+                console.log(res.body)
+                for (var i=0; i < res.body.length; i++) {
+                    console.log(res.body[i])
+                    this.members.push(res.body[i].user_name)
+                }
+                console.log(this.members)
+            })
+        },
+        createTeamProject() {
+            if (this.imgUrls.length == 0) {
+                this.imgUrls.push('https://source.unsplash.com/random/300x300')
+            }
+            console.log(this.project)
+            var team_num = this.$route.params.id
+            var data = {
+                teamNum: this.$route.params.id,
+                project: this.project
+            }
+            this.$http.post('http://192.168.31.61:3000/teamProject/create', data)
+            .then((res) => {
+                var pjt_num = res.body
+                for (var i=0; i < this.imgUrls.length; i++){
+                    var data = {
+                        teamNum: team_num,
+                        pjtNum: pjt_num, 
+                        image: this.imgUrls[i]
+                    }
+                    console.log(data)
+                    this.$http.post('http://192.168.31.61:3000/teamProject/images', data)
+                    .then((res) => {
+                        console.log(res)
+                        alert("글 작성 완료");
+                        this.$router.push("/teamProject")
+                    })
+                }
+            })
+        },
         submitFiles(){
             for( var i = 0; i < this.files.length; i++ ){
                 let file = this.files[i];
