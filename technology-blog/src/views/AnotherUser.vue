@@ -7,11 +7,13 @@
         <div class="avatar"></div>
     </div>
         <h3><b>{{ userInfo.userId }}</b></h3>
-    <a href="mailto:cabrown96@live.com">📧 {{ userInfo.userEmail }}</a>
-    <a href="">📱 Project - {{ userInfo.userProject }}</a>
-    <a href="">📱 Post - {{ userInfo.userPost }}</a>
-        <ul>
-        </ul>
+    <a>📧 {{ userInfo.userEmail }}</a>
+    <a>📱 Project - {{ userInfo.userProject }} Post - {{ userInfo.userPost }}</a>
+    <span v-for="tech in userInfo.userTech">
+      <v-chip color="rgb(191, 234, 255)">{{ tech }}</v-chip>
+    </span>
+    <ul>
+    </ul>
     </div>
     </v-flex>
     </v-layout>
@@ -59,7 +61,7 @@ export default {
 <style scoped>
 .card{
    height: auto;
-   max-height:299px;
+   min-height:318px;
    width: 225px; /* ⬅ Size - Small (width: 200px), Medium (width: 225px), Large (width: 250px) */
    overflow: hidden;
    background-color: #FFFFFF;
