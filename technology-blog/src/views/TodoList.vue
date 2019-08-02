@@ -1,23 +1,30 @@
 <template>
 <v-container>
-  <v-layout row style="min-height:300px; margin-top:40px;">
+  <v-layout row style="min-height:400px; margin-top:40px;">
 
     <v-flex xs12 class="Todo">
+
         <h2>해야할 일</h2>
         <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
-          <div v-for="element in myArray1" :key="element.id">{{element.todo_content}}</div>
+          <div v-for="element in myArray1" :key="element.id">
+            <v-chip color="#C8E6C9">{{element.todo_content}}</v-chip>
+          </div>
       </draggable>
     </v-flex>
     <v-flex xs12 class="Todo">
      <h2>하고 있는 일</h2>
       <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
-        <div v-for="element in myArray2" :key="element.id">{{element.todo_content}}</div>
+        <div v-for="element in myArray2" :key="element.id">
+          <v-chip color="rgb(191, 234, 255)">{{element.todo_content}}</v-chip>
+        </div>
       </draggable>
       </v-flex>
     <v-flex xs12 class="Todo">
       <h2>완성할 일</h2>
       <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
-        <div v-for="element in myArray3" :key="element.id">{{element.todo_content}}</div>
+        <div v-for="element in myArray3" :key="element.id">
+          <v-chip color="#FFCDD2">{{element.todo_content}}</v-chip>
+        </div>
       </draggable>
     </v-flex>
 
@@ -64,7 +71,7 @@ export default {
       async temp(){
       console.log("?")
 
-        this.$http.get("http://192.168.31.85:3000/todolist") // 호출
+        this.$http.get("http://192.168.31.63:3000/todolist") // 호출
         .then(result=> {
           console.log(result.data);
           //--
@@ -93,7 +100,7 @@ export default {
       },
       async updateTodo() {
         var form = await this.form
-        this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
+        this.$http.put("http://192.168.31.63:3000/todolist/update", form) // 호출
         .then((req) => {
           alert(req.data)
         })
@@ -107,7 +114,7 @@ export default {
 .Todo {
   border: 2px solid rgba(94, 87, 87, 0.6);
 
-  margin-right: 5px;
+  margin-right: 30px;
   padding : 2px;
   text-align: center;
 }
