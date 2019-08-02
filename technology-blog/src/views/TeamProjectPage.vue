@@ -2,8 +2,6 @@
 <div style="background-color: white;">
     <v-btn @click="move" outline color="indigo" round>Project 추가</v-btn>
     <div class="container project">
-    <!-- <v-btn class="v-btn theme--dark">프로젝트 작성(아직 비연결상태)</v-btn> -->
-    <!-- <ProjectList></ProjectList> -->
         <v-layout wrap>
             <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
                 <TeamProjectCard :project="project"></TeamProjectCard>
@@ -28,6 +26,8 @@ export default {
         }
     },
     created(){
+    },
+    mounted(){
         console.log(this.$route.params.id)
         var data = {
             id : this.$route.params.id
@@ -38,8 +38,6 @@ export default {
             this.projects = response.data
             console.log(this.projects)
         })
-    },
-    mounted(){
 
     },
     methods: {

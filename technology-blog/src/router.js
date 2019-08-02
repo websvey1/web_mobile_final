@@ -110,7 +110,7 @@ export default new Router({
       component: TeamProjectPage
     },
     {
-      path: '/teamProject/write',
+      path: '/teamProject/:id/write',
       name: 'TeamProjectWritePage',
       component: TeamProjectWritePage
     },
