@@ -32,31 +32,19 @@
 import draggable from 'vuedraggable'
 
 export default {
-    name: 'PostTest',
+    name: 'TestPage',
     components:{
       draggable
     },
     data() {
         return {
-          myArray1:[],
-          myArray2:[],
-          myArray3:[]
+          myArray1: [],
+          myArray2: [],
+          myArray3: []
         }
     },
     mounted(){
-      console.log("?")
       this.temp();
-      console.log("?")
-
-    },
-    computed:{
-      async form () {
-        return {
-          myArray1:this.myArray1,
-          myArray2:this.myArray2,
-          myArray3:this.myArray3
-        }
-      }
     },
 	  methods: {
       async temp(){
@@ -78,7 +66,17 @@ export default {
             else{
               this.myArray3.push(todos[i])
             }
+            console.log(todos[i].content)
           }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
+      updateTodo() {
+        console.log(this.myArray1)
+        console.log(this.myArray2)
+        console.log(this.myArray3)
 
           console.log(this.myArray1);
 
@@ -86,6 +84,9 @@ export default {
 
           // --
 
+        this.$http.post("http://192.168.31.63:3000/todos/update", form)
+        .then((response) => {
+          console.log(response)
         })
 
       },
