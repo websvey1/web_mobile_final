@@ -1,7 +1,7 @@
 <template>
 <v-app>
 <sequential-entrance fromTop>
-  <v-card v-for="item in items" max-width="1000" max-height="170" style="margin: auto">
+  <v-card v-for="item in items" max-width="1000" max-height="170" style="margin: auto; margin-bottom:30px;">
   <div v-if="item.exist == true">
     <v-layout py-4 pl-4>
       <v-flex shrink>
@@ -14,13 +14,13 @@
               <h1>{{ item.title }}</h1>
             </v-flex>
             <v-flex v-if="item.auth == 0" style="margin-left: auto;">
-              <v-btn color="warning" @click="openDialog(item)">팀원보기</v-btn>
-              <v-btn color="info" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
-              <v-btn color="error" @click="del(item.title)">거절</v-btn>
+            <v-btn flat class="outlined_first" @click="openDialog(item)">팀원보기</v-btn>
+             <v-btn flat class="outlined_second" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
+             <v-btn flat class="outlined_third" @click="del(item.title)">거절</v-btn>
             </v-flex>
             <v-flex v-else style="margin-left: auto;">
-              <v-btn color="warning" @click="openDialog(item)">팀원보기</v-btn>
-              <v-btn color="success" @click="go(item.teamNum)">선택</v-btn>
+              <v-btn flat class="outlined_first" @click="openDialog(item)">팀원보기</v-btn>
+              <v-btn flat class="outlined_fourth" @click="go(item.teamNum)">선택</v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -375,6 +375,16 @@ export default {
   /* font-weight:bold; */
   color: rgb(224, 0, 0);
   background-color: rgb(224, 0, 0,0.1);
+}
+
+.v-btn.outlined_fourth{
+  border: 1px solid rgb(86, 147, 0);
+  border-radius: 5%;
+  height: 40px;
+  width: 60px;
+  /* font-weight:bold; */
+  color: rgb(86, 147, 0);
+  background-color: rgb(86, 147, 0, 0.1);
 }
 
 .modal-enter {

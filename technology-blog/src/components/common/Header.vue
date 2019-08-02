@@ -68,14 +68,25 @@
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
-    <v-list-tile v-for="item in items" :key="item.title" @click="" :to="item.link" style="margie-top:10px;">
+
+    <!-- <v-list-tile v-for="item in items" :key="item.title" @click="" :to="item.link" style="margie-top:10px;">
       <v-list-tile-content style="height:auto;">
         <h1 style="margin-left: 15px;">
           <v-icon>{{ item.icon }}</v-icon>
           <span class="spantag"> {{ item.title}}</span>
         </h1>
       </v-list-tile-content>
+    </v-list-tile> -->
+
+    <v-list-tile @click="" to="/" style="margie-top:10px;">
+      <v-list-tile-content style="height:auto;">
+        <h1 style="margin-left: 15px;">
+          <v-icon>home</v-icon>
+          <span class="spantag"> Home</span>
+        </h1>
+      </v-list-tile-content>
     </v-list-tile>
+
 
     <v-list-group>
       <template v-slot:activator>
@@ -232,30 +243,15 @@ export default {
   data() {
     return {
       drawer: null,
-      items: [{
-          title: 'Home',
-          icon: 'home',
-          link: '/'
-        },
-        // {
-        //     title: 'Project',
-        //     icon: 'widgets',
-        //     link: '/project'
-        // },
-        // {
-        //   title: 'Post',
-        //   icon: 'question_answer',
-        //   link: '/post'
-        // },
-        // {
-        //   title: 'Graph',
-        //   icon: 'android',
-        //   link: '/graph'
-        // }
-
-      ]
     }
   },
+  created(){
+    this.hasTeam = this.$session.has("teamInfo")
+
+    if(this.hasTeam){
+      console.log(this.$session.get("teamInfo"));
+    }
+  }
 
 
 }
