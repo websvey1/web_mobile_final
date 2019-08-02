@@ -1,33 +1,37 @@
 <template>
 <v-app>
 <sequential-entrance fromTop>
-  <v-card v-for="item in items" max-width="1000" max-height="170" style="margin: auto">
-  <div v-if="item.exist == true">
-    <v-layout py-4 pl-4>
-      <v-flex shrink>
-        <v-img height="120" width="120" src="https://cdn.vuetifyjs.com/images/cards/store.jpg" style="border-radius: 50%;"></v-img>
-      </v-flex>
-      <v-flex text-center>
-        <v-container grid-list-lg style="margin-left: 10px;">
-          <v-layout column>
-            <v-flex style="padding-top: 20px;">
-              <h1>{{ item.title }}</h1>
-            </v-flex>
-            <v-flex v-if="item.auth == 0" style="margin-left: auto;">
-              <v-btn color="warning" @click="openDialog(item)">팀원보기</v-btn>
-              <v-btn color="info" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
-              <v-btn color="error" @click="del(item.title)">거절</v-btn>
-            </v-flex>
-            <v-flex v-else style="margin-left: auto;">
-              <v-btn color="warning" @click="openDialog(item)">팀원보기</v-btn>
-              <v-btn color="success" @click="go(item.teamNum)">선택</v-btn>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-flex>
-    </v-layout>
-    </div>
-  </v-card>
+
+ <!-- <v-card flat v-for="item in items" max-width="1000" max-height="170" style="margin: auto; margin-bottom:30px; border:1px solid rgb(143, 143, 143);"> -->
+   <v-card  v-for="item in items" max-width="900" max-height="135" style="margin: auto; margin-bottom:30px; border-radius: 15px;">
+    <div v-if="item.exist == true">
+   <v-layout py-4 pl-4>
+     <v-flex shrink>
+       <v-img height="120" width="120" src="https://www.colourbox.com/preview/18068844-doodle-team-icon.jpg" style="border-radius: 50%; margin-top: -17px;"></v-img>
+     </v-flex>
+     <v-flex>
+       <v-container grid-list-lg style="margin-left: 0px;">
+         <v-layout column>
+           <v-flex style="padding-top: 3px;">
+             <h1>{{ item.title }}</h1>
+           </v-flex>
+           <v-flex v-if="item.auth == 0" style="margin-top: -20px; margin-left: auto;">
+             <v-btn flat class="outlined_first" @click="show(item.member)">팀원보기</v-btn>
+             <v-btn flat class="outlined_second" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
+             <v-btn flat class="outlined_third" @click="del(item.title)">거절</v-btn>
+           </v-flex>
+           <v-flex v-else style="margin-top: -20px; margin-left: auto;">
+             <v-btn flat class="outlined_first" @click="modal=true">팀원보기</v-btn>
+             <v-btn color="success" @click="go(item.teamNum)">선택</v-btn>
+           </v-flex>
+
+         </v-layout>
+       </v-container>
+     </v-flex>
+   </v-layout>
+   </div>
+ </v-card>
+
 </sequential-entrance>
 <v-dialog hide-overlay v-model="dialog" persistent max-width="600px">
   <v-card>

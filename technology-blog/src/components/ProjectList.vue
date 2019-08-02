@@ -25,6 +25,7 @@ export default {
     },
     methods: {
         async onList() {
+            console.log(this.$session.get('userInfo').user_num)
             var data = {
                 userNum: this.$session.get('userInfo').user_num
             }
