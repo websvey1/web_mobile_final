@@ -88,6 +88,7 @@ router.post('/getTeamList', function(req, res, next){
                     console.log(err)
                     throw err
                 }
+                console.log(result);
                 res.send(result);
             })
             conn.release();
