@@ -1,6 +1,6 @@
 <template>
+<v-app>
 <sequential-entrance fromTop>
-
   <v-card v-for="item in items" max-width="1000" max-height="170" style="margin: auto">
   <div v-if="item.exist == true">
     <v-layout py-4 pl-4>
@@ -14,15 +14,13 @@
               <h1>{{ item.title }}</h1>
             </v-flex>
             <v-flex v-if="item.auth == 0" style="margin-left: auto;">
-              <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
+              <v-btn color="warning" @click="openDialog(item)">팀원보기</v-btn>
               <v-btn color="info" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
               <v-btn color="error" @click="del(item.title)">거절</v-btn>
             </v-flex>
             <v-flex v-else style="margin-left: auto;">
-              <v-btn color="warning" @click="show(item.member)">팀원보기</v-btn>
+              <v-btn color="warning" @click="openDialog(item)">팀원보기</v-btn>
               <v-btn color="success" @click="go(item.teamNum)">선택</v-btn>
-            </v-flex>
-            <v-flex>
             </v-flex>
           </v-layout>
         </v-container>
@@ -30,8 +28,28 @@
     </v-layout>
     </div>
   </v-card>
-
 </sequential-entrance>
+<v-dialog hide-overlay v-model="dialog" persistent max-width="600px">
+  <v-card>
+    <v-card-title>
+      <span class="headline">MEMBERS</span>
+    </v-card-title>
+    <v-card-text>
+      <v-container grid-list-md>
+        <v-layout wrap>
+          <v-flex xs12>
+            {{ this.selectItem.member }}
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="blue darken-1" flat @click="closeDialog">CANCEL</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+</v-app>
 </template>
 
 <script>
@@ -43,7 +61,9 @@ export default {
   },
   data() {
     return {
-      items: []
+      items: [],
+      dialog: false,
+      selectItem:"",
     }
   },
   props: {
@@ -53,6 +73,14 @@ export default {
     this.start();
   },
   methods: {
+    openDialog(item){
+      this.selectItem = item;
+        this.dialog = true;
+    },
+    closeDialog(){
+      this.selectItem = "";
+      this.dialog = false;
+    },
     async start() {
       var temp = {
         num: this.$session.get('userInfo').user_num

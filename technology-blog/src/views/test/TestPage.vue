@@ -32,41 +32,28 @@
 import draggable from 'vuedraggable'
 
 export default {
-    name: 'PostTest',
+    name: 'TestPage',
     components:{
       draggable
     },
     data() {
         return {
-          myArray1:[],
-          myArray2:[],
-          myArray3:[]
+          myArray1: [],
+          myArray2: [],
+          myArray3: []
         }
     },
     mounted(){
-      console.log("?")
       this.temp();
-      console.log("?")
-
-    },
-    computed:{
-      async form () {
-        return {
-          myArray1:this.myArray1,
-          myArray2:this.myArray2,
-          myArray3:this.myArray3
-        }
-      }
     },
 	  methods: {
-      async temp(){
-      console.log("?")
-        
-        this.$http.get("http://192.168.31.85:3000/todos") // 호출
-        .then(result=> {
-          console.log(result.data);
-          //--
-          var todos = result.data;
+      temp(){
+        this.$http.get("http://192.168.31.63:3000/todos") // 호출
+        .then((response) => {
+          console.log("response.data =>")
+          console.log(response.data);
+
+          var todos = response.data;
 
           for(var i = 0; i < todos.length; i++){
             if(todos[i].state == "1"){
@@ -78,21 +65,31 @@ export default {
             else{
               this.myArray3.push(todos[i])
             }
+            console.log(todos[i].content)
           }
-
-          console.log(this.myArray1);
-          
-
-
-          // --
-
         })
-
+        .catch((error) => {
+          console.log(error)
+        })
       },
-      async updateTodo() {
-        var form = await this.form
-        this.$http.put("http://192.168.31.85:3000/todos/update", form) // 호출
-        
+      updateTodo() {
+        console.log(this.myArray1)
+        console.log(this.myArray2)
+        console.log(this.myArray3)
+
+        var form = {
+          one : this.myArray1,
+          two : this.myArray2,
+          three : this.myArray3
+        }
+
+        this.$http.post("http://192.168.31.63:3000/todos/update", form)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        }) // 호출
       }
 	},
 

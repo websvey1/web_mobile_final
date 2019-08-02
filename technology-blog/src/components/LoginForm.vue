@@ -1,14 +1,10 @@
 <template>
 <v-dialog v-model="dialog" persistent max-width="600px" @keydown.esc="closeDialog">
   <template v-slot:activator="{ on }">
-    <!-- <span v-if="isLogin" @click="signout()" v-on="">Logout</span> -->
     <v-btn v-if="isLogin" flat class="outlined" @click="signout" v-on="" color="rgb(57, 117, 72)">Logout</v-btn>
     <v-btn v-else flat class="outlined" @click="" v-on="on" color="rgb(57, 117, 72)">Login</v-btn>
-    <!-- <v-btn v-if="isLogin"  flat outline @click="signout" v-on="">Logout</v-btn>
-    <v-btn v-else flat outline @click="" v-on="on">Login</v-btn> -->
-
-    <!-- <span v-else v-on="on">Login</span> -->
   </template>
+  
   <v-card>
     <v-card-title>
       <span class="headline">LOGIN</span>
