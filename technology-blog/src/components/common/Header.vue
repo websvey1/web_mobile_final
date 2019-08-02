@@ -246,16 +246,7 @@ export default {
     }
   },
   created(){
-    console.log("1111",this.$route.params.id)
-    var data = {
-        id : this.$route.params.id
-    }
-    this.$http.post('http://192.168.31.63:3000/teamProject', data)
-    .then((response) => {
-        console.log("2222",response.data)
-        this.projects = response.data
-        console.log("333",this.projects)
-    })
+
   }
 
 
