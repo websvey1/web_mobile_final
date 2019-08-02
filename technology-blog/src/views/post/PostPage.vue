@@ -5,14 +5,13 @@
         <v-flex fill-height d-flex xs12>
           <div class="container">
           <!-- <PostList></PostList> -->
-          <v-btn class="v-btn theme--dark" to="/post/create">POST 작성</v-btn>
+          <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn>
           <PostDownList>
             
           </PostDownList>
           </div>
         </v-flex>
       </v-layout>
-      <v-btn @click="move" outline color="indigo" round>Post 추가</v-btn>
 
       <div class="searchbar-total">
         <div class="searchbar-first">
