@@ -9,6 +9,10 @@ import PostUpdatePage from './views/post/PostUpdatePage.vue'
 import PostReadPage from './views/post/PostReadPage.vue'
 //// post ////
 
+//// todolist //
+import TodoList from './views/TodoList.vue'
+//// todoList //
+
 //// user ////
 import UserCreatePage from './views/user/UserCreatePage.vue'
 import UserUpdatePage from './views/user/UserUpdatePage.vue'
@@ -140,7 +144,14 @@ export default new Router({
       path: '/test',
       name: 'TestPage',
       component: TestPage
-	},
+  },
+  //////////////////////////////////////////////////////// Todolist url 정의
+  {
+    path: '/todolist',
+    name: 'TodoList',
+    component: TodoList
+},
+////////////////////////////////////////////////////////////
 	{
 		path: '/another',
 		name: 'AnotherUser',

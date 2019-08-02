@@ -105,7 +105,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
-      <v-list-tile to="/test" style="background:white;">
+      <v-list-tile to="/todolist" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">Todolist</span>
