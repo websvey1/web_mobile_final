@@ -11,10 +11,11 @@
         <v-card-text style="">
           <v-container grid-list-md style="">
             <v-layout wrap>
-              <div class="">
+
+              <div class="form-area">
                 <div class="text-area"> Team name: </div>
-                <div class="input-holder" style="float:left">
-                  <input type="text" v-model="teamName" readonly>
+                <div class="input-holder2" style="float:left">
+                  <input type="text" v-model="teamName" disabled>
                 </div>
               </div>
 
@@ -120,7 +121,7 @@ export default {
             .catch((error) =>{
                 console.log(error)
             })
-            
+
             var data = {
                 teamNum : this.team
             }
@@ -162,6 +163,13 @@ export default {
 .input-holder {
   margin: 10px 0;
   display: flex;
+  /* justify-content: flex-start; */
+  /* width: 77%; */
+}
+.input-holder2 {
+  margin: 10px 0;
+  display: flex;
+  padding: 12px 15px;
   /* justify-content: flex-start; */
   /* width: 77%; */
 }
@@ -232,7 +240,7 @@ export default {
 }
 .text-area{
   float:left; padding: 20px;
-  min-width: 130px;
+  min-width: 140px;
 }
 
 </style>
