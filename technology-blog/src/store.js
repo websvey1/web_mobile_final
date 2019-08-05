@@ -22,6 +22,7 @@ export const store = new Vuex.Store({
       exitTime: ''
     },
     
-    plan: []
+    plan: [],
+    cal_id: '',
 	}
 });

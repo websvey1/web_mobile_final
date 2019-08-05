@@ -55,6 +55,8 @@ export default {
     plan(to, from){
       this.events.push(this.$store.state.plan);
     }
+  },
+  methods:{
   }
 }
 </script>
