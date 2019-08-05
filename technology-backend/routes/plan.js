@@ -153,4 +153,27 @@ router.post('/modifyPersonal', function(req, res, next){
     });
 });
 
+router.post('/delete', function(req, res, next){
+    var id = req.body.id;
+    
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }else{
+            var query = conn.query('delete from calendar where cal_id = ?', id, function (err, result) {
+                if (err) {
+                  console.error(err);
+                  throw err;
+                }
+
+                res.send(result);
+        
+                conn.release();
+            });
+        }
+    });
+});
+
 module.exports = router;
