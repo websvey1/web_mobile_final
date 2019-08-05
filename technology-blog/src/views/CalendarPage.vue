@@ -83,7 +83,7 @@ export default {
     width: 35%;
   }
   .form-holder > h3 {
-    color: rgb(155, 20, 255);
+    color: rgb(0, 0, 0);
     text-transform: uppercase;
     font-size: 16px;
     text-align: left;

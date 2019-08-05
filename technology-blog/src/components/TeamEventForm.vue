@@ -134,7 +134,7 @@ form {
 .input-holder input:focus,
 .input-holder textarea:focus,
 .input-holder button:focus {
-  border: 2px solid rgb(155, 20, 255);
+  border: 1.5px solid rgb(0, 0, 0);
   outline: none;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
 }
