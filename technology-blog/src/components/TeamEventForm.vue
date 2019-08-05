@@ -1,5 +1,8 @@
 <template>
 <form @submit.prevent="handleSubmit">
+  <div class="input2">
+    <v-select label="　Team" :items="teamList"></v-select>
+  </div>
   <div class="input-holder">
     <input type="text" placeholder="Event title" v-model="event.title" />
   </div>
@@ -11,9 +14,6 @@
   </div>
   <div class="input-holder">
     <textarea placeholder="Event description" rows="4" v-model="event.data.description"></textarea>
-  </div>
-  <div class="input-holder">
-    <v-select :items="teamList"></v-select>
   </div>
   <div class="theme">
     <color-picker @colorPicked="selectColor" :color="event.cssClass" />
@@ -138,6 +138,10 @@ form {
   /* justify-content: flex-start; */
   width: 77%;
   border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.input2{
+  width: 77%;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
 }
 
 .input-holder input,
