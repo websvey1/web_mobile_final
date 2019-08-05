@@ -1,7 +1,8 @@
 <template>
 <v-hover>
   <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="rounded-card" @click="goReadPage(post.post_num)">
-    <v-img height="230px" :src="post.image_url" aspect-ratio="2.75"></v-img>
+    <v-img v-if="post.image_url != null" height="230px" :src="post.image_url" aspect-ratio="2.75"></v-img>
+    <v-img v-else height="230px" src="https://source.unsplash.com/random/300x300" aspect-ratio="2.75"></v-img>
 
     <v-card-title primary-title>
       <div>
