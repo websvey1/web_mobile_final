@@ -51,6 +51,7 @@
 
         <v-card-actions style="display:flex; justify-content:center;">
           <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
+          <v-btn color="red darken-1" flat @click="del">Delete</v-btn>
           <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -122,6 +123,19 @@ export default {
         .then((response) => {
           this.dialog = false
           location.reload()
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    del(){
+      var data = {
+        id : this.$store.state.cal_id
+      }
+      this.$http.post('http://192.168.31.63:3000/plan/delete', data)
+        .then((response) => {
+          this.$store.state.plan = true;
+          this.dialog = false;
         })
         .catch((error) => {
           console.log(error)
