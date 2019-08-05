@@ -1,6 +1,5 @@
 <template>
 <div style="background-color: white;">
-    
       <v-layout wrap row pa-5>
         <v-flex fill-height d-flex xs12>
           <div class="container">

@@ -96,4 +96,61 @@ router.post('/getTeamPlan', function(req, res, next){
     });
 });
 
+router.post('/getCalId', function(req, res, next){
+    var user_num = req.body.num;
+    var title = req.body.title;
+    var start = req.body.start;
+    var end = req.body.end;
+    var description = req.body.description;
+    var cssClass = req.body.cssClass;
+
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }else{
+            var query = conn.query('select * from calendar where user_num = ? and cal_title = ? and cal_start = ? and cal_end = ? and cal_color = ? and cal_description = ?', [user_num, title, start, end, cssClass, description], function (err, result) {
+                if (err) {
+                  console.error(err);
+                  throw err;
+                }
+                
+                res.send(result);
+        
+                conn.release();
+            });
+        }
+    });
+});
+
+router.post('/modifyPersonal', function(req, res, next){
+    console.log(req.body)
+    var id = req.body.id;
+    var title = req.body.title;
+    var start = req.body.start;
+    var end = req.body.end;
+    var cssClass = req.body.cssClass;
+    var description = req.body.description;
+    
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }else{
+            var query = conn.query('update calendar set cal_title = ?, cal_start = ?, cal_end = ?, cal_color = ?, cal_description = ? where cal_id = ?', [title, start, end, cssClass, description, id], function (err, result) {
+                if (err) {
+                  console.error(err);
+                  throw err;
+                }
+
+                res.send(result);
+        
+                conn.release();
+            });
+        }
+    });
+});
+
 module.exports = router;
