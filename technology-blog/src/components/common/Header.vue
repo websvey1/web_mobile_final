@@ -101,6 +101,7 @@
         </v-list-tile>
       </template>
       <v-divider />
+
       <v-list-tile to="/myproject" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -109,6 +110,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider />
+
       <v-list-tile to="/post" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -117,6 +119,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
+
       <v-list-tile to="/todolist" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -125,6 +128,16 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
+
+      <v-list-tile to="/todolist_write" style="background:white;">
+        <v-list-tile-content style="height:auto;">
+          <h1 style="margin-left: 30px;">
+            <span class="spantag">To-Do List 작성</span>
+          </h1>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-divider/>
+      
       <v-list-tile to="/calendar" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">

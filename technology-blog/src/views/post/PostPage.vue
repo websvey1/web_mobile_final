@@ -5,6 +5,7 @@
         <v-flex fill-height d-flex xs12>
           <div class="container">
           <!-- <PostList></PostList> -->
+          
           <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn>
           <PostDownList>
             
