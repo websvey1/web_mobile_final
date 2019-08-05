@@ -46,7 +46,7 @@ import ColorPicker from './ColorPicker';
 import format from 'date-fns/format';
 
 export default {
-    name: 'Calendar',
+    name: 'TeamCalendar',
     props: ['events'],
     components: {
         FullCalendar,
@@ -100,7 +100,7 @@ export default {
 
             this.$http.post('http://192.168.31.63:3000/plan/modifyPersonal', data)
             .then((response) => {
-                this.$store.state.plan = true;
+                this.$store.state.teamPlan = true;
                 this.dialog = false;
             })
             .catch((error) =>{
