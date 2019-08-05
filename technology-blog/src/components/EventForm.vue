@@ -12,6 +12,7 @@
     <div class="input-holder">
         <textarea placeholder="Event description" rows="4" v-model="event.data.description" ></textarea>
     </div>
+    <h4 class="header">Select event theme</h4>
     <div class="theme">
         <color-picker @colorPicked="selectColor" :color="event.cssClass" />
     </div>
@@ -131,7 +132,7 @@ export default {
     .input-holder input:focus,
     .input-holder textarea:focus,
     .input-holder button:focus {
-      border: 2px solid rgb(155, 20, 255);
+      border: 1.5px solid rgb(0, 0, 0);
       outline: none;
       box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
     }
@@ -158,5 +159,11 @@ export default {
     .theme{
       padding-top: 5%;
       padding-bottom: 10%;
+    }
+    .header {
+      color: rgb(0, 0, 0);
+      text-transform: uppercase;
+      font-size: 15px;
+      text-align: left;
     }
 </style>
