@@ -1,6 +1,10 @@
 <template>
-<div style="background-color: white;">
+<div style="background-color: white; padding-bottom:50px;">
+    <v-btn class="ma-2" color="orange darken-2" dark>
+          <v-icon dark left>arrow_back</v-icon>Back
+    </v-btn>
     <v-btn @click="move" outline color="indigo" round>Project 추가</v-btn>
+    <span class="mdi mdi-home"></span>
     <div class="container project">
         <v-layout wrap>
             <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
