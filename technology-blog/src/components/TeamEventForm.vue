@@ -1,7 +1,7 @@
 <template>
 <form @submit.prevent="handleSubmit">
   <div class="input2">
-    <v-select label="　Team" :items="teamList" v-model="event.team"></v-select>
+    <v-select :error-messages="['Please select a team']" label="　Team" :items="teamList" v-model="event.team"></v-select>
   </div>
   <div class="input-holder">
     <input type="text" placeholder="Event title" v-model="event.title" />
@@ -70,6 +70,10 @@ export default {
       })
     },
     async handleSubmit() {
+      if(this.event.team == ''){
+        alert("Please select a team")
+        return
+      }
       var data = {
         num: this.$session.get('userInfo').user_num,
         teamName: this.event.team
