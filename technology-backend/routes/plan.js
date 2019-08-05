@@ -38,7 +38,7 @@ router.post('/team', function(req, res, next){
         if(ex){
             console.log(ex);
         }else{
-            var query = conn.query('insert into calendar(user_num, cal_title, cal_start, cal_end, cal_color, cal_description, cal_category) values(?, ?, ?, ?, ?, ?, 1)', [user_num, data.title, data.start, data.end, data.cssClass, data.description], function (err, result) {
+            var query = conn.query('insert into calendar(user_num, cal_title, cal_start, cal_end, cal_color, cal_description, cal_category, cal_teamNum) values(?, ?, ?, ?, ?, ?, 1, ?)', [user_num, data.title, data.start, data.end, data.cssClass, data.description, data.teamNum], function (err, result) {
                 if (err) {
                   console.error(err);
                   throw err;
@@ -82,7 +82,7 @@ router.post('/getTeamPlan', function(req, res, next){
         if(ex){
             console.log(ex);
         }else{
-            var query = conn.query('select cal_title, cal_start, cal_end, cal_color, cal_description from calendar where user_num = ? and cal_category = 1', user_num, function (err, result) {
+            var query = conn.query('select cal_title, cal_start, cal_end, cal_color, cal_description, cal_teamNum from calendar where user_num = ? and cal_category = 1', user_num, function (err, result) {
                 if (err) {
                   console.error(err);
                   throw err;

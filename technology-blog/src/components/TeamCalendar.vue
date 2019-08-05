@@ -11,6 +11,13 @@
         <v-card-text style="">
           <v-container grid-list-md style="">
             <v-layout wrap>
+              <div class="">
+                <div class="text-area"> Team name: </div>
+                <div class="input-holder" style="float:left">
+                  <input type="text" v-model="teamName" readonly>
+                </div>
+              </div>
+
               <div class="form-area">
                 <div class="text-area"> Event title: </div>
                 <div class="input-holder" style="float:left">
@@ -75,23 +82,30 @@ export default {
     data(){
         return{
             dialog: false,
+            team: '',
             title: '',
             start: '',
             end: '',
             description: '',
-            cssClass: ''
+            cssClass: '',
+            teamName: ''
         }
+    },
+    mounted(){
     },
     methods:{
         handleDateClick(event, jsEvent, pos) {
+            console.log(event)
             var data = {
                 num : this.$session.get('userInfo').user_num,
+                team: event.team,
                 title : event.title,
                 start : event.start,
                 end : event.end,
                 cssClass : event.cssClass,
                 description : event.description
             }
+            this.team = event.team;
             this.title = event.title;
             this.start = event.start;
             this.end = event.end;
@@ -104,6 +118,17 @@ export default {
                 this.$store.state.cal_id = response.body[0].cal_id;
             })
             .catch((error) =>{
+                console.log(error)
+            })
+            
+            var data = {
+                teamNum : this.team
+            }
+            this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
+            .then((response) => {
+                this.teamName = response.body[0].team_name;
+            })
+            .catch((error) => {
                 console.log(error)
             })
         },
