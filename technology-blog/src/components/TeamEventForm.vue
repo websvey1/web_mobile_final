@@ -12,6 +12,9 @@
   <div class="input-holder">
     <textarea placeholder="Event description" rows="4" v-model="event.data.description"></textarea>
   </div>
+  <div class="input-holder">
+    <v-select :items="teamList"></v-select>
+  </div>
   <div class="theme">
     <color-picker @colorPicked="selectColor" :color="event.cssClass" />
   </div>
@@ -28,6 +31,10 @@ import ColorPicker from './ColorPicker';
 
 export default {
   name: 'TeamEventForm',
+  components: {
+    DatePicker,
+    ColorPicker
+  },
   data() {
     return {
       event: {
@@ -38,11 +45,29 @@ export default {
         data: {
           description: ''
         }
-      }
+      },
+      teamList: []
     }
   },
-
+  mounted(){
+    this.getTeam();
+  },
   methods: {
+    getTeam(){
+      var data = {
+        num: this.$session.get('userInfo').user_num
+      }
+
+      this.$http.post('http://192.168.31.63:3000/team/getTeamList', data)
+      .then((response) => {
+        for(var i = 0; i < response.body.length; i++){
+          this.teamList.push(response.body[i].team_name)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
     async handleSubmit() {
       const start = format(this.event.start, 'YYYY-MM-DD');
       const end = format(this.event.end, 'YYYY-MM-DD');
@@ -96,10 +121,6 @@ export default {
         }
       }
     }
-  },
-  components: {
-    DatePicker,
-    ColorPicker
   }
 }
 </script>
