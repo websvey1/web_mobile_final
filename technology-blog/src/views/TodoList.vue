@@ -10,7 +10,9 @@
             <v-chip color="#C8E6C9">{{element.todo_content}}</v-chip>
           </div>
       </draggable>
+      
     </v-flex>
+
     <v-flex xs12 class="Todo">
      <h2>하고 있는 일</h2>
       <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
@@ -19,6 +21,7 @@
         </div>
       </draggable>
       </v-flex>
+
     <v-flex xs12 class="Todo">
       <h2>완성할 일</h2>
       <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
@@ -31,6 +34,9 @@
 
   </v-layout>
   <div style="display:flex; justify-content:center; margin-top:50px; margin-bottom:20px;">
+
+  <input v-model="inputTodo"> <v-btn class="v-btn theme--white" @click="createTodo"> 추가</v-btn>
+  <!-- v-model이 binding 해주는 역할 bind=연결 -->
   <v-btn class="v-btn theme--dark" @click="updateTodo">확인</v-btn>
   </div>
 </v-container>
@@ -49,7 +55,8 @@ export default {
         return {
           myArray1:[],
           myArray2:[],
-          myArray3:[]
+          myArray3:[],
+          inputTodo:""
         }
     },
     mounted(){
@@ -71,7 +78,7 @@ export default {
       async temp(){
       console.log("?")
 
-        this.$http.get("http://192.168.31.63:3000/todolist") // 호출
+        this.$http.get("http://192.168.31.85:3000/todolist") // 호출
         .then(result=> {
           console.log(result.data);
           //--
@@ -90,17 +97,28 @@ export default {
           }
 
           console.log(this.myArray1);
-
-
-
-          // --
-
         })
 
       },
+      
+      async createTodo() {
+        
+        var tempvar = this.$session.get("userInfo").user_num;
+        var content = this.inputTodo;
+
+              
+        
+        this.myArray1.push({          
+          todo_content: content,    
+          todo_category: 1,    
+          })  
+        this.inputTodo = "";
+      
+      },
+
       async updateTodo() {
         var form = await this.form
-        this.$http.put("http://192.168.31.63:3000/todolist/update", form) // 호출
+        this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
         .then((req) => {
           alert(req.data)
         })

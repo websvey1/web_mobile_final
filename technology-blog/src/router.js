@@ -11,6 +11,7 @@ import PostReadPage from './views/post/PostReadPage.vue'
 
 //// todolist //
 import TodoList from './views/TodoList.vue'
+import TodoList_write from './views/TodoList_write.vue'
 //// todoList //
 
 //// user ////
@@ -21,7 +22,7 @@ import UserDeletePage from './views/user/UserDeletePage.vue'
 
 //// test ////
 import PageTest from './views/test/PageTest.vue'
-import TestPage from './views/test/TestPage.vue'
+// import TestPage from './views/test/TestPage.vue'
 //// test ////
 
 //// myproject ////
@@ -147,17 +148,22 @@ export default new Router({
       component: UserCreatePage
     },
     ////////////////////////////////////////////////////////////
-    {
-      path: '/test',
-      name: 'TestPage',
-      component: TestPage
-  },
+  //   {
+  //     path: '/test',
+  //     name: 'TestPage',
+  //     component: TestPage
+  // },
   //////////////////////////////////////////////////////// Todolist url 정의
   {
     path: '/todolist',
     name: 'TodoList',
     component: TodoList
 },
+  // {
+  //   path: '/todolist_write',
+  //   name: 'TodoList_write',
+  //   component: TodoList_write
+  // },
 ////////////////////////////////////////////////////////////
 	{
 		path: '/another',
