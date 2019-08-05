@@ -47,7 +47,7 @@
                 </div>
               </div>
 
-              <div class="form-area">
+              <div class="form-area" style="margin-top:15px;">
                 <div class="text-area"> color: </div>
                 <div class="theme2">
                   <color-picker @colorPicked="selectColor" :color="cssClass" />
@@ -230,9 +230,9 @@ export default {
 
 .theme2 {
   width: 3000px;
+  display: contents;
 }
-.color-picker {
-    width: 200px;
+.theme2 color-picker{
 }
 
 .form-area{
