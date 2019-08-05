@@ -1,61 +1,62 @@
 <template>
-<div>
-  <full-calendar @eventClick="handleDateClick" :events="events" />
-  <v-dialog hide-overlay v-model="dialog" persistent max-width="500px">
-    <v-card>
-      <v-card-title style="display:flex; justify-content:center;">
-        <h2> 일정을 확인하세요! </h2>
-      </v-card-title>
+  <div>
+    <full-calendar @eventClick="handleDateClick" :events="events" />
+    <v-dialog hide-overlay v-model="dialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title style="display:flex; justify-content:center;">
+          <h2> 일정을 확인하세요! </h2>
+        </v-card-title>
 
 
-      <v-card-text style="">
-        <v-container grid-list-md style="">
-          <v-layout wrap>
-            <div class="form-area">
-              <div class="text-area"> Event title: </div>
-              <div class="input-holder" style="float:left">
-                <input type="text" v-model="title" />
+        <v-card-text style="">
+          <v-container grid-list-md style="">
+            <v-layout wrap>
+              <div class="form-area">
+                <div class="text-area"> Event title: </div>
+                <div class="input-holder" style="float:left">
+                  <input type="text" v-model="title" />
+                </div>
               </div>
-            </div>
 
-            <div class="form-area">
-              <div class="text-area"> Start date: </div>
-              <div class="input-holder">
-                <date-picker v-model="start" />
+              <div class="form-area">
+                <div class="text-area"> Start date: </div>
+                <div class="input-holder">
+                  <date-picker v-model="start" />
+                </div>
               </div>
-            </div>
 
-            <div class="form-area">
-              <div class="text-area"> End date: </div>
-              <div class="input-holder">
-                <date-picker v-model="end" />
+              <div class="form-area">
+                <div class="text-area"> End date: </div>
+                <div class="input-holder">
+                  <date-picker v-model="end" />
+                </div>
               </div>
-            </div>
 
-            <div class="form-area">
-              <div class="text-area"> Description: </div>
-              <div class="input-holder">
-                <textarea rows="4" v-model="description" style=" resize: none;"></textarea>
+              <div class="form-area">
+                <div class="text-area"> Description: </div>
+                <div class="input-holder">
+                  <textarea rows="4" v-model="description" style=" resize: none;"></textarea>
+                </div>
               </div>
-            </div>
 
-            <div class="form-area">
-              <div class="text-area"> color: </div>
-              <div class="theme">
-                <color-picker @colorPicked="selectColor" :color="cssClass" />
+              <div class="form-area">
+                <div class="text-area"> color: </div>
+                <div class="theme">
+                  <color-picker @colorPicked="selectColor" :color="cssClass" />
+                </div>
               </div>
-            </div>
-          </v-layout>
-        </v-container>
-      </v-card-text>
+            </v-layout>
+          </v-container>
+        </v-card-text>
 
-      <v-card-actions style="display:flex; justify-content:center;">
-        <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
-        <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-</div>
+        <v-card-actions style="display:flex; justify-content:center;">
+          <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
+          <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+
 </template>
 
 <script>
@@ -160,6 +161,7 @@ export default {
   outline: none;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
 }
+
 
 .red {
   background: rgb(235, 77, 77) !important;
