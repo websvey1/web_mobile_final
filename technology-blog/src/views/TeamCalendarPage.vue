@@ -3,7 +3,7 @@
     <div id="app">
       <div class="main2">
         <div class="calendar-holder">
-          <calendar :events="events" />
+          <team-calendar :events="events" />
         </div>
 
         <div class="form-holder">
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import Calendar from '@/components/Calendar.vue'
+import TeamCalendar from '@/components/TeamCalendar.vue'
 import TeamEventForm from '@/components/TeamEventForm.vue'
 import {mapState} from 'vuex';
 
 export default {
   name: 'TeamCalendarPage',
   components: {
-    Calendar,
+    TeamCalendar,
     TeamEventForm
   },
   data(){
@@ -32,10 +32,26 @@ export default {
     }
   },
   mounted(){
-    var data = {
-        num : this.$session.get('userInfo').user_num
+    this.getCal();
+  },
+  computed:
+    mapState(['teamPlan'])
+  ,
+  watch: {
+    teamPlan(to, from){
+      if(from == false && to == true){
+        this.$store.state.teamPlan = false;
+        this.events = [];
+        this.getCal();
+      }
     }
-    this.$http.post('http://192.168.31.63:3000/plan/getTeamPlan', data)
+  },
+  methods:{
+    getCal(){
+      var data = {
+        num : this.$session.get('userInfo').user_num
+      }
+      this.$http.post('http://192.168.31.63:3000/plan/getTeamPlan', data)
       .then((response) => {
         var items = response.body;
 
@@ -47,13 +63,6 @@ export default {
       .catch((error) =>{
         console.log(error)
       })
-  },
-  computed:
-    mapState(['plan'])
-  ,
-  watch: {
-    plan(to, from){
-      this.events.push(this.$store.state.plan);
     }
   }
 }
