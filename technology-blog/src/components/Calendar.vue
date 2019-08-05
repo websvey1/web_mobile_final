@@ -126,8 +126,53 @@ export default {
           console.log(error)
         })
     },
-    selectColor(color) {
-      this.cssClass = color
+    methods:{
+        handleDateClick(event, jsEvent, pos) {
+            var data = {
+                num : this.$session.get('userInfo').user_num,
+                title : event.title,
+                start : event.start,
+                end : event.end,
+                cssClass : event.cssClass,
+                description : event.description
+            }
+            this.title = event.title;
+            this.start = event.start;
+            this.end = event.end;
+            this.cssClass = event.cssClass;
+            this.description = event.description;
+            this.dialog = true
+
+            this.$http.post('http://192.168.31.63:3000/plan/getCalId', data)
+            .then((response) => {
+                this.$store.state.cal_id = response.body[0].cal_id;
+            })
+            .catch((error) =>{
+                console.log(error)
+            })
+        },
+        modify(){
+            var data = {
+                id : this.$store.state.cal_id,
+                title : this.title,
+                start : format(this.start, 'YYYY-MM-DD'),
+                end : format(this.end, 'YYYY-MM-DD'),
+                description : this.description,
+                cssClass : this.cssClass
+            }
+
+            this.$http.post('http://192.168.31.63:3000/plan/modifyPersonal', data)
+            .then((response) => {
+                this.$store.state.plan = true;
+                this.dialog = false;
+            })
+            .catch((error) =>{
+                console.log(error)
+            })
+        },
+        selectColor(color){
+            this.cssClass = color
+        }
     }
   }
 }

@@ -227,7 +227,7 @@ import LoginForm from '@/components/LoginForm'
 import FixedHeader from 'vue-fixed-header'
 
 export default {
-  name: "HeaderTest",
+  name: "Header",
   components: {
     LoginForm,
     Weather,
