@@ -57,7 +57,7 @@ export default {
 
         for(var i = 0; i < items.length; i++){
           this.events.push({title: items[i].cal_title, start: items[i].cal_start,
-                  end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description});
+                  end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description, team: items[i].cal_teamNum});
         }
       })
       .catch((error) =>{

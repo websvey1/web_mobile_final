@@ -1,7 +1,7 @@
 <template>
 <form @submit.prevent="handleSubmit">
   <div class="input2">
-    <v-select label="　Team" :items="teamList"></v-select>
+    <v-select label="　Team" :items="teamList" v-model="event.team"></v-select>
   </div>
   <div class="input-holder">
     <input type="text" placeholder="Event title" v-model="event.title" />
@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       event: {
+        team: '',
         title: '',
         start: '',
         end: '',
@@ -69,40 +70,51 @@ export default {
       })
     },
     async handleSubmit() {
-      const start = format(this.event.start, 'YYYY-MM-DD');
-      const end = format(this.event.end, 'YYYY-MM-DD');
-      const event = {
-        ...this.event,
-        start,
-        end
+      var data = {
+        num: this.$session.get('userInfo').user_num,
+        teamName: this.event.team
       }
-
-      var config = {
-        // body: JSON.stringify(event),
-        body: {
-          title: event.title,
-          start: event.start,
-          end: event.end,
-          cssClass: event.cssClass,
-          description: event.data.description,
-        },
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'content-type': 'application/json'
-        },
-        data: {
-          num: this.$session.get('userInfo').user_num
+      this.$http.post('http://192.168.31.63:3000/team/getTeamNum', data)
+      .then((response) => {
+        // console.log(response.body[0].team_num)
+        const start = format(this.event.start, 'YYYY-MM-DD');
+        const end = format(this.event.end, 'YYYY-MM-DD');
+        const event = {
+          ...this.event,
+          start,
+          end
         }
-      }
+        var config = {
+          // body: JSON.stringify(event),
+          body: {
+            title: event.title,
+            start: event.start,
+            end: event.end,
+            cssClass: event.cssClass,
+            description: event.data.description,
+            teamNum: response.body[0].team_num
+          },
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'content-type': 'application/json'
+          },
+          data: {
+            num: this.$session.get('userInfo').user_num
+          }
+        }
 
-      this.$http.post('http://192.168.31.63:3000/plan/team', config)
-        .then((response) => {
-          this.$store.state.plan = response.data;
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      this.resetValues();
+        this.$http.post('http://192.168.31.63:3000/plan/team', config)
+          .then((response) => {
+            this.$store.state.teamPlan = true;
+            this.resetValues();
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     selectColor(color) {
       this.event = {
