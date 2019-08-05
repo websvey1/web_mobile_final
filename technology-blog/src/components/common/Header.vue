@@ -78,7 +78,7 @@
         </h1>
       </v-list-tile-content>
     </v-list-tile> -->
-
+    <!-- <div v-if > -->
     <v-list-tile @click="" to="/" style="margie-top:10px;">
       <v-list-tile-content style="height:auto;">
         <h1 style="margin-left: 15px;">
@@ -87,7 +87,6 @@
         </h1>
       </v-list-tile-content>
     </v-list-tile>
-
 
     <v-list-group>
       <template v-slot:activator>
@@ -147,7 +146,7 @@
       </v-list-tile>
       <v-divider/>
     </v-list-group>
-
+<!-- dklafjlkdjfkljakldfjklasdjfkljadsklfjdfkljkldfjakljdklfjaklfj -->
     <v-list-group>
       <template v-slot:activator>
         <v-list-tile @click="" style="margie-top:10px;">
@@ -160,13 +159,23 @@
         </v-list-tile>
       </template>
       <v-divider />
-      <v-list-tile to="/teamChoose" style="background:white;">
+
+      <v-list-tile v-if="TeamId == null" to="/teamChoose" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">Team 선택</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
+
+      <v-list-tile v-else @click="go()" style="background:white;">
+        <v-list-tile-content style="height:auto;">
+          <h1 style="margin-left: 30px;">
+            <span class="spantag">Team: {{ teamName }}</span>
+          </h1>
+        </v-list-tile-content>
+      </v-list-tile>
+
       <v-divider />
             <v-list-tile to="/teamCalendar" style="background:white;">
         <v-list-tile-content style="height:auto;">
@@ -231,7 +240,7 @@ import LoginForm from '@/components/LoginForm'
 import FixedHeader from 'vue-fixed-header'
 
 export default {
-  name: "HeaderTest",
+  name: "Header",
   components: {
     LoginForm,
     Weather,
@@ -244,10 +253,48 @@ export default {
   data() {
     return {
       drawer: null,
+      isTeam: false,
+      TeamId: null,
+      teamName: '',
     }
   },
-  created(){
+  mounted(){
+    // console.log("확인확인",this.$route.params.id)
+  },
+  created () {
+    // 뷰가 생성되고 데이터가 이미 감시 되고 있을 때 데이터를 가져온다.
+    this.fetchData()
+  },
+  watch: {
+    // 라우트가 변경되면 메소드를 다시 호출됩니다.
+    '$route': 'fetchData'
+  },
+  methods: {
+    fetchData () {
+        // console.log("&&&",this.$route.params.id)
+        // if(this.$route.params.id == 'undefined' || this.$route.params.id == null){
+        //   this.TeamId = null;
+        // }
+        // else{
+        //   this.TeamId = this.$route.params.id;
+        //   console.log(this.TeamId)
+        //   var data = {
+        //     teamNum : this.TeamId
+        //   }
 
+        //   console.log(data)
+        //   this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
+        //   .then((response) => {
+        //     this.teamName = response.body[0].team_name
+        //   })
+        //   .catch((error) => {
+        //     console.log(error)
+        //   })
+        // }
+    },
+    go(id){
+      this.$router.push({ name: "TeamProjectPage", params: {id: id} })
+    }
   }
 
 

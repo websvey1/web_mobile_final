@@ -1,7 +1,13 @@
 <template>
-<v-layout wrap>
-  <v-flex v-for="post in $store.state.posts" xs12 px-2 style="margin-bottom: 35px;">
+<v-layout v-if="posts.length > 0" wrap>
+  <v-flex v-for="post in posts" xs12 px-2 mt-4 style="margin-bottom: 35px;">
     <PostDownCard :post="post"></PostDownCard>
+  </v-flex>
+</v-layout>
+
+<v-layout v-else wrap>
+  <v-flex xs12 px-2 mt-4 style="margin-bottom: 35px;">
+    <h1 style="margin-top:50px;text-align:center;">POST가 없습니다.</h1>
   </v-flex>
 </v-layout>
 </template>
@@ -16,26 +22,36 @@ export default {
   },
   data() {
     return {
-
+      posts:[]
     }
   },
+  props:{
+    category:{type:String, default:0}
+  },
   created(){
-    this.readPosts();
+    console.log(this.$props.category);
+      this.readPosts();
   },
   methods: {
-    isVisible(post) {
-      if (post.post_share == '0' || (this.$store.state.userInfo != null && post.post_share == '1' && post.email == this.$store.state.userInfo.email)) {
-        return true;
-      } else {
-        return false;
-      }
+    async readPosts() {
+      console.log(this.$props.category);
+      await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num, {post_category:this.$props.category})
+        .then((response) => {
+          this.posts = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     },
 
-    async readPosts() {
-      var posts = await this.$http.get("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num)
+    searchPosts(config){
+      this.posts = [];
+      console.log(config);
+      config["post_category"] = this.$props.category;
+      this.$http.post("http://192.168.31.65:3000/post/search", config)
         .then((response) => {
-          console.log(response.data);
-          this.$store.state.posts = response.data;
+          console.log(response.date);
+          this.posts = response.data;
         })
         .catch((error) => {
           console.log(error);

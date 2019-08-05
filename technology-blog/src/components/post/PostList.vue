@@ -1,6 +1,6 @@
 <template>
 <v-layout v-dragscroll class="overflow">
-  <v-flex xs3 v-for="post in $store.state.posts" px-2 py-4>
+  <v-flex xs3 v-for="post in posts" px-2 py-4>
     <PostCard :post="post"></PostCard>
   </v-flex>
 </v-layout>
@@ -23,7 +23,7 @@ export default {
   },
   data() {
     return {
-
+      posts:[]
     }
   },
   filter: {
@@ -42,7 +42,7 @@ export default {
       var posts = await this.$http.get("http://192.168.31.65:3000/post")
         .then((response) => {
           // console.log(response.data);
-          this.$store.state.posts = response.data;
+          this.posts = response.data;
         })
         .catch((error) => {
           console.log(error);

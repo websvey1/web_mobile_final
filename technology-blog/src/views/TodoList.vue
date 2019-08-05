@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container style="padding-bottom:50px;">
   <v-layout row style="min-height:400px; margin-top:40px;">
 
     <v-flex xs12 class="Todo">

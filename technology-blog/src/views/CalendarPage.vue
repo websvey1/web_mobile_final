@@ -32,28 +32,37 @@ export default {
     }
   },
   mounted(){
-    var data = {
-        num : this.$session.get('userInfo').user_num
-    }
-    this.$http.post('http://192.168.31.63:3000/plan/getPlan', data)
-      .then((response) => {
-        var items = response.body;
-        // console.log(items)
-        for(var i = 0; i < items.length; i++){
-          this.events.push({title: items[i].cal_title, start: items[i].cal_start,
-                  end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description});
-        }
-      })
-      .catch((error) =>{
-        // console.log(error)
-      })
+   this.getCal();
   },
   computed:
     mapState(['plan'])
   ,
   watch: {
     plan(to, from){
-      this.events.push(this.$store.state.plan);
+      if(from == false && to == true){
+        this.$store.state.plan = false;
+        this.events = [];
+        this.getCal();
+      }
+    }
+  },
+  methods:{
+    getCal(){
+       var data = {
+        num : this.$session.get('userInfo').user_num
+    }
+    this.$http.post('http://192.168.31.63:3000/plan/getPlan', data)
+      .then((response) => {
+        var items = response.body;
+
+        for(var i = 0; i < items.length; i++){
+          this.events.push({title: items[i].cal_title, start: items[i].cal_start,
+                  end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description});
+        }
+      })
+      .catch((error) =>{
+        console.log(error)
+      })
     }
   }
 }
@@ -83,7 +92,7 @@ export default {
     width: 35%;
   }
   .form-holder > h3 {
-    color: rgb(155, 20, 255);
+    color: rgb(0, 0, 0);
     text-transform: uppercase;
     font-size: 16px;
     text-align: left;
