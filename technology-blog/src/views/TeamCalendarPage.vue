@@ -40,7 +40,7 @@ export default {
   watch: {
     teamPlan(to, from){
       if(from == false && to == true){
-        this.$store.state.plan = false;
+        this.$store.state.teamPlan = false;
         this.events = [];
         this.getCal();
       }
