@@ -1,31 +1,53 @@
 <template>
-    <v-card class="mx-auto" max-width="470" flat>
-        <v-img class="white--text" height="275px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" style="border: 1px solid #c5c5c5;">
-        </v-img>
+    <v-card
+      class="mx-auto"
+      max-width="450"
+      flat
+    >
+      <v-img
+        class="white--text"
+        height="285px"
+        :src="project.image"
+        style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
+        @click="goReadProject(project.pjt.project_num)"
+      >
+      </v-img>
 
-        <v-card-title>
-            <div class="posth1">{{ project.project_title }}</div>
-        </v-card-title>
+      <v-card-title>
+      <div class="posth1">{{ project.pjt.project_title }}</div>
+      </v-card-title>
 
-        <v-card-text>
-            <span class="ptag">{{ project.project_content }}</span><br>
-        </v-card-text>
+      <v-card-text>
+      <span class="ptag">{{ project.pjt.project_goal }}</span><br>
+      </v-card-text>
 
-        <v-divider class="mx-1"></v-divider>
+      <v-divider class="mx-0"></v-divider>
 
-        <v-card-text>
-            <v-chip style="float: right;" class="ma-2" color="#c9e2f7">
-                {{ project.project_start_date }}~ {{ project.project_end_date }}
-            </v-chip>
+      <v-card-text>
+        <v-chip style="float: right;"
+          class="ma-2" color="#c9e2f7"
+        >
+          <b>{{ project.pjt.project_start_date }}~ {{ project.pjt.project_end_date }}</b>
+        </v-chip>
 
-            <v-chip v-if="project.project_status ==='진행중'" style="float: right;" class="ma-2" color="rgb(245, 251, 191)">
-                {{ project.project_status }}
-            </v-chip>
+        <v-chip v-if="project.pjt.project_status ==='계획'" style="float: right;"
+          class="ma-2" color="rgb(255, 247, 135)"
+        >
+        <b>{{ project.pjt.project_status }}</b>
+        </v-chip>
 
-            <v-chip v-if="project.project_status ==='완료'" style="float: right;" class="ma-2" color="rgb(255, 180, 180)">
-                {{ project.project_status }}
-            </v-chip>
-        </v-card-text>
+        <v-chip v-if="project.pjt.project_status ==='진행중'" style="float: right;"
+          class="ma-2" color="rgb(166, 255, 143)"
+        >
+        <b>{{ project.pjt.project_status }}</b>
+        </v-chip>
+
+        <v-chip v-if="project.pjt.project_status ==='완료'" style="float: right;"
+          class="ma-2" color="rgb(255, 180, 180)"
+        >
+        <b>{{ project.pjt.project_status }}</b>
+        </v-chip>
+      </v-card-text>
     </v-card>
  </template>
 
@@ -33,7 +55,7 @@
 import router from '@/router'
 
 export default {
-    name: 'ProjectCard',
+    name: 'TeamProjectCard',
     data(){
       return{
         
@@ -46,8 +68,8 @@ export default {
 
     methods: {
       goReadProject(pjtNum) {
-        console.log(pjtNum)
-        router.push({name:"ProjectReadPage", params:{id:pjtNum}})
+        var id = this.$route.params.id
+        router.push(`/teamProject/${id}/project/${pjtNum}`)
       }
     },
 

@@ -50,8 +50,8 @@
         </v-card-text>
 
         <v-card-actions style="display:flex; justify-content:center;">
-          <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
           <v-btn color="red darken-1" flat @click="del">Delete</v-btn>
+          <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
           <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -110,19 +110,26 @@ export default {
         })
     },
     modify() {
+      var start = format(this.start, 'YYYY-MM-DD');
+      var end = format(this.end, 'YYYY-MM-DD');
+      if(start > end){
+        alert("Start date should be earlier than End date")
+        return
+      }
+
       var data = {
         id: this.$store.state.cal_id,
         title: this.title,
-        start: format(this.start, 'YYYY-MM-DD'),
-        end: format(this.end, 'YYYY-MM-DD'),
+        start: start,
+        end: end,
         description: this.description,
         cssClass: this.cssClass
       }
 
       this.$http.post('http://192.168.31.63:3000/plan/modifyPersonal', data)
         .then((response) => {
+          this.$store.state.plan = true;
           this.dialog = false
-          location.reload()
         })
         .catch((error) => {
           console.log(error)

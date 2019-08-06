@@ -15,6 +15,7 @@
   <div class="input-holder">
     <textarea placeholder="Event description" rows="4" v-model="event.data.description"></textarea>
   </div>
+  <h4 class="header">Select event theme</h4>
   <div class="theme">
     <color-picker @colorPicked="selectColor" :color="event.cssClass" />
   </div>
@@ -83,6 +84,11 @@ export default {
         // console.log(response.body[0].team_num)
         const start = format(this.event.start, 'YYYY-MM-DD');
         const end = format(this.event.end, 'YYYY-MM-DD');
+        if(start > end){
+          alert("Start date should be earlier than End date")
+          this.resetValues();
+          return
+        }
         const event = {
           ...this.event,
           start,
@@ -128,6 +134,7 @@ export default {
     },
     resetValues() {
       this.event = {
+        team: '',
         title: '',
         start: '',
         end: '',

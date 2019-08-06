@@ -58,8 +58,8 @@
         </v-card-text>
 
         <v-card-actions style="display:flex; justify-content:center;">
-          <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
           <v-btn color="red darken-1" flat @click="del">Delete</v-btn>
+          <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
           <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -97,7 +97,6 @@ export default {
     },
     methods:{
         handleDateClick(event, jsEvent, pos) {
-            console.log(event)
             var data = {
                 num : this.$session.get('userInfo').user_num,
                 team: event.team,
@@ -135,11 +134,18 @@ export default {
             })
         },
         modify(){
+            var start = format(this.start, 'YYYY-MM-DD');
+            var end = format(this.end, 'YYYY-MM-DD');
+            if(start > end){
+              alert("Start date should be earlier than End date")
+              return
+            }
+
             var data = {
                 id : this.$store.state.cal_id,
                 title : this.title,
-                start : format(this.start, 'YYYY-MM-DD'),
-                end : format(this.end, 'YYYY-MM-DD'),
+                start : start,
+                end : end,
                 description : this.description,
                 cssClass : this.cssClass
             }

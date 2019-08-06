@@ -4,32 +4,35 @@
   <v-btn style="" class="v-btn theme--dark" @click="person">개인</v-btn>
   <v-btn style="" class="v-btn theme--dark" @click="team">팀</v-btn>
 
+<<<<<<< HEAD
   <v-layout row style="min-height:400px; margin-top:40px;"> 
 
+=======
+>>>>>>> 9872efa697c099eb83dd0391377632e50b8be520
     <v-flex xs12 class="Todo">
         <h2>해야할 일</h2>
         <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
           <div v-for="element in myArray1" :key="element.id">
-            <v-chip color="#C8E6C9">{{element.todo_content}}</v-chip>
+            <v-chip color="#C8E6C9">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
+
           </div>
       </draggable>
-      
     </v-flex>
 
     <v-flex xs12 class="Todo">
      <h2>하고 있는 일</h2>
       <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray2" :key="element.id">
-          <v-chip color="rgb(191, 234, 255)">{{element.todo_content}}</v-chip>
+          <v-chip color="rgb(191, 234, 255)">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
         </div>
       </draggable>
       </v-flex>
 
     <v-flex xs12 class="Todo">
-      <h2>완성할 일</h2>
+      <h2>완성한 일</h2>
       <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray3" :key="element.id">
-          <v-chip color="#FFCDD2">{{element.todo_content}}</v-chip>
+          <v-chip color="#FFCDD2">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
         </div>
       </draggable>
     </v-flex>
@@ -115,6 +118,7 @@ export default {
           })  
         this.inputTodo = "";
         }        
+
       },
 
       async updateTodo() {

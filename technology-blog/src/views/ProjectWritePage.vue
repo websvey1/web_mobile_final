@@ -104,7 +104,7 @@
           <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()" 
           style="border: 2px solid rgb(231, 241, 247); padding: 1px 1px 0px 0.5px; border-radius: 3px;"/>
         </label>
-
+        
         <v-btn
           small
           style="border-radius: 15px; margin-left:16px;"
@@ -114,8 +114,7 @@
           Add Files
           <v-icon right dark style="margin-left: -0.1px;">add</v-icon>
         </v-btn>
-        <!-- <button v-on:click="addFiles()">Add Files</button> -->
-        <!-- <button v-on:click="submitFiles()">Submit</button> -->
+        
          <v-btn
           small
           style="border-radius: 15px;"
