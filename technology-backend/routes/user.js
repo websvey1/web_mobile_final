@@ -104,6 +104,7 @@ router.post('/create', function(req, res, next) {
   var favor = req.body.favor;
 
   console.log(req.body);
+
   pool.getConnection((ex, conn) => {
     if(ex){
       console.log(ex);
@@ -160,7 +161,7 @@ router.put('/update', function(req, res, next) {
   var user_email = req.body.user_email;
   var user_name = req.body.user_name;
   var favor = req.body.favor;
-
+  console.log(req.body)
   pool.getConnection((ex, conn) => {
     if(ex){
       console.log(ex);
