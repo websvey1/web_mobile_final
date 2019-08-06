@@ -68,7 +68,7 @@ router.post('/create', function(req, res, next) {
               var imgconn_query = 'insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values';
               for (var j=0; image_num + j < imgcnt; j++) {
                 var imgnum = image_num + j
-                imgconn_query += '(' + imgnum + ',' + project_num + ', 1, 0)'
+                imgconn_query += '(' + imgnum + ',' + project_num + ', 0, 0)'
                 if (imgnum == imgcnt - 1) {
                   imgconn_query += ';'
                 } else {
@@ -105,7 +105,7 @@ router.post('/getPjt', function(req, res, next) {
       console.log(ex);
     }
     else {
-      var query = conn.query('select project_num from project where project_user = ?', userNum, function (err, result) {
+      var query = conn.query('select project_num from project where project_user = ? and project_category = 0', userNum, function (err, result) {
         if (err) {
           console.log(err);
           throw err;
@@ -137,7 +137,7 @@ router.post('/getProject', function(req, res, next) {
           image: null
         }
 
-        var query = conn.query('select pjt.project_num, pjt.project_title, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + pjtNum + ';',
+        var query = conn.query('select i.image_num, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + pjtNum + ';',
         function(err, result) {
           if (err) {
             console.error(err);
@@ -189,7 +189,7 @@ router.get('/:id', function(req, res, next) {
             images: null,
           }
 
-          var query = conn.query('select pjt.project_num, pjt.project_title, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + project_num + ';',
+          var query = conn.query('select i.image_num, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_category = 0 and ic.imageconn_project =' + project_num + ';',
           function(err, result) {
             if (err) {
               console.error(err);
@@ -197,9 +197,13 @@ router.get('/:id', function(req, res, next) {
               throw err;
             }
 
-            project.images = result
-
-            // console.log(project);
+            var image = []
+            for (var i=0; i < result.length; i++){
+              image.push({imgnum: result[i].image_num, imgurl: result[i].image_url});
+            }
+            console.log(image)
+            project.images = image
+            console.log(project);
             res.send(project);
           })
         })
@@ -218,7 +222,7 @@ router.post('/update/getProject', function(req, res, next) {
       console.log(ex)
     }
     else {
-      var query = conn.query('select * from project where project_num = ?', pjtNum, 
+      var query = conn.query('select * from project where project_category = 0 and project_num = ?', pjtNum, 
       function(err, result) {
         if (err){
           console.error(err)
@@ -240,7 +244,7 @@ router.post('/update/getProject', function(req, res, next) {
 
           var image = []
           for (var i=0; i < result.length; i++){
-            image.push(result[i].image_url);
+            image.push({imgnum: result[i].image_num, imgurl: result[i].image_url});
           }
 
           project.images = image
@@ -254,14 +258,14 @@ router.post('/update/getProject', function(req, res, next) {
 
 router.post('/delete/image', function(req, res, next) {
   var pool = db.getPool();
-  var imgurl = req.body.imgDel;
+  var imgNum = req.body.imgNum;
 
   pool.getConnection((ex, conn) => {
     if (ex){
       console.log(ex)
     }
     else {
-      var query = conn.query('delete from image where image_url = ?', imgurl,
+      var query = conn.query('delete from image where image_num = ?', imgNum,
       function(err, result) {
         if (err){
           console.error(err)
@@ -299,18 +303,18 @@ router.post('/update/project', function(req, res, next) {
   })
 })
 
-router.post('/update/image', function(req, res, next) {
+router.post('/update/images', function(req, res, next) {
   var pool = db.getPool();
+  console.log(req.body)
   var pjtNum = req.body.pjtNum
-  var newimg = req.body.image
-  console.log(newimg)
+  var imgUrl = req.body.imgUrl
   
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex)
     }
     else {
-      var query = conn.query('insert into image(image_url) values (?)', newimg, function(err, result) {
+      var query = conn.query('insert into image(image_url) values (?)', imgUrl, function(err, result) {
         if (err){
           console.error(err)
           throw err

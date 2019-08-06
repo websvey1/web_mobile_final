@@ -32,7 +32,10 @@ import ProjectWritePage from './views/ProjectWritePage.vue'
 import TeamProjectWritePage from './views/TeamProjectWritePage.vue'
 
 import ProjectReadPage from './views/ProjectReadPage.vue'
+import TeamProejctReadPage from './views/TeamProjectReadPage'
+
 import ProjectUpdatePage from './views/ProjectUpdatePage.vue'
+import TeamProjectUpdatePage from './views/TeamProjectUpdatePage.vue'
 //// myproject ////
 
 import CalendarPage from './views/CalendarPage.vue'
@@ -113,6 +116,16 @@ export default new Router({
       path: '/teamProject/:id/write',
       name: 'TeamProjectWritePage',
       component: TeamProjectWritePage
+    },
+    {
+      path: '/teamProject/:id/project/:num',
+      name: 'TeamProjectReadPage',
+      component: TeamProejctReadPage
+    },
+    {
+      path: '/teamProject/:id/update/:num',
+      name: 'TeamProjectUpdatePage',
+      component: TeamProjectUpdatePage
     },
     ////////////////////////////////////////////////////////////
 

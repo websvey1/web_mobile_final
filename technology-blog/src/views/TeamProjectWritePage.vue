@@ -125,8 +125,7 @@
           Add Files
           <v-icon right dark style="margin-left: -0.1px;">add</v-icon>
         </v-btn>
-        <!-- <button v-on:click="addFiles()">Add Files</button> -->
-        <!-- <button v-on:click="submitFiles()">Submit</button> -->
+
          <v-btn
           small
           style="border-radius: 15px;"
@@ -195,6 +194,11 @@ export default {
     },
     data(){
         return{
+            img: {
+                imageName: '',
+                imageUrl: '',
+                imageFile: '',
+            },
             project: {
                 user: this.$session.get('userInfo').user_num,
                 title: '',
@@ -228,11 +232,10 @@ export default {
             menu2: false,
             files: [],
             imgUrls: [],
-            members: []
+            members: null
         }
     },
     mounted(){
-        console.log(this.$route.params.id)
         this.getMember()
     },
     methods:{
@@ -253,18 +256,19 @@ export default {
             this.$http.post('http://192.168.31.61:3000/team/getMember', data)
             .then((res) => {
                 console.log(res.body)
+                var member = []
                 for (var i=0; i < res.body.length; i++) {
-                    console.log(res.body[i])
-                    this.members.push(res.body[i].user_name)
+                    var name = res.body[i].user_name
+                    member.push(name)
                 }
-                console.log(this.members)
+                this.members = member
             })
         },
         createTeamProject() {
             if (this.imgUrls.length == 0) {
                 this.imgUrls.push('https://source.unsplash.com/random/300x300')
             }
-            console.log(this.project)
+            // console.log(this.project)
             var team_num = this.$route.params.id
             var data = {
                 teamNum: this.$route.params.id,
@@ -283,20 +287,23 @@ export default {
                     this.$http.post('http://192.168.31.61:3000/teamProject/images', data)
                     .then((res) => {
                         console.log(res)
-                        alert("글 작성 완료");
-                        this.$router.push("/teamProject")
                     })
                 }
+            })
+            .then(() => {
+                var teamNum = this.$route.params.id
+                // console.log(res)
+                alert("글 작성 완료");
+                this.$router.push(`/teamProject/${teamNum}`)
             })
         },
         submitFiles(){
             for( var i = 0; i < this.files.length; i++ ){
                 let file = this.files[i];
-                console.log(file)
 
                 if (file !== undefined) {
-                this.img.imgName = file.name;
-                if (this.img.imgName.lastIndexOf('.') <= 0) {
+                    this.img.imageName = file.name;
+                if (this.img.imageName.lastIndexOf('.') <= 0) {
                     return
                 }
                 const fr = new FileReader();
@@ -305,8 +312,7 @@ export default {
                     this.img.imageUrl = fr.result
                     this.img.imageFile = file
                 })
-
-                var img_file = this.img.imageFile;
+                
                 if (file != '') {
                     var xmlHttpRequest = new XMLHttpRequest();
                     xmlHttpRequest.open('POST', 'https://api.imgur.com/3/image/', false);
