@@ -222,5 +222,28 @@ router.post('/getLatestTeam', function(req, res, next){
         }
     });
 });
+    
+router.post('/checkNew', function(req, res, next){
+    var id = req.body.id;
+    // console.log(id)
+    // console.log(req.body)    
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }else{
+            var query = conn.query('select count(member_auth) as total from blog.member where member_user = ? and member_auth = 0', id, function(err, result){
+                if(err){
+                    console.log(err)
+                    throw err
+                }
+                
+                res.send(result);
+            })
+            conn.release();
+        }
+    });
+});
 
 module.exports = router;

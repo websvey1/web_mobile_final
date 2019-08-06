@@ -151,14 +151,16 @@
       </template>
       <v-divider />
 
-      <v-list-tile v-if="TeamId == null" to="/teamChoose" style="background:white;">
+      <v-list-tile to="/teamChoose" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
-            <span class="spantag">Team 선택</span>
+            <span class="spantag">Team 선택</span>&nbsp;
+            <span v-if="newOne" style="color: red">new!</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
 
+      <!--
       <v-list-tile v-else @click="go()" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -166,6 +168,7 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
+      -->
 
       <v-divider />
             <v-list-tile to="/teamCalendar" style="background:white;">
@@ -229,6 +232,7 @@
 import Weather from '@/components/WeatherInfo'
 import LoginForm from '@/components/LoginForm'
 import FixedHeader from 'vue-fixed-header'
+import {mapState} from 'vuex';
 
 export default {
   name: "Header",
@@ -247,10 +251,12 @@ export default {
       isTeam: false,
       TeamId: null,
       teamName: '',
+      newOne: false,
     }
   },
   mounted(){
     // console.log("확인확인",this.$route.params.id)
+    this.check();
   },
   created () {
     // 뷰가 생성되고 데이터가 이미 감시 되고 있을 때 데이터를 가져온다.
@@ -258,8 +264,14 @@ export default {
   },
   watch: {
     // 라우트가 변경되면 메소드를 다시 호출됩니다.
-    '$route': 'fetchData'
+    '$route': 'fetchData',
+    exist(to, from){
+      this.check();
+    }
   },
+  computed:
+    mapState(['exist'])
+  ,
   methods: {
     fetchData () {
         // console.log("&&&",this.$route.params.id)
@@ -285,6 +297,13 @@ export default {
     },
     go(id){
       this.$router.push({ name: "TeamProjectPage", params: {id: id} })
+    },
+    check(){
+      if(this.$store.state.exist){
+        this.newOne = true
+      }else{
+        this.newOne = false
+      }
     }
   }
 
