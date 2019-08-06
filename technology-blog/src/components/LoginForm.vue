@@ -67,7 +67,6 @@ export default {
 
     if(this.isLogin){
       console.log(this.$session.get("userInfo"));
-      this.userName = this.$session.get('userInfo').user_name
     }
   },
   mounted(){
@@ -115,6 +114,7 @@ export default {
               this.isLogin = true;
               this.$session.set("userInfo", res.data);
               console.log(this.$session.get('userInfo').user_num)
+              this.userName = this.$session.get('userInfo').user_name
               this.closeDialog();
             }
             this.isLoading = false;
