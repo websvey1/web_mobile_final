@@ -3,7 +3,7 @@
     <div id="app">
       <div class="main2">
         <div class="calendar-holder">
-          <calendar :events="events" />
+          <team-calendar :events="events" />
         </div>
 
         <div class="form-holder">
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import Calendar from '@/components/Calendar.vue'
+import TeamCalendar from '@/components/TeamCalendar.vue'
 import TeamEventForm from '@/components/TeamEventForm.vue'
 import {mapState} from 'vuex';
 
 export default {
   name: 'TeamCalendarPage',
   components: {
-    Calendar,
+    TeamCalendar,
     TeamEventForm
   },
   data(){
@@ -32,28 +32,37 @@ export default {
     }
   },
   mounted(){
-    var data = {
-        num : this.$session.get('userInfo').user_num
+    this.getCal();
+  },
+  computed:
+    mapState(['teamPlan'])
+  ,
+  watch: {
+    teamPlan(to, from){
+      if(from == false && to == true){
+        this.$store.state.teamPlan = false;
+        this.events = [];
+        this.getCal();
+      }
     }
-    this.$http.post('http://192.168.31.63:3000/plan/getTeamPlan', data)
+  },
+  methods:{
+    getCal(){
+      var data = {
+        num : this.$session.get('userInfo').user_num
+      }
+      this.$http.post('http://192.168.31.63:3000/plan/getTeamPlan', data)
       .then((response) => {
         var items = response.body;
 
         for(var i = 0; i < items.length; i++){
           this.events.push({title: items[i].cal_title, start: items[i].cal_start,
-                  end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description});
+                  end: items[i].cal_end, cssClass: items[i].cal_color, description: items[i].cal_description, team: items[i].cal_teamNum});
         }
       })
       .catch((error) =>{
         console.log(error)
       })
-  },
-  computed:
-    mapState(['plan'])
-  ,
-  watch: {
-    plan(to, from){
-      this.events.push(this.$store.state.plan);
     }
   }
 }
@@ -84,7 +93,7 @@ export default {
   width: 35%;
 }
 .form-holder > h3 {
-  color: rgb(155, 20, 255);
+  color: rgba(0, 0, 0, 0);
   text-transform: uppercase;
   font-size: 16px;
   text-align: left;

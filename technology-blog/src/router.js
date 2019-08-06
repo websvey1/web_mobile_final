@@ -21,7 +21,7 @@ import UserDeletePage from './views/user/UserDeletePage.vue'
 
 //// test ////
 import PageTest from './views/test/PageTest.vue'
-import TestPage from './views/test/TestPage.vue'
+// import TestPage from './views/test/TestPage.vue'
 //// test ////
 
 //// myproject ////
@@ -160,11 +160,11 @@ export default new Router({
       component: UserCreatePage
     },
     ////////////////////////////////////////////////////////////
-    {
-      path: '/test',
-      name: 'TestPage',
-      component: TestPage
-  },
+  //   {
+  //     path: '/test',
+  //     name: 'TestPage',
+  //     component: TestPage
+  // },
   //////////////////////////////////////////////////////// Todolist url 정의
   {
     path: '/todolist',

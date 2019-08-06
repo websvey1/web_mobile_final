@@ -12,6 +12,7 @@
     <div class="input-holder">
         <textarea placeholder="Event description" rows="4" v-model="event.data.description" ></textarea>
     </div>
+    <h4 class="header">Select event theme</h4>
     <div class="theme">
         <color-picker @colorPicked="selectColor" :color="event.cssClass" />
     </div>
@@ -28,6 +29,10 @@ import ColorPicker from './ColorPicker';
 
 export default {
     name: 'EventForm',
+    components: {
+        DatePicker,
+        ColorPicker
+    },
     data(){
         return {
             event: {
@@ -46,6 +51,13 @@ export default {
         async handleSubmit(){
             const start = format(this.event.start, 'YYYY-MM-DD');
             const end = format(this.event.end, 'YYYY-MM-DD');
+        
+            if(start > end){
+                alert("Start date should be earlier than End date")
+                this.resetValues();
+                return
+            }
+
             const event = {
                 ...this.event,
                 start,
@@ -53,7 +65,6 @@ export default {
             }
 
             var config = {
-                // body: JSON.stringify(event),
                 body: {
                     title: event.title,
                     start: event.start,
@@ -71,13 +82,13 @@ export default {
             }
 
             this.$http.post('http://192.168.31.63:3000/plan/personal', config)
-                .then((response) => {
-                    this.$store.state.plan = response.data;
-                })
-                .catch((error) =>{
-                    console.log(error)
-                })
-            this.resetValues();
+            .then((response) => {
+                this.$store.state.plan = response.data;
+                this.resetValues();
+            })
+            .catch((error) =>{
+                console.log(error)
+            })
         },
         selectColor(color){
             this.event = {
@@ -96,10 +107,6 @@ export default {
                 }
             }
         }
-    },
-    components: {
-        DatePicker,
-        ColorPicker
     }
 }
 </script>
@@ -131,7 +138,7 @@ export default {
     .input-holder input:focus,
     .input-holder textarea:focus,
     .input-holder button:focus {
-      border: 2px solid rgb(155, 20, 255);
+      border: 1.5px solid rgb(0, 0, 0);
       outline: none;
       box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
     }
@@ -158,5 +165,11 @@ export default {
     .theme{
       padding-top: 5%;
       padding-bottom: 10%;
+    }
+    .header {
+      color: rgb(0, 0, 0);
+      text-transform: uppercase;
+      font-size: 15px;
+      text-align: left;
     }
 </style>

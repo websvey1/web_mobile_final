@@ -75,9 +75,9 @@ export default {
       isLoading:false
     }
   },
-  created(){
-    if(!this.$session.has("userInfo")){
-      alert("로그인 해주세요.")
+  created(){                               // 동작이 완벽하지 않음
+    if(!this.$session.has("userInfo")){    // POST작성 버튼을 누르면 작성 form이 잠깐 떴다가 다시 뒤로 가짐.
+      alert("로그인 해주세요.")               // 수정요망
       this.$router.go(-1)
     }
   },

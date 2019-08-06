@@ -10,7 +10,9 @@
       </p>
     </span>
     <div class="post">
-      <img :src="post.image_url"/>
+      <img v-if="post.image_url != null" :src="post.image_url"/>
+      <img v-else src="https://source.unsplash.com/random/300x300"></img>
+
       <a @click="goReadPage(post.post_num)"><h1 class="posth1"><i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>{{ post.post_title}} </h1></a>
       <p class="pcontent">{{ post.post_content | content }}</p>
       <p class="puser">{{post.user_name|name}}</p>

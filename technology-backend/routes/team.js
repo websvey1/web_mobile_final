@@ -203,7 +203,7 @@ router.post('/deleteTeam', function(req, res, next){
 router.post('/getLatestTeam', function(req, res, next){
     var teamNum = req.body.teamNum;
     console.log(teamNum)
-    
+    // console.log(req.body)    
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -215,8 +215,7 @@ router.post('/getLatestTeam', function(req, res, next){
                     console.log(err)
                     throw err
                 }
-                console.log("latest team")
-                console.log(result)
+                
                 res.send(result);
             })
             conn.release();

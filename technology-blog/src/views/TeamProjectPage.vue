@@ -1,6 +1,10 @@
 <template>
-<div style="background-color: white;">
+<div style="background-color: white; padding-bottom:50px;">
+    <v-btn @click="back" class="ma-2" color="orange darken-2" dark>
+        <v-icon dark left>arrow_back</v-icon>Back
+    </v-btn>
     <v-btn @click="move" outline color="indigo" round>Project 추가</v-btn>
+    <span class="mdi mdi-home"></span>
     <div class="container project">
         <v-layout wrap>
             <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
@@ -32,6 +36,9 @@ export default {
         this.getProject()
     },
     methods: {
+        back(){
+            this.$router.push({ name: "TeamChoose", params: {id: this.$route.params.id} })
+        },
         move(){
             this.$router.push({ name: "TeamProjectWritePage", params: {id: this.$route.params.id} })
         },

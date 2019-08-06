@@ -1,5 +1,8 @@
 <template>
 <form @submit.prevent="handleSubmit">
+  <div class="input2">
+    <v-select :error-messages="['Please select a team']" label="　Team" :items="teamList" v-model="event.team"></v-select>
+  </div>
   <div class="input-holder">
     <input type="text" placeholder="Event title" v-model="event.title" />
   </div>
@@ -28,9 +31,14 @@ import ColorPicker from './ColorPicker';
 
 export default {
   name: 'TeamEventForm',
+  components: {
+    DatePicker,
+    ColorPicker
+  },
   data() {
     return {
       event: {
+        team: '',
         title: '',
         start: '',
         end: '',
@@ -38,46 +46,84 @@ export default {
         data: {
           description: ''
         }
-      }
+      },
+      teamList: []
     }
   },
-
+  mounted(){
+    this.getTeam();
+  },
   methods: {
-    async handleSubmit() {
-      const start = format(this.event.start, 'YYYY-MM-DD');
-      const end = format(this.event.end, 'YYYY-MM-DD');
-      const event = {
-        ...this.event,
-        start,
-        end
+    getTeam(){
+      var data = {
+        num: this.$session.get('userInfo').user_num
       }
 
-      var config = {
-        // body: JSON.stringify(event),
-        body: {
-          title: event.title,
-          start: event.start,
-          end: event.end,
-          cssClass: event.cssClass,
-          description: event.data.description,
-        },
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'content-type': 'application/json'
-        },
-        data: {
-          num: this.$session.get('userInfo').user_num
+      this.$http.post('http://192.168.31.63:3000/team/getTeamList', data)
+      .then((response) => {
+        for(var i = 0; i < response.body.length; i++){
+          this.teamList.push(response.body[i].team_name)
         }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
+    async handleSubmit() {
+      if(this.event.team == ''){
+        alert("Please select a team")
+        return
       }
+      var data = {
+        num: this.$session.get('userInfo').user_num,
+        teamName: this.event.team
+      }
+      this.$http.post('http://192.168.31.63:3000/team/getTeamNum', data)
+      .then((response) => {
+        // console.log(response.body[0].team_num)
+        const start = format(this.event.start, 'YYYY-MM-DD');
+        const end = format(this.event.end, 'YYYY-MM-DD');
+        if(start > end){
+          alert("Start date should be earlier than End date")
+          this.resetValues();
+          return
+        }
+        const event = {
+          ...this.event,
+          start,
+          end
+        }
+        var config = {
+          // body: JSON.stringify(event),
+          body: {
+            title: event.title,
+            start: event.start,
+            end: event.end,
+            cssClass: event.cssClass,
+            description: event.data.description,
+            teamNum: response.body[0].team_num
+          },
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'content-type': 'application/json'
+          },
+          data: {
+            num: this.$session.get('userInfo').user_num
+          }
+        }
 
-      this.$http.post('http://192.168.31.63:3000/plan/team', config)
-        .then((response) => {
-          this.$store.state.plan = response.data;
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      this.resetValues();
+        this.$http.post('http://192.168.31.63:3000/plan/team', config)
+          .then((response) => {
+            this.$store.state.teamPlan = true;
+            this.resetValues();
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     selectColor(color) {
       this.event = {
@@ -87,6 +133,7 @@ export default {
     },
     resetValues() {
       this.event = {
+        team: '',
         title: '',
         start: '',
         end: '',
@@ -96,10 +143,6 @@ export default {
         }
       }
     }
-  },
-  components: {
-    DatePicker,
-    ColorPicker
   }
 }
 </script>
@@ -118,6 +161,10 @@ form {
   width: 77%;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
+.input2{
+  width: 77%;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+}
 
 .input-holder input,
 .input-holder textarea {
@@ -134,7 +181,7 @@ form {
 .input-holder input:focus,
 .input-holder textarea:focus,
 .input-holder button:focus {
-  border: 2px solid rgb(155, 20, 255);
+  border: 1.5px solid rgb(0, 0, 0);
   outline: none;
   box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
 }
