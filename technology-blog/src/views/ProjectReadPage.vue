@@ -1,5 +1,4 @@
 <template>
-
 <div id="top__container" style="
   width: 73%; margin: 0 auto;
   ">
@@ -9,7 +8,7 @@
       <v-carousel hide-delimiters style="
       width:50%; height:45%; float:left; margin-top: 3px;
       ">
-        <v-carousel-item v-resize="onResize" v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
+        <v-carousel-item v-resize="onResize" v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
       </v-carousel>
 
       <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
@@ -85,22 +84,20 @@ export default {
   data() {
     return {
       project: [],
-      images: [],
+      images: null,
       modify: false,
       menu: false,
       picker: new Date().toISOString().substr(0, 10),
     }
   },
   mounted() {
-    console.log(this.$route.params)
     var id = this.$route.params.id;
-    console.log(`http://192.168.31.61:3000/myproject/${id}`)
     this.$http.get(`http://192.168.31.61:3000/myproject/${id}`)
       .then((res) => {
+        console.log(res)
         this.project = res.data.project[0];
         this.images = res.data.images;
         console.log(this.images)
-        console.log(this.images[0].image_url)
       });
   },
   methods: {

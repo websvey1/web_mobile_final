@@ -2,9 +2,21 @@
 <div class="container">
 <v-layout wrap align-center justify-center row fill-height>
   <v-flex xs12 ma-5 text-xs-left>
-    <div style="margin: 0px 16px 1px">
-      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='project.project_title' counter="20" :maxlength="20"></v-text-field>
-    </div>
+    <v-layout wrap>
+      <v-flex xs10>
+        <div style="margin: 8px 16px 1px">
+          <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='project.project_title' counter="20" :maxlength="20"></v-text-field>
+        </div>
+      </v-flex>
+      <v-flex xs2 style="margin-top: 3.5px;">
+        <v-text-field
+            :value="project.project_captain"
+            label="프로젝트 팀장"
+            disabled
+        ></v-text-field>
+      </v-flex>
+    </v-layout>
+
     <v-layout wrap>
       <v-flex xs10>
         <div style="margin: 8px 16px 1px">
@@ -14,7 +26,7 @@
       <v-flex xs2 style="margin-top: 3.5px;">
         <v-select v-model="project.project_status"
           :items="status_items"
-          :label="project.project_status"
+          label="프로젝트 상태"
         ></v-select>
       </v-flex>
     </v-layout>
@@ -159,7 +171,7 @@
     </v-layout>
 
     <div style="text-align:center;" id="write-btn">
-      <v-btn class="v-btn theme--dark" @click="updateProject">확인</v-btn>
+      <v-btn class="v-btn theme--dark" @click="updateTeamProject">확인</v-btn>
       <v-btn class="v-btn theme--dark" @click="goHome">취소</v-btn>
     </div>
 
@@ -172,7 +184,7 @@
 import { log } from 'util';
 import { async } from 'q';
 export default {
-    name: 'ProjectUpdatePage',
+    name: 'TeamProjectUpdatePage',
     data() {
         return{
             img: {
@@ -183,6 +195,7 @@ export default {
             menu1: false,
             menu2: false,
             project: null,
+            updateimgs: null,
             files: [],
             status_items: [
                 {
@@ -199,8 +212,6 @@ export default {
                 }
             ],
             newimg: '',
-            updateimgs: null,
-            
         }
     },
     mounted() {
@@ -212,19 +223,19 @@ export default {
         },
         getProject() {
             var data = {
-                pjtNum: this.$route.params.id
+                pjtNum: this.$route.params.num
             }
-            this.$http.post('http://192.168.31.61:3000/myproject/update/getProject', data)
+            this.$http.post('http://192.168.31.61:3000/teamProject/update/getProject', data)
             .then((res)=> {
                 this.project = res.body.project[0]
                 this.updateimgs = res.body.images
-                console.log(this.updateimgs)
+                console.log(res)
+                console.log(this.project)
             })
         },
         addFiles(){
             this.$refs.files.click()
         },
-
         onFilePicked(e) {
           this.files.push(e.target.files[0].name)
 
@@ -239,7 +250,6 @@ export default {
             fr.addEventListener('load', () => {
               this.img.imageUrl = fr.result
               this.img.imageFile = files[0]
-              // console.log(this.img.imageFile)
               this.imgur()
             })
           } else {
@@ -270,22 +280,21 @@ export default {
             xmlHttpRequest.send(file);
           }
           this.newimg = url
-          // this.saveimg()
           console.log(this.newimg)
           this.saveimg()
         },
 
         saveimg() {
           console.log(this.newimg)
-          var id = this.$route.params.id
+          var pjt_num = this.$route.params.num
           var data = {
-            pjtNum: id,
+            pjtNum: pjt_num,
             imgUrl: this.newimg
           }
           console.log(data)
-          this.$http.post('http://192.168.31.61:3000/myproject/update/images', data)
+          this.$http.post('http://192.168.31.61:3000/teamProject/update/images', data)
           .then((res) => {
-            console.log(res.body)
+            console.log(res)
           })
         },
 
@@ -309,22 +318,25 @@ export default {
           })
         },
 
-        updateProject(){
+        updateTeamProject(){
+          var id = this.$route.params.id
+          var num = this.$route.params.num
           var data = {
             pjtNum: this.project.project_num,
             project: this.project,
           }
 
-          this.$http.post('http://192.168.31.61:3000/myproject/update/project', data)
+          this.$http.post('http://192.168.31.61:3000/teamProject/update/project', data)
             .then((res) => {
               console.log(res)
             })
             .then(() => {
                 alert("글 수정 완료");
                 var pjtNum = this.$route.params.id
-                this.$router.push(`/myproject/${pjtNum}`)
+                this.$router.push(`/teamProject/${id}/project/${num}`)
             })
         }
+
     }
 }
 </script>
