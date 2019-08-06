@@ -63,10 +63,7 @@ export default {
         }
     },
     mounted(){
-      console.log("?")
       this.temp();
-      console.log("?")
-
     },
     computed:{
       async form () {
@@ -79,12 +76,8 @@ export default {
     },
 	  methods: {
       async temp(){
-      console.log("?")
-
         this.$http.get("http://192.168.31.85:3000/todolist") // 호출
         .then(result=> {
-          console.log(result.data);
-          //--
           var todos = result.data;
 
           for(var i = 0; i < todos.length; i++){
@@ -98,15 +91,11 @@ export default {
               this.myArray3.push(todos[i])
             }
           }
-
-          console.log(this.myArray1);
         })
-
       },
       
       async createTodo() {        
         var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
-        console.log(this.$session.get("userInfo"))
         var content = this.inputTodo;             
         if (!content ==""){
           this.myArray1.push({          
@@ -115,7 +104,6 @@ export default {
           })  
         this.inputTodo = "";
         }        
-
       },
 
       async updateTodo() {
@@ -134,7 +122,6 @@ export default {
       //   })
       // }
 	},
-
 }
 </script>
 
