@@ -10,7 +10,7 @@
       padding: 10px 10px 20px 20px;
       ">
       <v-toolbar-title class="header__container">
-            <router-link to="/"> <img src="@/assets/code3.png/" height="50px" widt="50px" alt=""> </router-link>
+            <router-link to="/"> <img src="@/assets/code3.png/" height="50px;" width="50px;"alt=""> </router-link>
             <!-- <span v-if="this.$session.has('userInfo')" style="width:100%;text-align:right;">{{this.$session.get('userInfo').user_name}}님 </span> -->
             <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
             <div>
@@ -70,7 +70,7 @@
       </v-list-tile>
     </v-list>
 
-    <!-- <v-list-tile v-for="item in items" :key="item.title" @click="" :to="item.link" style="margie-top:10px;">
+    <!-- <v-list-tile v-for="item in items" :key="item.title" @click="" :to="item.link" style="margin-top:10px;">
       <v-list-tile-content style="height:auto;">
         <h1 style="margin-left: 15px;">
           <v-icon>{{ item.icon }}</v-icon>
@@ -79,7 +79,7 @@
       </v-list-tile-content>
     </v-list-tile> -->
     <!-- <div v-if > -->
-    <v-list-tile @click="" to="/" style="margie-top:10px;">
+    <v-list-tile @click="" to="/" style="margin-top:10px;">
       <v-list-tile-content style="height:auto;">
         <h1 style="margin-left: 15px;">
           <v-icon>home</v-icon>
@@ -90,7 +90,7 @@
 
     <v-list-group>
       <template v-slot:activator>
-        <v-list-tile @click="" style="margie-top:10px;">
+        <v-list-tile @click="" style="margin-top:10px;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>accessibility_new</v-icon>
@@ -119,7 +119,7 @@
       </v-list-tile>
       <v-divider/>
 
-      <!-- <v-list-tile to="/todolist" style="background:white;">
+      <v-list-tile to="/todolist" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">To-Do List</span>
@@ -140,7 +140,7 @@
 <!-- dklafjlkdjfkljakldfjklasdjfkljadsklfjdfkljkldfjakljdklfjaklfj -->
     <v-list-group>
       <template v-slot:activator>
-        <v-list-tile @click="" style="margie-top:10px;">
+        <v-list-tile @click="" style="margin-top:10px;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>people</v-icon>
@@ -151,16 +151,14 @@
       </template>
       <v-divider />
 
-      <v-list-tile to="/teamChoose" style="background:white;">
+      <v-list-tile v-if="TeamId == null" to="/teamChoose" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
-            <span class="spantag">Team 선택</span>&nbsp;
-            <span v-if="newOne" style="color: red">new!</span>
+            <span class="spantag">Team 선택</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
 
-      <!--
       <v-list-tile v-else @click="go()" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -168,7 +166,6 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
-      -->
 
       <v-divider />
             <v-list-tile to="/teamCalendar" style="background:white;">
@@ -193,7 +190,7 @@
 
     <v-list-group>
       <template v-slot:activator>
-        <v-list-tile @click="" style="margie-top:10px;">
+        <v-list-tile @click="" style="margin-top:10px;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>tag_faces</v-icon>
@@ -232,7 +229,6 @@
 import Weather from '@/components/WeatherInfo'
 import LoginForm from '@/components/LoginForm'
 import FixedHeader from 'vue-fixed-header'
-import {mapState} from 'vuex';
 
 export default {
   name: "Header",
@@ -241,32 +237,29 @@ export default {
     Weather,
     FixedHeader
   },
+  methods: {
+
+  },
+
   data() {
     return {
       drawer: null,
       isTeam: false,
       TeamId: null,
       teamName: '',
-      newOne: false,
     }
   },
   mounted(){
     // console.log("확인확인",this.$route.params.id)
-    this.check();
   },
   created () {
     // 뷰가 생성되고 데이터가 이미 감시 되고 있을 때 데이터를 가져온다.
-    this.fetchData();
+    this.fetchData()
   },
   watch: {
     // 라우트가 변경되면 메소드를 다시 호출됩니다.
-    exist(to, from){
-      this.check();
-    }
+    '$route': 'fetchData'
   },
-  computed:
-    mapState(['exist'])
-  ,
   methods: {
     fetchData () {
         // console.log("&&&",this.$route.params.id)
@@ -292,13 +285,6 @@ export default {
     },
     go(id){
       this.$router.push({ name: "TeamProjectPage", params: {id: id} })
-    },
-    check(){
-      if(this.$store.state.exist){
-        this.newOne = true
-      }else{
-        this.newOne = false
-      }
     }
   }
 
