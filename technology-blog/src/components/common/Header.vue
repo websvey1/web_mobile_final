@@ -2,7 +2,6 @@
 <div style="z-index:4;">
   <!-- 첫번째 헤더 -->
   <v-toolbar flat style="background-color:rgb(255, 255, 255);
-
       z-index:4;
       color:rgb(0, 0, 0);
       height:80px;
