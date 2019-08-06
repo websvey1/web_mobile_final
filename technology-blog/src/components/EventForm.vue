@@ -29,6 +29,10 @@ import ColorPicker from './ColorPicker';
 
 export default {
     name: 'EventForm',
+    components: {
+        DatePicker,
+        ColorPicker
+    },
     data(){
         return {
             event: {
@@ -47,6 +51,13 @@ export default {
         async handleSubmit(){
             const start = format(this.event.start, 'YYYY-MM-DD');
             const end = format(this.event.end, 'YYYY-MM-DD');
+        
+            if(start > end){
+                alert("Start date should be earlier than End date")
+                this.resetValues();
+                return
+            }
+
             const event = {
                 ...this.event,
                 start,
@@ -54,7 +65,6 @@ export default {
             }
 
             var config = {
-                // body: JSON.stringify(event),
                 body: {
                     title: event.title,
                     start: event.start,
@@ -72,13 +82,13 @@ export default {
             }
 
             this.$http.post('http://192.168.31.63:3000/plan/personal', config)
-                .then((response) => {
-                    this.$store.state.plan = response.data;
-                })
-                .catch((error) =>{
-                    console.log(error)
-                })
-            this.resetValues();
+            .then((response) => {
+                this.$store.state.plan = response.data;
+                this.resetValues();
+            })
+            .catch((error) =>{
+                console.log(error)
+            })
         },
         selectColor(color){
             this.event = {
@@ -97,10 +107,6 @@ export default {
                 }
             }
         }
-    },
-    components: {
-        DatePicker,
-        ColorPicker
     }
 }
 </script>
