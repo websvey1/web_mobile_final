@@ -92,7 +92,7 @@ export default {
   },
   mounted() {
     var id = this.$route.params.id;
-    this.$http.get(`http://192.168.31.61:3000/myproject/${id}`)
+    this.$http.get(`http://192.168.31.63:3000/myproject/${id}`)
       .then((res) => {
         console.log(res)
         this.project = res.data.project[0];

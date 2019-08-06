@@ -261,7 +261,7 @@ export default {
 
       console.log(post);
 
-      this.$http.post("http://192.168.31.61:3000/myproject/create", post)
+      this.$http.post("http://192.168.31.63:3000/myproject/create", post)
       .then((result) => {
         console.log(result.data);
       }).catch((error) => {

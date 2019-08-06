@@ -150,24 +150,37 @@ export default {
         teamName: titleData
       }
       this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
-        .then((response) => {
-          // console.log(response.body[0].team_num)
-
-          var auth = {
-            num: this.$session.get('userInfo').user_num,
-            teamNum: response.body[0].team_num
-          }
-          this.$http.post('http://192.168.31.63:3000/team/changeAuth', auth)
+      .then((response) => {
+        var auth = {
+          num: this.$session.get('userInfo').user_num,
+          teamNum: response.body[0].team_num
+        }
+        this.$http.post('http://192.168.31.63:3000/team/changeAuth', auth)
+          .then((response) => {
+            console.log("Change complete")
+            var data = {
+              id : this.$session.get('userInfo').user_num
+            }
+            this.$http.post('http://192.168.31.63:3000/team/checkNew', data)
             .then((response) => {
-              console.log("Change complete")
+              if(response.body[0].total > 0){
+                this.$store.state.exist = true
+              }else{
+                this.$store.state.exist = false
+              }
             })
             .catch((error) => {
               console.log(error)
             })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      
     },
     del(titleData) {
       for (var i = 0; i < this.items.length; i++) {
