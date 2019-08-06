@@ -10,7 +10,7 @@
       padding: 10px 10px 20px 20px;
       ">
       <v-toolbar-title class="header__container">
-            <router-link to="/"> <img src="@/assets/logo2.jpg" alt=""> </router-link>
+            <router-link to="/"> <img src="@/assets/code3.png/" height="50px" widt="50px" alt=""> </router-link>
             <!-- <span v-if="this.$session.has('userInfo')" style="width:100%;text-align:right;">{{this.$session.get('userInfo').user_name}}님 </span> -->
             <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
             <div>
@@ -93,7 +93,7 @@
         <v-list-tile @click="" style="margie-top:10px;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
-              <v-icon>question_answer</v-icon>
+              <v-icon>accessibility_new</v-icon>
               <span class="spantag"> Personal</span>
             </h1>
           </v-list-tile-content>
@@ -127,7 +127,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
-      
+
       <v-list-tile to="/calendar" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -143,7 +143,7 @@
         <v-list-tile @click="" style="margie-top:10px;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
-              <v-icon>question_answer</v-icon>
+              <v-icon>people</v-icon>
               <span class="spantag"> Team</span>
             </h1>
           </v-list-tile-content>
@@ -182,7 +182,7 @@
         <v-list-tile to="/another" style="background:white;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
-              <v-icon>account_circle</v-icon>
+              <v-icon>person_pin</v-icon>
               <span class="spantag"> AnotherUser</span>
             </h1>
           </v-list-tile-content>
@@ -193,7 +193,7 @@
         <v-list-tile @click="" style="margie-top:10px;">
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
-              <v-icon>account_circle</v-icon>
+              <v-icon>tag_faces</v-icon>
               <span class="spantag"> Users</span>
             </h1>
           </v-list-tile-content>

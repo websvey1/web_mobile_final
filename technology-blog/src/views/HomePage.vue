@@ -1,6 +1,11 @@
 <template>
 <div class="body">
-  <v-img height="100%" width="auto" src="https://advancedtech.airliquide.com/sites/abt_at/files/styles/web_page_cover/public/2016/10/05/banner_space_1366x520px.jpg?itok=_28TaB8h"></v-img>
+  <v-img height="100%" width="auto" src="https://blog.newrelic.com/wp-content/uploads/good-programmer-banner-final.jpg">
+      <div style="color:white; font-size:40px;padding:5% 5%;" > 어쩌구저쩌구~~ 하는 플랫폼을 제공합니다.<br/>
+        여러분도 자유롭게 이용하세요!<br/>
+        준호씨가 번역해주세요....plz....
+      </div>
+  </v-img>
     <div class="container">
         <div class="website">
             <div class="main-page" style="position:relative; z-index:2;">

@@ -1,9 +1,10 @@
 <template>
 <div style="background-color: white; padding-bottom:50px;">
-    <v-btn @click="back" class="ma-2" color="orange darken-2" dark>
-        <v-icon dark left>arrow_back</v-icon>Back
-    </v-btn>
-    <v-btn @click="move" outline color="indigo" round>Project 추가</v-btn>
+    <div style="padding:50px 17%;">
+    <v-btn @click="back" outline color="indigo" round style="float:left;">
+        <v-icon dark left>arrow_back</v-icon>Back</v-btn>
+    <v-btn @click="move" outline color="indigo" round style="float:right;">Project 추가</v-btn>
+    </div>
     <span class="mdi mdi-home"></span>
     <div class="container project">
         <v-layout wrap>
