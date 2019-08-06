@@ -4,7 +4,7 @@
     <v-img v-if="post != null" :src="post.image_url" aspect-ratio="1.7">
       <v-layout wrap pa-5 fill-height>
         <v-flex pa-5 ma-5 white xs12>
-          <h1>{{post.post_title}}</h1>
+          <h1>{{post.post_title}} [{{post.project_title}}]</h1>
           <h3 style="text-align:right;color:grey;">작성자 : {{post.user_name}}</h3>
           <v-divider></v-divider>
           <h3 style="text-align:right;color:grey;">마지막 수정 날짜 : {{post.post_updated_at}}</h3>
@@ -55,7 +55,9 @@ export default {
     async fetchData(){
       this.post = null;
 
-      this.$http.get("http://192.168.31.65:3000/post/read/" + this.$route.params.id)
+      this.$http.get("http://192.168.31.65:3000/post/read/" + this.$route.params.id, {
+        headers: {'Cache-Control': 'no-cache'}
+      })
       .then((response) => {
         this.post = response.data.post
 
