@@ -18,7 +18,7 @@ var userRouter = require('./routes/user');
 var MyProject = require('./routes/myproject');
 var Another = require('./routes/another');
 var team = require('./routes/team');
-var todosRouter = require('./routes/todos'); // 같은 경로의 todos.js파일을 불러와 선언한 변수로 저장
+//var todosRouter = require('./routes/todos'); // 같은 경로의 todos.js파일을 불러와 선언한 변수로 저장
 var teamProject = require('./routes/teamProject');
 var TodoList = require('./routes/TodoList');
 // view engine setup
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/todos', todosRouter); //  사용할 url을 정의. localhost:3000/todos 로 접속하면 todosRouter인 todos.js가 load
+// app.use('/todos', todosRouter); //  사용할 url을 정의. localhost:3000/todos 로 접속하면 todosRouter인 todos.js가 load
 app.use('/todolist', TodoList);
 app.use('/dept', deptRouter);
 app.use('/post', postRouter);
