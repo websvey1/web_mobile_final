@@ -109,9 +109,7 @@ export default {
         if (!content ==""){
           this.myArray1.push({          
           todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨    
-          todo_category: 0,
-          todo_user: user_num 
-          ,    
+          todo_category: 1,    
           })  
         this.inputTodo = "";
         }        
