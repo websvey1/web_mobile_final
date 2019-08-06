@@ -90,7 +90,7 @@
 
     <v-list-group>
       <template v-slot:activator>
-        <v-list-tile @click="" style="margin-top:10px;">
+        <v-list-tile>
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>accessibility_new</v-icon>
@@ -140,7 +140,7 @@
 <!-- dklafjlkdjfkljakldfjklasdjfkljadsklfjdfkljkldfjakljdklfjaklfj -->
     <v-list-group>
       <template v-slot:activator>
-        <v-list-tile @click="" style="margin-top:10px;">
+        <v-list-tile>
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>people</v-icon>
@@ -190,7 +190,7 @@
 
     <v-list-group>
       <template v-slot:activator>
-        <v-list-tile @click="" style="margin-top:10px;">
+        <v-list-tile>
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>tag_faces</v-icon>
