@@ -21,10 +21,10 @@
               <v-text-field label="비밀번호*" type="password" :rules="passRules" v-model="user.password" ref="password" required></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-autocomplete v-model="favor" :items="techs" filled chips color="blue-grey lighten-2" label="관심기술" item-text="tech_name" item-value="tech_num" multiple>
+              <v-autocomplete v-model="favor" :items="techs" filled chips color="blue-grey lighten-2" label="관심기술(최대 3개)" item-text="tech_name" item-value="tech_num" multiple>
                   <template v-slot:item="data">
                       <template v-if="typeof data.item !== 'object'">
-                          <span v-text="data.item"></span>
+                        <span v-text="data.item"></span>
                       </template>
                       <template v-else>
                         <span v-text="data.item.tech_name"></span>
@@ -119,12 +119,17 @@ export default {
     },
 
     async signup() {
-      // this.isLoading = true;
       if(this.checkValidation()){
         this.isLoading = true;
         var form = this.form;
-        console.log(form);
-        this.$http.post("http://192.168.31.65:3000/user/create", form)
+        /////////////////////////////////////////////////////
+        if(form.favor.length > 3){
+          alert("관심기술은 3개까지 등록할 수 있습니다.")
+          this.isLoading = false;
+          return
+        }
+        /////////////////////////////////////////////////////
+        await this.$http.post("http://192.168.31.65:3000/user/create", form)
         .then((req) => {
           if(req.data == "Success"){
             alert("가입 성공")
@@ -143,7 +148,6 @@ export default {
         })
       }
     },
-
   },
   async created() {
     await this.$http.get("http://192.168.31.65:3000/user/tech")

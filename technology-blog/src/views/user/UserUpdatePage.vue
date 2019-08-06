@@ -116,14 +116,20 @@ export default {
       if(this.checkValidation()){
         this.isLoading = true;
 
-        this.$http.put("http://192.168.31.65:3000/user/update", this.form).
+        if(this.favor.length > 3){
+          alert("관심기술은 3개까지 등록할 수 있습니다.")
+          this.isLoading = false;
+          return
+        }
+        
+        this.$http.put("http://192.168.31.63:3000/user/update", this.form).
         then((req) => {
           if(req.data == "fail"){
             alert("비밀번호를 다시 확인해주세요.");
             this.isLoading = false;
           }
           else{
-            this.$http.post("http://192.168.31.65:3000/user/read/" + this.$session.get("userInfo").user_num)
+            this.$http.post("http://192.168.31.63:3000/user/read/" + this.$session.get("userInfo").user_num)
             .then((req) => {
               this.$session.set("userInfo", req.data);
 
