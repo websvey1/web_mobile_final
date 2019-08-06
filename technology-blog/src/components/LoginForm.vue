@@ -1,8 +1,13 @@
 <template>
-<v-dialog v-model="dialog" persistent max-width="600px" @keydown.esc="closeDialog">
+<v-dialog v-model="dialog" persistent max-width="550px" @keydown.esc="closeDialog">
   <template v-slot:activator="{ on }">
-    <v-btn v-if="isLogin" flat class="outlined" @click="signout" v-on="" color="rgb(57, 117, 72)">Logout</v-btn>
-    <v-btn v-else flat class="outlined" @click="" v-on="on" color="rgb(57, 117, 72)">Login</v-btn>
+    <v-flex v-if="isLogin">
+      {{ userName }}님 환영합니다
+      <v-btn flat class="outlined" @click="signout" v-on="" color="rgb(57, 117, 72)">Logout</v-btn>
+    </v-flex>
+    <v-flex v-else>
+      <v-btn flat class="outlined" @click="" v-on="on" color="rgb(57, 117, 72)">Login</v-btn>
+    </v-flex>
   </template>
   
   <v-card>
@@ -43,7 +48,7 @@ export default {
       id: "",
       pw: "",
       dialog: false,
-
+      userName: '',
       isLogin: true,
 
       isLoading: false,
@@ -109,6 +114,7 @@ export default {
               this.isLogin = true;
               this.$session.set("userInfo", res.data);
               console.log(this.$session.get('userInfo').user_num)
+              this.userName = this.$session.get('userInfo').user_name
               this.closeDialog();
             }
             this.isLoading = false;

@@ -72,7 +72,7 @@ export default {
     weatherIconName: function() {
       if (this.dataObj != null) {
         var weatherID = this.dataObj.weather[0].id;
-        this.styleObject.background = "rgb(254, 250, 255)";
+        this.styleObject.background = "rgba(255, 255, 255,0)";
         if (weatherID >= 200 && weatherID <= 232) {
           // this.styleObject.background = 'linear-gradient(45deg, #00ECBC, #007ADF)';
           return 'cloud-lightning';

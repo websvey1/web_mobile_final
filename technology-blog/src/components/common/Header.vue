@@ -2,7 +2,6 @@
 <div style="z-index:4;">
   <!-- 첫번째 헤더 -->
   <v-toolbar flat style="background-color:rgb(255, 255, 255);
-
       z-index:4;
       color:rgb(0, 0, 0);
       height:80px;
@@ -151,14 +150,15 @@
       </template>
       <v-divider />
 
-      <v-list-tile v-if="TeamId == null" to="/teamChoose" style="background:white;">
+      <v-list-tile to="/teamChoose" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
-            <span class="spantag">Team 선택</span>
+            <span class="spantag">Team 선택</span>&nbsp;
+            <span v-if="newOne" style="color: red">new!</span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
-
+<!--
       <v-list-tile v-else @click="go()" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -166,7 +166,7 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
-
+-->
       <v-divider />
             <v-list-tile to="/teamCalendar" style="background:white;">
         <v-list-tile-content style="height:auto;">
@@ -179,7 +179,7 @@
 
     </v-list-group>
 
-        <v-list-tile to="/another" style="background:white;">
+        <v-list-tile to="/another" >
           <v-list-tile-content style="height:auto;">
             <h1 style="margin-left: 15px;">
               <v-icon>person_pin</v-icon>
@@ -229,6 +229,7 @@
 import Weather from '@/components/WeatherInfo'
 import LoginForm from '@/components/LoginForm'
 import FixedHeader from 'vue-fixed-header'
+import {mapState} from 'vuex';
 
 export default {
   name: "Header",
@@ -237,16 +238,13 @@ export default {
     Weather,
     FixedHeader
   },
-  methods: {
-
-  },
-
   data() {
     return {
       drawer: null,
       isTeam: false,
       TeamId: null,
       teamName: '',
+      newOne: false,
     }
   },
   mounted(){
@@ -254,37 +252,50 @@ export default {
   },
   created () {
     // 뷰가 생성되고 데이터가 이미 감시 되고 있을 때 데이터를 가져온다.
-    this.fetchData()
+    // this.fetchData()
   },
   watch: {
     // 라우트가 변경되면 메소드를 다시 호출됩니다.
-    '$route': 'fetchData'
+    // '$route': 'fetchData',
+    exist(to, from){
+      this.check();
+    }
   },
+  computed:
+    mapState(['exist'])
+  ,
   methods: {
-    fetchData () {
-        // console.log("&&&",this.$route.params.id)
-        // if(this.$route.params.id == 'undefined' || this.$route.params.id == null){
-        //   this.TeamId = null;
-        // }
-        // else{
-        //   this.TeamId = this.$route.params.id;
-        //   console.log(this.TeamId)
-        //   var data = {
-        //     teamNum : this.TeamId
-        //   }
+    // fetchData () {
+    //     // console.log("&&&",this.$route.params.id)
+    //     // if(this.$route.params.id == 'undefined' || this.$route.params.id == null){
+    //     //   this.TeamId = null;
+    //     // }
+    //     // else{
+    //     //   this.TeamId = this.$route.params.id;
+    //     //   console.log(this.TeamId)
+    //     //   var data = {
+    //     //     teamNum : this.TeamId
+    //     //   }
 
-        //   console.log(data)
-        //   this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
-        //   .then((response) => {
-        //     this.teamName = response.body[0].team_name
-        //   })
-        //   .catch((error) => {
-        //     console.log(error)
-        //   })
-        // }
-    },
-    go(id){
-      this.$router.push({ name: "TeamProjectPage", params: {id: id} })
+    //     //   console.log(data)
+    //     //   this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
+    //     //   .then((response) => {
+    //     //     this.teamName = response.body[0].team_name
+    //     //   })
+    //     //   .catch((error) => {
+    //     //     console.log(error)
+    //     //   })
+    //     // }
+    // },
+    // go(id){
+    //   this.$router.push({ name: "TeamProjectPage", params: {id: id} })
+    // }
+    check(){
+      if(this.$store.state.exist){
+        this.newOne = true
+      }else{
+        this.newOne = false
+      }
     }
   }
 
