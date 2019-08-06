@@ -11,6 +11,7 @@ import PostReadPage from './views/post/PostReadPage.vue'
 
 //// todolist //
 import TodoList from './views/TodoList.vue'
+import TodoList_team from './views/TodoList_team.vue'
 //// todoList //
 
 //// user ////
@@ -171,6 +172,11 @@ export default new Router({
     name: 'TodoList',
     component: TodoList
 },
+  {
+    path: '/todolist_team',
+    name: 'TodoList_team',
+    component: TodoList_team
+  },
 ////////////////////////////////////////////////////////////
 	{
 		path: '/another',

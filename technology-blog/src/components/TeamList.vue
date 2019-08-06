@@ -22,6 +22,7 @@
            <v-flex v-else style="margin-top: -20px; margin-left: auto;">
              <v-btn flat class="outlined_first" @click="openDialog(item)">팀원보기</v-btn>
              <v-btn flat class="outlined_fourth" @click="go(item.teamNum)">선택</v-btn>
+             <v-btn class="v-btn theme--dark" to="/todolist">Todo-List 작성</v-btn>
            </v-flex>
 
          </v-layout>
