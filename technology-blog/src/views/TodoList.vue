@@ -1,10 +1,11 @@
 <template>
+<v-app>
 <v-container style="padding-bottom:50px;">
-  
+
   <!-- <v-btn style="" class="v-btn theme--dark" @click="person">개인</v-btn>
   <v-btn style="" class="v-btn theme--dark" @click="team">팀</v-btn> -->
 
-  <v-layout row style="min-height:400px; margin-top:40px;"> 
+  <v-layout row style="min-height:400px; margin-top:40px;">
 
     <v-flex xs12 class="Todo">
         <h2>해야할 일</h2>
@@ -34,16 +35,37 @@
       </draggable>
     </v-flex>
 
-
   </v-layout>
-  <div style="display:flex; justify-content:center; margin-top:50px; margin-bottom:20px;">
 
-  <input v-model="inputTodo"> <v-btn class="v-btn theme--white" @click="createTodo"> 추가</v-btn>
+
   <!-- v-model이 binding 해주는 역할 bind=연결 -->
-  <v-btn class="v-btn theme--dark" @click="updateTodo">확인</v-btn>
+  <div style="display:flex; justify-content:center; margin-top:50px; margin-bottom:20px;">
+    <v-btn class="v-btn theme--dark" @click="openDialog">추가</v-btn>
+    <v-btn class="v-btn theme--dark" @click="updateTodo">저장</v-btn>
   </div>
-</v-container>
 
+  <v-dialog hide-overlay v-model="dialog" persistent max-width="400px">
+    <v-card>
+      <v-card-title style="display:flex; justify-content:center; padding-top:30px;">
+        <h2> 할 일을 추가하세요! </h2>
+      </v-card-title>
+      <v-card-text style="text-align:center;" >
+        <v-container grid-list-md style="display:flex; justify-content:center;">
+          <v-layout wrap>
+            <v-flex xs12>
+              <input style="border: 1px solid rgb(0, 0, 0);" v-model="inputTodo"/>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions style="display:flex; justify-content:center;">
+        <v-btn color="blue darken-1" flat @click="createTodo">OK!</v-btn>
+        <v-btn color="blue darken-1" flat @click="closeDialog">Cancel</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</v-container>
+</v-app>
 </template>
 
 <script>
@@ -59,7 +81,8 @@ export default {
           myArray1:[],
           myArray2:[],
           myArray3:[],
-          inputTodo:""
+          inputTodo:"",
+          dialog: false,
         }
     },
     mounted(){
@@ -93,17 +116,19 @@ export default {
           }
         })
       },
-      
-      async createTodo() {        
+
+      async createTodo() {
         var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
-        var content = this.inputTodo;             
+        var content = this.inputTodo;
         if (!content ==""){
-          this.myArray1.push({          
-          todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨    
-          todo_category: 0,    
-          })  
+          this.myArray1.push({
+          todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨
+          todo_category: 0,
+          })
         this.inputTodo = "";
-        }        
+        }
+        this.dialog = false;
+
       },
 
       async updateTodo() {
@@ -113,6 +138,15 @@ export default {
           alert(req.data)
         })
       },
+      openDialog(){
+          this.dialog = true;
+          console.log(this.dialog)
+          console.log("true")
+      },
+      closeDialog(){
+        this.dialog = false;
+        console.log("false")
+      }
 
       // async person() {
       //   var form = await this.form
@@ -129,7 +163,7 @@ export default {
 .Todo {
   border: 2px solid rgba(94, 87, 87, 0.6);
 
-  margin-right: 30px;
+  margin: 0 15px;
   padding : 2px;
   text-align: center;
 }
