@@ -11,7 +11,6 @@ import PostReadPage from './views/post/PostReadPage.vue'
 
 //// todolist //
 import TodoList from './views/TodoList.vue'
-import TodoList_write from './views/TodoList_write.vue'
 //// todoList //
 
 //// user ////
@@ -159,11 +158,6 @@ export default new Router({
     name: 'TodoList',
     component: TodoList
 },
-  // {
-  //   path: '/todolist_write',
-  //   name: 'TodoList_write',
-  //   component: TodoList_write
-  // },
 ////////////////////////////////////////////////////////////
 	{
 		path: '/another',
