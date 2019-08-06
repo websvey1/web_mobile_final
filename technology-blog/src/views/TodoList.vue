@@ -4,11 +4,8 @@
   <v-btn style="" class="v-btn theme--dark" @click="person">개인</v-btn>
   <v-btn style="" class="v-btn theme--dark" @click="team">팀</v-btn>
 
-<<<<<<< HEAD
   <v-layout row style="min-height:400px; margin-top:40px;"> 
 
-=======
->>>>>>> 9872efa697c099eb83dd0391377632e50b8be520
     <v-flex xs12 class="Todo">
         <h2>해야할 일</h2>
         <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
@@ -68,6 +65,7 @@ export default {
     mounted(){
       // console.log("?")
       this.temp();
+      // if 0이면 this.person 1이면 this.team
       // console.log("?")
 
     },
@@ -128,9 +126,14 @@ export default {
           alert(req.data)
         })
       },
-      async person() {
 
-      }
+      // async person() {
+      //   var form = await this.form
+      //   this.$http.get("http://192.168.31.85:3000/todolist/person", form)
+      //   .then((req) =>{
+      //     alert(req.data)
+      //   })
+      // }
 	},
 
 }
