@@ -215,7 +215,8 @@ export default {
         }
     },
     mounted() {
-        this.getProject()
+      this.getProject()
+      console.log(this.updateimgs)
     },
     methods: {
         goHome(){
@@ -237,8 +238,6 @@ export default {
             this.$refs.files.click()
         },
         onFilePicked(e) {
-          this.files.push(e.target.files[0].name)
-
           const files = e.target.files
           if (files[0] !== undefined) {
             this.img.imageName = files[0].name
@@ -294,7 +293,9 @@ export default {
           console.log(data)
           this.$http.post('http://192.168.31.61:3000/teamProject/update/images', data)
           .then((res) => {
-            console.log(res)
+            console.log(res.body)
+            this.updateimgs.push(res.body)
+            console.log(this.updateimgs)
           })
         },
 
@@ -315,6 +316,7 @@ export default {
           this.$http.post('http://192.168.31.61:3000/myproject/delete/image', data)
             .then((res) => {
               console.log(res)
+              console.log(this.updateimgs)
           })
         },
 

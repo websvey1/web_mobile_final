@@ -322,13 +322,20 @@ router.post('/update/images', function(req, res, next) {
         
         var imgNum = result.insertId;
         console.log(imgNum)
+        
         var query = conn.query('insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values (?, ?, 0, 0)',
         [imgNum, pjtNum], function(err, result) {
           if(err) {
             console.error(err)
             throw err
           }
-          res.send("UpdateImageSuccess")
+
+          var image = {
+            imgnum: imgNum,
+            imgurl: req.body.imgUrl
+          }
+          console.log(image)
+          res.send(image)
         })
       }) 
     }
