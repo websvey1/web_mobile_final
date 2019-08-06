@@ -15,6 +15,7 @@
   <div class="input-holder">
     <textarea placeholder="Event description" rows="4" v-model="event.data.description"></textarea>
   </div>
+  <h4 class="header">Select event theme</h4>
   <div class="theme">
     <color-picker @colorPicked="selectColor" :color="event.cssClass" />
   </div>
