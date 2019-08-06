@@ -112,7 +112,7 @@
     <fieldset style="margin-top: -18px; margin-bottom: 5px; height:100%">
       <legend>PICTURE</legend>
         <label style="margin-left: 20px;"><span style="font-size: 18px; font-weight: 500;">Files&nbsp;&nbsp;</span>
-          <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()" 
+          <input type="file" id="files" ref="files" @change="onFilePicked" 
           style="border: 2px solid rgb(231, 241, 247); padding: 1px 1px 0px 0.5px; border-radius: 3px;"/>
         </label>
 
@@ -126,20 +126,10 @@
           <v-icon right dark style="margin-left: -0.1px;">add</v-icon>
         </v-btn>
 
-         <v-btn
-          small
-          style="border-radius: 15px;"
-          v-on:click="submitFiles()"
-          color="blue-grey"
-          class="ma-2 white--text"
-        >
-          Submit
-          <v-icon right dark>cloud_upload</v-icon>
-        </v-btn>
-
         <div style="height: 10px"></div>
 
-        <div v-for="(file, key) in files" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">{{ file.name }}
+        <div v-for="(file, key) in files" :key="key" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">
+          <img :src="file" width="30px" height="30px">
           <v-btn class="remove-file" v-on:click="removeFile( key )" dark small style="border-radius: 15px;">Remove</v-btn>
         </div>
     </fieldset>
@@ -199,6 +189,8 @@ export default {
                 imageUrl: '',
                 imageFile: '',
             },
+            files: [],
+
             project: {
                 user: this.$session.get('userInfo').user_num,
                 title: '',
@@ -230,8 +222,8 @@ export default {
             ],
             menu1: false,
             menu2: false,
-            files: [],
-            imgUrls: [],
+
+            newimg: '',
             members: null
         }
     },
@@ -241,13 +233,6 @@ export default {
     methods:{
         goHome(){
             this.$router.push("/myproject")
-        },
-        handleFileUploads() {
-            let uploadedFiles = this.$refs.files.files;
-            for( var i = 0; i < uploadedFiles.length; i++ ){
-                this.files.push( uploadedFiles[i] );
-                }
-                console.log(uploadedFiles);
         },
         getMember() {
             var data = {
@@ -265,10 +250,9 @@ export default {
             })
         },
         createTeamProject() {
-            if (this.imgUrls.length == 0) {
-                this.imgUrls.push('https://source.unsplash.com/random/300x300')
+            if (this.files.length == 0) {
+                this.files.push('https://source.unsplash.com/random/300x300')
             }
-            // console.log(this.project)
             var team_num = this.$route.params.id
             var data = {
                 teamNum: this.$route.params.id,
@@ -277,11 +261,11 @@ export default {
             this.$http.post('http://192.168.31.63:3000/teamProject/create', data)
             .then((res) => {
                 var pjt_num = res.body
-                for (var i=0; i < this.imgUrls.length; i++){
+                for (var i=0; i < this.files.length; i++){
                     var data = {
                         teamNum: team_num,
                         pjtNum: pjt_num, 
-                        image: this.imgUrls[i]
+                        image: this.files[i]
                     }
                     console.log(data)
                     this.$http.post('http://192.168.31.63:3000/teamProject/images', data)
@@ -297,48 +281,55 @@ export default {
                 this.$router.push(`/teamProject/${teamNum}`)
             })
         },
-        submitFiles(){
-            for( var i = 0; i < this.files.length; i++ ){
-                let file = this.files[i];
-
-                if (file !== undefined) {
-                    this.img.imageName = file.name;
-                if (this.img.imageName.lastIndexOf('.') <= 0) {
-                    return
-                }
-                const fr = new FileReader();
-                fr.readAsDataURL(file);
-                fr.addEventListener('load', () => {
-                    this.img.imageUrl = fr.result
-                    this.img.imageFile = file
-                })
-                
-                if (file != '') {
-                    var xmlHttpRequest = new XMLHttpRequest();
-                    xmlHttpRequest.open('POST', 'https://api.imgur.com/3/image/', false);
-                    xmlHttpRequest.setRequestHeader("Authorization", "Client-ID cec4916437ef1c8");
-                    xmlHttpRequest.onreadystatechange = (function() {
-                    if (xmlHttpRequest.readyState == 4) {
-                        if (xmlHttpRequest.status == 200) {
-                        var result = JSON.parse(xmlHttpRequest.responseText);
-                        this.img.imageUrl = result["data"]["link"]
-                        console.log(this.img.imageUrl)
-                        var url = this.img.imageUrl
-                        this.imgUrls.push(url)
-                        console.log(this.imgUrls)
-                        } else {
-                        console.log("upload failed");
-                        }
-                    }
-                    }).bind(this);
-                    xmlHttpRequest.send(file);
-                }
-                }
-            }
-        },
-
+        
         addFiles(){
             this.$refs.files.click();
+        },
+        onFilePicked(e) {
+          const files = e.target.files
+          if (files[0] !== undefined) {
+            this.img.imageName = files[0].name
+            if (this.img.imageName.lastIndexOf('.') <= 0) {
+              return
+            }
+            const fr = new FileReader()
+            fr.readAsDataURL(files[0])
+            fr.addEventListener('load', () => {
+              this.img.imageUrl = fr.result
+              this.img.imageFile = files[0]
+              // console.log(this.img.imageFile)
+              this.imgur()
+            })
+          } else {
+            this.img.imageName = ''
+            this.img.imageFile = ''
+            this.img.imageUrl = ''
+          }
+        },
+        imgur() {
+          var file = this.img.imageFile
+          var url = ''
+          if(file != ''){
+            var xmlHttpRequest = new XMLHttpRequest();
+            xmlHttpRequest.open('POST', 'https://api.imgur.com/3/image/', false);
+            xmlHttpRequest.setRequestHeader("Authorization", "Client-ID cec4916437ef1c8");
+            xmlHttpRequest.onreadystatechange = (function() {
+              if (xmlHttpRequest.readyState == 4) {
+                if (xmlHttpRequest.status == 200) {
+                  var result = JSON.parse(xmlHttpRequest.responseText);
+                  this.img.imageUrl = result["data"]["link"]
+                  url = this.img.imageUrl
+                } else {
+                  console.log("upload failed");
+                }
+              }
+            }).bind(this);
+            xmlHttpRequest.send(file);
+          }
+          this.newimg = url
+          console.log(this.newimg)
+          this.files.push(this.newimg)
+          console.log(this.files)
         },
         removeFile( key ){
             this.files.splice( key, 1 );
