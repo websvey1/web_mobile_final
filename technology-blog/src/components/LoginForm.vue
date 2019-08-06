@@ -67,6 +67,7 @@ export default {
 
     if(this.isLogin){
       console.log(this.$session.get("userInfo"));
+      this.userName = this.$session.get('userInfo').user_name
     }
   },
   mounted(){
