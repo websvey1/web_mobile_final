@@ -1,6 +1,10 @@
 <template>
 <v-container style="padding-bottom:50px;">
-  <v-layout row style="min-height:400px; margin-top:40px;">
+  
+  <v-btn style="" class="v-btn theme--dark" @click="person">개인</v-btn>
+  <v-btn style="" class="v-btn theme--dark" @click="team">팀</v-btn>
+
+  <v-layout row style="min-height:400px; margin-top:40px;"> 
 
     <v-flex xs12 class="Todo">
         <h2>해야할 일</h2>
@@ -59,9 +63,10 @@ export default {
         }
     },
     mounted(){
-      console.log("?")
+      // console.log("?")
       this.temp();
-      console.log("?")
+      // if 0이면 this.person 1이면 this.team
+      // console.log("?")
 
     },
     computed:{
@@ -99,19 +104,18 @@ export default {
         })
 
       },
-
-      async createTodo() {
-
-        var tempvar = this.$session.get("userInfo").user_num;
-        var content = this.inputTodo;
-
-
-
-        this.myArray1.push({
-          todo_content: content,
-          todo_category: 1,
-          })
+      
+      async createTodo() {        
+        var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
+        console.log(this.$session.get("userInfo"))
+        var content = this.inputTodo;             
+        if (!content ==""){
+          this.myArray1.push({          
+          todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨    
+          todo_category: 1,    
+          })  
         this.inputTodo = "";
+        }        
 
       },
 
@@ -121,7 +125,15 @@ export default {
         .then((req) => {
           alert(req.data)
         })
-      }
+      },
+
+      // async person() {
+      //   var form = await this.form
+      //   this.$http.get("http://192.168.31.85:3000/todolist/person", form)
+      //   .then((req) =>{
+      //     alert(req.data)
+      //   })
+      // }
 	},
 
 }

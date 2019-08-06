@@ -1,10 +1,32 @@
 <template>
 <v-layout wrap align-center justify-center row fill-height>
   <v-flex xs12 ma-5 text-xs-left>
-    <fieldset>
-      <legend>PICTURE</legend>
-      <ImageUpload :random_picture="true" ref="imagePicker"></ImageUpload>
-    </fieldset>
+    <v-layout warp>
+      <v-flex xs9>
+        <fieldset style="margin-right:4px; height:100%">
+          <legend>PICTURE</legend>
+          <ImageUpload :random_picture="true" ref="imagePicker"></ImageUpload>
+        </fieldset>
+      </v-flex>
+      <v-flex xs3>
+        <fieldset style="margin-left:4px; height:100%">
+          <legend>Project</legend>
+          <div style="margin:16px;">
+            <v-select
+            style="margin:0 auto;"
+            v-model="project"
+            :items="items"
+            item-text="project_title"
+            :hint="`${project.team_name == undefined ? '' : '팀 이름 : ' + project.team_name} ${project.project_status == undefined ? '프로젝트를 선택해 주세요.' : ' ['+ project.project_status +']'}`"
+            label="Project"
+            return-object
+            persistent-hint
+            single-line
+            ></v-select>
+          </div>
+        </fieldset>
+      </v-flex>
+    </v-layout>
     <fieldset>
       <legend>TITLE</legend>
       <div style="margin:0px 16px">
@@ -70,11 +92,14 @@ export default {
   data() {
     return {
       post: {},
+      items:[],
+      project:{},
       isLoading: false,
     }
   },
   async mounted() {
     await this.fetchData();
+    this.readProjectList();
   },
   computed:{
     async form () {
@@ -82,7 +107,8 @@ export default {
         title: this.post.post_title,
         content: this.post.post_content,
         share: this.post.post_share,
-        category:0,
+        category:this.project.project_category,
+        project:this.project.project_num,
         updated_at:Time.getFullDate(),
         tags: this.$refs.hashtag.getTagsForDb(),
         imageUrl: await this.$refs.imagePicker.getImageUrl(),
@@ -157,7 +183,17 @@ export default {
         })
       }
     },
-
+    readProjectList(){
+      this.$http.post("http://192.168.31.65:3000/post/project/list/" + this.$session.get("userInfo").user_num)
+      .then((result) => {
+        this.items = result.data;
+        for(var i = 0; i < this.items.length; i++){
+          if(this.items[i].project_num == this.post.post_project){
+            this.project = this.items[i];
+          }
+        }
+      })
+    },
     goRead() {
       this.$router.go(-1);
     }

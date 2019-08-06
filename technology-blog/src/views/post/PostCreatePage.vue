@@ -1,10 +1,33 @@
 <template>
 <v-layout wrap align-center justify-center row fill-height>
   <v-flex xs12 ma-5 text-xs-left>
-    <fieldset>
-      <legend>PICTURE</legend>
-      <ImageUpload :random_picture="true" ref="imagePicker"></ImageUpload>
-    </fieldset>
+    <v-layout warp>
+      <v-flex xs9>
+        <fieldset style="margin-right:4px; height:100%">
+          <legend>PICTURE</legend>
+          <ImageUpload :random_picture="true" ref="imagePicker"></ImageUpload>
+        </fieldset>
+      </v-flex>
+      <v-flex xs3>
+        <fieldset style="margin-left:4px; height:100%">
+          <legend>Project</legend>
+          <div style="margin:16px;">
+            <v-select
+            style="margin:0 auto;"
+            v-model="project"
+            :items="items"
+            item-text="project_title"
+            :hint="`${project.team_name == undefined ? '' : '팀 이름 : ' + project.team_name} ${project.project_status == undefined ? '프로젝트를 선택해 주세요.' : ' ['+ project.project_status +']'}`"
+            label="Project"
+            return-object
+            persistent-hint
+            single-line
+            ></v-select>
+          </div>
+        </fieldset>
+      </v-flex>
+    </v-layout>
+
     <fieldset>
       <legend>TITLE</legend>
       <div style="margin:0px 16px">
@@ -41,6 +64,7 @@
     </v-layout>
 
     <div style="text-align:center;" id="write-btn">
+      <!-- <v-btn class="v-btn theme--dark" @click="checkP">확인</v-btn> -->
       <v-btn class="v-btn theme--dark" @click="writePost">확인</v-btn>
       <v-btn class="v-btn theme--dark" @click="goHome">취소</v-btn>
     </div>
@@ -69,8 +93,10 @@ export default {
   data() {
     return {
       title: "",
+      project:{},
+      items:[],
       content: "",
-      writer: "temp_writer",
+      writer: "",
       share:"0",
       isLoading:false
     }
@@ -79,6 +105,9 @@ export default {
     if(!this.$session.has("userInfo")){    // POST작성 버튼을 누르면 작성 form이 잠깐 떴다가 다시 뒤로 가짐.
       alert("로그인 해주세요.")               // 수정요망
       this.$router.go(-1)
+    }
+    else{
+      this.readProjectList();
     }
   },
   computed:{
@@ -89,13 +118,17 @@ export default {
         content: this.content,
         share: this.share,
         created_at:Time.getFullDate(),
-        category:0,
+        category:this.project.project_category,
         tags: this.$refs.hashtag.getTagsForDb(),
-        imageUrl: await this.$refs.imagePicker.getImageUrl()
+        imageUrl: await this.$refs.imagePicker.getImageUrl(),
+        project:this.project.project_num
       }
     },
   },
   methods: {
+    checkP(){
+      console.log(this.project);
+    },
     async writePost() {
       this.isLoading = true;
 
@@ -112,6 +145,12 @@ export default {
       })
     },
 
+    readProjectList(){
+      this.$http.post("http://192.168.31.65:3000/post/project/list/" + this.$session.get("userInfo").user_num)
+      .then((result) => {
+        this.items = result.data;
+      })
+    },
     goHome(){
       this.$router.go(-1);
     }

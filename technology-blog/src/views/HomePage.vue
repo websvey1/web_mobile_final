@@ -47,6 +47,9 @@ export default {
     created(){
 
     },
+    mounted(){
+
+    },
     beforeRouteLeave(to, from, next){
       next();
     },

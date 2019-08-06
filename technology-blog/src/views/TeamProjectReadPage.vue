@@ -111,7 +111,7 @@ export default {
                 pjtNum: pjt_num
             }
 
-            this.$http.post('http://192.168.31.61:3000/teamProject/getproject', data)
+            this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
             .then((res) => {
                 console.log(res.body[0])
                 this.project = res.body[0]
@@ -121,7 +121,7 @@ export default {
             var data = {
                 pjtNum: this.$route.params.num
             }
-            this.$http.post('http://192.168.31.61:3000/teamProject/getimage', data)
+            this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
             .then((res) => {
                 console.log(res.body)
                 this.images = res.body
@@ -131,7 +131,7 @@ export default {
             var data = {
                 teamNum: this.$route.params.id
             }
-            this.$http.post('http://192.168.31.61:3000/team/getMember', data)
+            this.$http.post('http://192.168.31.63:3000/team/getMember', data)
             .then((res) => {
                 console.log(res.body)
                 var member = []

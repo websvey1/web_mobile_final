@@ -38,6 +38,7 @@ export default {
       await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num, {post_category:this.$props.category})
         .then((response) => {
           this.posts = response.data;
+          console.log(this.posts);
         })
         .catch((error) => {
           console.log(error);

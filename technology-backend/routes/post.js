@@ -5,7 +5,6 @@ var db = require("../database")
 router.get('/', function(req, res, next) {
   var pool = db.getPool();
 
-  console.log("씨발 왜케 느려");
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
@@ -38,16 +37,18 @@ router.post('/create', function(req, res, next) {
   var imageUrl = req.body.imageUrl;
   var created_at = req.body.created_at;
   var tags = req.body.tags;
+  var project = req.body.project;
 
-
+  console.log(req.body);
 
 
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
     } else {
-      var query = conn.query('insert into post(post_user, post_title, post_content, post_share, post_created_at, post_updated_at, post_category) values (' + user + ', "' + title + '", "' + content + '", ' + share + ', "' + created_at + '","' + created_at + '","' + category + '");',
-        (err, result) => {
+      var sql = 'insert into post(post_user, post_title, post_content, post_share, post_created_at, post_updated_at, post_category, post_project) values (?,?,?,?,?,?,?,?);'
+      var sql_data = [user,title,content,share,created_at,created_at,category,project];
+      var query = conn.query(sql,sql_data,(err, result) => {
           if (err) {
             console.error(err);
             throw err;
@@ -110,7 +111,7 @@ router.get('/read/:id', function(req, res, next) {
     if (ex) {
       console.log(ex);
     } else {
-      var query = conn.query('select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_updated_at,p.post_category,ic.imageconn_num, i.image_num,i.image_url, u.user_num,u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where imageconn_index = 0 and post_num = ' + post_num + ';',
+      var query = conn.query('select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_updated_at,p.post_category, p.post_project, project_title, ic.imageconn_num, i.image_num,i.image_url, u.user_num,u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num left join project on project_num = p.post_project where post_num = ' + post_num + ';',
         // var query = conn.query('select * from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where imageconn_index = 0 and post_num = '+post_num+ ';',
         function(err, result) {
           if (err) {
@@ -124,6 +125,7 @@ router.get('/read/:id', function(req, res, next) {
             tags: null
           }
 
+          // console.log(result[0]);
           var query = conn.query('select * from tag where tag_post = ' + post_num + ';',
             function(err, result) {
               if (err) {
@@ -133,7 +135,7 @@ router.get('/read/:id', function(req, res, next) {
 
               post.tags = result
 
-              console.log(post);
+              // console.log(post);
               res.send(post);
             }
           )
@@ -148,9 +150,6 @@ router.get('/list/:id', function(req, res, next) {
 
   var user_num = req.params.id;
   // var post_category = req.body.post_category;
-  console.log("뭐가 문제야");
-
-  console.log(req.body);
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
@@ -177,8 +176,6 @@ router.post('/list/:id', function(req, res, next) {
   var user_num = req.params.id;
   var post_category = req.body.post_category;
 
-  console.log(req.params);
-  console.log(req.body);
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
@@ -206,8 +203,6 @@ router.post('/search', function(req, res, next) {
   var search = req.body.search;
   var post_category = req.body.post_category;
 
-  console.log(req.body);
-  console.log(search);
   // 제목
   if("0" == category){
     console.log("0");
@@ -308,10 +303,9 @@ router.put('/update/:id', function(req, res, next) {
   var category = req.body.category;
   var updated_at = req.body.updated_at;
   var tags = req.body.tags;
+  var project = req.body.project;
 
   var image_num = req.body.image_num;
-
-  console.log(req.body);
 
   pool.getConnection((ex, conn) => {
     if (ex) {
@@ -322,8 +316,9 @@ router.put('/update/:id', function(req, res, next) {
           throw err;
         }
 
-        var sql = 'update post set post_title = "' + title + '", post_content = "' + content + '", post_updated_at="' + updated_at + '", post_share = "' + share + '" where post_num = "' + post_num + '";'
-        var query = conn.query(sql, function(err, result) {
+        var sql = 'update post set post_title = ?, post_content = ?, post_updated_at= ?, post_share = ?, post_category = ?, post_project = ? where post_num = ?;'
+        var sql_data = [title, content, updated_at, share, category, project, post_num];
+        var query = conn.query(sql, sql_data, function(err, result) {
           if (err) {
             throw err;
           }
@@ -398,11 +393,6 @@ router.delete('/delete/:id', function(req, res, next) {
 
           var image_nums = result;
 
-          console.log("======================================");
-          console.log(image_nums);
-          console.log("======================================");
-
-
           var sql = 'delete from image where ';
           for(var i = 0; i < image_nums.length; i++){
             sql += 'image_num = ' + image_nums[i].imageconn_image;
@@ -422,6 +412,30 @@ router.delete('/delete/:id', function(req, res, next) {
             res.send("Success");
           })
         })
+      })
+    }
+    conn.release();
+  })
+});
+
+router.post('/project/list/:id', function(req, res, next) {
+  var pool = db.getPool();
+
+  var user_num = req.params.id;
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    } else {
+      var sql = 'select project_num, project_title, project_status, project_category,team_name from (select * from project where project_team in (select m.member_team from blog.member as m where m.member_user = ?) or project_user = ?) as p left join team as t on p.project_team = t.team_num;'
+      var query = conn.query(sql, [user_num,user_num], function(err, result) {
+        if (err) {
+          console.error(err);
+          conn.release();
+          throw err;
+        }
+
+        res.send(result)
       })
     }
     conn.release();

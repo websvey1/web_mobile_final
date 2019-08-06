@@ -272,8 +272,8 @@ router.post('/update/images', function(req, res, next) {
           }
 
           var image = {
-            imgNum: imgNum, 
-            imgUrl: req.body.imgUrl
+            imgnum: imgNum, 
+            imgurl: req.body.imgUrl
           }
           console.log(image)
           res.send(image)
