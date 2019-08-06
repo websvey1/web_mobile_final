@@ -1,8 +1,8 @@
 <template>
 <v-container style="padding-bottom:50px;">
   
-  <v-btn style="" class="v-btn theme--dark" @click="person">개인</v-btn>
-  <v-btn style="" class="v-btn theme--dark" @click="team">팀</v-btn>
+  <!-- <v-btn style="" class="v-btn theme--dark" @click="person">개인</v-btn>
+  <v-btn style="" class="v-btn theme--dark" @click="team">팀</v-btn> -->
 
   <v-layout row style="min-height:400px; margin-top:40px;"> 
 
@@ -63,10 +63,9 @@ export default {
         }
     },
     mounted(){
-      // console.log("?")
+      console.log("?")
       this.temp();
-      // if 0이면 this.person 1이면 this.team
-      // console.log("?")
+      console.log("?")
 
     },
     computed:{
@@ -112,7 +111,7 @@ export default {
         if (!content ==""){
           this.myArray1.push({          
           todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨    
-          todo_category: 1,    
+          todo_category: 0,    
           })  
         this.inputTodo = "";
         }        
