@@ -50,8 +50,8 @@
         </v-card-text>
 
         <v-card-actions style="display:flex; justify-content:center;">
-          <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
           <v-btn color="red darken-1" flat @click="del">Delete</v-btn>
+          <v-btn color="blue darken-1" flat @click="modify">Modify</v-btn>
           <v-btn color="blue darken-1" flat @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>

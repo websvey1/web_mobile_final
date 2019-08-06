@@ -40,7 +40,7 @@
       <v-container grid-list-md style="display:flex; justify-content:center;">
         <v-layout wrap>
           <v-flex xs12>
-            {{ this.selectItem.member }}
+            [ {{ this.selectItem.member }} ]
           </v-flex>
         </v-layout>
       </v-container>
