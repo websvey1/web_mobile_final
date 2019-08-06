@@ -3,14 +3,12 @@
   <v-layout row style="min-height:400px; margin-top:40px;">
 
     <v-flex xs12 class="Todo">
-
         <h2>해야할 일</h2>
         <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
           <div v-for="element in myArray1" :key="element.id">
             <v-chip color="#C8E6C9">{{element.todo_content}}</v-chip>
           </div>
       </draggable>
-      
     </v-flex>
 
     <v-flex xs12 class="Todo">
@@ -23,7 +21,7 @@
       </v-flex>
 
     <v-flex xs12 class="Todo">
-      <h2>완성할 일</h2>
+      <h2>완성한 일</h2>
       <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray3" :key="element.id">
           <v-chip color="#FFCDD2">{{element.todo_content}}</v-chip>

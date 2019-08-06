@@ -47,6 +47,13 @@ export default {
         async handleSubmit(){
             const start = format(this.event.start, 'YYYY-MM-DD');
             const end = format(this.event.end, 'YYYY-MM-DD');
+        
+            if(start > end){
+                alert("Start date should be earlier than End date")
+                this.resetValues();
+                return
+            }
+
             const event = {
                 ...this.event,
                 start,
