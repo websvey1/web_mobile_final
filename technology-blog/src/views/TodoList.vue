@@ -7,17 +7,18 @@
         <h2>해야할 일</h2>
         <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
           <div v-for="element in myArray1" :key="element.id">
-            <v-chip color="#C8E6C9">{{element.todo_content}}</v-chip>
+            <v-chip color="#C8E6C9">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
+
           </div>
       </draggable>
-      
+
     </v-flex>
 
     <v-flex xs12 class="Todo">
      <h2>하고 있는 일</h2>
       <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray2" :key="element.id">
-          <v-chip color="rgb(191, 234, 255)">{{element.todo_content}}</v-chip>
+          <v-chip color="rgb(191, 234, 255)">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
         </div>
       </draggable>
       </v-flex>
@@ -26,7 +27,7 @@
       <h2>완성할 일</h2>
       <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray3" :key="element.id">
-          <v-chip color="#FFCDD2">{{element.todo_content}}</v-chip>
+          <v-chip color="#FFCDD2">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
         </div>
       </draggable>
     </v-flex>
@@ -100,20 +101,20 @@ export default {
         })
 
       },
-      
+
       async createTodo() {
-        
+
         var tempvar = this.$session.get("userInfo").user_num;
         var content = this.inputTodo;
 
-              
-        
-        this.myArray1.push({          
-          todo_content: content,    
-          todo_category: 1,    
-          })  
+
+
+        this.myArray1.push({
+          todo_content: content,
+          todo_category: 1,
+          })
         this.inputTodo = "";
-      
+
       },
 
       async updateTodo() {
