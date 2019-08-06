@@ -140,6 +140,7 @@ export default {
     float: left;
     display: inline-block;
     margin: 5px;
+    max-width: 150px;
   }
   .searchbar-second{
     float: left;  display: inline-block;
