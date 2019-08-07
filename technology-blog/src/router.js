@@ -43,6 +43,7 @@ import CalendarPage from './views/CalendarPage.vue'
 import TeamCalendarPage from './views/TeamCalendarPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
 import AnotherUser from './views/AnotherUser.vue'
+import AnotherUserRead from './views/AnotherUserRead.vue'
 
 Vue.use(Router)
 
@@ -182,7 +183,12 @@ export default new Router({
 		path: '/another',
 		name: 'AnotherUser',
 		component: AnotherUser
-	},
+  },
+  {
+    path: '/another/:id',
+    name: 'AnotherUserRead',
+    component: AnotherUserRead
+  }
 
   ]
 })

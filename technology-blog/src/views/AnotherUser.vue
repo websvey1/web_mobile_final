@@ -2,13 +2,14 @@
 <div class="container">
     <v-layout wrap>
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
-    <div class="card">
+    <div class="card" @click="userRead(userInfo.userN)">
     <div class="banner">
         <!-- <div class="avatar"> -->
           <img class="avatar":src="userInfo.user_image|image"></img>
         <!-- </div> -->
     </div>
-        <h3><b>{{ userInfo.userId }}</b></h3>
+    </div>
+    <h3><b>{{ userInfo.userId }}</b></h3>
     <a>📧 {{ userInfo.userEmail }}</a>
     <a>📱 Project - {{ userInfo.userProject }} Post - {{ userInfo.userPost }}</a>
     <span v-for="tech in userInfo.userTech">
@@ -53,7 +54,6 @@ export default {
                     }
                     await this.$http.post('http://192.168.31.65:3000/another/getInfo', data)
                     .then(async (response) => {
-                        console.log(response.body);
                         var tech = response.body;
                         this.users.push(tech)
                     })
@@ -66,6 +66,11 @@ export default {
                 console.log(error)
             })
         },
+        userRead(user_id) {
+            var userid = user_id
+            console.log(userid)
+            this.$router.push(`/another/${userid}`)
+        }
     }
 }
 </script>
@@ -82,6 +87,7 @@ export default {
    text-align: center;
    -webkit-transition: .1s ease-in-out;
    transition: .1s ease-in-out;
+   cursor: pointer;
 }
 
    .card:first-of-type{
@@ -136,7 +142,8 @@ h3, a, i{
       font-size: 14px;
       color: rgb(71, 71, 71);
       text-decoration: none;
-      font-weight: 400
+      font-weight: 400;
+      cursor: default !important;
    }
 
       a:hover{

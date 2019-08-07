@@ -4,6 +4,8 @@
     <v-btn @click="back" outline color="indigo" round style="float:left;">
         <v-icon dark left>arrow_back</v-icon>Back</v-btn>
     <v-btn @click="move" outline color="indigo" round style="float:right;">Project 추가</v-btn>
+    <v-btn to="/todolist" outline color="success" round style="float:right;">To-Do list</v-btn>
+    <!-- To-Do List 버튼 클릭으로 인한 router 설정 각각 팀마다로 설정해줘야 될 듯! -->
     </div>
     <span class="mdi mdi-home"></span>
     <div class="container project">
@@ -45,13 +47,13 @@ export default {
         },
 
         async getProject() {
-            console.log(this.$route.params.id)
+            // console.log(this.$route.params.id)
             var data = {
                 id : this.$route.params.id
             }
             await this.$http.post('http://192.168.31.63:3000/teamProject', data)
             .then(async (response) => {
-                console.log(response.body)
+                // console.log(response.body)
                 for (var i=0; i < response.body.length; i++){
                     var temp = {
                         pjtNum: response.body[i].project_num
@@ -62,7 +64,7 @@ export default {
                         pjt: res.body.project[0],
                         image: res.body.image
                     })
-                    console.log(this.projects)
+                    // console.log(this.projects)
                 })
                 }
             })
