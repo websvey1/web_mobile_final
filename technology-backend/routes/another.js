@@ -96,5 +96,75 @@ router.post('/getInfo', function(req, res, next) {
     })
 })
 
+router.post('/readuser', function(req, res, next) {
+    var userNum = req.body.userNum;
+    var pool = db.getPool();
 
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex);
+        }
+        else {
+            var query = conn.query(
+            'select t.tech_name from user as u inner join favor as f on f.favor_user = u.user_num inner join tech as t on f.favor_tech = t.tech_num where u.user_num =' + userNum + ';',
+            function(err, result) {
+                if (err){
+                    console.error(err);
+                    throw err;
+                }
+                var info = {
+                    usernum: '',
+                    userId: '',
+                    userEmail: '',
+                    userTech: [],
+                }
+                if (result == '[]') {
+                    info.userTech = null
+                }
+                else {
+                    for (var i=0; i < result.length; i++){
+                        info.userTech.push(result[i].tech_name)
+                    }
+
+                    var query = conn.query('select user_num, user_id, user_email from user where user_num = ' + userNum + ';',
+                    function(err, result) {
+                        if (err){
+                            console.error(err);
+                            throw err;
+                        }
+                        info.usernum = result[0].user_num
+                        info.userId = result[0].user_id
+                        info.userEmail = result[0].user_email
+                        
+                        res.send(info)
+                        console.log(info)
+                    })
+                }
+            })
+        }
+        conn.release();
+    })
+})
+
+router.post('/getproject', function(req, res, next) {
+    var userNum = req.body.userNum;
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex);
+        }
+        else {
+            var query = conn.query('select project_num, project_title, project_goal, project_status, project_category from project where project_user = ?', userNum, 
+            function(err, result) {
+                if (err){
+                    console.error(err)
+                    throw err
+                }
+                console.log(result)
+                res.send(result)
+            })
+        }
+    })
+})
 module.exports = router;
