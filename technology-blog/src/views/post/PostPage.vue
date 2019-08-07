@@ -81,6 +81,15 @@ export default {
       texts: [
         '11111', '22222',
       ],
+      page:1,
+      length:1,
+      totalVisible:7
+    }
+  },
+  watch:{
+    page(v){
+      this.$refs.personal.setPage(v-1);
+      this.$refs.team.setPage(v-1);
     }
   },
 	methods: {
@@ -91,6 +100,12 @@ export default {
       this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id} })
     },
 
+    async getTotalPageNum(){
+      await this.$http.post("http://192.168.31.65:3000/post/totalPageNum/" + this.$session.get('userInfo').user_num)
+      .then((req) => {
+        this.length = req.data * 1;
+      })
+    },
     searchPost(){
       var category;
       if(this.category != ""){
@@ -128,8 +143,14 @@ export default {
   mounted(){
 
   },
-  created(){
-
+  async created(){
+    if(this.$session.has('userInfo')){
+      await this.getTotalPageNum();
+    }
+    else{
+      alert("로그인 해주세요.");
+      this.$router.push("/");
+    }
   },
   beforeRouteLeave(to, from, next){
 

@@ -4,7 +4,7 @@
     <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
       <img id="image" :src="img.imageUrl" height="150" v-if="img.imageUrl && !random" />
       <v-layout wrap>
-        <v-text-field xs6 label="Selected Image" v-model='img.imageName' prepend-icon='attach_file'></v-text-field>
+        <v-text-field xs6 :label="text" v-model='img.imageName' prepend-icon='attach_file'></v-text-field>
         <input type="file" style="display: none" ref="image" accept="image/*" @change="onFilePicked">
         <input id="url" type="text" style="display: none;">
         <v-btn v-if="random_picture" xs3 @click="onRandomPicked">Random Image</v-btn>
@@ -41,6 +41,9 @@ export default {
     },
     url:{
       type:String
+    },
+    text:{
+      type:String, default:"Selected Image"
     }
   },
   created(){
@@ -102,6 +105,15 @@ export default {
       }
     },
 
+    getProfileUrl(){
+      if(this.picture){
+          this.imgur();
+          return this.img.imageUrl;
+      }
+      else{
+        return 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927';
+      }
+    },
     getImageUrl(){
       if(this.picture == false || this.random == true){
         return "https://source.unsplash.com/random/300x300";

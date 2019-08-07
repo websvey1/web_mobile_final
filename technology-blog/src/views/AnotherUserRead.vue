@@ -36,29 +36,32 @@
     </v-layout>
   </v-card>
 
-<div style="padding:100px 0;">
-  <v-card>
-    <v-card-title class="text-center justify-center py-6">
-      <h1 class="font-weight-bold display-3">내 정보</h1>
-    </v-card-title>
-    <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-      <v-tab v-for="item in items" :key="item">
-        {{ item }}
-      </v-tab>
-    </v-tabs>
-    <v-tabs-items v-model="tab">
-      <v-tab-item v-for="text in texts" :key="text">
-        <v-card flat>
-          <v-card-text>{{ text }}</v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-card>
-</div>
+  <div style="padding:100px 0;">
+    <v-card>
+      <v-card-title class="text-center justify-center py-6">
+        <h1 class="font-weight-bold display-3">내 정보</h1>
+      </v-card-title>
+      <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+        <v-tab v-for="item in items" :key="item">
+          {{ item }}
+        </v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="text in texts" :key="text">
+          <v-card flat>
+            <v-card-text>{{ text }}</v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
+  </div>
 </div>
 </template>
 
 <script>
+import {
+  async
+} from 'q';
 export default {
   name: 'AnotherUserRead',
   data() {
@@ -79,6 +82,8 @@ export default {
   mounted() {
     this.readUser()
     this.getProject()
+    this.getTeamProject()
+    this.getPost()
   },
   methods: {
     readUser() {
@@ -88,11 +93,10 @@ export default {
       }
       this.$http.post('http://192.168.31.61:3000/another/readuser', data)
         .then((res) => {
-          console.log(res.body)
           this.user = res.body
-          console.log(this.user)
         })
     },
+
     getProject() {
       var user_num = this.$route.params.id
       var data = {
@@ -100,19 +104,56 @@ export default {
       }
       this.$http.post('http://192.168.31.61:3000/another/getproject', data)
         .then((res) => {
-          console.log(res.body)
-          for (var i = 0; i < res.body.length; i++) {
-            this.project.push(res.body[i])
-          }
+          // console.log(res.body)
+          this.project = res.body
           console.log(this.project)
+        })
+    },
+
+    async getTeamProject() {
+      var user_num = this.$route.params.id
+      var data = {
+        userNum: user_num
+      }
+      await this.$http.post('http://192.168.31.61:3000/another/teamproject', data)
+        .then(async (response) => {
+          if (response.body.length > 0) {
+            // console.log(response.body)
+            for (var i = 0; i < response.body.length; i++) {
+              var data = {
+                teamNum: response.body[i].team_num
+              }
+              await this.$http.post('http://192.168.31.61:3000/another/member', data)
+                .then(async (res) => {
+                  this.teamproject.push({
+                    project: response.body[i],
+                    member: res.body
+                  })
+                  // console.log(this.teamproject)
+                })
+            }
+          }
+        })
+    },
+
+    getPost() {
+      var user_num = this.$route.params.id
+      var data = {
+        userNum: user_num
+      }
+      this.$http.post('http://192.168.31.61:3000/another/getpost', data)
+        .then((res) => {
+          // console.log(res.body)
+          this.post = res.body
+          console.log(this.post)
         })
     }
   }
 }
+
 </script>
 <style scoped>
-v-container{
-  padding-bottom:50px;
+v-container {
+  padding-bottom: 50px;
 }
-
 </style>
