@@ -15,21 +15,24 @@
     </div>
     <div class="searchbar-third">
       <v-btn class="v-btn theme--dark" @click="searchPost">검색</v-btn>
-      <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn>
     </div>
   </div>
 
   <div style="padding:50px 0;">
     <v-card flat>
-      <v-tabs centered v-model="tab"  grow>
+      <v-tabs centered v-model="tab" grow>
         <v-tab v-for="item in items" :key="item" style="font-size:30px;">
           {{ item }}
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="text in texts" :key="text">
-          <v-card flat>
-            <v-card-text>{{ text }}</v-card-text>
+          <v-card flat ma-5>
+            <!-- <v-card-text>{{ text }}</v-card-text> -->
+            <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn>
+            
+            <PostDownList :category="text">
+            </PostDownList>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -72,15 +75,16 @@ export default {
   },
   data() {
     return {
-      items: ['제목', '내용', '제목 + 내용', 'ID'],
+      // items: ['제목', '내용', '제목 + 내용', 'ID'],
       search:"",
       category:"",
       items: [
        'My Post',  'Team Post',
       ],
       texts: [
-        '11111', '22222',
+        '0', '1',
       ],
+      tab:'My Post',
       page:1,
       length:1,
       totalVisible:7
