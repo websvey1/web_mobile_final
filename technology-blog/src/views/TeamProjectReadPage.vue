@@ -75,6 +75,7 @@
     </v-layout>
     <div style="text-align:center; margin-top: 20px;" id="write-btn">
       <v-btn class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
+      <v-btn class="v-btn theme--dark" @click="goDelete">삭제</v-btn>
       <v-btn class="v-btn theme--dark" @click="goHome">목록</v-btn>
     </div>
 
@@ -150,8 +151,19 @@ export default {
             var teamNum = this.$route.params.id
             var pjtNum = this.$route.params.num
             this.$router.push(`/teamProject/${teamNum}/update/${pjtNum}`)
+        },
+        goDelete() {
+          var teamNum = this.$route.params.id
+          var data = {
+            pjtNum: this.$route.params.num
+          }
+          this.$http.post('http://192.168.31.61:3000/teamProject/delete/project', data)
+          .then((res) => {
+            alert("글 삭제 완료");
+            console.log(res)
+            this.$router.push(`/teamProject/${teamNum}`)
+          })
         }
-
     },
 }
 </script>
