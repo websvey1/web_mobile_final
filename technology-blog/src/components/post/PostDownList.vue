@@ -29,16 +29,16 @@ export default {
     category:{type:String, default:0}
   },
   created(){
-    console.log(this.$props.category);
-      this.readPosts();
+    // console.log(this.$props.category);
+    this.readPosts();
   },
   methods: {
     async readPosts() {
-      console.log(this.$props.category);
+      // console.log(this.$props.category);
       await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num, {post_category:this.$props.category})
         .then((response) => {
           this.posts = response.data;
-          console.log(this.posts);
+          // console.log(this.posts);
         })
         .catch((error) => {
           console.log(error);
@@ -47,11 +47,11 @@ export default {
 
     searchPosts(config){
       this.posts = [];
-      console.log(config);
+      // console.log(config);
       config["post_category"] = this.$props.category;
       this.$http.post("http://192.168.31.65:3000/post/search", config)
         .then((response) => {
-          console.log(response.date);
+          // console.log(response.date);
           this.posts = response.data;
         })
         .catch((error) => {

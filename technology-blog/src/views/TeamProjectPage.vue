@@ -4,6 +4,8 @@
     <v-btn @click="back" outline color="indigo" round style="float:left;">
         <v-icon dark left>arrow_back</v-icon>Back</v-btn>
     <v-btn @click="move" outline color="indigo" round style="float:right;">Project 추가</v-btn>
+    <v-btn to="/todolist" outline color="success" round style="float:right;">To-Do list</v-btn>
+    <!-- To-Do List 버튼 클릭으로 인한 router 설정 각각 팀마다로 설정해줘야 될 듯! -->
     </div>
     <span class="mdi mdi-home"></span>
     <div class="container project">
