@@ -10,7 +10,7 @@ router.post('/getUsers', function(req, res, next) {
             console.log(ex);
         }
         else{
-            var query = conn.query('select user_num from user', 
+            var query = conn.query('select user_num from user',
             function(err, result){
                 if(err) {
                     console.error(err);
@@ -72,10 +72,10 @@ router.post('/getInfo', function(req, res, next) {
                                 console.error(err);
                                 throw err;
                             }
-                            
+
                             info.userPost = result.length
 
-                            var query = conn.query('select user_num, user_id, user_email from user where user_num = ' + userNum + ';',
+                            var query = conn.query('select user_num, user_id, user_email, user_image from user where user_num = ' + userNum + ';',
                             function(err, result) {
                                 if (err){
                                     console.error(err);
@@ -84,6 +84,7 @@ router.post('/getInfo', function(req, res, next) {
                                 info.userN = result[0].user_num
                                 info.userId = result[0].user_id
                                 info.userEmail = result[0].user_email
+                                info["user_image"] = result[0].user_image;
                                 
                                 res.send(info)
                             })

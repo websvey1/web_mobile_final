@@ -4,7 +4,9 @@
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
     <div class="card">
     <div class="banner">
-        <div class="avatar"></div>
+        <!-- <div class="avatar"> -->
+          <img class="avatar":src="userInfo.user_image|image"></img>
+        <!-- </div> -->
     </div>
         <h3><b>{{ userInfo.userId }}</b></h3>
     <a>📧 {{ userInfo.userEmail }}</a>
@@ -28,18 +30,28 @@ export default {
             users:[]
         }
     },
+    filters:{
+      image(v){
+        if(!v){
+          return "https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927";
+        }
+        else{
+          return v;
+        }
+      }
+    },
     mounted() {
         this.onUser();
     },
     methods: {
         async onUser() {
-            await this.$http.post('http://192.168.31.61:3000/another/getUsers')
+            await this.$http.post('http://192.168.31.65:3000/another/getUsers')
             .then(async (response) => {
                 for (var i=0; i < response.body.length; i++){
                     var data = {
                         userNum: response.body[i].user_num
                     }
-                    await this.$http.post('http://192.168.31.61:3000/another/getInfo', data)
+                    await this.$http.post('http://192.168.31.65:3000/another/getInfo', data)
                     .then(async (response) => {
                         console.log(response.body);
                         var tech = response.body;

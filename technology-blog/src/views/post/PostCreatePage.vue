@@ -22,6 +22,7 @@
             return-object
             persistent-hint
             single-line
+            required
             ></v-select>
           </div>
         </fieldset>
@@ -31,13 +32,13 @@
     <fieldset>
       <legend>TITLE</legend>
       <div style="margin:0px 16px">
-        <v-text-field xs12 label="제목을 입력해 주세요." v-model='title'></v-text-field>
+        <v-text-field xs12 label="제목을 입력해 주세요." v-model='title' required></v-text-field>
       </div>
     </fieldset>
     <fieldset>
       <legend>CONTENT</legend>
       <div style="margin:16px;">
-        <markdown-editor v-model="content" ref="markdownEditor"></markdown-editor>
+        <markdown-editor v-model="content" ref="markdownEditor" required></markdown-editor>
       </div>
     </fieldset>
 
@@ -64,7 +65,7 @@
     </v-layout>
 
     <div style="text-align:center;" id="write-btn">
-      <!-- <v-btn class="v-btn theme--dark" @click="checkP">확인</v-btn> -->
+      <!-- <v-btn class="v-btn theme--dark" @click="checkValidation">확인</v-btn> -->
       <v-btn class="v-btn theme--dark" @click="writePost">확인</v-btn>
       <v-btn class="v-btn theme--dark" @click="goHome">취소</v-btn>
     </div>
@@ -126,23 +127,42 @@ export default {
     },
   },
   methods: {
-    checkP(){
-      console.log(this.project);
+    checkValidation(){
+      if(this.project.project_num == undefined){
+        alert("프로젝트를 선택해 주세요.")
+        return false;
+      }
+      if(!this.title){
+        alert("제목을 입력해 주세요.")
+        return false;
+      }
+      if(!this.content){
+        alert("내용을 입력해 주세요.")
+        return false;
+      }
+
+      return true;
     },
+
     async writePost() {
       this.isLoading = true;
 
-      var form = await this.form
+      if(this.checkValidation()){
+        var form = await this.form
 
-      await this.$http.post("http://192.168.31.65:3000/post/create", form)
-      .then((req) => {
-        alert("글이 작성되었습니다.");
+        await this.$http.post("http://192.168.31.65:3000/post/create", form)
+        .then((req) => {
+          alert("글이 작성되었습니다.");
+          this.isLoading = false;
+          this.goHome();
+        })
+        .catch((error) => {
+          this.isLoading = false;
+        })
+      }
+      else{
         this.isLoading = false;
-        this.goHome();
-      })
-      .catch((error) => {
-        this.isLoading = false;
-      })
+      }
     },
 
     readProjectList(){
