@@ -10,8 +10,8 @@
           bottom:0;
           right:0;
           ">
-            <!-- <v-icon style="font-size: 50px;">person_add</v-icon> -->
-            <img src="@/assets/add-friend.png/" style="width:50px;"></img>
+          <!-- <v-icon style="font-size: 50px;">person_add</v-icon> -->
+          <img src="@/assets/user.png/" style="width:70px; "></img>
           </v-btn>
         </v-avatar>
 

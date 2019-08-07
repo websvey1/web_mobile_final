@@ -18,33 +18,47 @@
       <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn>
     </div>
   </div>
-      <v-layout wrap row pa-4>
-        <v-flex fill-height d-flex xs12 md6>
-          <div class="container">
-          <h1>개인 POST</h1>
-          <v-divider></v-divider>
-          <PostDownList :category="'0'" ref="personal">
-          </PostDownList>
-          </div>
-        </v-flex>
-        <!-- <v-divider vertical></v-divider> -->
-        <v-flex fill-height d-flex xs12 md6>
-          <div class="container">
-          <!-- <PostList></PostList> -->
-          <!-- <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn> -->
-          <h1>팀 POST</h1>
-          <v-divider ></v-divider>
-          <PostDownList :category="'1'" ref="team">
-          </PostDownList>
-          </div>
-        </v-flex>
-        <v-flex xs12 text-xs-center>
-          <v-pagination v-model="page" :length="length" :total-visible="totalVisible"></v-pagination>
-        </v-flex>
-      </v-layout>
 
-</div>
+  <div style="padding:50px 0;">
+    <v-card flat>
+      <v-tabs centered v-model="tab"  grow>
+        <v-tab v-for="item in items" :key="item" style="font-size:30px;">
+          {{ item }}
+        </v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="text in texts" :key="text">
+          <v-card flat>
+            <v-card-text>{{ text }}</v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
+  </div>
+  </div>
+
 </template>
+
+<!-- 궁명씨 부탁드려요!!! 화이팅!! POST 작성 버튼도 팀, 개인 나눠서 저기 tab 클릭하면 나오는 페이지에 각각 하나씩 넣으래요.. -->
+  <!-- <v-layout wrap row pa-4>
+      <v-flex fill-height d-flex xs12 md6>
+        <div class="container">
+        <h1>개인 POST</h1>
+        <v-divider></v-divider>
+        <PostDownList :category="'0'" ref="personal">
+        </PostDownList>
+        </div>
+      </v-flex>
+      <v-flex fill-height d-flex xs12 md6>
+        <div class="container">
+        <h1>팀 POST</h1>
+        <v-divider ></v-divider>
+        <PostDownList :category="'1'" ref="team">
+        </PostDownList>
+        </div>
+      </v-flex>
+    </v-layout> -->
+
 
 <script>
 import PostList from '@/components/post/PostList'
@@ -61,6 +75,12 @@ export default {
       items: ['제목', '내용', '제목 + 내용', 'ID'],
       search:"",
       category:"",
+      items: [
+       'My Post',  'Team Post',
+      ],
+      texts: [
+        '11111', '22222',
+      ],
       page:1,
       length:1,
       totalVisible:7
