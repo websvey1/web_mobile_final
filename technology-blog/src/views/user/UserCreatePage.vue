@@ -9,6 +9,9 @@
         <v-container grid-list-md>
           <v-layout wrap my-5>
             <v-flex xs12>
+              <ImageUpload :random_picture="false" ref="imagePicker"></ImageUpload>
+            </v-flex>
+            <v-flex xs12>
               <v-text-field label="이름*" :rules="nameRules" v-model="user.name" ref="name" required></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -51,11 +54,13 @@
 
 <script>
 import Loading from "@/components/common/Loading"
+import ImageUpload from "@/components/common/ImageUpload"
 
 export default {
   name: 'UserCreatePage',
   components: {
-    Loading
+    Loading,
+    ImageUpload
   },
   data() {
     return {
@@ -70,11 +75,12 @@ export default {
       },
       nameRules: [
         v => !!v || 'Name is required',
-        v => v.length <= 10 || 'Name must be less than 10 characters'
+        v => (v || '').length <= 10 || 'Name must be less than 10 characters'
       ],
       idRules: [
         v => !!v || 'ID is required',
-        v => v.length <= 10 || 'ID must be less than 10 characters'
+        v => (v || '').length <= 10 || 'ID must be less than 10 characters',
+        v => (v || '').length >= 6 || 'ID must be more than 6 characters'
       ],
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -82,7 +88,7 @@ export default {
       ],
       passRules: [
         v => !!v || 'Password is required',
-        v => v.length >= 6 || 'Password must be longer than 6 characters'
+        v => (v || '').length >= 6 || 'Password must be longer than 6 characters'
       ],
       isLoading: false,
       validation: false
@@ -95,11 +101,13 @@ export default {
           password: this.user.password,
           email: this.user.email,
           name: this.user.name,
-          favor: this.favor
+          favor: this.favor,
+          image:this.$refs.imagePicker.getProfileUrl()
         }
       },
     },
   methods: {
+    // this.$refs[f].reset();
     checkValidation(){
       Object.keys(this.form).forEach(f => {
           if(this.$refs[f] != undefined && this.$refs[f].validate(true) == false){
@@ -116,6 +124,8 @@ export default {
           this.$refs[f].reset();
         }
       })
+
+      this.favor = [];
     },
 
     async signup() {
@@ -133,6 +143,7 @@ export default {
         .then((req) => {
           if(req.data == "Success"){
             alert("가입 성공")
+            this.$router.push("/")
           }
           else{
             alert("가입 실패")

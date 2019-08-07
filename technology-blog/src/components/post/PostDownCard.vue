@@ -15,7 +15,7 @@
 
       <a @click="goReadPage(post.post_num)"><h1 class="posth1"><i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>{{ post.post_title}} </h1></a>
       <p class="pcontent">{{ post.post_content | content }}</p>
-      <p class="puser">{{post.user_name|name}}</p>
+      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
     </div>
   <!-- <br>
   <br>
@@ -51,6 +51,12 @@ export default {
       },
       name(v){
         return "작성자 : " + v;
+      },
+      project(v){
+        if(v == undefined){
+          return "";
+        }
+        return v + " | ";
       }
 
     }
