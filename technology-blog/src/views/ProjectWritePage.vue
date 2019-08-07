@@ -146,8 +146,8 @@
           <legend>&nbsp;Share&nbsp;</legend>
           <div style="margin:16px;">
             <v-radio-group v-model="share">
-              <v-radio label="Public" color="primary" value="1"></v-radio>
-              <v-radio label="Private" color="error" value="0"></v-radio>
+              <v-radio label="Public" color="primary" value="0"></v-radio>
+              <v-radio label="Private" color="error" value="1"></v-radio>
             </v-radio-group>
           </div>
         </fieldset>
@@ -214,7 +214,7 @@ export default {
       git_url: "",
       content: "",
       tech: "",
-      share:"1",
+      share:"0",
       isLoading:false,
 
       newimg: '',
