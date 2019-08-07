@@ -130,12 +130,12 @@
 
         <div v-for="(image, key) in updateimgs" :key="key" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">
           <img :src="image.imgurl" width="30px" height="30px">
-          <v-btn class="remove-file" v-on:click="removeImage( key, image.imgnum )" dark small style="border-radius: 15px;">Remove</v-btn>
+          <v-btn class="remove-file" v-on:click="removeImage( key, image )" dark small style="border-radius: 15px;">Remove</v-btn>
         </div>
-        <div v-for="(file, key) in files" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">{{ file }}
+        <div v-for="(newfile, key) in newfiles" :key="key" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">
+          <img :src="newfile" width="30px" height="30px">
           <v-btn class="remove-file" v-on:click="removeFile( key )" dark small style="border-radius: 15px;">Remove</v-btn>
         </div>
-
     </fieldset>
 
     <fieldset>
@@ -212,6 +212,8 @@ export default {
                 }
             ],
             newimg: '',
+            newfiles: [],
+            delfiles: []
         }
     },
     mounted() {
@@ -279,62 +281,57 @@ export default {
             xmlHttpRequest.send(file);
           }
           this.newimg = url
-          console.log(this.newimg)
-          this.saveimg()
-        },
-
-        saveimg() {
-          console.log(this.newimg)
-          var pjt_num = this.$route.params.num
-          var data = {
-            pjtNum: pjt_num,
-            imgUrl: this.newimg
-          }
-          console.log(data)
-          this.$http.post('http://192.168.31.63:3000/teamProject/update/images', data)
-          .then((res) => {
-            console.log(res.body)
-            this.updateimgs.push(res.body)
-            console.log(this.updateimgs)
-          })
+          this.newfiles.push(this.newimg)
         },
 
         removeFile( key ){
             console.log(key)
-            this.files.splice( key, 1 );
+            this.newfiles.splice( key, 1 );
         },
 
-        removeImage ( key, img_num ){
-          console.log(img_num)
+        removeImage ( key, image ){
           this.updateimgs.splice(key, 1);
-
-          var data = {
-            imgNum: img_num
-          }
-          console.log(data)
-
-          this.$http.post('http://192.168.31.63:3000/myproject/delete/image', data)
-            .then((res) => {
-              console.log(res)
-              console.log(this.updateimgs)
-          })
+          var delimg = image
+          this.delfiles.push(delimg)
+          console.log(this.delfiles)
         },
 
-        updateTeamProject(){
+        async updateTeamProject(){
           var id = this.$route.params.id
           var num = this.$route.params.num
+
           var data = {
             pjtNum: this.project.project_num,
             project: this.project,
           }
 
-          this.$http.post('http://192.168.31.63:3000/teamProject/update/project', data)
-            .then((res) => {
+          await this.$http.post('http://192.168.31.61:3000/teamProject/update/project', data)
+            .then(async (res) => {
               console.log(res)
+              for (var i=0; i < this.newfiles.length; i++){
+                var data = {
+                  pjtNum: num,
+                  imgUrl: this.newfiles[i]
+                }
+                await this.$http.post('http://192.168.31.61:3000/teamProject/update/images', data)
+                .then(async (res) => {
+                  console.log(res.body)
+                })
+              }
             })
-            .then(() => {
+            .then(async () => {
+              for (var j=0; j < this.delfiles.length; j++) {
+                var data = {
+                  imgNum: this.delfiles[j].imgnum
+                }
+                await this.$http.post('http://192.168.31.61:3000/myproject/delete/image', data)
+                  .then(async (res) => {
+                    console.log(res)
+                })
+              }
+            })
+            .then(async () => {
                 alert("글 수정 완료");
-                var pjtNum = this.$route.params.id
                 this.$router.push(`/teamProject/${id}/project/${num}`)
             })
         }
