@@ -105,6 +105,7 @@ export default {
           // console.log(result.data);
           //--
           var todos = result.data;
+          console.log(todos);
           
           for(var i = 0; i < todos.length; i++){
             if(todos[i].todo_state == "1"){
@@ -141,6 +142,7 @@ export default {
         var form = await this.form
         this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
         .then((req) => {
+          // console.log(form)
           alert(req.data)
         })
       },
