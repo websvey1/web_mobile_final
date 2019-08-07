@@ -22,20 +22,25 @@ export default {
   },
   data() {
     return {
-      posts:[]
+      posts:[],
+      page:0
     }
   },
   props:{
-    category:{type:String, default:0}
+    category:{type:String, default:0},
   },
   created(){
     // console.log(this.$props.category);
     this.readPosts();
   },
   methods: {
+    setPage(n){
+      this.page = n;
+      this.readPosts();
+    },
     async readPosts() {
-      // console.log(this.$props.category);
-      await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num, {post_category:this.$props.category})
+      console.log(this.$props.category);
+      await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:this.$props.category})
         .then((response) => {
           this.posts = response.data;
           // console.log(this.posts);
