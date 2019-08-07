@@ -3,19 +3,18 @@
 <v-layout wrap align-center justify-center row fill-height>
   <v-flex xs12 ma-5 text-xs-left>
     <div style="margin: 0px 16px 1px">
-      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." v-model='title' counter="20" :maxlength="20"></v-text-field>
+      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." 
+      v-model='title' counter="20" :maxlength="20" :rules="titleRules" required></v-text-field>
     </div>
     <v-layout wrap>
       <v-flex xs10>
         <div style="margin: 8px 16px 1px">
-          <v-text-field xs12 label="Goal" placeholder="프로젝트 목표를 입력해 주세요." v-model='goal' counter="20" :maxlength="20"></v-text-field>
+          <v-text-field xs12 label="Goal" placeholder="프로젝트 목표를 입력해 주세요."
+          v-model='goal' counter="20" :maxlength="20" :rules="goalRules" required></v-text-field>
         </div>
       </v-flex>
       <v-flex xs2 style="margin-top: 3.5px;">
-        <v-select v-model="status"
-          :items="status_items"
-          label="프로젝트 상태"
-        ></v-select>
+        <v-select v-model="status" :items="status_items" label="프로젝트 상태" :rules="statusRules" required></v-select>
       </v-flex>
     </v-layout>
 
@@ -100,21 +99,25 @@
 
     <fieldset style="margin-top: -18px; margin-bottom: 5px; height:100%">
       <legend>PICTURE</legend>
-        <label style="margin-left: 20px;"><span style="font-size: 18px; font-weight: 500;">Files&nbsp;&nbsp;</span>
-          <input type="file" id="files" ref="files" @change="onFilePicked" 
-          style="border: 2px solid rgb(231, 241, 247); padding: 1px 1px 0px 0.5px; border-radius: 3px;"/>
+        <label style="margin-left: 20px;"><span style="font-size: 18px; font-weight: 500;">Files: &nbsp;&nbsp;</span>
+          <input v-if="!isRandom" type="file" id="files" ref="files" @change="onFilePicked" style="border: 2px solid rgb(231, 241, 247); padding: 1px 1px 0px 0.5px; border-radius: 3px;"/>
+          <input v-else value="Random image is selected" disabled/>
         </label>
-        
-        <v-btn
-          small
-          style="border-radius: 15px; margin-left:16px;"
-          v-on:click="addFiles()"
-          color="blue lighten-2"
-        >
+
+        <v-btn v-if="isRandom" small dark small style="border-radius: 15px;" @click="removeRandom()">
+          Cancel
+        </v-btn>
+
+        <v-btn small style="border-radius: 15px; margin-left:16px;" @click="addFiles()" color="blue lighten-2">
           Add Files
           <v-icon right dark style="margin-left: -0.1px;">add</v-icon>
         </v-btn>
 
+        <v-btn small style="border-radius: 15px; margin-left:16px;" @click="useRandom()" color="green lighten-2">
+          Random Image
+          <v-icon right dark style="margin-left: -0.1px;">add</v-icon>
+        </v-btn>
+        
         <div style="height: 10px"></div>
 
         <div v-for="(file, key) in files" :key="key" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">
@@ -126,7 +129,7 @@
     <fieldset>
       <legend>CONTENT</legend>
       <div style="margin:16px;">
-        <markdown-editor v-model="content" ref="markdownEditor"></markdown-editor>
+        <markdown-editor v-model="content" ref="markdownEditor" :rules="contentRules" required></markdown-editor>
       </div>
     </fieldset> 
 
@@ -136,8 +139,7 @@
           <legend>&nbsp;Technology&nbsp;</legend>
           <div style="margin:16px;" id="hashtag">
               <v-text-field v-model="tech" counter="20" :maxlength="20"
-                label="프로젝트 주요 기술"
-              ></v-text-field>
+              label="프로젝트 주요 기술" :rules="technologyRules" required></v-text-field>
           </div>
         </fieldset>
       </v-flex>
@@ -182,6 +184,11 @@ export default {
   },
   data() {
     return {
+      titleRules: [v => !!v || "Project title is required"],
+      goalRules: [v => !!v || "Project goal is required"],
+      statusRules: [v => !!v || "Project status is required"],
+      contentRules: [v => !!v || "Project content is required"],
+      technologyRules: [v => !!v || "Project technology is required"],
       img: {
           imageName: '',
           imageUrl: '',
@@ -208,14 +215,15 @@ export default {
         }
       ],
       menu1: false,
-      start_date: "2019-07-01",
+      start_date: new Date().toISOString().substr(0, 10),
       menu2: false,
-      end_date: "2019-07-01",
+      end_date: new Date().toISOString().substr(0, 10),
       git_url: "",
       content: "",
       tech: "",
       share:"0",
       isLoading:false,
+      isRandom: false,
 
       newimg: '',
     }
@@ -231,39 +239,42 @@ export default {
     },
 
     async createProject(){
-      if (this.files.length == 0) {
-        this.files.push('https://source.unsplash.com/random/300x300')
+      if(this.allValued()){
+        if (this.files.length == 0) {
+          this.files.push('https://source.unsplash.com/random/300x300')
+        }
+
+        const post = {
+          user: this.writer,
+          title: this.title,
+          goal: this.goal,
+          status: this.status,
+          start_date: this.start_date,
+          end_date: this.end_date,
+          git_url: this.git_url,
+          content: this.content,
+          tech: this.tech,
+          share: this.share,
+          imgArray: this.files
+        }
+
+        this.$http.post("http://192.168.31.63:3000/myproject/create", post)
+        .then((result) => {
+          console.log(result.data);
+        }).catch((error) => {
+          console.log(error);
+        })
+        .then(() => {
+          alert("글 작성 완료");
+          this.$router.push("/myproject")
+        })
       }
-
-      const post = {
-        user: this.writer,
-        title: this.title,
-        goal: this.goal,
-        status: this.status,
-        start_date: this.start_date,
-        end_date: this.end_date,
-        git_url: this.git_url,
-        content: this.content,
-        tech: this.tech,
-        share: this.share,
-        imgArray: this.files
-      }
-
-      console.log(post);
-
-      this.$http.post("http://192.168.31.63:3000/myproject/create", post)
-      .then((result) => {
-        console.log(result.data);
-      }).catch((error) => {
-        console.log(error);
-      })
-      .then(() => {
-        alert("글 작성 완료");
-        this.$router.push("/myproject")
-      })
     },
-
     addFiles(){
+      if(this.isRandom){
+        alert("You picked a random image.\nIf you want to use some files, press cancel button.")
+        return
+      }
       this.$refs.files.click();
     },
     onFilePicked(e) {
@@ -316,6 +327,35 @@ export default {
     removeFile( key ){
        this.files.splice( key, 1 );
     },
+    useRandom(){
+      this.isRandom = true;
+    },
+    removeRandom(){
+      this.isRandom = false;
+    },
+    allValued(){
+      if(this.title == ''){
+        alert("Project title is required")
+        return false
+      }else if(this.goal == ''){
+        alert("Project goal is required")
+        return false
+      }else if(this.status == ''){
+        alert("Project status is required")
+        return false
+      }else if(this.start_date > this.end_date){
+        alert("Start date should be earlier than End date")
+        return false
+      }else if(this.content == ''){
+        alert("Project content is required")
+        return false
+      }else if(this.tech == ''){
+        alert("Project technology is required")
+        return false
+      }else{
+        return true
+      }
+    }
   },
 }
 </script>
