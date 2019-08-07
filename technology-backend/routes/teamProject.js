@@ -283,6 +283,27 @@ router.post('/update/images', function(req, res, next) {
   })
 })
 
+router.post('/delete/project', function(req, res, next){
+  var pool = db.getPool()
+  var pjtNum = req.body.pjtNum
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('delete from project where project_num = ?', pjtNum, 
+      function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send('DeleteSucess')
+      })
+    }
+    conn.release()
+  })
+})
 
 
 module.exports = router;
