@@ -9,6 +9,9 @@
         <v-container grid-list-md>
           <v-layout wrap my-5>
             <v-flex xs12>
+              <ImageUpload :random_picture="false" ref="imagePicker"></ImageUpload>
+            </v-flex>
+            <v-flex xs12>
               <v-text-field readonly label="Name" v-model="user.user_name"></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -18,7 +21,7 @@
               <v-text-field readonly label="Email" v-model="user.user_email"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="기존 비밀번호*" type="password" :rules="passRules" v-model="before_pw" required ref="before_pw"></v-text-field>
+              <v-text-field label="기존 비밀번호*" type="password"  v-model="before_pw" required ref="before_pw"></v-text-field>
             </v-flex>
             <v-flex xs12>
               <v-text-field label="변경할 비밀번호*" type="password" :rules="passRules" v-model="after_pw" required ref="after_pw"></v-text-field>
@@ -52,11 +55,13 @@
 
 <script>
 import Loading from "@/components/common/Loading"
+import ImageUpload from "@/components/common/ImageUpload"
 
 export default {
   name: 'UserUpdatePage',
   components: {
-    Loading
+    Loading,
+    ImageUpload
   },
   data() {
     return {
@@ -90,7 +95,8 @@ export default {
         after_pw: this.after_pw,
         email: this.user.email,
         name: this.user.name,
-        favor: this.favor
+        favor: this.favor,
+        image:this.$refs.imagePicker.getProfileUrl()
       }
     }
   },
@@ -121,18 +127,18 @@ export default {
           this.isLoading = false;
           return
         }
-        
-        this.$http.put("http://192.168.31.63:3000/user/update", this.form).
+
+        this.$http.put("http://192.168.31.65:3000/user/update", this.form).
         then((req) => {
           if(req.data == "fail"){
             alert("비밀번호를 다시 확인해주세요.");
             this.isLoading = false;
           }
           else{
-            this.$http.post("http://192.168.31.63:3000/user/read/" + this.$session.get("userInfo").user_num)
+            this.$http.post("http://192.168.31.65:3000/user/read/" + this.$session.get("userInfo").user_num)
             .then((req) => {
               this.$session.set("userInfo", req.data);
-
+              console.log(req.data);
               alert("변경되었습니다.")
               this.isLoading = false;
               this.$router.go(-1)
@@ -156,7 +162,8 @@ export default {
   async created(){
     await this.readTech();
     this.user = this.$session.get("userInfo")
-
+    this.$refs.imagePicker.setImage(this.user.user_image);
+    console.log(this.user);
     for(var i = 0; i < this.user.favor.length; i++){
       this.favor.push(this.user.favor[i].tech_num);
     }
