@@ -59,53 +59,93 @@
 </template>
 
 <script>
+import { async } from 'q';
 export default {
-  name: 'AnotherUserRead',
-  data() {
-    return {
-      user: null,
-      project: [],
-      teamproject: [],
-      post: null,
-      tab: null,
-      items: [
-        'My Project', 'My Post', 'Team Project', 'Team Post',
-      ],
-      texts: [
-        '11111', '22222', '3333', '4444',
-      ],
-    }
-  },
-  mounted() {
-    this.readUser()
-    this.getProject()
-  },
-  methods: {
-    readUser() {
-      var user_num = this.$route.params.id
-      var data = {
-        userNum: user_num
-      }
-      this.$http.post('http://192.168.31.61:3000/another/readuser', data)
-        .then((res) => {
-          console.log(res.body)
-          this.user = res.body
-          console.log(this.user)
-        })
+    name: 'AnotherUserRead',
+    data() {
+        return {
+          user: null,
+          project: [],
+          teamproject: [],
+          post: null,
+          tab: null,
+          items: [
+            'My Project', 'My Post', 'Team Project', 'Team Post',
+          ],
+          texts: [
+            '11111', '22222', '3333', '4444',
+          ],
+        }
     },
-    getProject() {
-      var user_num = this.$route.params.id
-      var data = {
-        userNum: user_num
-      }
-      this.$http.post('http://192.168.31.61:3000/another/getproject', data)
-        .then((res) => {
-          console.log(res.body)
-          for (var i = 0; i < res.body.length; i++) {
-            this.project.push(res.body[i])
+    mounted() {
+        this.readUser()
+        this.getProject()
+        this.getTeamProject()
+        this.getPost()
+    },
+    methods: {
+        readUser() {
+          var user_num = this.$route.params.id
+          var data = {
+              userNum: user_num
           }
-          console.log(this.project)
-        })
+          this.$http.post('http://192.168.31.61:3000/another/readuser', data)
+          .then((res) => {
+              this.user = res.body
+          })
+        },
+
+        getProject() {
+          var user_num = this.$route.params.id
+          var data = {
+              userNum: user_num
+          }
+          this.$http.post('http://192.168.31.61:3000/another/getproject', data)
+          .then((res) => {
+              // console.log(res.body)
+              this.project = res.body
+              console.log(this.project)
+          })
+        },
+
+        async getTeamProject() {
+          var user_num = this.$route.params.id
+          var data = {
+            userNum: user_num
+          }
+          await this.$http.post('http://192.168.31.61:3000/another/teamproject', data)
+          .then(async (response) => {
+            if (response.body.length > 0){
+              // console.log(response.body)
+              for (var i=0; i < response.body.length; i++) {
+                var data = {
+                  teamNum: response.body[i].team_num
+                }
+                await this.$http.post('http://192.168.31.61:3000/another/member', data)
+                .then(async (res) => {
+                  this.teamproject.push({
+                    project: response.body[i],
+                    member: res.body
+                  })
+                  // console.log(this.teamproject)
+                })
+              }
+            }
+          })
+        },
+
+        getPost() {
+          var user_num = this.$route.params.id
+          var data = {
+            userNum: user_num
+          }
+          this.$http.post('http://192.168.31.61:3000/another/getpost', data)
+          .then((res) => {
+            // console.log(res.body)
+            this.post = res.body
+            console.log(this.post)
+          })
+        }
     }
   }
 }

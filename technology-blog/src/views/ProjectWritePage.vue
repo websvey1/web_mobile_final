@@ -221,7 +221,7 @@ export default {
       git_url: "",
       content: "",
       tech: "",
-      share:"1",
+      share:"0",
       isLoading:false,
       isRandom: false,
 
