@@ -98,14 +98,13 @@ router.post('/create', function(req, res, next) {
 /////////////////////////////////////////// Read //////////////////////////////////////////
 router.post('/getPjt', function(req, res, next) {
   var pool = db.getPool();
-  var userNum = req.body.userNum;
-
+  
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
     }
     else {
-      var query = conn.query('select project_num from project where project_user = ? and project_category = 0', userNum, function (err, result) {
+      var query = conn.query('select project_num, project_user from project where project_share = 0 and project_category = 0', function (err, result) {
         if (err) {
           console.log(err);
           throw err;
@@ -126,7 +125,7 @@ router.post('/getProject', function(req, res, next) {
       console.log(ex);
     }
     else {
-      var query = conn.query('select * from project where project_num = ' + pjtNum + ';', function(err, result) {
+      var query = conn.query('select p.*, u.user_id from project as p inner join user as u on p.project_user = u.user_num where project_num = ' + pjtNum + ';', function(err, result) {
         if (err) {
           console.log(err);
           throw err;
