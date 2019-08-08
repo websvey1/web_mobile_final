@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require("../database")
+var limit = 5;
 
 router.get('/', function(req, res, next) {
   var pool = db.getPool();
@@ -181,7 +182,7 @@ router.post('/list/:id', function(req, res, next) {
       console.log(ex);
     } else {
       // var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where imageconn_index = 0 and p.post_user = ? and p.post_category = ? order by p.post_num desc;'
-      var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where p.post_user = ? and p.post_category = ? order by p.post_num desc;'
+      var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, pjt.project_title, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num left join project as pjt on p.post_project = pjt.project_num where p.post_user = ? and p.post_category = ? order by p.post_num desc;'
       var query = conn.query(sql, [user_num, post_category], function(err, result) {
           if (err) {
             console.error(err);
@@ -190,6 +191,82 @@ router.post('/list/:id', function(req, res, next) {
           }
 
           res.send(result);
+        })
+    }
+    conn.release();
+  })
+});
+
+router.post('/list/:id/:page', function(req, res, next) {
+  var pool = db.getPool();
+
+  var user_num = req.params.id;
+  var post_category = req.body.post_category;
+
+  var start = req.params.page * limit;
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    } else {
+      // var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where imageconn_index = 0 and p.post_user = ? and p.post_category = ? order by p.post_num desc;'
+      var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, pjt.project_title, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num left join project as pjt on p.post_project = pjt.project_num where p.post_user = ? and p.post_category = ? order by p.post_num desc limit ?, ?;'
+      var query = conn.query(sql, [user_num, post_category, start, limit], function(err, result) {
+          if (err) {
+            console.error(err);
+            conn.release();
+            throw err;
+          }
+
+          res.send(result);
+        })
+    }
+    conn.release();
+  })
+});
+
+router.post('/totalPageNum/:id', function(req, res, next) {
+  var pool = db.getPool();
+
+  var user_num = req.params.id;
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    } else {
+      // var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where imageconn_index = 0 and p.post_user = ? and p.post_category = ? order by p.post_num desc;'
+      var sql = 'select count(post_num) from post where post_user = ? and post_category = 0;'
+      var query = conn.query(sql, user_num, function(err, result) {
+          if (err) {
+            console.error(err);
+            conn.release();
+            throw err;
+          }
+          var personal = result[0]["count(post_num)"];
+
+          var sql = 'select count(post_num) from post where post_user = ? and post_category = 1;'
+          var query = conn.query(sql, user_num, function(err, result) {
+              if (err) {
+                console.error(err);
+                conn.release();
+                throw err;
+              }
+
+              var team = result[0]["count(post_num)"];
+
+              console.log("p:"+personal);
+              console.log("t:"+team);
+              var page = (personal > team) ? personal : team;
+
+              console.log("r:"+page);
+
+              if(page % limit == 0){
+                res.send(parseInt(page/limit) + "");
+              }
+              else{
+                res.send(parseInt(page/limit + 1) + "");
+              }
+            })
         })
     }
     conn.release();

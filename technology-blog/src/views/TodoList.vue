@@ -100,7 +100,9 @@ export default {
     },
 	  methods: {
       async temp(){
-        this.$http.get("http://192.168.31.85:3000/todolist") // 호출
+        var user_num = this.$session.get("userInfo").user_num;
+        // this.$http.get("http://192.168.31.85:3000/todolist", {un : user_num}) // 호출
+        this.$http.get("http://192.168.31.85:3000/todolist/" +user_num) // 호출
         .then(result=> {
           // console.log(result.data);
           //--

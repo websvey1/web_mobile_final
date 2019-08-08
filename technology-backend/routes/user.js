@@ -12,7 +12,7 @@ router.post('/read/:id', function(req, res, next) {
       console.log(ex);
     }
     else{
-      var sql = "select u.user_num, u.user_id, u.user_email, u.user_name, u.user_created_at, u.user_updated_at from user as u where user_num = ?;"
+      var sql = "select u.user_num, u.user_id, u.user_email, u.user_name, u.user_created_at, u.user_updated_at, u.user_image from user as u where user_num = ?;"
       var query = conn.query(sql,[user_num],
       // var query = conn.query('select user_num, user_id, user_email, user_name, user_created_at, user_updated_at from user where user_id = "myeong" and user_password = "12345";',
         function (err, result) {
@@ -59,7 +59,7 @@ router.post('/login', function(req, res, next) {
       console.log(ex);
     }
     else{
-      var sql = "select u.user_num, u.user_id, u.user_email, u.user_name, u.user_created_at, u.user_updated_at from user as u where user_id = ? and user_password = ?;"
+      var sql = "select u.user_num, u.user_id, u.user_email, u.user_name, u.user_created_at, u.user_updated_at, u.user_image from user as u where user_id = ? and user_password = ?;"
       var query = conn.query(sql,[id, password],
       // var query = conn.query('select user_num, user_id, user_email, user_name, user_created_at, user_updated_at from user where user_id = "myeong" and user_password = "12345";',
         function (err, result) {
@@ -99,9 +99,10 @@ router.post('/create', function(req, res, next) {
   var pool = db.getPool();
   var id = req.body.id;
   var password = req.body.password;
-  var email = req.body.password;
+  var email = req.body.email;
   var name = req.body.name;
   var favor = req.body.favor;
+  var image = req.body.image;
 
   console.log(req.body);
 
@@ -110,8 +111,9 @@ router.post('/create', function(req, res, next) {
       console.log(ex);
     }
     else{
-      var sql = 'insert into user(user_id, user_password, user_email, user_name) values("'+id+'","' +password+'","'+email+'","' +name + '")';
-      var query = conn.query(sql,function (err, result) {
+      var sql = 'insert into user(user_id, user_password, user_email, user_name, user_image) values(?,?,?,?,?)';
+      var sql_data = [id, password, email, name, image];
+      var query = conn.query(sql,sql_data,function (err, result) {
         if (err) {
           console.error(err);
           conn.release();
@@ -161,7 +163,9 @@ router.put('/update', function(req, res, next) {
   var user_email = req.body.user_email;
   var user_name = req.body.user_name;
   var favor = req.body.favor;
-  
+  var image = req.body.image;
+
+  console.log(req.body)
   pool.getConnection((ex, conn) => {
     if(ex){
       console.log(ex);
@@ -187,12 +191,11 @@ router.put('/update', function(req, res, next) {
               throw err;
             }
 
-            var sql = "update user set user_password = ? where user_num = ?;"
-
-            var query = conn.query(sql,[after_pw*1,user_num],function (err, result) {
+            var sql = 'update user set user_password = ?, user_image = ? where user_num = ?;'
+            var sql_data = [after_pw*1, image, user_num];
+            var query = conn.query(sql,sql_data,function (err, result) {
               if (err) {
                 console.error(err);
-                conn.release();
                 throw err;
               }
 
