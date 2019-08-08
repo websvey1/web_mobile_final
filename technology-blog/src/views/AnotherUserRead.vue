@@ -38,7 +38,7 @@
 
 <div style="padding:50px 50px;">
   <v-card flat>
-    <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+    <v-tabs v-model="tab" grow >
       <v-tab v-for="item in items" :key="item">
         {{ item }}
       </v-tab>
@@ -48,7 +48,7 @@
         <div v-if="item == 'My Project'">
           <table>
             <thead>
-                <tr>
+                <tr style="background: rgba(0,0,0,0.05);">
                     <th>Title</th>
                     <th>Goal</th>
                     <th>Tech</th>
@@ -56,8 +56,8 @@
                 </tr>
             </thead>
             <tbody v-for="pjt in project" :key="pjt.project_num">
-                <tr>
-                    <td data-title="Title"><a @click="goProject(pjt.project_num)">{{ pjt.project_title }}</a></td>
+                <tr @click="goProject(pjt.project_num)">
+                    <td data-title="Title">{{ pjt.project_title }}</td>
                     <td data-title="Goal">{{ pjt.project_goal }}</td>
                     <td data-title="Tech">{{ pjt.project_tech }}</td>
                     <td data-title="Status">{{ pjt.project_status }}</td>
@@ -68,7 +68,7 @@
         <div v-else-if="item == 'Team Project'">
           <table>
             <thead>
-                <tr>
+                <tr style="background: rgba(0,0,0,0.05)">
                     <th>Team</th>
                     <th>Title</th>
                     <th>Goal</th>
@@ -78,13 +78,13 @@
                 </tr>
             </thead>
             <tbody v-for="team in teamproject" :key="team.project.project_num">
-                <tr>
-                    <td data-title="Team">{{ team.project.team_name }}</td>
-                    <td data-title="Title"><a @click="goTeamProject(team.project.team_num, team.project.project_num)">{{ team.project.project_title }}</a></td>
+                <tr @click="goTeamProject(team.project.team_num, team.project.project_num)">
+                    <td data-title="Team" style="min-width:90px;">{{ team.project.team_name }}</td>
+                    <td data-title="Title">{{ team.project.project_title }}</td>
                     <td data-title="Goal">{{ team.project.project_goal }}</td>
                     <td data-title="Tech">{{ team.project.project_tech }}</td>
-                    <td data-title="Status">{{ team.project.project_status }}</td>
-                    <td data-title="Member">
+                    <td data-title="Status" style="min-width:90px;">{{ team.project.project_status }}</td>
+                    <td data-title="Member" style="min-width:90px; max-width:300px;">
                       <span v-for="name in team.member" :key="name">
                         <v-chip small>
                           {{ name }}
@@ -95,28 +95,42 @@
             </tbody>
           </table>
         </div>
-        <v-layout wrap v-else-if="item == 'Post'">
-          <v-flex wrap v-for="p in post" :key="p.post.post_num" xs3 style="margin-top: 20px; margin-right: 20px;">
-              <v-card max-width="344" class="mx-auto">
-              <v-card-title>Title</v-card-title>
-              <v-card-title><a @click="goPost(p.post.post_num)">{{ p.post.post_title }}</a></v-card-title>
-              <v-chip v-if="p.post.post_category == 0" color="green" text-color="white">
-                Project Post 
-              </v-chip>
-              <v-chip v-else-if="p.post.post_category == 1" color="cyan" text-color="white">
-                Team Project Post 
-              </v-chip>
-              <div v-if="p.tag[0] !== null">
-                <span v-for="t in p.tag" :key="t">
-                  <v-chip class="ma-2" color="pink" label text-color="white">
-                    <v-icon left>label</v-icon>
-                    {{ t }}
-                  </v-chip>
-                </span>
-              </div>
-              <v-card-actions>
-                <v-btn text>Click</v-btn>
-              </v-card-actions>
+        <v-layout wrap v-else-if="item == 'Post'" style="display: flex; justify-content:center;">
+          <v-flex wrap v-for="p in post" :key="p.post.post_num" xs3 style="margin: 20px 0px 20px 20px; ">
+              <v-card hover @click="goPost(p.post.post_num)" width="330" height="240"  class="mx-auto">
+              <v-card-title v-if="p.post.post_category == 0" style="background-color:#2980b9;">
+                <h2 style="color:white;">[개인]</h2>
+              </v-card-title>
+              <v-card-title v-else-if="p.post.post_category == 1" style="background-color:#8e44ad;">
+                <h2 style="color:white;">[팀]</h2>
+              </v-card-title>
+
+<!-- 개인 내용 -->
+              <v-card-text v-if="p.post.post_category == 0" style="height:177px; background-color:#3498db; padding:25px;flex: 1 0 auto;">
+                <h2 style="color:white; margin-bottom:20px;">{{ p.post.post_title }}</h2>
+                  <div v-if="p.tag[0] !== null">
+                    <span v-for="t in p.tag" :key="t">
+                      <v-chip class="ma-2" color="pink" label text-color="white">
+                        <v-icon left>label</v-icon>
+                        {{ t }}
+                      </v-chip>
+                    </span>
+                  </div>
+              </v-card-text>
+<!-- 팀 내용 -->
+              <v-card-text v-else-if="p.post.post_category == 1" style="height:177px; background-color:#9b59b6; padding:25px;flex: 1 0 auto;">
+                <h2 style="color:white; margin-bottom:20px;">{{ p.post.post_title }}</h2>
+
+                  <div v-if="p.tag[0] !== null">
+                    <span v-for="t in p.tag" :key="t">
+                      <v-chip class="ma-2" color="pink" label text-color="white">
+                        <v-icon left>label</v-icon>
+                        {{ t }}
+                      </v-chip>
+                    </span>
+                  </div>
+              </v-card-text>
+
             </v-card>
           </v-flex>
         </v-layout>
@@ -151,6 +165,9 @@ export default {
       this.getPost()
   },
   methods: {
+    asd(){
+      alert("씨발")
+    },
     readUser() {
       var user_num = this.$route.params.id
       var data = {
@@ -245,6 +262,11 @@ export default {
 </script>
 
 <style scoped>
+a{color:rgb(0, 0, 0)}
+a:link {text-decoration: none; color: #000000;}
+a:visited {text-decoration: none; color: #000000;}
+a:active {text-decoration: none; color: #000000;}
+a:hover {text-decoration: underline; color: red;}
   v-container{
     padding-bottom:50px;
   }
@@ -258,7 +280,10 @@ export default {
   tr{
       border-bottom: 1px solid #ccc;
   }
-
+  tr:hover{
+    background: rgba(173, 214, 255, 0.2);
+    cursor: pointer;
+  }
   td,th{
       padding: .5em;
       text-align: left;
@@ -269,20 +294,29 @@ export default {
       table{
           font-size: 1em;
       }
-      
+
       thead{
           display: none;
       }
-      
+
       td{
           text-align: right;
           display: block;
-          
+
           &:after{
               float: left;
               content: attr(data-title);
               font-weight: 600;
           }
       }
+}
+v-card-title {
+  display:flex;
+  width:100%;
+  height:65px;
+  max-height:65px;
+  align-items:center;
+  justify-content:space-between;
+  flex: 1 0 auto;
 }
 </style>
