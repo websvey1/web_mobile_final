@@ -2,14 +2,16 @@
 <v-dialog v-model="dialog" persistent max-width="550px" @keydown.esc="closeDialog">
   <template v-slot:activator="{ on }">
     <v-flex v-if="isLogin">
-      {{ userName }}님 환영합니다
-      <v-btn flat class="outlined" @click="signout" v-on="" color="rgb(57, 117, 72)">Logout</v-btn>
+        <div style="float:left; padding-top:12px; padding-right:10px; font-family: 'Nanum Pen Script', cursive; font-size:25px;">
+          <p>{{ userName }}님 환영합니다</p>
+        </div>
+        <v-btn flat class="outlined" @click="signout" v-on="" color="rgb(57, 117, 72)">Logout</v-btn>
     </v-flex>
     <v-flex v-else>
       <v-btn flat class="outlined" @click="" v-on="on" color="rgb(57, 117, 72)">Login</v-btn>
     </v-flex>
   </template>
-  
+
   <v-card>
     <v-card-title>
       <span class="headline">LOGIN</span>
@@ -149,7 +151,7 @@ export default {
 .v-btn.outlined {
     border: 1px solid rgb(57, 117, 72);
     border-radius:10%;
-    height: 50px;
+    height: 40px;
     width: 60px;
   }
 </style>
