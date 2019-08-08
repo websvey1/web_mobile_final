@@ -8,7 +8,7 @@
         <h2>해야할 일</h2>
         <draggable v-model="myArray1" group="people" @start="drag=true" @end="drag=false">
           <div v-for="element in myArray1" :key="element.id">
-            <v-chip color="#C8E6C9">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
+            <v-chip color="#C8E6C9">{{element.todo_content}} <v-icon @click="deleteTodo1(element.id)" style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
 
           </div>
       </draggable>
@@ -18,7 +18,7 @@
      <h2>하고 있는 일</h2>
       <draggable v-model="myArray2" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray2" :key="element.id">
-          <v-chip color="rgb(191, 234, 255)">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
+          <v-chip color="rgb(191, 234, 255)">{{element.todo_content}} <v-icon @click="deleteTodo2(element.id)" style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
         </div>
       </draggable>
       </v-flex>
@@ -27,7 +27,7 @@
       <h2>완성한 일</h2>
       <draggable v-model="myArray3" group="people" @start="drag=true" @end="drag=false">
         <div v-for="element in myArray3" :key="element.id">
-          <v-chip color="#FFCDD2">{{element.todo_content}} <v-icon style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
+          <v-chip color="#FFCDD2">{{element.todo_content}} <v-icon @click="deleteTodo3(element.id)" style="margin-left:10px;"color="rgb(0, 0, 0, 0.5)">clear</v-icon></v-chip>
         </div>
       </draggable>
     </v-flex>
@@ -67,6 +67,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import { async } from 'q';
 
 export default {
     name: 'PostTest',
@@ -104,7 +105,7 @@ export default {
         // this.$http.get("http://192.168.31.85:3000/todolist", {un : user_num}) // 호출
         var pn = this.$route.params.id
         var back_pn = { back_pn : pn }
-        console.log(pn)
+        // console.log(pn, 'pn')
 
         this.$http.post("http://192.168.31.85:3000/todolist/" +pn, back_pn) // 호출
         // this.$http.get("http://192.168.31.85:3000/todolist/") // 호출
@@ -112,7 +113,7 @@ export default {
           // console.log(result.data);
           //--
           var todos = result.data;
-          console.log(todos);
+          // console.log(todos, 'todos');
           
           for(var i = 0; i < todos.length; i++){
             if(todos[i].todo_state == "1"){
@@ -129,33 +130,48 @@ export default {
       },
 
       async createTodo() {
-        var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
-        console.log(this.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
-
+        // var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
+        // console.log(this.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
         var content = this.inputTodo;             
         if (!content ==""){
           this.myArray1.push({          
           todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨    
           todo_category: 0,
-          todo_user: user_num ,
-          todo_project: this.$route.params.pn
+          // todo_user: user_num ,
+          todo_project: this.$route.params.id
           ,    
           })  
         this.inputTodo = "";
         }
         this.dialog = false;
-
+      },
+      async deleteTodo1(id){     
+        this.myArray1.splice(id,1);
+      },
+      async deleteTodo2(id){ 
+        this.myArray2.splice(id,1);
+      },
+      async deleteTodo3(id){     
+        // var pn = this.$route.params.id
+        // var back_pn = { back_pn : pn }
+        // console.log(back_pn)
+        // await this.$http.post("http://192.168.31.85:3000/todolist/delete", back_pn) // 호출
+        // .then(async (req) => {
+        //   alert("Delete")
+        // })
+        this.myArray3.splice(id,1);
       },
 
       async updateTodo() {
         var form = await this.form
         
-        this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
-        .then((req) => {
+        await this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
+        .then(async (req) => {
           // console.log(form)
           alert(req.data)
         })
       },
+      
       openDialog(){
           this.dialog = true;
           console.log(this.dialog)
@@ -165,23 +181,6 @@ export default {
         this.dialog = false;
         console.log("false")
       }
-
-      // async person() {
-        
-      //   var todos = result.data;
-          
-      //   for(var i = 0; i < todos.length; i++){
-      //     if(todos[i].todo_state == "1"){
-      //       this.myArray1.push(todos[i])
-      //     }
-      //     else if(todos[i].todo_state == "2"){
-      //       this.myArray2.push(todos[i])
-      //     }
-      //     else{
-      //       this.myArray3.push(todos[i])
-      //     }
-      //   }
-      // }
 	},
 }
 </script>
