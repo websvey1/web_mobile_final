@@ -40,7 +40,19 @@ export default {
   name: "AnotherUser",
   data() {
     return {
-      users: []
+      users: [],
+      search:false,
+      searchResult:'',
+      searchContent:{
+        category:'',
+        text:''
+      },
+
+      categorysForSearch: [
+        {text:'ID', value:'0'},
+        {text:'Email', value:'1'},
+        {text:'관심 기술', value:'2'},
+      ],
     }
   },
   filters: {

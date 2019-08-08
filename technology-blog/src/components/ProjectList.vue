@@ -1,8 +1,9 @@
 <template>
 <v-layout wrap>
-    <v-flex xs12>
+    <!-- <v-flex xs12>
         <v-select v-model="status" :items="items" :label="status" solo></v-select>
-    </v-flex>
+    </v-flex> -->
+
     <v-layout wrap v-if="status == 'Project'">
         <v-flex v-for="project in projects" :key="project.pjt.project_num" xs6 style=" margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
@@ -40,6 +41,14 @@ export default {
         this.onTeamList();
     },
     methods: {
+      selectProject(status){
+        if(status == '0'){
+          this.status = this.items[0];
+        }
+        else{
+          this.status = this.items[1];
+        }
+      },
         async onList() {
             await this.$http.post('http://192.168.31.61:3000/myproject/getPjt')
             .then(async (res) => {
@@ -52,7 +61,7 @@ export default {
                     await this.$http.post('http://192.168.31.61:3000/myproject/getProject', temp)
                     .then(async (res) => {
                         // console.log(res.body)
-                        this.projects.push({ 
+                        this.projects.push({
                             pjt: res.body.project[0],
                             image: res.body.image
                         })
