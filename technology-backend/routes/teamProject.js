@@ -132,11 +132,12 @@ router.post('/getimage', function(req, res, next) {
 
 router.post('/getpjt', function(req, res, next) {
     var pjtNum = req.body.pjtNum 
+    console.log(pjtNum,'pjtnum');
     var pool = db.getPool()
 
     pool.getConnection((ex, conn) => {
         if (ex){
-            console.log(ex)
+            // console.log(ex)
         }
         else {
             var query = conn.query('select * from project where project_category = 1 and project_num = ' + pjtNum + ';', function(err, result) {
@@ -327,8 +328,7 @@ router.post('/getPost', function(req, res, next){
 })
 
 router.post('/teamproject', function(req, res, next) {
-  var pool = db.getPool()
-
+  var pool = db.getPool();
   pool.getConnection((ex, conn) => {
     if (ex){
       console.log(ex)
@@ -336,11 +336,27 @@ router.post('/teamproject', function(req, res, next) {
     else {
       var query = conn.query('select p.*, t.team_name, u.user_id from project as p inner join team as t on p.project_team = t.team_num inner join user as u on p.project_user = u.user_num where p.project_category = 1 and p.project_share = 0',
       function(err, result) {
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+
+
+router.post('/getProjectName', function(req, res, next){
+  var pjtNum = req.body.pjtNum
+  var pool = db.getPool()
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select project_title from project where project_num = ?', pjtNum, function(err, result) {
         if (err){
           console.error(err)
           throw err
         }
-
         res.send(result)
       })
     }
@@ -375,4 +391,5 @@ router.post('/projectimage', function(req, res, next) {
     conn.release();
   })
 })
+
 module.exports = router;

@@ -128,9 +128,7 @@
 </template>
 
 <script>
-import {
-  async
-} from 'q';
+import {async} from 'q';
 export default {
   name: 'AnotherUserRead',
   data() {
@@ -245,6 +243,7 @@ export default {
 }
 
 </script>
+
 <style scoped>
   v-container{
     padding-bottom:50px;

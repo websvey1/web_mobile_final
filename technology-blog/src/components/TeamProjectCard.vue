@@ -12,7 +12,7 @@
         @click="goReadProject(project.pjt.project_num)"
       >
       </v-img>
-
+      <!-- <h1>asdasddadd</h1> -->
       <v-card-title>
       <div class="posth1">{{ project.pjt.project_title }}</div>
       </v-card-title>
@@ -53,7 +53,7 @@
 
 <script>
 import router from '@/router'
-
+import {mapState} from 'vuex';
 export default {
     name: 'TeamProjectCard',
     data(){
@@ -65,12 +65,31 @@ export default {
     props: {
         project: {}
     },
+    watch: {
+    // 라우트가 변경되면 메소드를 다시 호출됩니다.
+    // '$route': 'fetchData',
+    pn(to, from){
+      this.check();
+    }
+  },
+    computed:
+      mapState(['pn'])
+    ,
 
     methods: {
       goReadProject(pjtNum) {
+        // console.log(pjtNum,'pjtnumpjtnumpjtnumpjtnumpjtnumpjtnumpjtnumpjtnumpjtnumpjtnumvv');
+        this.$store.state.pn = pjtNum;
         var id = this.$route.params.id
         router.push(`/teamProject/${id}/project/${pjtNum}`)
+      },
+      check(){
+      if(this.$store.state.exist){
+        this.newOne = true
+      }else{
+        this.newOne = false
       }
+    },
     },
 
   }
