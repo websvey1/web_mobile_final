@@ -2,7 +2,7 @@
 <v-dialog v-model="dialog" persistent max-width="550px" @keydown.esc="closeDialog">
   <template v-slot:activator="{ on }">
     <v-flex v-if="isLogin">
-        <div style="float:left; padding-top:12px; padding-right:10px; font-family: 'Nanum Pen Script', cursive; font-size:25px;">
+        <div style="float:left; padding-top:12px; padding-right:10px; font-family: 'Nanum Pen Script', cursive; font-size:25px; ">
           <p>{{ userName }}님 환영합니다</p>
         </div>
         <v-btn flat class="outlined" @click="signout" v-on="" color="rgb(57, 117, 72)">Logout</v-btn>
