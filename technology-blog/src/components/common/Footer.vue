@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-footer class="pa-3" height="auto" width="100%" style="background-color: rgb(255, 255, 255); border:1px solid rgb(200, 200, 200)">
+    <v-footer class="pa-3" height="auto" width="100%" style="margin-top:200px; background-color: rgb(255, 255, 255); border:1px solid rgb(200, 200, 200)">
       <v-layout wrap row justify-center xs12 align-end>
           <button @click="myFunction()">Git Lab</button>
 
