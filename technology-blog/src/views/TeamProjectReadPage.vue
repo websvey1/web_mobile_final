@@ -171,7 +171,6 @@ export default {
       this.$router.push(`/todolist/${this.$store.state.pn}`)
     },
     postMove(num){
-      // alert(num)
       this.$router.push(`/post/read/${num}`)
     },
     getPostList(){
@@ -181,7 +180,6 @@ export default {
       }
       this.$http.post('http://192.168.31.63:3000/teamProject/getPost', data)
       .then((response) => {
-        console.log(response.body)
         this.posts = response.body
       })
       .catch((error) => {
@@ -254,13 +252,15 @@ export default {
       })
     },
     postWrite(){
-      this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
+      // this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
+      this.$router.push(`/post/create/${this.$route.params.num}`)
     },
     postRead(){
-
+      // this.$router.push({ name: "TeamPostPage", params: {id: this.$route.params.id, num: this.$route.params.num} })
+      this.$router.push(`/teamPostPage/${this.$route.params.num}`)
     },
     todoList(){
-      
+
     }
   }
 }
