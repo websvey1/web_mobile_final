@@ -425,7 +425,12 @@ router.post('/search/:page', function(req, res, next) {
 
   console.log(req.body);
 
-  if(post_category == '0' || post_category =='1'){
+  if(post_category == '0' || post_category == '1'){
+    console.log("==============================");
+    console.log("search page category 0,1");
+    console.log(req.body);
+    console.log("==============================");
+
     // 제목
     if (search_content.category =='0') {
       console.log("0");
@@ -499,6 +504,7 @@ router.post('/search/:page', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
+          console.log("뭐지 씨발????????????");
           var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num where p.post_category = ? order by p.post_num desc limit ?, ?;'
           var query = conn.query(sql, [search_content.text, post_category, start, limit], function(err, result) {
             if (err) {
@@ -513,10 +519,39 @@ router.post('/search/:page', function(req, res, next) {
         conn.release();
       })
     }
+
+    // TAG
+    if (search_content.category == '4') {
+      pool.getConnection((ex, conn) => {
+        if (ex) {
+          console.log(ex);
+        } else {
+          var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from (select * from post where post_category = ?) as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post order by p.post_num desc limit ?, ?;'
+          var sql_data = [post_category, search_content.text, start, limit];
+          var query = conn.query(sql, sql_data, function(err, result) {
+            if (err) {
+              console.error(err);
+              throw err;
+            }
+            var page = result[0]["count(post_num)"];
+            if (page % limit == 0) {
+              res.send(parseInt(page / limit) + "");
+            } else {
+              res.send(parseInt(page / limit + 1) + "");
+            }
+          })
+        }
+        conn.release();
+      })
+    }
   }
   else if(post_category =='2'){
     // 제목
-    console.log("씨발 여기 아니냐");
+    console.log("==============================");
+    console.log("search page category 2");
+    console.log(req.body);
+    console.log("==============================");
+
     if (search_content.category =='0') {
       pool.getConnection((ex, conn) => {
         if (ex) {
@@ -584,7 +619,6 @@ router.post('/search/:page', function(req, res, next) {
 
     // ID
     if  (search_content.category=='3') {
-      console.log("3");
       pool.getConnection((ex, conn) => {
         if (ex) {
           console.log(ex);
@@ -598,6 +632,31 @@ router.post('/search/:page', function(req, res, next) {
             }
 
             res.send(result);
+          })
+        }
+        conn.release();
+      })
+    }
+
+    // TAG
+    if (search_content.category == '4') {
+      pool.getConnection((ex, conn) => {
+        if (ex) {
+          console.log(ex);
+        } else {
+          var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post order by p.post_num desc limit ?, ?;'
+          var sql_data = [search_content.text, start, limit];
+          var query = conn.query(sql, sql_data, function(err, result) {
+            if (err) {
+              console.error(err);
+              throw err;
+            }
+            var page = result[0]["count(post_num)"];
+            if (page % limit == 0) {
+              res.send(parseInt(page / limit) + "");
+            } else {
+              res.send(parseInt(page / limit + 1) + "");
+            }
           })
         }
         conn.release();
@@ -702,7 +761,32 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
             } else {
               var sql = 'select count(post_num) from post as p inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num where p.post_category = ?;'
               var sql_data = [search_content.text, post_category];
-              var query = conn.query(sql, function(err, result) {
+              var query = conn.query(sql, sql_data,function(err, result) {
+                if (err) {
+                  console.error(err);
+                  throw err;
+                }
+                var page = result[0]["count(post_num)"];
+                if (page % limit == 0) {
+                  res.send(parseInt(page / limit) + "");
+                } else {
+                  res.send(parseInt(page / limit + 1) + "");
+                }
+              })
+            }
+            conn.release();
+          })
+        }
+
+        // TAG
+        if (search_content.category == '4') {
+          pool.getConnection((ex, conn) => {
+            if (ex) {
+              console.log(ex);
+            } else {
+              var sql = 'select count(post_num) from (select * from post where post_category = ? )as p inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post;'
+              var sql_data = [post_category,search_content.text];
+              var query = conn.query(sql, sql_data, function(err, result) {
                 if (err) {
                   console.error(err);
                   throw err;
@@ -804,6 +888,31 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
           var sql = 'select count(post_num) from post as p inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num;'
           var sql_data = search_content.text;
           var query = conn.query(sql,sql_data, function(err, result) {
+            if (err) {
+              console.error(err);
+              throw err;
+            }
+            var page = result[0]["count(post_num)"];
+            if (page % limit == 0) {
+              res.send(parseInt(page / limit) + "");
+            } else {
+              res.send(parseInt(page / limit + 1) + "");
+            }
+          })
+        }
+        conn.release();
+      })
+    }
+
+    // TAG
+    if (search_content.category == '4') {
+      pool.getConnection((ex, conn) => {
+        if (ex) {
+          console.log(ex);
+        } else {
+          var sql = 'select count(post_num) from post as p inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post;'
+          var sql_data = [search_content.text];
+          var query = conn.query(sql, sql_data, function(err, result) {
             if (err) {
               console.error(err);
               throw err;

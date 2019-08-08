@@ -103,7 +103,7 @@ export default {
         await this.readPosts(v - 1, this.categoryForPostlist.value);
       }
       else{
-        await this.readPostsForSearch(v - 1, this.categoryForPostlist.value);
+        await this.readPostsForSearch(v - 1, this.categoryForPostlistBySearch.value);
       }
     },
 
@@ -174,7 +174,6 @@ export default {
     async searchPosts(){
         if (this.textForSearch != "") {
           this.search = true;
-          console.log("ㅆ발 : " + this.categoryForSearch);
           this.searchContent["category"] = this.categoryForSearch.value;
           this.searchContent["text"] = this.textForSearch;
 
@@ -201,7 +200,6 @@ export default {
     async getTotalPageNumForSearch(category) {
       await this.$http.post("http://192.168.31.65:3000/post/totalPageNumForSearch", {post_category : category, search_content : this.searchContent})
         .then((req) => {
-          console.log(req.data);
           this.length = req.data * 1;
         })
         .catch((error) => {
