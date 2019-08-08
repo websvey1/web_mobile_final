@@ -15,33 +15,53 @@
     </div>
     <div class="searchbar-third">
       <v-btn class="v-btn theme--dark" @click="searchPost">검색</v-btn>
-      <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn>
     </div>
   </div>
-      <v-layout wrap row pa-4>
-        <v-flex fill-height d-flex xs12 md6>
-          <div class="container">
-          <h1>개인 POST</h1>
-          <v-divider></v-divider>
-          <PostDownList :category="'0'" ref="personal">
-          </PostDownList>
-          </div>
-        </v-flex>
-        <!-- <v-divider vertical></v-divider> -->
-        <v-flex fill-height d-flex xs12 md6>
-          <div class="container">
-          <!-- <PostList></PostList> -->
-          <!-- <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn> -->
-          <h1>팀 POST</h1>
-          <v-divider ></v-divider>
-          <PostDownList :category="'1'" ref="team">
-          </PostDownList>
-          </div>
-        </v-flex>
-      </v-layout>
 
-</div>
+  <div style="padding:50px 0;">
+    <v-card flat>
+      <v-tabs centered v-model="tab" grow>
+        <v-tab v-for="item in items" :key="item" style="font-size:30px;">
+          {{ item }}
+        </v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="text in texts" :key="text">
+          <v-card flat ma-5>
+            <!-- <v-card-text>{{ text }}</v-card-text> -->
+            <v-btn class="v-btn theme--dark" @click="move">POST 작성</v-btn>
+            
+            <PostDownList :category="text">
+            </PostDownList>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
+  </div>
+  </div>
+
 </template>
+
+<!-- 궁명씨 부탁드려요!!! 화이팅!! POST 작성 버튼도 팀, 개인 나눠서 저기 tab 클릭하면 나오는 페이지에 각각 하나씩 넣으래요.. -->
+  <!-- <v-layout wrap row pa-4>
+      <v-flex fill-height d-flex xs12 md6>
+        <div class="container">
+        <h1>개인 POST</h1>
+        <v-divider></v-divider>
+        <PostDownList :category="'0'" ref="personal">
+        </PostDownList>
+        </div>
+      </v-flex>
+      <v-flex fill-height d-flex xs12 md6>
+        <div class="container">
+        <h1>팀 POST</h1>
+        <v-divider ></v-divider>
+        <PostDownList :category="'1'" ref="team">
+        </PostDownList>
+        </div>
+      </v-flex>
+    </v-layout> -->
+
 
 <script>
 import PostList from '@/components/post/PostList'
@@ -55,9 +75,25 @@ export default {
   },
   data() {
     return {
-      items: ['제목', '내용', '제목 + 내용', 'ID'],
+      // items: ['제목', '내용', '제목 + 내용', 'ID'],
       search:"",
       category:"",
+      items: [
+       'My Post',  'Team Post',
+      ],
+      texts: [
+        '0', '1',
+      ],
+      tab:'My Post',
+      page:1,
+      length:1,
+      totalVisible:7
+    }
+  },
+  watch:{
+    page(v){
+      this.$refs.personal.setPage(v-1);
+      this.$refs.team.setPage(v-1);
     }
   },
 	methods: {
@@ -68,6 +104,12 @@ export default {
       this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id} })
     },
 
+    async getTotalPageNum(){
+      await this.$http.post("http://192.168.31.65:3000/post/totalPageNum/" + this.$session.get('userInfo').user_num)
+      .then((req) => {
+        this.length = req.data * 1;
+      })
+    },
     searchPost(){
       var category;
       if(this.category != ""){
@@ -105,8 +147,14 @@ export default {
   mounted(){
 
   },
-  created(){
-
+  async created(){
+    if(this.$session.has('userInfo')){
+      await this.getTotalPageNum();
+    }
+    else{
+      alert("로그인 해주세요.");
+      this.$router.push("/");
+    }
   },
   beforeRouteLeave(to, from, next){
 
