@@ -1,32 +1,43 @@
 <template>
 <v-layout wrap>
     <v-flex xs12>
-    <v-select :items="items" label="project" solo></v-select>
+        <v-select v-model="status" :items="items" :label="status" solo></v-select>
     </v-flex>
-
-    <v-flex v-for="project in projects" :key="project.pjt.project_num" xs6 style=" margin-bottom: 40px;">
-        <ProjectCard :project="project"></ProjectCard>
-    </v-flex>
+    <v-layout wrap v-if="status == 'Project'">
+        <v-flex v-for="project in projects" :key="project.pjt.project_num" xs6 style=" margin-bottom: 40px;">
+            <ProjectCard :project="project"></ProjectCard>
+        </v-flex>
+    </v-layout>
+    <v-layout wrap v-else-if="status == 'TeamProject'">
+        <v-flex v-for="teampjt in teamprojects" :key="teampjt" xs6 style=" margin-bottom: 40px;">
+            <TeamCard :teampjt="teampjt"></TeamCard>
+        </v-flex>
+    </v-layout>
 </v-layout>
 </template>
 
 <script>
 import ProjectCard from "./ProjectCard"
+import TeamCard from "./TeamCard"
 import { async } from 'q';
 
 export default {
     name: "ProjectList",
     components: {
         ProjectCard,
+        TeamCard
     },
     data() {
         return {
             projects: [],
+            teamprojects: [],
             items: ['Project', 'TeamProject'],
+            status: 'Project'
         }
     },
     mounted() {
         this.onList();
+        this.onTeamList();
     },
     methods: {
         async onList() {
@@ -40,7 +51,7 @@ export default {
                     console.log(temp)
                     await this.$http.post('http://192.168.31.61:3000/myproject/getProject', temp)
                     .then(async (res) => {
-                        console.log(res.body)
+                        // console.log(res.body)
                         this.projects.push({ 
                             pjt: res.body.project[0],
                             image: res.body.image
@@ -56,6 +67,32 @@ export default {
                 console.log(error)
             })
         },
+
+        async onTeamList() {
+            await this.$http.post('http://192.168.31.61:3000/teamProject/teamproject')
+            .then(async (res) => {
+                console.log(res.body)
+                if (res.body.length > 0) {
+                    for (var i=0; i < res.body.length; i++) {
+                        var data = {
+                            pjtNum: res.body[i].project_num
+                        }
+                        await this.$http.post('http://192.168.31.61:3000/teamProject/projectimage', data)
+                        .then(async (response) => {
+                            var image = []
+                            if (response.body.length > 0) {
+                                image.push(response.body[0])
+                            }
+                            this.teamprojects.push({
+                                pjt: res.body[i],
+                                image: image
+                            })
+                        })
+                    }
+                    console.log(this.teamprojects)
+                }
+            })
+        }
     },
 }
 </script>
