@@ -31,7 +31,12 @@
       </v-speed-dial>
       </v-flex>
     </v-layout>
-      
+    <!-- <p>{{  }}</p> -->
+    <!-- <p>{{project.pjt.project_num}}</p> -->
+    <!-- {{ pn }} -->
+    <v-btn @click="todo()">todo 임의버튼</v-btn>
+    <!-- <v-btn to='/todolist'>todo 임의버튼</v-btn> -->
+    <!-- 상세 -->
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
       <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
     </v-carousel>
@@ -161,13 +166,18 @@ export default {
     this.getImage()
     this.getMember()
     this.getPostList()
+    console.log(this.$store.state.pn,'THIS IS POJECT NUMBER')
   },
   methods: {
+    todo(){
+      this.$router.push(`/todolist/${this.$store.state.pn}`)
+    },
     postMove(num){
       // alert(num)
       this.$router.push(`/post/read/${num}`)
     },
     getPostList(){
+      
       var data = {
         num : this.$route.params.num
       }
@@ -178,6 +188,16 @@ export default {
       })
       .catch((error) => {
         console.log(error)
+      })
+    },
+    getImage() {
+      var data = {
+        pjtNum: this.$route.params.num
+      }
+      this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
+      .then((res) => {
+        console.log(res.body)
+        this.images = res.body
       })
     },
     todoTeam(){
@@ -199,15 +219,6 @@ export default {
         this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
         .then((res) => {
             this.project = res.body[0]
-        })
-    },
-    getImage() {
-        var data = {
-            pjtNum: this.$route.params.num
-        }
-        this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
-        .then((res) => {
-            this.images = res.body
         })
     },
     getMember() {
@@ -234,26 +245,6 @@ export default {
         this.$router.push(`/teamProject/${teamNum}/update/${pjtNum}`)
     },
     goDelete() {
-        var teamNum = this.$route.params.id
-        var data = {
-          pjtNum: this.$route.params.num
-        }
-        this.$http.post('http://192.168.31.61:3000/teamProject/delete/project', data)
-        .then((res) => {
-          alert("글 삭제 완료");
-          this.$router.push(`/teamProject/${teamNum}`)
-        })
-    },
-    goHome() {
-      var teamNum = this.$route.params.id
-      this.$router.push(`/teamProject/${teamNum}`)
-    },
-    goUpdate() {
-      var teamNum = this.$route.params.id
-      var pjtNum = this.$route.params.num
-      this.$router.push(`/teamProject/${teamNum}/update/${pjtNum}`)
-    },
-    goDelete() {
       var teamNum = this.$route.params.id
       var data = {
         pjtNum: this.$route.params.num
@@ -267,12 +258,8 @@ export default {
     postWrite(){
       this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
     },
-    postRead(){
-
-    },
-    todoList(){
-      
-    }
+  
+   
   }
 }
 </script>

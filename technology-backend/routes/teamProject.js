@@ -132,11 +132,12 @@ router.post('/getimage', function(req, res, next) {
 
 router.post('/getpjt', function(req, res, next) {
     var pjtNum = req.body.pjtNum 
+    console.log(pjtNum,'pjtnum');
     var pool = db.getPool()
 
     pool.getConnection((ex, conn) => {
         if (ex){
-            console.log(ex)
+            // console.log(ex)
         }
         else {
             var query = conn.query('select * from project where project_category = 1 and project_num = ' + pjtNum + ';', function(err, result) {

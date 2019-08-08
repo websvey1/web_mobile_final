@@ -14,7 +14,7 @@ export const store = new Vuex.Store({
     isLogin: false,
 
     userInfo: null,
-    pjtNum:null,
+    pn:null,
     logInfo: {
       user: '',
       page: '',

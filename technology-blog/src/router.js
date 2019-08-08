@@ -169,7 +169,7 @@ export default new Router({
   // },
   //////////////////////////////////////////////////////// Todolist url 정의
   {
-    path: '/todolist',
+    path: '/todolist/:id',
     name: 'TodoList',
     component: TodoList
 },
