@@ -295,6 +295,30 @@ router.get('/list/:id', function(req, res, next) {
   })
 });
 
+router.post('/teamAllList/:page', function(req, res, next){
+  var pjtNum = req.body.pjtNum;
+  var start = req.params.page * limit;
+  var pool = db.getPool();
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    } else {
+      // var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where imageconn_index = 0 and p.post_user = ? and p.post_category = ? order by p.post_num desc;'
+      var sql = 'select p.post_num, p.post_project, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, pjt.project_title, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num left join project as pjt on p.post_project = pjt.project_num where p.post_project = ? order by p.post_num desc limit ?, ?;'
+      var query = conn.query(sql, [pjtNum, start, limit], function(err, result) {
+        if (err) {
+          console.error(err);
+          conn.release();
+          throw err;
+        }
+        res.send(result);
+      })
+    }
+    conn.release();
+  })
+})
+
 router.post('/alllist/:page', function(req, res, next) {
   var pool = db.getPool();
 
@@ -342,6 +366,7 @@ router.post('/alllist/:page', function(req, res, next) {
     })
   }
 });
+
 router.post('/totalPageNum', function(req, res, next) {
   var pool = db.getPool();
 
@@ -414,6 +439,34 @@ router.post('/totalPageNum', function(req, res, next) {
     })
   }
 });
+
+router.post('/teamPageNum', function(req, res, next){
+  var pool = db.getPool();
+
+  var pjtNum = req.body.pjtNum;
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+      conn.release();
+    } else {
+      var sql = 'select count(post_num) from post where post_project = ?;'
+      var query = conn.query(sql, pjtNum, function(err, result) {
+        if (err) {
+          console.error(err);
+          throw err;
+        }
+        var page = result[0]["count(post_num)"];
+        if (page % limit == 0) {
+          res.send(parseInt(page / limit) + "");
+        } else {
+          res.send(parseInt(page / limit + 1) + "");
+        }
+      })
+    }
+    conn.release();
+  })
+})
 
 router.post('/search/:page', function(req, res, next) {
   var pool = db.getPool();

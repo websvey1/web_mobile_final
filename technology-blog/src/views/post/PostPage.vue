@@ -63,7 +63,6 @@ export default {
   data() {
     return {
       posts:[],
-
       search:false,
       searchResult:'',
       searchContent:{
