@@ -102,7 +102,7 @@ export default {
       async temp(){
         var user_num = this.$session.get("userInfo").user_num;
         // this.$http.get("http://192.168.31.85:3000/todolist", {un : user_num}) // 호출
-        this.$http.get("http://192.168.31.85:3000/todolist/" +user_num) // 호출
+        this.$http.post("http://192.168.31.85:3000/todolist/" +user_num) // 호출
         .then(result=> {
           // console.log(result.data);
           //--
@@ -125,7 +125,7 @@ export default {
 
       async createTodo() {
         var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
-        // console.log(this.$session.get("userInfo"))
+        console.log(this.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
         var content = this.inputTodo;             
         if (!content ==""){
           this.myArray1.push({          

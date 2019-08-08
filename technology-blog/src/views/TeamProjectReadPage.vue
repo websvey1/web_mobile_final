@@ -129,41 +129,75 @@ export default {
         console.log(error)
       })
     },
-    getProject() {
-      // console.log(this.$route.params)
-      var team_num = this.$route.params.id
-      var pjt_num = this.$route.params.num
-      var data = {
-        teamNum: team_num,
-        pjtNum: pjt_num
-      }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
-      .then((res) => {
-        console.log(res.body[0])
-        this.project = res.body[0]
-      })
-    },
-    getImage() {
-      var data = {
-        pjtNum: this.$route.params.num
-      }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
-      .then((res) => {
-        console.log(res.body)
-        this.images = res.body
-      })
-    },
-    getMember() {
-      var data = {
-        teamNum: this.$route.params.id
-      }
-      this.$http.post('http://192.168.31.63:3000/team/getMember', data)
-      .then((res) => {
-        console.log(res.body)
-        var member = []
-        for (var i=0; i < res.body.length; i++) {
-          var name = res.body[i].user_name
-          member.push(name)
+    methods: {
+        todoTeam(){
+          var pjt_num = this.$route.params.num
+          var data = {
+            pjtNum:pjt_num
+          }
+          this.$http.get('http://192.168.31.85:3000/todolist/')
+        },
+        getProject() {
+            console.log(this.$route.params)
+            var team_num = this.$route.params.id
+            var pjt_num = this.$route.params.num
+
+            var data = {
+                teamNum: team_num,
+                pjtNum: pjt_num
+            }
+            this.$http.post()
+            this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
+            .then((res) => {
+                console.log(res.body[0])
+                this.project = res.body[0]
+            })
+        },
+        getImage() {
+            var data = {
+                pjtNum: this.$route.params.num
+            }
+            this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
+            .then((res) => {
+                console.log(res.body)
+                this.images = res.body
+            })
+        },
+        getMember() {
+            var data = {
+                teamNum: this.$route.params.id
+            }
+            this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+            .then((res) => {
+                console.log(res.body)
+                var member = []
+                for (var i=0; i < res.body.length; i++) {
+                    var name = res.body[i].user_name
+                    member.push(name)
+                }
+                this.members = member
+            })
+        },
+        goHome() {
+            var teamNum = this.$route.params.id
+            this.$router.push(`/teamProject/${teamNum}`)
+        },
+        goUpdate() {
+            var teamNum = this.$route.params.id
+            var pjtNum = this.$route.params.num // 이걸 어디서 받아오는걸까.
+            this.$router.push(`/teamProject/${teamNum}/update/${pjtNum}`)
+        },
+        goDelete() {
+          var teamNum = this.$route.params.id
+          var data = {
+            pjtNum: this.$route.params.num
+          }
+          this.$http.post('http://192.168.31.61:3000/teamProject/delete/project', data)
+          .then((res) => {
+            alert("글 삭제 완료");
+            console.log(res)
+            this.$router.push(`/teamProject/${teamNum}`)
+          })
         }
         this.members = member
       })
