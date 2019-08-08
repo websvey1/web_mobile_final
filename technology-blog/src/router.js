@@ -44,6 +44,7 @@ import TeamCalendarPage from './views/TeamCalendarPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
 import AnotherUser from './views/AnotherUser.vue'
 import AnotherUserRead from './views/AnotherUserRead.vue'
+import TeamPostPage from './views/post/TeamPostPage.vue'
 
 Vue.use(Router)
 
@@ -73,7 +74,7 @@ export default new Router({
       component: PostPage
     },
     {
-      path: '/post/create',
+      path: '/post/create/:num',
       name: 'PostCreatePage',
       component: PostCreatePage
     },
@@ -106,6 +107,11 @@ export default new Router({
       name: 'TeamChoose',
       component: TeamChoose
     },
+    {
+      path: '/teamPostPage/:num',
+      name: 'TeamPostPage',
+      component: TeamPostPage
+    }, 
     ////////////////////////////////////////////////////////////
 
     /////////////////////// Team Project ///////////////////////
