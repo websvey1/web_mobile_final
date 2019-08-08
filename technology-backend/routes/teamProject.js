@@ -305,5 +305,25 @@ router.post('/delete/project', function(req, res, next){
   })
 })
 
+router.post('/getPost', function(req, res, next){
+  var pjtNum = req.body.num
+  var pool = db.getPool()
+  console.log(pjtNum)
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select * from post as p inner join user as u on p.post_user = u.user_num where p.post_project = ?', pjtNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
 
 module.exports = router;
