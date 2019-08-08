@@ -55,7 +55,7 @@ export default {
     async fetchData(){
       this.post = null;
 
-      this.$http.get("http://192.168.31.65:3000/post/read/" + this.$route.params.id, {
+      this.$http.get("http://192.168.31.65:3000/post/readById/" + this.$route.params.id, {
         headers: {'Cache-Control': 'no-cache'}
       })
       .then((response) => {

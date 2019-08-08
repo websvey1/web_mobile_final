@@ -125,7 +125,7 @@ export default {
     async fetchData() {
       this.post = null;
 
-      await this.$http.get("http://192.168.31.65:3000/post/read/" + this.$route.params.id)
+      await this.$http.get("http://192.168.31.65:3000/post/readById/" + this.$route.params.id)
         .then((response) => {
           this.post = response.data.post;
 
@@ -155,7 +155,7 @@ export default {
       this.isLoading = true;
       var post = await this.form;
 
-      this.$http.put("http://192.168.31.65:3000/post/update/"+this.$route.params.id, post)
+      this.$http.put("http://192.168.31.65:3000/post/updateById/"+this.$route.params.id, post)
       .then((response) => {
         alert("수정이 완료 되었습니다.");
         this.isLoading = false;
@@ -171,7 +171,7 @@ export default {
 
       if(isDelete){
         this.isLoading = true;
-        this.$http.delete("http://192.168.31.65:3000/post/delete/" + this.$route.params.id)
+        this.$http.delete("http://192.168.31.65:3000/post/deleteById/" + this.$route.params.id)
         .then((response) => {
           alert("삭제되었습니다.")
           this.isLoading = false;

@@ -126,6 +126,7 @@ export default {
       async createTodo() {
         var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
         console.log(this.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
+        
         var content = this.inputTodo;             
         if (!content ==""){
           this.myArray1.push({          
