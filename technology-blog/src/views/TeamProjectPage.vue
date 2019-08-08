@@ -66,8 +66,6 @@ export default {
                     }
                     this.$store.state.pjtNum = response.body[0].project_num;
                 await this.$http.post('http://192.168.31.63:3000/teamProject/getpjt', temp)
-                console.log(temp)
-                await this.$http.post('http://192.168.31.85:3000/todolist', temp)
                 .then(async (res) => {
                     this.projects.push({
                         pjt: res.body.project[0],
