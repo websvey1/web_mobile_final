@@ -23,7 +23,7 @@
           <br>
           작성
         </v-btn>
-        <v-btn fab dark large color="red" @click="todoList">
+        <v-btn fab dark large color="red" @click="todo()">
           To do
           <br>
           List
@@ -34,8 +34,6 @@
     <!-- <p>{{  }}</p> -->
     <!-- <p>{{project.pjt.project_num}}</p> -->
     <!-- {{ pn }} -->
-    <v-btn @click="todo()">todo 임의버튼</v-btn>
-    <!-- <v-btn to='/todolist'>todo 임의버튼</v-btn> -->
     <!-- 상세 -->
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
       <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
@@ -258,8 +256,12 @@ export default {
     postWrite(){
       this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
     },
-  
-   
+    postRead(){
+
+    },
+    todoList(){
+      
+    }
   }
 }
 </script>

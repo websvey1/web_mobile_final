@@ -299,8 +299,8 @@ export default {
         this.newOne = false
       }
     },
-    async todolist(){
-        
+    todolist(){
+        this.$router.push(`/todolist/${this.$store.state.pn}`)
     }
   }
 
