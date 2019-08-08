@@ -1,6 +1,10 @@
 <template>
 <v-layout wrap>
-    <v-flex v-for="project in projects" xs6 style=" margin-bottom: 40px;">
+    <v-flex xs12>
+    <v-select :items="items" label="project" solo></v-select>
+    </v-flex>
+
+    <v-flex v-for="project in projects" :key="project.pjt.project_num" xs6 style=" margin-bottom: 40px;">
         <ProjectCard :project="project"></ProjectCard>
     </v-flex>
 </v-layout>
@@ -18,6 +22,7 @@ export default {
     data() {
         return {
             projects: [],
+            items: ['Project', 'TeamProject'],
         }
     },
     mounted() {
@@ -25,31 +30,27 @@ export default {
     },
     methods: {
         async onList() {
-            console.log(this.$session.get('userInfo').user_num)
-            var data = {
-                userNum: this.$session.get('userInfo').user_num
-            }
-            await this.$http.post('http://192.168.31.63:3000/myproject/getPjt', data)
+            await this.$http.post('http://192.168.31.61:3000/myproject/getPjt')
             .then(async (res) => {
                 for (var i=0; i < res.body.length; i++){
                     var temp = {
-                        pjtNum: res.body[i].project_num
+                        pjtNum: res.body[i].project_num,
+                        userNum: res.body[i].project_user
                     }
                     console.log(temp)
-                    await this.$http.post('http://192.168.31.63:3000/myproject/getProject', temp)
+                    await this.$http.post('http://192.168.31.61:3000/myproject/getProject', temp)
                     .then(async (res) => {
-                        console.log(res)
+                        console.log(res.body)
                         this.projects.push({ 
                             pjt: res.body.project[0],
                             image: res.body.image
                         })
-                        console.log(this.projects)
-                        console.log(this.projects[0])
                     })
                     .catch((error) => {
                         console.log(error)
                     })
                 }
+                console.log(this.projects)
             })
             .catch((error) => {
                 console.log(error)

@@ -1,22 +1,78 @@
 <template>
 <div id="top__container" style="
-  width: 55%; margin: 0 auto;
+  width: 90%; margin: 0 auto;
   ">
+
   <v-container>
-    <v-layout wrap>
-      <v-flex wrap xs12>
+    <div style="margin-top: 20px;">
       <!-- 사진 -->
-      <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
-      <v-carousel hide-delimiters style="
-      width:100%;float:left; margin-top: 3px;
-      ">
-        <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
-      </v-carousel>
-      </v-flex>
+      <v-layout  wrap align-center justify-center row fill-height>
+        <h1 style="text-align:center; padding-bottom:20px; padding-right: 30px; float: left">Project</h1>
+        <v-speed-dial
+          v-model="fab"
+          :top="top"
+          :bottom="bottom"
+          :right="right"
+          :left="left"
+          :direction="direction"
+          :open-on-hover="hover"
+          :transition="transition"
+        >
+        <template v-slot:activator>
+          <v-btn
+            v-model="fab"
+            color="blue darken-2"
+            dark
+            large
+            fab
+          >
+            <v-icon v-if="fab">close</v-icon>
+            <v-icon v-else>fas fa-list</v-icon>
+          </v-btn>
+        </template>
+        <v-btn
+          fab
+          dark
+          large
+          color="green"
+          @click="postRead"
+        >
+          Post
+          <br>
+          보기
+        </v-btn>
+        <v-btn
+          fab
+          dark
+          large
+          color="indigo"
+          @click="postWrite"
+        >
+          Post
+          <br>
+          작성
+        </v-btn>
+        <v-btn
+          fab
+          dark
+          large
+          color="red"
+          @click="todoList"
+        >
+          To do
+          <br>
+          List
+        </v-btn>
+      </v-speed-dial>
     </v-layout>
-    <!-- 상세 -->
-    <v-layout wrap style="margin-top: 30px;">
-      <v-flex wrap xs6>
+      
+    <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
+      <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
+    </v-carousel>
+  <!-- 상세 -->
+    <v-layout wrap align-center justify-center row fill-height style="
+      width:47%; height:50%; float:right;">
+      <v-flex wrap>
         <fieldset style="margin-right:4px; height:100%; padding:10px 15px;">
           <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
           <div style="margin:15px 20p;">
@@ -39,29 +95,24 @@
             <br>
 
             <h2>Status</h2>
-            <v-btn rounded color="warning" dark>{{ project.project_status }}</v-btn>
+            <v-chip color="green" dark>{{ project.project_status }}</v-chip>
             <br>
-          </div>
-        </fieldset>
-        </v-flex>
-
-        <v-flex wrap xs6>
-        <fieldset style="margin-right:4px; height:100%; padding:10px 15px;">
-          <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
-          <div style="margin:15px 20p;">
-            <h2 style="padding:5px 0;">Captain</h2>
-            <p>{{ project.project_captain }}</p>
-
-            <h2 style="padding:5px 0;">Member</h2>
-            <span v-for="member in members">
-                <v-chip color="rgb(191, 234, 255)" style="display: inline-block">{{ member }}</v-chip>
+            <br>
+            <h2>Member</h2>
+            <span v-for="member in members" :key="member">
+              <v-chip v-if="project.project_captain == member" color="primary" style="display: inline-block" dark>{{ member }}</v-chip>
+              <v-chip v-else color="rgb(191, 234, 255)" style="display: inline-block">{{ member }}</v-chip>
             </span>
-            <h2 style="padding:5px 0;">git_url</h2>
-            <p>{{ project.project_git_url }}</p>
+            <br>
+            <v-btn fab dark color="indigo" style="float: right;">
+              <v-icon dark>add</v-icon>
+            </v-btn>
           </div>
         </fieldset>
         </v-flex>
-    </v-layout>
+      </v-layout>
+    </div>
+
     <v-layout wrap align-center justify-center row fill-height style="clear:both; padding-top:20px;">
       <v-flex>
         <fieldset style="padding:10px 15px; height:80%">
@@ -102,8 +153,42 @@ export default {
       menu: false,
       picker: new Date().toISOString().substr(0, 10),
       members: null,
-      posts: []
+      posts: [],
+      direction: 'left',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: true,
+      bottom: true,
+      left: false,
+      transition: 'slide-y-reverse-transition',
     }
+  },
+  computed: {
+    activeFab () {
+      switch (this.tabs) {
+        case 'one': return { class: 'purple', icon: 'account_circle' }
+        case 'two': return { class: 'red', icon: 'edit' }
+        case 'three': return { class: 'green', icon: 'keyboard_arrow_up' }
+        default: return {}
+      }
+    },
+  },
+  watch: {
+    top (val) {
+      this.bottom = !val
+    },
+    right (val) {
+      this.left = !val
+    },
+    bottom (val) {
+      this.top = !val
+    },
+    left (val) {
+      this.right = !val
+    },
   },
   mounted() {
     this.getProject()
@@ -222,7 +307,17 @@ export default {
         console.log(res)
         this.$router.push(`/teamProject/${teamNum}`)
       })
-    }
+    },
+    
   },
 }
 </script>
+<style scoped>
+#create .v-speed-dial {
+  position: absolute;
+}
+
+#create .v-btn--floating {
+  position: relative;
+}
+</style>

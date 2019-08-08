@@ -25,9 +25,9 @@
 
       <v-card-text>
         <v-chip style="float: right;"
-          class="ma-2" color="#c9e2f7"
+          class="ma-2" color="green"
         >
-          <b>{{ project.pjt.project_start_date }}~ {{ project.pjt.project_end_date }}</b>
+          <b>{{ project.pjt.user_id }}</b>
         </v-chip>
 
         <v-chip v-if="project.pjt.project_status ==='계획'" style="float: right;"
@@ -46,6 +46,12 @@
           class="ma-2" color="rgb(255, 180, 180)"
         >
         <b>{{ project.pjt.project_status }}</b>
+        </v-chip>
+
+        <v-chip style="float: right;"
+          class="ma-2" color="#c9e2f7"
+        >
+          <b>{{ project.pjt.project_start_date }}~ {{ project.pjt.project_end_date }}</b>
         </v-chip>
       </v-card-text>
     </v-card>
