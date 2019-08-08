@@ -326,4 +326,53 @@ router.post('/getPost', function(req, res, next){
   })
 })
 
+router.post('/teamproject', function(req, res, next) {
+  var pool = db.getPool()
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select p.*, t.team_name, u.user_id from project as p inner join team as t on p.project_team = t.team_num inner join user as u on p.project_user = u.user_num where p.project_category = 1 and p.project_share = 0',
+      function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+
+        res.send(result)
+      })
+    }
+    conn.release();
+  })
+})
+
+router.post('/projectimage', function(req, res, next) {
+  var pjtNum = req.body.pjtNum
+  var pool = db.getPool()
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + pjtNum + ';', 
+      function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        var image = []
+        if (result.length > 0) {
+          for (var i=0; i < result.length; i++){
+            image.push(result[i].image_url)
+          }
+        }
+        res.send(image)
+      })
+    }
+    conn.release();
+  })
+})
 module.exports = router;
