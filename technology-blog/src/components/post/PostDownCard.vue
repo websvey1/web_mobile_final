@@ -22,6 +22,7 @@
         </h1>
       </a>
       <p class="pcontent">{{ post.post_content | content }}</p>
+      <v-divider style="margin-left:200px"></v-divider>
       <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
     </div>
   <!-- <br>
