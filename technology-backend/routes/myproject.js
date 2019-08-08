@@ -20,12 +20,14 @@ router.post('/create', function(req, res, next) {
   var share = req.body.share;
   var category = '0';
   var images = req.body.imgArray;
+  var pjt_num = a;
 
   pool.getConnection((ex, conn) => {
       if(ex){
         console.log(ex);
       }
       else{
+        console.log()
         var query = conn.query('insert into project(project_user, project_title, project_goal, project_start_date, project_end_date,' + 
         'project_tech,project_content,project_status,project_git_url,project_share, project_category)' + 
         'values("'+ user + '","' + title + '","' + goal + '","' + start_date + '","' + end_date + '","' + tech + '","' + content + '","' +
@@ -38,7 +40,7 @@ router.post('/create', function(req, res, next) {
           
           var project_num = result.insertId;
           // console.log(project_num)
-          
+          // var query = conn.query('inset into todolist(todo_project) values('+project_num+')');
           var img_query = 'insert into image(image_url) values';
 
           if (images.length > 0) {
