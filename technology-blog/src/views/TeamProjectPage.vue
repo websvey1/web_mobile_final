@@ -4,9 +4,6 @@
     <v-btn @click="back" outline color="indigo" round style="float:left;">
         <v-icon dark left>arrow_back</v-icon>Back</v-btn>
     <v-btn @click="move" outline color="indigo" round style="float:right;">Project 추가</v-btn>
-    <!-- <v-btn to="/todolist_team" outline color="success" round style="float:right;">To-Do list</v-btn>  -->
-    <v-btn @click="todolist" outline color="success" round style="float:right;">To-Do list</v-btn> 
-    <!-- To-Do List 버튼 클릭으로 인한 router 설정 각각 팀마다로 설정해줘야 될 듯! -->
     </div>
     <span class="mdi mdi-home"></span>
     <div class="container project">
@@ -31,7 +28,7 @@ export default {
     },
     data() {
         return {
-            projects: [],
+            projects: [], 
         }
     },
     created(){
@@ -46,9 +43,7 @@ export default {
         move(){
             this.$router.push({ name: "TeamProjectWritePage", params: {id: this.$route.params.id} })
         },
-        todolist(){
-            this.$router.push({ name: "TodoList", params: {id: this.$route.params.id} })
-        },
+      
 
         async getProject() {                     // 이 함수는 teamprojectpage에 마운트 되어있어 항상 떠있음
             // console.log(this.$route.params.id)
@@ -64,17 +59,18 @@ export default {
                     var temp = {
                         pjtNum: response.body[i].project_num
                     }
-                    this.$store.state.pjtNum = response.body[0].project_num;
+                    // this.$store.state.pjtNum = response.body[i].project_num;
                 await this.$http.post('http://192.168.31.63:3000/teamProject/getpjt', temp)
-                console.log(temp)
-                await this.$http.post('http://192.168.31.85:3000/todolist', temp)
+                // console.log(temp)
+              
                 .then(async (res) => {
                     this.projects.push({
                         pjt: res.body.project[0],
                         image: res.body.image
                     })
-                    // console.log(this.projects)
+                    console.log(this.projects)
                 })
+                // await this.$http.post('http://192.168.31.85:3000/todolist', temp)
                 }
             })
         }

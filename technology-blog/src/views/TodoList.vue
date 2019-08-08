@@ -94,15 +94,20 @@ export default {
         return {
           myArray1:this.myArray1,
           myArray2:this.myArray2,
-          myArray3:this.myArray3
+          myArray3:this.myArray3,
+          back_pn:this.$route.params.id
         }
       }
     },
 	  methods: {
-      async temp(){
-        var user_num = this.$session.get("userInfo").user_num;
+      async temp(){        
         // this.$http.get("http://192.168.31.85:3000/todolist", {un : user_num}) // 호출
-        this.$http.post("http://192.168.31.85:3000/todolist/" +user_num) // 호출
+        var pn = this.$route.params.id
+        var back_pn = { back_pn : pn }
+        console.log(pn)
+
+        this.$http.post("http://192.168.31.85:3000/todolist/" +pn, back_pn) // 호출
+        // this.$http.get("http://192.168.31.85:3000/todolist/") // 호출
         .then(result=> {
           // console.log(result.data);
           //--
@@ -126,13 +131,14 @@ export default {
       async createTodo() {
         var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
         console.log(this.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
-        
+
         var content = this.inputTodo;             
         if (!content ==""){
           this.myArray1.push({          
           todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨    
           todo_category: 0,
-          todo_user: user_num 
+          todo_user: user_num ,
+          todo_project: this.$route.params.pn
           ,    
           })  
         this.inputTodo = "";
@@ -143,6 +149,7 @@ export default {
 
       async updateTodo() {
         var form = await this.form
+        
         this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
         .then((req) => {
           // console.log(form)

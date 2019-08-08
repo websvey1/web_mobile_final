@@ -12,7 +12,7 @@
             <router-link to="/"> <img src="@/assets/code3.png/" height="50px;" width="50px;"alt=""> </router-link>
             <!-- <span v-if="this.$session.has('userInfo')" style="width:100%;text-align:right;">{{this.$session.get('userInfo').user_name}}님 </span> -->
             <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
-            <div style="padding-top:18px;">
+            <div>
               <LoginForm class="login"></LoginForm>
             </div>
 
@@ -45,7 +45,6 @@
           <v-btn flat to="/">home</v-btn>
           <v-btn flat to="/myproject">Project</v-btn>
           <v-btn flat to="/post">Post</v-btn>
-          <v-btn flat to="/another">Another User</v-btn>
           <v-btn flat @click.stop="drawer = !drawer">Menu</v-btn>
         </v-toolbar-items>
       </v-toolbar>
