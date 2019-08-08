@@ -22,47 +22,57 @@ export default {
   },
   data() {
     return {
-      posts:[],
-      page:0
+
     }
   },
   props:{
-    category:{type:String, default:0},
+    posts:{}
   },
   created(){
     // console.log(this.$props.category);
-    this.readPosts();
+    // this.readPosts();
   },
   methods: {
-    setPage(n){
-      this.page = n;
-      this.readPosts();
-    },
-    async readPosts() {
-      console.log(this.$props.category);
-      await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:this.$props.category})
-        .then((response) => {
-          this.posts = response.data;
-          // console.log(this.posts);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-
-    searchPosts(config){
-      this.posts = [];
-      // console.log(config);
-      config["post_category"] = this.$props.category;
-      this.$http.post("http://192.168.31.65:3000/post/search", config)
-        .then((response) => {
-          // console.log(response.date);
-          this.posts = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    }
+    // setPage(n){
+    //   this.page = n;
+    //   this.readPosts();
+    // },
+    // async readPosts() {
+    //   console.log(this.$props.category);
+    //   await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:this.$props.category})
+    //     .then((response) => {
+    //       this.posts = response.data;
+    //       // console.log(this.posts);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    // },
+    //
+    // searchPosts(config){
+    //   this.posts = [];
+    //   // console.log(config);
+    //   config["post_category"] = this.$props.category;
+    //   this.$http.post("http://192.168.31.65:3000/post/search", config)
+    //     .then((response) => {
+    //       // console.log(response.date);
+    //       this.posts = response.data;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    // },
+    //
+    // async readPosts(category) {
+    //   await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:category})
+    //     .then((response) => {
+    //       this.posts = response.data;
+    //       // console.log(this.posts);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    // }
   },
   mounted() {
     // this.readPosts();
