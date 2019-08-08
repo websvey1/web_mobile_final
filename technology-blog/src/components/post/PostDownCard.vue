@@ -13,7 +13,14 @@
       <img v-if="post.image_url != null" :src="post.image_url"/>
       <img v-else src="https://source.unsplash.com/random/300x300"></img>
 
-      <a @click="goReadPage(post.post_num)"><h1 class="posth1"><i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>{{ post.post_title}} </h1></a>
+      <a @click="goReadPage(post.post_num)">
+        <h1 class="posth1">
+          <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
+          <span v-if="post.post_category == '0'" style="color:red">[개인]</span>
+          <span v-else style="color:blue">[팀]</span>
+          {{ post.post_title}}
+        </h1>
+      </a>
       <p class="pcontent">{{ post.post_content | content }}</p>
       <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
     </div>
@@ -27,40 +34,55 @@
 import router from '@/router'
 
 export default {
-    name: 'PostDownCard',
-    data: () => ({
-    }),
-    props: {
-        post: {}
-    },
-    methods: {
-        goReadPage(postNum){
-          // console.log(postNum);
-          router.push({name:"PostReadPage", params:{id:postNum}})
+  name: 'PostDownCard',
+  data: () => ({}),
+  props: {
+    post: {}
+  },
+  mounted() {
+    // console.log(this.$props.post);
+  },
+  methods: {
+    goReadPage(postNum) {
+      // console.log(postNum);
+      router.push({
+        name: "PostReadPage",
+        params: {
+          id: postNum
         }
-    },
-    filters:{
-      date(v){
-        return v.split(' ')[0];
-      },
-      time(v){
-        return v.split(' ')[1];
-      },
-      content(v){
-        return '"' + v + '"'
-      },
-      name(v){
-        return "작성자 : " + v;
-      },
-      project(v){
-        if(v == undefined){
-          return "";
-        }
-        return v + " | ";
-      }
-
+      })
     }
+  },
+  filters: {
+    date(v) {
+      if (v != undefined) {
+        return v.split(' ')[0];
+      } else {
+        return v;
+      }
+    },
+    time(v) {
+      if (v != undefined) {
+        return v.split(' ')[1];
+      } else {
+        return v;
+      }
+    },
+    content(v) {
+      return '"' + v + '"'
+    },
+    name(v) {
+      return "작성자 : " + v;
+    },
+    project(v) {
+      if (v == undefined) {
+        return "";
+      }
+      return v + " | ";
+    }
+
   }
+}
 </script>
 
 <style scoped>
@@ -99,7 +121,7 @@ export default {
   margin-bottom: 40px;
   margin: 0 auto;
   border-left: 1px solid #999;
-  min-height:180px;
+  min-height: 180px;
 }
 
 /* .post-container:last-child .post {
@@ -115,17 +137,17 @@ export default {
   margin: 0;
   margin-bottom: 15px;
   text-transform: uppercase;
-   /* 여러 줄 자르기 추가 스타일 */
+  /* 여러 줄 자르기 추가 스타일 */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
   line-height: 1.2;
-  height:1.2em;
+  height: 1.2em;
   text-align: left;
   word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical ;
+  -webkit-box-orient: vertical;
 }
 
 .pub-date {
@@ -144,12 +166,12 @@ export default {
 }
 
 .pcontent {
-  padding-left:25px;
+  padding-left: 25px;
   padding-top: 10px;
   font-family: Open Sans;
   color: #333;
   line-height: 1.6;
-  min-height:90px;
+  min-height: 90px;
   font-size: 18px;
   margin-top: 0;
   text-overflow: ellipsis;
@@ -163,8 +185,9 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.puser{
-  padding-left:25px;
+
+.puser {
+  padding-left: 25px;
   font-family: Open Sans;
   color: #333;
   line-height: 1.6;
@@ -180,5 +203,4 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 </style>
