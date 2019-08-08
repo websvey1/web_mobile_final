@@ -11,20 +11,7 @@
       <v-flex xs3>
         <fieldset style="margin-left:4px; height:100%">
           <legend>Project</legend>
-          <div style="margin:16px;">
-            <v-select
-            style="margin:0 auto;"
-            v-model="project"
-            :items="items"
-            item-text="project_title"
-            :hint="`${project.team_name == undefined ? '' : '팀 이름 : ' + project.team_name} ${project.project_status == undefined ? '프로젝트를 선택해 주세요.' : ' ['+ project.project_status +']'}`"
-            label="Project"
-            return-object
-            persistent-hint
-            single-line
-            required
-            ></v-select>
-          </div>
+          <p>{{ pjtName }}</p>
         </fieldset>
       </v-flex>
     </v-layout>
@@ -95,11 +82,12 @@ export default {
     return {
       title: "",
       project:{},
-      items:[],
+      // items:[],
       content: "",
       writer: "",
       share:"0",
-      isLoading:false
+      isLoading:false,
+      pjtName: ''
     }
   },
   created(){                               // 동작이 완벽하지 않음
@@ -108,7 +96,7 @@ export default {
       this.$router.go(-1)
     }
     else{
-      this.readProjectList();
+      this.getTeamName();
     }
   },
   computed:{
@@ -119,19 +107,19 @@ export default {
         content: this.content,
         share: this.share,
         created_at:Time.getFullDate(),
-        category:this.project.project_category,
+        category: 1,
         tags: this.$refs.hashtag.getTagsForDb(),
         imageUrl: await this.$refs.imagePicker.getImageUrl(),
-        project:this.project.project_num
+        project: this.$route.params.num
       }
     },
   },
   methods: {
     checkValidation(){
-      if(this.project.project_num == undefined){
-        alert("프로젝트를 선택해 주세요.")
-        return false;
-      }
+      // if(this.project.project_num == undefined){
+      //   alert("프로젝트를 선택해 주세요.")
+      //   return false;
+      // }
       if(!this.title){
         alert("제목을 입력해 주세요.")
         return false;
@@ -164,11 +152,16 @@ export default {
         this.isLoading = false;
       }
     },
-
-    readProjectList(){
-      this.$http.post("http://192.168.31.65:3000/post/project/list/" + this.$session.get("userInfo").user_num)
-      .then((result) => {
-        this.items = result.data;
+    getTeamName(){
+      var data = {
+        pjtNum: this.$route.params.num
+      }
+      this.$http.post('http://192.168.31.63:3000/teamProject/getProjectName', data)
+      .then((response) => {
+        this.pjtName = response.body[0].project_title
+      })
+      .catch((error) => {
+        console.log(error)
       })
     },
     goHome(){
