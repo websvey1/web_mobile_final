@@ -102,6 +102,13 @@ export default {
         this.getMember()
     },
     methods: {
+        todoTeam(){
+          var pjt_num = this.$route.params.num
+          var data = {
+            pjtNum:pjt_num
+          }
+          this.$http.get('http://192.168.31.85:3000/todolist/')
+        },
         getProject() {
             console.log(this.$route.params)
             var team_num = this.$route.params.id
@@ -111,7 +118,7 @@ export default {
                 teamNum: team_num,
                 pjtNum: pjt_num
             }
-
+            this.$http.post()
             this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
             .then((res) => {
                 console.log(res.body[0])
@@ -149,7 +156,7 @@ export default {
         },
         goUpdate() {
             var teamNum = this.$route.params.id
-            var pjtNum = this.$route.params.num
+            var pjtNum = this.$route.params.num // 이걸 어디서 받아오는걸까.
             this.$router.push(`/teamProject/${teamNum}/update/${pjtNum}`)
         },
         goDelete() {

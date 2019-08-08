@@ -174,7 +174,7 @@ export default new Router({
     component: TodoList
 },
   {
-    path: '/todolist_team',
+    path: '/todolist_team/:id',
     name: 'TodoList_team',
     component: TodoList_team
   },
