@@ -1,69 +1,35 @@
 <template>
-<div id="top__container" style="
-  width: 90%; margin: 0 auto;
-  ">
-
+<div id="top__container" style="width: 90%; margin: 0 auto;">
   <v-container>
     <div style="margin-top: 20px;">
       <!-- 사진 -->
-      <v-layout  wrap align-center justify-center row fill-height>
-        <h1 style="text-align:center; padding-bottom:20px; padding-right: 30px; float: left">Project</h1>
-        <v-speed-dial
-          v-model="fab"
-          :top="top"
-          :bottom="bottom"
-          :right="right"
-          :left="left"
-          :direction="direction"
-          :open-on-hover="hover"
-          :transition="transition"
-        >
+      <v-layout wrap fill-height>
+      <v-flex>
+        <h1 style="text-align: center">Project</h1>
+        <v-speed-dial style="margin-left: 90%" v-model="fab" :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
         <template v-slot:activator>
-          <v-btn
-            v-model="fab"
-            color="blue darken-2"
-            dark
-            large
-            fab
-          >
+          <v-btn v-model="fab" color="blue darken-2" dark fab>
             <v-icon v-if="fab">close</v-icon>
             <v-icon v-else>fas fa-list</v-icon>
           </v-btn>
         </template>
-        <v-btn
-          fab
-          dark
-          large
-          color="green"
-          @click="postRead"
-        >
+        <v-btn fab dark large color="green" @click="postRead">
           Post
           <br>
           보기
         </v-btn>
-        <v-btn
-          fab
-          dark
-          large
-          color="indigo"
-          @click="postWrite"
-        >
+        <v-btn fab dark large color="indigo" @click="postWrite">
           Post
           <br>
           작성
         </v-btn>
-        <v-btn
-          fab
-          dark
-          large
-          color="red"
-          @click="todoList"
-        >
+        <v-btn fab dark large color="red" @click="todoList">
           To do
           <br>
           List
         </v-btn>
       </v-speed-dial>
+      </v-flex>
     </v-layout>
       
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
@@ -160,9 +126,9 @@ export default {
       hover: false,
       tabs: null,
       top: false,
-      right: true,
+      right: false,
       bottom: true,
-      left: false,
+      left: true,
       transition: 'slide-y-reverse-transition',
     }
   },
@@ -222,7 +188,6 @@ export default {
       this.$http.get('http://192.168.31.85:3000/todolist/')
     },
     getProject() {
-        console.log(this.$route.params)
         var team_num = this.$route.params.id
         var pjt_num = this.$route.params.num
 
@@ -233,7 +198,6 @@ export default {
         this.$http.post()
         this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
         .then((res) => {
-            console.log(res.body[0])
             this.project = res.body[0]
         })
     },
@@ -243,7 +207,6 @@ export default {
         }
         this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
         .then((res) => {
-            console.log(res.body)
             this.images = res.body
         })
     },
@@ -253,7 +216,6 @@ export default {
         }
         this.$http.post('http://192.168.31.63:3000/team/getMember', data)
         .then((res) => {
-            console.log(res.body)
             var member = []
             for (var i=0; i < res.body.length; i++) {
                 var name = res.body[i].user_name
@@ -279,7 +241,6 @@ export default {
         this.$http.post('http://192.168.31.61:3000/teamProject/delete/project', data)
         .then((res) => {
           alert("글 삭제 완료");
-          console.log(res)
           this.$router.push(`/teamProject/${teamNum}`)
         })
     },
@@ -300,11 +261,19 @@ export default {
       this.$http.post('http://192.168.31.61:3000/teamProject/delete/project', data)
       .then((res) => {
         alert("글 삭제 완료");
-        console.log(res)
         this.$router.push(`/teamProject/${teamNum}`)
       })
     },
-  },
+    postWrite(){
+      this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
+    },
+    postRead(){
+
+    },
+    todoList(){
+      
+    }
+  }
 }
 </script>
 <style scoped>
