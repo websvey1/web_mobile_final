@@ -22,9 +22,10 @@
     <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
     <v-divider style="padding-bottom:20px;">
       </slot>></v-divider>
-  </div>
+
 
   <ProjectList ref="project"></ProjectList>
+  </div>
 </div>
 </template>
 
