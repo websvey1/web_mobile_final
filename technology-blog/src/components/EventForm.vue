@@ -83,7 +83,7 @@ export default {
 
             this.$http.post('http://192.168.31.63:3000/plan/personal', config)
             .then((response) => {
-                this.$store.state.plan = response.data;
+                this.$store.state.plan = true;
                 this.resetValues();
             })
             .catch((error) =>{
