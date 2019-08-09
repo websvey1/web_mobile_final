@@ -118,6 +118,27 @@ router.post('/getPjt', function(req, res, next) {
   });    
 })
 
+router.post('/userproject', function(req, res, next) {
+  var pool = db.getPool();
+  var userNum = req.body.userNum
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select project_num from project where project_user = ?', userNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+
 router.post('/getProject', function(req, res, next) {
   var pool = db.getPool();  
   var pjtNum = req.body.pjtNum;
