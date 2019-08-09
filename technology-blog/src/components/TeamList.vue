@@ -212,6 +212,7 @@ export default {
         })
     },
     async update(pk) {
+      console.log("여기다 이자식아")
       var temp = {
         num: this.$session.get('userInfo').user_num,
         teamNum: pk
@@ -221,14 +222,15 @@ export default {
         .then(async (response) => {
           console.log('team name:')
           console.log(response.body)
-
+          var tempTeamName = response.body[0].team_name;
+          console.log(tempTeamName)
           var data = {
             teamNum: pk
           }
           // 선택된 팀에 속한 member들을 구함
           await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
             .then(async (response) => {
-              var tempTeamName = response.body[0].team_name;
+              console.log(response.body)
               var tempMember = '';
               var tempTeamNum = response.body[0].team_num;
 

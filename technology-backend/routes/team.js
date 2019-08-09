@@ -99,7 +99,8 @@ router.post('/getTeamList', function(req, res, next){
 router.post('/getMember', function(req, res, next){
     var teamNum = req.body.teamNum;
     var pool = db.getPool();
-
+    console.log(teamNum);
+    
     pool.getConnection((ex, conn) => {
         if(ex){
             console.log(ex);
@@ -109,6 +110,7 @@ router.post('/getMember', function(req, res, next){
                     console.log(err)
                     throw err
                 }
+                console.log(result)
                 res.send(result);
             })
             conn.release();
