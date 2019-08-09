@@ -196,13 +196,6 @@ export default {
         this.images = res.body
       })
     },
-    todoTeam(){
-      var pjt_num = this.$route.params.num
-      var data = {
-        pjtNum:pjt_num
-      }
-      this.$http.get('http://192.168.31.85:3000/todolist/')
-    },
     getProject() {
         var team_num = this.$route.params.id
         var pjt_num = this.$route.params.num
@@ -258,9 +251,6 @@ export default {
     postRead(){
       // this.$router.push({ name: "TeamPostPage", params: {id: this.$route.params.id, num: this.$route.params.num} })
       this.$router.push(`/teamPostPage/${this.$route.params.num}`)
-    },
-    todoList(){
-
     }
   }
 }
