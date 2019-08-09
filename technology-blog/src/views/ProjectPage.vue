@@ -1,31 +1,30 @@
 <template>
 <div style="background-color: white;">
-  <div class="container" >
-        <!-- <v-btn class="v-btn theme--dark" style="margin-bottom: 20px;" to="/myproject/create">프로젝트 작성</v-btn> -->
-        <!-- <v-btn class="v-btn theme--dark" style="margin-bottom: 20px;" to="/todolist">Todo-List 작성</v-btn> -->
-        <div class="searchbar-total">
-          <div class="searchbar-first">
-            <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category"  return-object></v-select>
-          </div>
-          <div class="searchbar-second">
-            <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
-          </div>
-          <div class="searchbar-third">
-            <v-btn class="v-btn theme--dark" @click="searchPosts">검색</v-btn>
-            <v-btn class="v-btn theme--dark" @click="allPosts">전체글 보기</v-btn>
-          </div>
-        </div>
-
-        <div>
-        <div class="" style="width:150px; display:inline-block; margin-right:10px;">
-            <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
-        </div>
-        <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
-        <v-divider style="padding-bottom:20px;"></slot>></v-divider>
-      </div>
-
-        <ProjectList ref="project"></ProjectList>
+  <!-- <v-btn class="v-btn theme--dark" style="margin-bottom: 20px;" to="/myproject/create">프로젝트 작성</v-btn> -->
+  <!-- <v-btn class="v-btn theme--dark" style="margin-bottom: 20px;" to="/todolist">Todo-List 작성</v-btn> -->
+  <div class="searchbar-total">
+    <div class="searchbar-first">
+      <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
+    </div>
+    <div class="searchbar-second">
+      <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
+    </div>
+    <div class="searchbar-third">
+      <v-btn class="v-btn theme--dark" @click="searchPosts">검색</v-btn>
+      <v-btn class="v-btn theme--dark" @click="allPosts">전체글 보기</v-btn>
+    </div>
   </div>
+
+  <div class="container">
+    <div class="" style="width:150px; display:inline-block; margin-right:10px;">
+      <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
+    </div>
+    <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
+    <v-divider style="padding-bottom:20px;">
+      </slot>></v-divider>
+  </div>
+
+  <ProjectList ref="project"></ProjectList>
 </div>
 </template>
 

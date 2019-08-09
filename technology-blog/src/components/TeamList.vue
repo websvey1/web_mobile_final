@@ -6,7 +6,7 @@
     <div v-if="item.exist == true">
    <v-layout py-4 pl-4>
      <v-flex shrink>
-       <v-img height="120" width="120" src="https://www.colourbox.com/preview/18068844-doodle-team-icon.jpg" style="border-radius: 50%; margin-top: -17px;"></v-img>
+       <v-img height="120" width="120" src="https://gravitylab.nz/wp-content/uploads/2018/11/OnboardYourTeam-011.jpg" style="border-radius: 50%; margin-top: -17px;"></v-img>
      </v-flex>
      <v-flex>
        <v-container grid-list-lg style="margin-left: 0px;">
@@ -180,7 +180,7 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-      
+
     },
     del(titleData) {
       for (var i = 0; i < this.items.length; i++) {
@@ -371,7 +371,7 @@ export default {
   width: 60px;
   /* font-weight:bold; */
   color: rgb(255, 159, 0);
-  background-color: rgb(255, 159, 0, 0.1);
+  background-color: rgb(255, 159, 0, 0.2);
 }
 
 .v-btn.outlined_second {
@@ -381,7 +381,7 @@ export default {
   width: 60px;
   /* font-weight:bold; */
   color: rgb(0, 68, 194);
-  background-color: rgba(0, 68, 194, 0.1);
+  background-color: rgba(0, 68, 194, 0.2);
 }
 
 .v-btn.outlined_third {
@@ -391,7 +391,7 @@ export default {
   width: 60px;
   /* font-weight:bold; */
   color: rgb(224, 0, 0);
-  background-color: rgb(224, 0, 0,0.1);
+  background-color: rgb(224, 0, 0,0.2);
 }
 
 .v-btn.outlined_fourth{
@@ -401,7 +401,7 @@ export default {
   width: 60px;
   /* font-weight:bold; */
   color: rgb(86, 147, 0);
-  background-color: rgb(86, 147, 0, 0.1);
+  background-color: rgb(86, 147, 0, 0.2);
 }
 
 .modal-enter {
