@@ -28,7 +28,7 @@ router.post('/create', function(req, res, next) {
     var project = req.body.project;
 
     var pool = db.getPool();
-    console.log(project)
+    // console.log(project)
 
     pool.getConnection((ex, conn) => {
         if (ex){
@@ -41,7 +41,7 @@ router.post('/create', function(req, res, next) {
                     throw err
                 }
                 var projectNum = result.insertId;
-                console.log(projectNum)
+                // console.log(projectNum)
                 res.send(projectNum+'')
             })
         }
@@ -132,7 +132,7 @@ router.post('/getimage', function(req, res, next) {
 
 router.post('/getpjt', function(req, res, next) {
     var pjtNum = req.body.pjtNum 
-    console.log(pjtNum,'pjtnum');
+    // console.log(pjtNum,'pjtnum');
     var pool = db.getPool()
 
     pool.getConnection((ex, conn) => {
@@ -159,7 +159,7 @@ router.post('/getpjt', function(req, res, next) {
                     throw err;
                   }
         
-                  console.log(result)
+                  // console.log(result)
                   if (result.length > 0) {
                     project.image = result[0].image_url
                   }
@@ -223,7 +223,7 @@ router.post('/update/project', function(req, res, next) {
     var pool = db.getPool();
     var pjtNum = req.body.pjtNum;
     var project = req.body.project;
-    console.log(project)
+    // console.log(project)
   
     pool.getConnection((ex, conn) => {
       if (ex) {
@@ -263,7 +263,7 @@ router.post('/update/images', function(req, res, next) {
         }
         
         var imgNum = result.insertId;
-        console.log(imgNum)
+        // console.log(imgNum)
 
         var query = conn.query('insert into imageconnector(imageconn_image, imageconn_project, imageconn_category, imageconn_index) values (?, ?, 1, 0)',
         [imgNum, pjtNum], function(err, result) {
@@ -276,7 +276,7 @@ router.post('/update/images', function(req, res, next) {
             imgnum: imgNum, 
             imgurl: req.body.imgUrl
           }
-          console.log(image)
+          // console.log(image)
           res.send(image)
         })
       }) 
@@ -309,7 +309,7 @@ router.post('/delete/project', function(req, res, next){
 router.post('/getPost', function(req, res, next){
   var pjtNum = req.body.num
   var pool = db.getPool()
-  console.log(pjtNum)
+  // console.log(pjtNum)
   pool.getConnection((ex, conn) => {
     if (ex){
       console.log(ex)
