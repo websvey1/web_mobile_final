@@ -11,7 +11,7 @@
       <v-flex xs3>
         <fieldset style="margin-left:4px; height:100%">
           <legend>Project</legend>
-          <p>{{ pjtName }}</p>
+          <h2 style=" text-align:center; padding-top: 10%;">{{ pjtName }}</h2>
         </fieldset>
       </v-flex>
     </v-layout>

@@ -11,7 +11,6 @@
       <v-btn flat class="outlined" @click="" v-on="on" color="rgb(57, 117, 72)">Login</v-btn>
     </v-flex>
   </template>
-
   <v-card>
     <v-card-title>
       <span class="headline">LOGIN</span>

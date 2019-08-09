@@ -33,7 +33,7 @@
       <!-- box-shadow: 0 4px 0 rgba(182, 182, 182, 0.18) !important; -->
 
         <v-toolbar-title>
-          <router-link id="Main" to="/" style="margin-right:50px;">
+          <router-link id="Main" to="/" style="margin-right:50px; font-family: 'Nanum Pen Script', cursive; font-size:40px;">
             YEJI's Family ♥
           </router-link>
         </v-toolbar-title>
