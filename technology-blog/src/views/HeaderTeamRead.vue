@@ -3,38 +3,7 @@
   <v-container>
     <div style="margin-top: 20px;">
       <!-- 사진 -->
-      <v-layout wrap fill-height>
-      <v-flex>
-        <h1 style="text-align: center">Project</h1>
-        <v-speed-dial style="margin-left: 90%" v-model="fab" :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
-        <template v-slot:activator>
-          <v-btn v-model="fab" color="blue darken-2" dark fab>
-            <v-icon v-if="fab">close</v-icon>
-            <v-icon v-else>fas fa-list</v-icon>
-          </v-btn>
-        </template>
-        <v-btn fab dark large color="green" @click="postRead">
-          Post
-          <br>
-          보기
-        </v-btn>
-        <v-btn fab dark large color="indigo" @click="postWrite">
-          Post
-          <br>
-          작성
-        </v-btn>
-        <v-btn fab dark large color="red" @click="todo()">
-          To do
-          <br>
-          List
-        </v-btn>
-      </v-speed-dial>
-      </v-flex>
-    </v-layout>
-    <!-- <p>{{  }}</p> -->
-    <!-- <p>{{project.pjt.project_num}}</p> -->
-    <!-- {{ pn }} -->
-    <!-- 상세 -->
+    <h1 style="text-align: center; margin-bottom: 20px;">Project</h1>
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
       <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
     </v-carousel>
@@ -113,7 +82,7 @@
 
 <script>
 export default {
-  name: 'TeamProejctReadPage',
+  name: 'HeaderTeamRead',
   data(){
     return {
       project: [],
@@ -232,7 +201,7 @@ export default {
     },
     goHome() {
         var teamNum = this.$route.params.id
-        this.$router.push(`/teamProject/${teamNum}`)
+        this.$router.push('/project')
     },
     goUpdate() {
         var teamNum = this.$route.params.id

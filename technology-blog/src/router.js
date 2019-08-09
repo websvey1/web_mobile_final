@@ -26,17 +26,19 @@ import PageTest from './views/test/PageTest.vue'
 //// test ////
 
 //// project ////
-import MyprojectPage from './views/MyprojectPage.vue'
+import ProjectPage from './views/ProjectPage.vue'
+import ProjectReadPage from './views/ProjectReadPage.vue'
+import HeaderTeamRead from './views/HeaderTeamRead'
 //// project ////
 
 //// myproject ////
-import ProjectPage from './views/ProjectPage.vue'
+import MyprojectPage from './views/MyprojectPage.vue'
 import TeamProjectPage from './views/TeamProjectPage.vue'
 
 import ProjectWritePage from './views/ProjectWritePage.vue'
 import TeamProjectWritePage from './views/TeamProjectWritePage.vue'
 
-import ProjectReadPage from './views/ProjectReadPage.vue'
+import MyprojectRead from './views/MyprojectRead.vue'
 import TeamProejctReadPage from './views/TeamProjectReadPage'
 
 import ProjectUpdatePage from './views/ProjectUpdatePage.vue'
@@ -60,11 +62,6 @@ export default new Router({
       component: HomePage,
     },
     {
-      path: '/project',
-      name: 'ProjectPage',
-      component: ProjectPage
-    },
-    {
       path: '/post/update/:id',
       name: 'PostUpdatePage',
       component: PostUpdatePage,
@@ -75,6 +72,22 @@ export default new Router({
       name: 'PostReadPage',
       component: PostReadPage,
       props: true
+    },
+    ///////////////////// Header Project /////////////////////
+    {
+      path: '/project',
+      name: 'ProjectPage',
+      component: ProjectPage
+    },
+    {
+      path: '/project/:id',
+      name: 'ProjectReadPage',
+      component: ProjectReadPage
+    },
+    {
+      path: '/team/:id/project/:num',
+      name: 'HeaderTeamRead',
+      component: HeaderTeamRead
     },
     ///////////////////// Personal Post /////////////////////
     {
@@ -100,8 +113,8 @@ export default new Router({
     },
     {
       path: '/myproject/:id',
-      name: 'ProjectReadPage',
-      component: ProjectReadPage
+      name: 'MyprojectRead',
+      component: MyprojectRead
     },
     {
       path: '/myproject/update/:id',

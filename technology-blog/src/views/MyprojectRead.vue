@@ -5,8 +5,8 @@
   <v-container>
     <div style="margin-top: 30px;">
       <!-- 사진 -->
-
-        <v-btn fab dark large color="red" @click="todo()" style="margin-left: 90%">
+        
+        <v-btn fab dark large color="red" @click="todo()">
           To do
           <br>
           List
@@ -16,7 +16,7 @@
       ">
         <v-carousel-item v-resize="onResize" v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
       </v-carousel>
-
+        
       <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
       <!-- 상세 -->
       <v-layout wrap align-center justify-center row fill-height style="
@@ -82,7 +82,7 @@
 import ImageUpload from "@/components/common/ImageUpload"
 
 export default {
-  name: 'ProjectReadPage',
+  name: 'MyprojectRead',
   components: {
     ImageUpload
   },
@@ -105,13 +105,14 @@ export default {
         this.images = res.data.images;
         console.log(this.images)
       });
+    console.log(this.$session.get('userInfo').user_num)
   },
   methods: {
     todo(){
       this.$router.push(`/todolist/${this.$route.params.id}`)
     },
     goHome() {
-      this.$router.push("/project")
+      this.$router.push("/myproject")
     },
     goUpdate() {
       var id =this.$route.params.id;
