@@ -12,7 +12,7 @@
             <router-link to="/"> <img src="@/assets/code3.png/" height="50px;" width="50px;"alt=""> </router-link>
             <!-- <span v-if="this.$session.has('userInfo')" style="width:100%;text-align:right;">{{this.$session.get('userInfo').user_name}}님 </span> -->
             <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
-            <div>
+            <div style="padding-top: 18px;">
               <LoginForm class="login"></LoginForm>
             </div>
 
@@ -120,7 +120,7 @@
 
       <!-- <v-list-tile to="/todolist" style="background:white;"> -->
       <v-list-tile @click="todolist" style="background:white;">
-      
+
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">To-Do List</span>
