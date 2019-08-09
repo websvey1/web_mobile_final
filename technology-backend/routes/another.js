@@ -118,6 +118,7 @@ router.post('/readuser', function(req, res, next) {
                     userId: '',
                     userEmail: '',
                     userTech: [],
+                    userImage: ''
                 }
                 if (result == '[]') {
                     info.userTech = null
@@ -127,7 +128,7 @@ router.post('/readuser', function(req, res, next) {
                         info.userTech.push(result[i].tech_name)
                     }
 
-                    var query = conn.query('select user_num, user_id, user_email from user where user_num = ' + userNum + ';',
+                    var query = conn.query('select user_num, user_id, user_email, user_image from user where user_num = ' + userNum + ';',
                     function(err, result) {
                         if (err){
                             console.error(err);
@@ -136,7 +137,8 @@ router.post('/readuser', function(req, res, next) {
                         info.usernum = result[0].user_num
                         info.userId = result[0].user_id
                         info.userEmail = result[0].user_email
-                        
+                        info.userImage = result[0].user_image
+                        console.log(info.userImage)
                         res.send(info)
                         // console.log(info)
                     })
