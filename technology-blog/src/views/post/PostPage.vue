@@ -1,6 +1,5 @@
 <template>
 <div style="background-color: white;">
-
   <div class="searchbar-total">
     <div class="searchbar-first">
       <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category"  return-object></v-select>
