@@ -43,37 +43,25 @@ export default {
         move(){
             this.$router.push({ name: "TeamProjectWritePage", params: {id: this.$route.params.id} })
         },
-      
-
         async getProject() {                     // 이 함수는 teamprojectpage에 마운트 되어있어 항상 떠있음
-            // console.log(this.$route.params.id)
             var data = {
                 id : this.$route.params.id
             }
-            // await this.$http.get('http://192.168.31.85:3000/to')
             await this.$http.post('http://192.168.31.63:3000/teamProject', data)
-            
             .then(async (response) => {
-                // console.log(response.body)
                 for (var i=0; i < response.body.length; i++){
                     var temp = {
                         pjtNum: response.body[i].project_num
                     }
-                    // this.$store.state.pjtNum = response.body[i].project_num;
-                await this.$http.post('http://192.168.31.63:3000/teamProject/getpjt', temp)
-                .then(async (res) => {
-                    this.projects.push({
-                        pjt: res.body.project[0],
-                        image: res.body.image
+                    await this.$http.post('http://192.168.31.63:3000/teamProject/getpjt', temp)
+                    .then(async (res) => {
+                        console.log(res.body)
+                        this.projects.push({ pjt: res.body.project[0], image: res.body.image })
                     })
-                    console.log(this.projects)
-                })
-                // await this.$http.post('http://192.168.31.85:3000/todolist', temp)
                 }
             })
         }
     },
-
  }
  </script>
 

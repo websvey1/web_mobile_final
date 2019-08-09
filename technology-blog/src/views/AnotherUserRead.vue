@@ -4,7 +4,7 @@
     <v-layout py-4 pl-4>
       <v-flex shrink style="padding-right:50px;">
         <v-avatar color="rgb(140, 140, 140)" size="175">
-          <v-icon dark>account_circle</v-icon>
+          <img :src="user.userImage|image"/>
 
           <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/" 
           style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px;"/>
@@ -143,6 +143,7 @@
 
 <script>
 import {async} from 'q';
+
 export default {
   name: 'AnotherUserRead',
   data() {
@@ -176,8 +177,9 @@ export default {
       var data = {
           userNum: user_num
       }
-      this.$http.post('http://192.168.31.61:3000/another/readuser', data)
+      this.$http.post('http://192.168.31.63:3000/another/readuser', data)
       .then((res) => {
+          console.log(res.body)
           this.user = res.body
           // console.log(this.user)
       })

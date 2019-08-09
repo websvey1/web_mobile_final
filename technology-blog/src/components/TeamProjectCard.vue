@@ -1,16 +1,7 @@
 <template>
-    <v-card
-      class="mx-auto"
-      max-width="450"
-      flat
-    >
-      <v-img
-        class="white--text"
-        height="285px"
-        :src="project.image"
-        style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
-        @click="goReadProject(project.pjt.project_num)"
-      >
+    <v-card class="mx-auto" max-width="450" flat>
+      <v-img class="white--text" height="285px" :src="project.image" style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
+        @click="goReadProject(project.pjt.project_num)">
       </v-img>
       <!-- <h1>asdasddadd</h1> -->
       <v-card-title>
@@ -24,12 +15,10 @@
       <v-divider class="mx-0"></v-divider>
 
       <v-card-text>
-        <v-chip style="float: right;"
-          class="ma-2" color="#c9e2f7"
-        >
-          <b>{{ project.pjt.project_start_date }}~ {{ project.pjt.project_end_date }}</b>
+        <v-chip style="float: right;" class="ma-2" color="#c9e2f7">
+          <b>{{ project.pjt.project_start_date }} ~ {{ project.pjt.project_end_date }}</b>
         </v-chip>
-
+        
         <v-chip v-if="project.pjt.project_status ==='계획'" style="float: right;"
           class="ma-2" color="rgb(255, 247, 135)"
         >
@@ -47,6 +36,11 @@
         >
         <b>{{ project.pjt.project_status }}</b>
         </v-chip>
+
+        <v-chip style="float: right;" class="ma-2" color="rgb(255, 220, 230)">
+          생성일 <b>: {{ project.pjt.project_created_at.substring(0, 10) }}</b>
+        </v-chip>
+
       </v-card-text>
     </v-card>
  </template>
@@ -97,9 +91,7 @@ export default {
 
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Jura:300,400,500,600);
-
 @import url(https://fonts.googleapis.com/css?family=Play);
-
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
 
 .posth1 {
