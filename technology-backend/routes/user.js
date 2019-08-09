@@ -166,6 +166,7 @@ router.put('/update', function(req, res, next) {
   var image = req.body.image;
 
   console.log(req.body)
+  console.log(after_pw)
   pool.getConnection((ex, conn) => {
     if(ex){
       console.log(ex);
@@ -192,7 +193,7 @@ router.put('/update', function(req, res, next) {
             }
 
             var sql = 'update user set user_password = ?, user_image = ? where user_num = ?;'
-            var sql_data = [after_pw*1, image, user_num];
+            var sql_data = [after_pw, image, user_num];
             var query = conn.query(sql,sql_data,function (err, result) {
               if (err) {
                 console.error(err);
