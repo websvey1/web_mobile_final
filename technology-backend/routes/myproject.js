@@ -223,9 +223,7 @@ router.get('/:id', function(req, res, next) {
             for (var i=0; i < result.length; i++){
               image.push({imgnum: result[i].image_num, imgurl: result[i].image_url});
             }
-            console.log(image)
             project.images = image
-            console.log(project);
             res.send(project);
           })
         })

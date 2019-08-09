@@ -82,7 +82,7 @@
 import ImageUpload from "@/components/common/ImageUpload"
 
 export default {
-  name: 'ProjectReadPage',
+  name: 'MyprojectRead',
   components: {
     ImageUpload
   },
@@ -105,13 +105,14 @@ export default {
         this.images = res.data.images;
         console.log(this.images)
       });
+    console.log(this.$session.get('userInfo').user_num)
   },
   methods: {
     todo(){
       this.$router.push(`/todolist/${this.$route.params.id}`)
     },
     goHome() {
-      this.$router.push("/project")
+      this.$router.push("/myproject")
     },
     goUpdate() {
       var id =this.$route.params.id;

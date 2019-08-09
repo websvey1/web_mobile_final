@@ -7,26 +7,22 @@
       <v-img
         class="white--text"
         height="285px"
-        :src="teampjt.image[0]"
+        :src="project.image"
         style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
-        @click="goReadProject(teampjt.pjt.project_team, teampjt.pjt.project_num)"
+        @click="goReadProject(project.pjt.project_num)"
       >
       </v-img>
-    
-      <v-card-title>
-        <div class="posth1">{{ teampjt.pjt.team_name }}</div>
-      </v-card-title>
 
       <v-card-title>
-        <div class="posth1">{{ teampjt.pjt.project_title }}</div>
+      <div class="posth1">{{ project.pjt.project_title }}</div>
       </v-card-title>
 
       <v-card-text>
-      <span class="ptag">{{ teampjt.pjt.project_goal }}</span><br>
+      <span class="ptag">{{ project.pjt.project_goal }}</span><br>
       </v-card-text>
 
       <v-card-text>
-      <span class="ptag">{{ teampjt.pjt.project_tech }}</span><br>
+      <span class="ptag">{{ project.pjt.project_tech }}</span><br>
       </v-card-text>
 
       <v-divider class="mx-0"></v-divider>
@@ -35,31 +31,31 @@
         <v-chip style="float: right;"
           class="ma-2" color="green"
         >
-          <b>{{ teampjt.pjt.user_id }}</b>
+          <b>{{ project.pjt.user_id }}</b>
         </v-chip>
 
-        <v-chip v-if="teampjt.pjt.project_status ==='계획'" style="float: right;"
+        <v-chip v-if="project.pjt.project_status ==='계획'" style="float: right;"
           class="ma-2" color="rgb(255, 247, 135)"
         >
-        <b>{{ teampjt.pjt.project_status }}</b>
+        <b>{{ project.pjt.project_status }}</b>
         </v-chip>
 
-        <v-chip v-if="teampjt.pjt.project_status ==='진행중'" style="float: right;"
+        <v-chip v-if="project.pjt.project_status ==='진행중'" style="float: right;"
           class="ma-2" color="rgb(166, 255, 143)"
         >
-        <b>{{ teampjt.pjt.project_status }}</b>
+        <b>{{ project.pjt.project_status }}</b>
         </v-chip>
 
-        <v-chip v-if="teampjt.pjt.project_status ==='완료'" style="float: right;"
+        <v-chip v-if="project.pjt.project_status ==='완료'" style="float: right;"
           class="ma-2" color="rgb(255, 180, 180)"
         >
-        <b>{{ teampjt.pjt.project_status }}</b>
+        <b>{{ project.pjt.project_status }}</b>
         </v-chip>
 
         <v-chip style="float: right;"
           class="ma-2" color="#c9e2f7"
         >
-          <b>{{ teampjt.pjt.project_start_date }}~ {{ teampjt.pjt.project_end_date }}</b>
+          <b>{{ project.pjt.project_start_date }}~ {{ project.pjt.project_end_date }}</b>
         </v-chip>
       </v-card-text>
     </v-card>
@@ -69,19 +65,21 @@
 import router from '@/router'
 
 export default {
-    name: 'TeamCard',
+    name: 'ProjectCard',
     data(){
       return{
         
       }
     },
+
     props: {
-        teampjt: {}
+        project: {}
     },
 
     methods: {
-      goReadProject(id, num) {
-        this.$router.push(`/team/${id}/project/${num}`)
+      goReadProject(pjtNum) {
+        console.log(pjtNum)
+        router.push({name:"MyprojectRead", params:{id:pjtNum}})
       }
     },
 

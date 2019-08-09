@@ -7,7 +7,7 @@
     <div class="container project">
         <v-layout wrap>
             <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
-                <ProjectCard :project="project"></ProjectCard>
+                <MyprojectCard :project="project"></MyprojectCard>
             </v-flex>
         </v-layout>
     </div>
@@ -16,13 +16,13 @@
 
 
  <script>
-import ProjectCard from '@/components/ProjectCard'
+import MyprojectCard from '@/components/MyprojectCard'
 import { async } from 'q';
 
 export default {
     name: 'MyprojectPage',
     components: {
-        ProjectCard
+        MyprojectCard
     },
     data() {
         return {
