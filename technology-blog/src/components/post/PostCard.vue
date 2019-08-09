@@ -7,7 +7,7 @@
     <v-card-title primary-title>
       <div>
         <h3 class="headline mb-0 oneline">{{post.post_title}}</h3>
-        <div class="fourline"> {{post.post_content}} </div>
+        <p class="fourline" > {{post.post_content}} </p>
       </div>
 
     <v-list-tile avatar @click="" style="overflow:hidden; width:300px;">

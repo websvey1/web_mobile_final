@@ -11,7 +11,7 @@
       <v-flex xs3>
         <fieldset style="margin-left:4px; height:100%">
           <legend>Project</legend>
-          <h2 style=" text-align:center; padding-top: 10%;">{{ pjtName }}</h2>
+          <p>{{ pjtName }}</p>
         </fieldset>
       </v-flex>
     </v-layout>
@@ -127,6 +127,21 @@ export default {
       if(!this.content){
         alert("내용을 입력해 주세요.")
         return false;
+      }
+      if (this.title.length>45){
+        
+          alert("제목이 너무 깁니다");
+          return false;
+        }
+      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/ ";
+      console.log(this.title, '중간체크')
+      for (var i=0; i<this.title.length; i++){        
+        for (var j=0; j<num.length; j++){
+          if (this.title[i] == num[j]){
+            alert("특수문자 사용 금지입니다");
+            return false;
+          }
+        }
       }
 
       return true;
