@@ -138,7 +138,7 @@ router.post('/readuser', function(req, res, next) {
                         info.userEmail = result[0].user_email
                         
                         res.send(info)
-                        console.log(info)
+                        // console.log(info)
                     })
                 }
             })
@@ -162,7 +162,7 @@ router.post('/getproject', function(req, res, next) {
                     console.error(err)
                     throw err
                 }
-                console.log(result)
+                // console.log(result)
                 res.send(result)
             })
         }
@@ -206,12 +206,12 @@ router.post('/member', function(req, res, next) {
                     console.error(err)
                     throw err
                 }
-                console.log(result)
+                // console.log(result)
                 var member = []
                 for (var i=0; i < result.length; i++){
                     member.push(result[i].user_id)
                 }
-                console.log(member)
+                // console.log(member)
                 res.send(member)
             })
         }
@@ -268,6 +268,76 @@ router.post('/gettag', function(req, res, next) {
             })
         }
     conn.release()
+    })
+})
+
+router.post('/check', function(req, res, next) {
+    var loginId = req.body.loginId
+    var user = req.body.user
+    var pool = db.getPool()
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query('select follow_num from follow where follower_user = ? and following_user = ?',
+            [loginId, user], function(err, result) {
+                if (err){
+                    console.error(err)
+                    throw err
+                }
+                res.send(result)
+            })
+        }
+        conn.release()
+    })
+})
+
+router.post('/follow', function(req, res, next) {
+    var followingUser = req.body.followingUser
+    var followerUser = req.body.followerUser
+    var pool = db.getPool()
+    console.log(followingUser)
+    console.log(followerUser)
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex);
+        }
+        else {
+            var query = conn.query('insert into follow(follower_user, following_user) values(?, ?)', [followerUser, followingUser], 
+            function(err, result) {
+                if (err){
+                    console.error(err)
+                    throw err
+                }
+                res.send(result)
+            })
+        }
+        conn.release()
+    })
+})
+
+router.post('/nofollow', function(req, res, next){
+    var followingUser = req.body.followingUser
+    var followerUser = req.body.followerUser
+    var pool = db.getPool()
+    
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query('delete from follow where follower_user = ? and following_user = ?', [followerUser, followingUser],
+            function(err, result) {
+                if (err) {
+                    console.error(err)
+                    throw err
+                }
+                res.send("Success")
+            })
+        }
     })
 })
 module.exports = router;

@@ -25,6 +25,10 @@ import PageTest from './views/test/PageTest.vue'
 // import TestPage from './views/test/TestPage.vue'
 //// test ////
 
+//// project ////
+import MyprojectPage from './views/MyprojectPage.vue'
+//// project ////
+
 //// myproject ////
 import ProjectPage from './views/ProjectPage.vue'
 import TeamProjectPage from './views/TeamProjectPage.vue'
@@ -56,6 +60,11 @@ export default new Router({
       component: HomePage,
     },
     {
+      path: '/project',
+      name: 'ProjectPage',
+      component: ProjectPage
+    },
+    {
       path: '/post/update/:id',
       name: 'PostUpdatePage',
       component: PostUpdatePage,
@@ -81,8 +90,8 @@ export default new Router({
     ///////////////////// Personal Project /////////////////////
     {
       path: '/myproject',
-      name: 'ProjectPage',
-      component: ProjectPage
+      name: 'MyprojectPage',
+      component: MyprojectPage
     },
     {
       path: '/myproject/create',

@@ -5,16 +5,13 @@
       <v-flex shrink style="padding-right:50px;">
         <v-avatar color="rgb(140, 140, 140)" size="175">
           <v-icon dark>account_circle</v-icon>
-          <v-btn icon style="
-          position:absolute;
-          bottom:0;
-          right:0;
-          ">
-          <!-- <v-icon style="font-size: 50px;">person_add</v-icon> -->
-          <img src="@/assets/user.png/" style="width:70px; "></img>
-          </v-btn>
-        </v-avatar>
 
+          <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/" 
+          style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px;"/>
+
+          <img class="imgclick" @click="nofollow(user.usernum, login_id)" v-else-if="status === 1" src="@/assets/31.png/"
+          style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/>
+        </v-avatar>
       </v-flex>
       <v-flex text-center style="padding-top:10px;">
         <v-container grid-list-lg pa-0>
@@ -134,6 +131,9 @@
             </v-card>
           </v-flex>
         </v-layout>
+        <div v-else-if="item == 'Follow'">
+         SDFJSLDFJLSDKFJSLKJ
+        </div>
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -148,17 +148,20 @@ export default {
   data() {
       return {
         user: null,
+        login_id: this.$session.get('userInfo').user_num,
         project: [],
         teamproject: [],
         post: [],
         tab: null,
         items: [
-          'My Project', 'Team Project', 'Post', 'follow',
+          'My Project', 'Team Project', 'Post', 'Follow',
         ],
-        follow: ['예지', '영신'],
+        project_user: this.$route.params.id,
+        status: null,
       }
   },
   mounted() {
+      this.check()
       this.readUser()
       this.getProject()
       this.getTeamProject()
@@ -176,6 +179,7 @@ export default {
       this.$http.post('http://192.168.31.61:3000/another/readuser', data)
       .then((res) => {
           this.user = res.body
+          // console.log(this.user)
       })
     },
 
@@ -188,7 +192,7 @@ export default {
       .then((res) => {
           // console.log(res.body)
           this.project = res.body
-          console.log(this.project)
+          // console.log(this.project)
       })
     },
 
@@ -213,7 +217,7 @@ export default {
               })
             })
           }
-          console.log(this.teamproject)
+          // console.log(this.teamproject)
         }
       })
     },
@@ -239,7 +243,7 @@ export default {
               })
             })
           }
-          console.log(this.post)
+          // console.log(this.post)
         }
       })
     },
@@ -254,19 +258,72 @@ export default {
 
     goPost(id) {
       this.$router.push(`/post/read/${id}`)
-    }
+    },
+ 
+    check() {
+      if (this.login_id != this.$route.params.id){
+        var data = {
+          loginId: this.login_id,
+          user: this.$route.params.id
+        }
+        console.log(data)
+        this.$http.post('http://192.168.31.61:3000/another/check', data)
+        .then((res) => {
+          if (res.body.length === 0){
+            this.status = 0
+          }
+          else {
+            this.status = 1
+          }
+        }) 
+      }
+      else {
+        this.status = 1
+      }
+    },
+
+    follow(following, follower) {
+      if (this.login_id != this.$route.params.id){
+        var data = {
+          followingUser: following,
+          followerUser: follower
+        }
+        console.log(data)
+        this.$http.post('http://192.168.31.61:3000/another/follow', data)
+        .then((res) => {
+          console.log(res.body)
+          this.status = 1
+        })
+      }
+    }, 
+
+    nofollow(following, follower) {
+      if (this.login_id != this.$route.params.id){
+        var data = {
+          followingUser: following,
+          followerUser: follower
+        }
+        console.log(data)
+        this.$http.post('http://192.168.31.61:3000/another/nofollow', data)
+        .then((res) => {
+          console.log(res.body)
+          this.status = 0
+        })
+      }
+      else{
+        console.log("No")
+      }
+    },
   },
-
 }
-
 </script>
 
 <style scoped>
-a{color:rgb(0, 0, 0)}
-a:link {text-decoration: none; color: #000000;}
-a:visited {text-decoration: none; color: #000000;}
-a:active {text-decoration: none; color: #000000;}
-a:hover {text-decoration: underline; color: red;}
+  a{color:rgb(0, 0, 0)}
+  a:link {text-decoration: none; color: #000000;}
+  a:visited {text-decoration: none; color: #000000;}
+  a:active {text-decoration: none; color: #000000;}
+  a:hover {text-decoration: underline; color: red;}
   v-container{
     padding-bottom:50px;
   }
@@ -309,14 +366,20 @@ a:hover {text-decoration: underline; color: red;}
               font-weight: 600;
           }
       }
-}
-v-card-title {
-  display:flex;
-  width:100%;
-  height:65px;
-  max-height:65px;
-  align-items:center;
-  justify-content:space-between;
-  flex: 1 0 auto;
-}
+  }
+  v-card-title {
+    display:flex;
+    width:100%;
+    height:65px;
+    max-height:65px;
+    align-items:center;
+    justify-content:space-between;
+    flex: 1 0 auto;
+  }
+  .v-avatar img {
+    border-radius: 0px !important;
+  }
+  .imgclick {
+    cursor: pointer !important;
+  }
 </style>
