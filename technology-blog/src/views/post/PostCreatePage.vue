@@ -133,7 +133,7 @@ export default {
           alert("제목이 너무 깁니다");
           return false;
         }
-      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/ ";
+      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/";
       console.log(this.title, '중간체크')
       for (var i=0; i<this.title.length; i++){
         for (var j=0; j<num.length; j++){
