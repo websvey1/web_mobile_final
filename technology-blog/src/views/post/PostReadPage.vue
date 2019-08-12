@@ -82,8 +82,28 @@ export default {
       await this.fetchData();
     }
     else{
-      if(user == undefined || user != this.$session.get('userInfo').user_id){
-        alert("권한이 없습니다.");
+      if(this.$session.has('userInfo')){
+        if(user == undefined || user != this.$session.get('userInfo').user_id){
+          alert("권한이 없습니다.");
+          if(this.$route.params.route == 'PostCard'){
+            this.$router.push("/")
+          }
+          else if(this.$route.params.route == 'DownCard'){
+            this.$router.push("/post")
+          }
+          else if(this.$route.params.route == 'ProjectRead'){
+            this.$router.go(-1)
+          }
+          else{
+            this.$router.push("/post")
+          }
+        }
+        else{
+          await this.fetchData();
+        }
+      }
+      else{
+        alert("로그인 해주세요.")
         if(this.$route.params.route == 'PostCard'){
           this.$router.push("/")
         }
@@ -96,9 +116,6 @@ export default {
         else{
           this.$router.push("/post")
         }
-      }
-      else{
-        await this.fetchData();
       }
     }
   },

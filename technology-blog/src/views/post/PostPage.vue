@@ -118,13 +118,8 @@ export default {
     }
   },
   async created() {
-    if (this.$session.has('userInfo')) {
       await this.readPosts(this.page - 1, this.categoryForPostlist.value);
       await this.getTotalPageNum(this.categoryForPostlist.value);
-    } else {
-      alert("로그인 해주세요.");
-      this.$router.push("/");
-    }
   },
   mounted() {
 
