@@ -6,12 +6,12 @@
     <div style="margin-top: 20px;">
       <!-- 사진 -->
       <v-layout wrap fill-height>
-        <v-flex>
+        <v-flex  style="margin-bottom: 50px;">
           <h1 style="text-align: center">Project</h1>
 
-          <v-btn round outline color="black" @click="todo()" style="margin-left: 85%; margin-bottom: 20px; font-size:13px; height:40px; ">
+          <!-- <v-btn round outline color="black" @click="todo()" style="margin-left: 85%; margin-bottom: 20px; font-size:13px; height:40px; ">
              <div style="color:black; font-weight:bolder;">todo list</div><img src="@/assets/todo2.png/" style="width:30px; margin-left:10px;"/>
-          </v-btn>
+          </v-btn> -->
         </v-flex>
       </v-layout>
 

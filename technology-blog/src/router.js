@@ -106,6 +106,11 @@ export default new Router({
       name: 'PersonalPostPage',
       component: PersonalPostPage
     },
+    {
+      path: '/personalPostPage/:num',
+      name: 'TeamPostPage',
+      component: TeamPostPage
+    },
     ///////////////////// Personal Project /////////////////////
     {
       path: '/myproject',
