@@ -127,7 +127,7 @@ router.post('/userproject', function(req, res, next) {
       console.log(ex)
     }
     else {
-      var query = conn.query('select project_num from project where project_user = ?', userNum, function(err, result) {
+      var query = conn.query('select project_num from project where project_user = ? and project_category = 0', userNum, function(err, result) {
         if (err){
           console.error(err)
           throw err
@@ -384,6 +384,30 @@ router.post('/update/images', function(req, res, next) {
     }
   })
 })
+
+
+////////////////// 개인 project에서, post 작성할 때- 해당 project가 개인 project인지 확인하기 위해서 /////////////////////
+router.post('/getCategory', function(req, res, next) {
+  var pool = db.getPool();
+  var pjtNum = req.body.pjtNum
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select project_category from project where project_num = ?', pjtNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 module.exports = router;

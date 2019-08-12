@@ -87,7 +87,8 @@ export default {
       writer: "",
       share:"0",
       isLoading:false,
-      pjtName: ''
+      pjtName: '',
+      category: ''
     }
   },
   created(){                               // 동작이 완벽하지 않음
@@ -107,7 +108,7 @@ export default {
         content: this.content,
         share: this.share,
         created_at:Time.getFullDate(),
-        category: 1,
+        category: this.category,
         tags: this.$refs.hashtag.getTagsForDb(),
         imageUrl: await this.$refs.imagePicker.getImageUrl(),
         project: this.$route.params.num
@@ -151,16 +152,31 @@ export default {
       this.isLoading = true;
 
       if(this.checkValidation()){
-        var form = await this.form
+        // project table 가서, 지금 project_num으로 검색하여 category가 0이면, form.category = 0으로 해주자
+        var data = {
+          pjtNum: this.$route.params.num
+        }
+        await this.$http.post(this.$store.state.testIp + "/myproject/getCategory", data)
+        .then(async(response) => {
+          if(response.body[0].project_category == 0){
+            this.category = 0
+          }else{
+            this.category = 1
+          }
 
-        await this.$http.post(this.$store.state.testIp + "/post/create", form)
-        .then((req) => {
-          alert("글이 작성되었습니다.");
-          this.isLoading = false;
-          this.goHome();
+          var form = await this.form
+          await this.$http.post(this.$store.state.testIp + "/post/create", form)
+          .then((req) => {
+            alert("글이 작성되었습니다.");
+            this.isLoading = false;
+            this.goHome();
+          })
+          .catch((error) => {
+            this.isLoading = false;
+          })
         })
         .catch((error) => {
-          this.isLoading = false;
+          console.log(error)
         })
       }
       else{
