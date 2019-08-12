@@ -119,7 +119,7 @@
         <fieldset style="padding:10px 15px; height:80%">
           <h2 style="padding:10px 0;">Post</h2>
           <ul v-for="post in posts">
-            <!-- <li><a @click="postMove(post.post_num)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li> -->
+            <li><a @click="postMove(post.post_num)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
           </ul>
         </fieldset>
       </v-flex>
@@ -171,16 +171,29 @@ export default {
     var id = this.$route.params.id;
     this.$http.get(this.$store.state.testIp + '/myproject/' + id)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         this.project = res.data.project[0];
         this.images = res.data.images;
-        console.log(this.images)
+        // console.log(this.images)
       });
-    console.log(this.$session.get('userInfo').user_num)
+    // console.log(this.$session.get('userInfo').user_num)
+    this.getPostList()
   },
   methods: {
     todo(){
       this.$router.push(`/todolist/${this.$route.params.id}`)
+    },
+    getPostList(){
+      var data = {
+        num : this.$route.params.id
+      }
+      this.$http.post(this.$store.state.testIp + '/myproject/getPost', data)
+      .then((response) => {
+        this.posts = response.body
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     goHome() {
       this.$router.push("/myproject")
@@ -203,19 +216,7 @@ export default {
       })
     },
     postMove(num){
-    //   this.$router.push(`/post/read/${num}`)
-    // },
-    // getPostList(){
-    //   var data = {
-    //     id : this.$route.params.id
-    //   }
-    //   this.$http.post(this.$store.state.testIp + '/teamProject/getPost', data)
-    //   .then((response) => {
-    //     this.posts = response.body
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
+      this.$router.push(`/post/read/${num}`)
     },
     postWrite(){
       // this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
