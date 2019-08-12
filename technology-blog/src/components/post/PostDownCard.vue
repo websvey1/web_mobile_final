@@ -23,7 +23,10 @@
       </a>
       <p class="pcontent">{{ post.post_content | content }}</p>
       <v-divider style="margin-left:200px"></v-divider>
-      <p class="puser">{{post.project_title|project}} {{post.user_name|name}} <v-avatar><img :src="post.user_image"></img></v-avatar>  </p>
+      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}
+        <v-avatar v-if="post.user_image"><img style="height:30px; width:30px; margin:0px;" :src="post.user_image"></img></v-avatar>
+        <v-avatar v-else><img style="height:30px; width:30px; margin:0px;" src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"></img></v-avatar>
+      </p>
     </div>
   </div>
 
@@ -52,7 +55,10 @@
       </a>
       <p class="pcontent">비밀 글입니다.</p>
       <v-divider style="margin-left:200px"></v-divider>
-      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
+      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}
+        <v-avatar v-if="post.user_image"><img style="height:30px; width:30px; margin:0px;" :src="post.user_image"></img></v-avatar>
+        <v-avatar v-else><img style="height:30px; width:30px; margin:0px;" src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"></img></v-avatar>
+      </p>
     </div>
   </div>
  </template>
