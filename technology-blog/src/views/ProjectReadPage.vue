@@ -3,29 +3,32 @@
   width: 73%; margin: 0 auto;
   ">
   <v-container>
-    <div style="margin-top: 30px;">
+    <div style="margin-top: 20px;">
       <!-- 사진 -->
+      <v-layout wrap fill-height>
+        <v-flex>
+          <h1 style="text-align: center">Project</h1>
 
-        <v-btn fab dark large color="red" @click="todo()" style="margin-left: 90%">
-          To do
-          <br>
-          List
-        </v-btn>
+          <v-btn round outline color="black" @click="todo()" style="margin-left: 85%; margin-bottom: 20px; font-size:13px; height:40px; ">
+             <div style="color:black; font-weight:bolder;">todo list</div><img src="@/assets/todo2.png/" style="width:30px; margin-left:10px;"/>
+          </v-btn>
+        </v-flex>
+      </v-layout>
+
       <v-carousel hide-delimiters style="
-      width:50%; height:45%; float:left; margin-top: 3px;
+      width:50%; float:left; margin-top: 3px;
       ">
         <v-carousel-item v-resize="onResize" v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
       </v-carousel>
 
-      <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
       <!-- 상세 -->
       <v-layout wrap align-center justify-center row fill-height style="
-      width:47%; height:50%; float:right;
+      width:47%; float:right;
       ">
         <v-flex wrap>
-          <fieldset style="margin-right:4px; height:80%; padding:10px 15px;">
+          <fieldset style="margin-right:4px; height:100%; padding:20px 10px;">
             <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
-            <div style="margin:15px 20p;">
+            <div style="margin:0 20px;">
               <h2 style="padding:5px 0;">Title</h2>
               <p>{{ project.project_title }}</p>
 
@@ -107,14 +110,14 @@ export default {
       });
   },
   methods: {
-    todo(){
+    todo() {
       this.$router.push(`/todolist/${this.$route.params.id}`)
     },
     goHome() {
       this.$router.push("/project")
     },
     goUpdate() {
-      var id =this.$route.params.id;
+      var id = this.$route.params.id;
       this.$router.push(`/myproject/update/${id}`)
     },
     goDelete() {
@@ -124,11 +127,11 @@ export default {
       }
       console.log(data)
       this.$http.post(this.$store.state.testIp + '/myproject/delete/project', data)
-      .then((res) => {
-        alert("글 삭제 완료");
-        console.log(res)
-        this.$router.push('/myproject')
-      })
+        .then((res) => {
+          alert("글 삭제 완료");
+          console.log(res)
+          this.$router.push('/myproject')
+        })
     }
   }
 }
