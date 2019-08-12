@@ -1,54 +1,77 @@
 <template>
-<div style="background-color: white;">
-  <div class="searchbar-total">
-    <div class="searchbar-first">
-      <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category"  return-object></v-select>
-    </div>
-    <div class="searchbar-second">
-      <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
-    </div>
-    <div class="searchbar-third">
-      <v-btn class="v-btn theme--dark" @click="searchPosts">검색</v-btn>
-      <v-btn class="v-btn theme--dark" @click="allPosts">전체글 보기</v-btn>
-    </div>
-  </div>
+<div style="background-color: white; width: 80%; margin: 0 auto;">
   <v-layout v-if="!search" wrap row pa-4>
-      <v-flex fill-height d-flex xs12>
-        <div class="container">
-        <!-- <span style="font-size:30px">{{tabs.text}}</span> -->
-        <div class="" style="width:150px; display:inline-block; margin-right:10px;">
+    <v-flex fill-height d-flex xs12>
+      <div class="container">
+        <div style="width:200px; display:inline-block; margin-left:50px; margin-bottom: 15px;">
           <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
         </div>
-        <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
-        <!-- <h1 style="display:inline;">검색 결과</h1> -->
-        <v-divider></v-divider>
-        <PostDownList :posts="posts" :category="'2'" ref="post">
-        </PostDownList>
+        <div style="float:right; display: inline-block; margin-top: -5px;">
+          <div style="display: inline-block; margin: 5px; max-width: 130px;">
+            <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" return-object></v-select>
+          </div>
+          <div style="display: inline-block; margin: 5px; max-width: 200px;">
+            <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
+          </div>
+          <div style="display: inline-block; margin: 5px 0px; vertical-align: center;">
+            <v-btn fab dark small color="black" @click="searchPosts" style="margin-top: 12px;"> 
+            <v-icon dark>fas fa-search</v-icon>
+            </v-btn> 
+          </div>
         </div>
+      <!-- <v-divider></v-divider> -->
+      <PostDownList :posts="posts" :category="'2'" ref="post">
+      </PostDownList>
+      </div>
+    </v-flex>
+    <v-flex xs12 text-xs-center>
+      <v-pagination v-model="page" :length="length" :total-visible="totalVisible"></v-pagination>
+    </v-flex>
+  </v-layout>
+
+  <v-layout v-else wrap row pa-4>
+    <v-flex fill-height d-flex xs12>
+      <div class="container">
+      <div style="width:200px; display:inline-block; margin-left:50px; margin-bottom: 15px;">
+        <v-select v-model="categoryForPostlistBySearch" :items="categorysForPostlistBySearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
+      </div>
+      <div style="float:right; display: inline-block; margin-top: -5px;">
+        <div style="display: inline-block; margin: 5px; max-width: 130px;">
+          <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" return-object></v-select>
+        </div>
+        <div style="display: inline-block; margin: 5px; max-width: 200px;">
+          <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
+        </div>
+        <div style="display: inline-block; margin: 5px 0px; vertical-align: center;">
+          <v-btn fab dark small color="black" @click="searchPosts" style="margin-top: 12px;"> 
+          <v-icon dark>fas fa-search</v-icon>
+          </v-btn> 
+          <v-btn fab dark small color="black" @click="allPosts" style="margin-left: -2px; margin-top: 12px;"> 
+          <!-- <v-icon dark>fas fa-search</v-icon> -->
+          목록 
+          </v-btn> 
+        </div>
+      </div>
+      <!-- <v-divider style="margin-left:45px; margin-bottom: 30px;"></v-divider> -->
+        <!-- <div class="text-center" style="margin-left:45px;">
+          <v-sheet width="100%" height="75" color="orange lighten-2">
+            <br>
+            <h1>{{searchResult}}검색 결과</h1>
+            </v-sheet>
+        </div>
+      <h1 style="display:inline;">{{searchResult}}검색 결과</h1> -->
+      <PostDownList :posts="posts" :category="'2'" ref="post">
+      </PostDownList>
+      </div>
+    </v-flex>
+    <v-flex xs12 text-xs-center>
+        <v-pagination v-model="page" :length="length" :total-visible="totalVisible"></v-pagination>
       </v-flex>
-      <v-flex xs12 text-xs-center>
-         <v-pagination v-model="page" :length="length" :total-visible="totalVisible"></v-pagination>
-       </v-flex>
-    </v-layout>
-    <v-layout v-else wrap row pa-4>
-        <v-flex fill-height d-flex xs12>
-          <div class="container">
-          <!-- <span style="font-size:30px">{{tabs.text}}</span> -->
-          <div class="" style="width:150px; display:inline-block; margin-right:10px;">
-            <v-select v-model="categoryForPostlistBySearch" :items="categorysForPostlistBySearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
-          </div>
-          <h1 style="display:inline;">{{searchResult}}검색 결과</h1>
-          <v-divider></v-divider>
-          <PostDownList :posts="posts" :category="'2'" ref="post">
-          </PostDownList>
-          </div>
-        </v-flex>
-        <v-flex xs12 text-xs-center>
-           <v-pagination v-model="page" :length="length" :total-visible="totalVisible"></v-pagination>
-         </v-flex>
-      </v-layout>
+  </v-layout>
 </div>
 </template>
+
+
 <script>
 import PostList from '@/components/post/PostList'
 import PostDownList from '@/components/post/PostDownList'
@@ -224,8 +247,8 @@ export default {
 .searchbar-total {
   display: flex;
   justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  /* padding-bottom: 20px; */
   /* background-color: rgba(9,9,9,0.1); */
 }
 
@@ -262,4 +285,5 @@ export default {
   background-color: rgb(156, 156, 156);
   text-align: center;
 }
+
 </style>

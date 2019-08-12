@@ -1,6 +1,6 @@
 <template>
 <v-layout v-if="posts.length > 0" wrap>
-  <v-flex v-for="post in posts" xs12 px-2 mt-4 style="margin-bottom: 35px;">
+  <v-flex v-for="post in posts" xs12 mt-1 px-2>
     <PostDownCard :post="post"></PostDownCard>
   </v-flex>
 </v-layout>
