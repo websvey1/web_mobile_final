@@ -111,7 +111,7 @@
         <fieldset style="padding:10px 15px; height:80%">
           <h2 style="padding:10px 0;">Post</h2>
           <ul v-for="post in posts">
-            <li><a @click="postMove(post.post_num)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
+            <li><a @click="postMove(post)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
           </ul>
         </fieldset>
       </v-flex>
@@ -189,8 +189,19 @@ export default {
     todo(){
       this.$router.push(`/todolist/${this.$store.state.pn}`)
     },
-    postMove(num){
-      this.$router.push(`/post/read/${num}`)
+    postMove(post){
+      // this.$router.push(`/post/read/${num}`)
+      var num = post.post_num;
+
+      this.$router.push({
+        name: "PostReadPage",
+        params: {
+          id: num,
+          user: post.user_id,
+          share: post.post_share,
+          route: 'ProjectRead'
+        }
+      })
     },
     getPostList(){
       var data = {

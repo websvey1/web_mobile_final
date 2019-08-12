@@ -7,20 +7,21 @@
     <v-card-title primary-title>
       <h3 class="headline mb-0 oneline">{{post.post_title}}</h3>
     </v-card-title>
-    <v-card-content>
+    <v-card-text>
       <p class="fourline"> {{post.post_content}} </p>
       <v-list-tile avatar @click="" style="overflow:hidden; width:300px;">
         <v-list-tile-avatar class="hidden-xs-only">
-          <v-icon>fa-user</v-icon>
+          <v-img v-if="post.user_image" :src="post.user_image"></v-img>
+          <v-img v-else src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"></v-img>
         </v-list-tile-avatar>
 
         <v-list-tile-content>
-          <v-list-tile-title>{{post.post_created_at}}</v-list-tile-title>
+          <v-list-tile-title ><span class="oneline">{{post.post_created_at}}  </span></v-list-tile-title>
           <v-list-tile-sub-title class="oneline">{{post.user_name}}</v-list-tile-sub-title>
         </v-list-tile-content>
         <i v-if="post.visibility=='false'" class="fas fa-lock">&nbsp;&nbsp;</i>
       </v-list-tile>
-    </v-card-content>
+    </v-card-text>
   </v-card>
 
 </v-hover>
@@ -39,6 +40,9 @@ export default {
   props: {
     post: {}
   },
+  mounted(){
+    console.log(this.$props.post);
+  },
   methods: {
     toggle: function() {
       this.isActive = !this.isActive
@@ -51,7 +55,8 @@ export default {
         params: {
           id: postNum,
           user: post.user_id,
-          share: post.post_share
+          share: post.post_share,
+          route: 'PostCard'
         }
       })
     }
@@ -62,6 +67,7 @@ export default {
 <style media="screen" scoped>
 .rounded-card {
   border-radius: 30px !important;
+  overflow: hidden;
 }
 
 .visibility-1 {
@@ -88,9 +94,6 @@ export default {
 }
 
 .fourline {
-
-  margin: 20px;
-  margin-top: 0px;
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;

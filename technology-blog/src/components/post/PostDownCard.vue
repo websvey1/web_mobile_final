@@ -23,7 +23,7 @@
       </a>
       <p class="pcontent">{{ post.post_content | content }}</p>
       <v-divider style="margin-left:200px"></v-divider>
-      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
+      <p class="puser">{{post.project_title|project}} {{post.user_name|name}} <v-avatar><img :src="post.user_image"></img></v-avatar>  </p>
     </div>
   </div>
 
@@ -79,7 +79,8 @@ export default {
         params: {
           id: postNum,
           user: post.user_id,
-          share: post.post_share
+          share: post.post_share,
+          route:'DownCard'
         }
       })
     }
