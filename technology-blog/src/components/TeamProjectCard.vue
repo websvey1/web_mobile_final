@@ -9,16 +9,16 @@
       </v-card-title>
 
       <v-card-text>
-      <span class="ptag">{{ project.pjt.project_goal }}</span><br>
+      <span class="ptag">{{ project.pjt.project_goal }}
+        <v-chip style="float: right;" class="ma-2" color="#c9e2f7">
+          <b>{{ project.pjt.project_start_date }} ~ {{ project.pjt.project_end_date }}</b>
+        </v-chip>
+      </span>
       </v-card-text>
 
       <v-divider class="mx-0"></v-divider>
 
-      <v-card-text>
-        <v-chip style="float: right;" class="ma-2" color="#c9e2f7">
-          <b>{{ project.pjt.project_start_date }} ~ {{ project.pjt.project_end_date }}</b>
-        </v-chip>
-        
+      <v-card-text> 
         <v-chip v-if="project.pjt.project_status ==='계획'" style="float: right;"
           class="ma-2" color="rgb(255, 247, 135)"
         >
@@ -37,6 +37,10 @@
         <b>{{ project.pjt.project_status }}</b>
         </v-chip>
 
+        <v-chip style="float: right;" class="ma-2" color="green">
+          팀장 <b>: {{ project.pjt.project_captain }}</b>
+        </v-chip>
+        
         <v-chip style="float: right;" class="ma-2" color="rgb(255, 220, 230)">
           생성일 <b>: {{ project.pjt.project_created_at.substring(0, 10) }}</b>
         </v-chip>

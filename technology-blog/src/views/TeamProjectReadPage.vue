@@ -14,27 +14,18 @@
           </v-btn>
         </template>
         <v-btn fab dark large color="green" @click="postRead">
-          Post
-          <br>
-          보기
+          Post<br>보기
         </v-btn>
         <v-btn fab dark large color="indigo" @click="postWrite">
-          Post
-          <br>
-          작성
+          Post<br>작성
         </v-btn>
         <v-btn fab dark large color="red" @click="todo()">
-          To do
-          <br>
-          List
+          To do<br>List
         </v-btn>
       </v-speed-dial>
       </v-flex>
     </v-layout>
-    <!-- <p>{{  }}</p> -->
-    <!-- <p>{{project.pjt.project_num}}</p> -->
-    <!-- {{ pn }} -->
-    <!-- 상세 -->
+    
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
       <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
     </v-carousel>
@@ -73,7 +64,7 @@
               <v-chip v-else color="rgb(191, 234, 255)" style="display: inline-block">{{ member }}</v-chip>
             </span>
             <br>
-            <v-btn fab dark color="indigo" style="float: right;">
+            <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
               <v-icon dark>add</v-icon>
             </v-btn>
           </div>
@@ -82,6 +73,30 @@
       </v-layout>
     </div>
 
+    <v-dialog hide-overlay v-model="dialog" persistent max-width="520px">
+      <v-card>
+        <v-card-title style="display:flex; justify-content:center;">
+        <h2> Detail Information </h2>
+      </v-card-title>
+      <v-card-text style="text-align:center;" >
+        <v-container grid-list-md style="display:flex; justify-content:center;">
+          <v-layout wrap>
+            <v-flex xs12>
+              - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
+              - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
+              - Git-url : {{ project.project_git_url }}<br>
+              - Tech : {{ project.project_tech }}
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions style="display:flex; justify-content:center;">
+      <!-- <v-spacer></v-spacer> -->
+        <v-btn color="blue darken-1" flat @click="dialog = false">OK!</v-btn>
+      </v-card-actions>
+      </v-card>
+    </v-dialog>
+    
     <v-layout wrap align-center justify-center row fill-height style="clear:both; padding-top:20px;">
       <v-flex>
         <fieldset style="padding:10px 15px; height:80%">
@@ -135,7 +150,8 @@ export default {
       transition: 'slide-y-reverse-transition',
       loginUser: this.$session.get('userInfo').user_num,
       loginName: this.$session.get('userInfo').user_name,
-      chk: 0
+      chk: 0,
+      dialog: false
     }
   },
   computed: {
@@ -167,7 +183,7 @@ export default {
     this.getImage()
     this.getMember()
     this.getPostList()
-    console.log(this.$session.get('userInfo').user_name)
+    // console.log(this.$session.get('userInfo').user_name)
   },
   methods: {
     todo(){
@@ -209,6 +225,7 @@ export default {
         this.$http.post(this.$store.state.testIp + '/teamProject/getproject', data)
         .then((res) => {
             this.project = res.body[0]
+            console.log(this.project)
         })
     },
     getMember() {
@@ -221,8 +238,8 @@ export default {
             for (var i=0; i < res.body.length; i++) {
                 var name = res.body[i].user_name
                 member.push(name)
-                console.log(this.loginUser)
-                console.log(name)
+                // console.log(this.loginUser)
+                // console.log(name)
                 if (this.loginName === name) {
                   this.chk = 1
                 }
