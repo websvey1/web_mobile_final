@@ -103,7 +103,7 @@ export default {
         }
       }
       else{
-        alert("로그인 해주세요.")
+        alert("권한이 없습니다.");
         if(this.$route.params.route == 'PostCard'){
           this.$router.push("/")
         }
