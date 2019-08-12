@@ -69,15 +69,6 @@
       </v-list-tile>
     </v-list>
 
-    <!-- <v-list-tile v-for="item in items" :key="item.title" @click="" :to="item.link" style="margin-top:10px;">
-      <v-list-tile-content style="height:auto;">
-        <h1 style="margin-left: 15px;">
-          <v-icon>{{ item.icon }}</v-icon>
-          <span class="spantag"> {{ item.title}}</span>
-        </h1>
-      </v-list-tile-content>
-    </v-list-tile> -->
-    <!-- <div v-if > -->
     <v-list-tile @click="" to="/" style="margin-top:10px;">
       <v-list-tile-content style="height:auto;">
         <h1 style="margin-left: 15px;">
@@ -109,7 +100,7 @@
       </v-list-tile>
       <v-divider />
 
-      <v-list-tile to="/post" style="background:white;">
+      <v-list-tile to="/personal/post" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">Post</span>

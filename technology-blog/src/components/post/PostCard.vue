@@ -5,10 +5,8 @@
     <v-img v-else height="230px" src="https://source.unsplash.com/random/300x300" aspect-ratio="2.75"></v-img>
 
     <v-card-title primary-title>
-      <div>
         <h3 class="headline mb-0 oneline">{{post.post_title}}</h3>
         <p class="fourline" > {{post.post_content}} </p>
-      </div>
 
     <v-list-tile avatar @click="" style="overflow:hidden; width:300px;">
       <v-list-tile-avatar class="hidden-xs-only">
@@ -67,7 +65,7 @@ export default {
 .oneline{
   display: inline-block;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: hidden;
   /* 여러 줄 자르기 추가 스타일 */
   white-space: normal;
   line-height: 1.2;

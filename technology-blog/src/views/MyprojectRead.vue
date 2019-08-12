@@ -5,7 +5,7 @@
   <v-container>
     <div style="margin-top: 30px;">
       <!-- 사진 -->
-        
+
         <v-btn fab dark large color="red" @click="todo()">
           To do
           <br>
@@ -14,9 +14,9 @@
       <v-carousel hide-delimiters style="
       width:50%; height:45%; float:left; margin-top: 3px;
       ">
-        <v-carousel-item v-resize="onResize" v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
+        <v-carousel-item v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
       </v-carousel>
-        
+
       <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
       <!-- 상세 -->
       <v-layout wrap align-center justify-center row fill-height style="
@@ -98,7 +98,7 @@ export default {
   },
   mounted() {
     var id = this.$route.params.id;
-    this.$http.get(`http://192.168.31.63:3000/myproject/${id}`)
+    this.$http.get(this.$store.state.testIp + '/myproject/' + id)
       .then((res) => {
         console.log(res)
         this.project = res.data.project[0];
