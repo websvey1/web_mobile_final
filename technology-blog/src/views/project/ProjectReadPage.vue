@@ -96,7 +96,7 @@ export default {
       modify: false,
       menu: false,
       picker: new Date().toISOString().substr(0, 10),
-      loginUser: this.$session.get('userInfo').user_num,
+      loginUser: null,
     }
   },
   mounted() {
@@ -106,6 +106,7 @@ export default {
         console.log(res)
         this.project = res.data.project[0];
         this.images = res.data.images;
+        this.loginUser= this.$session.get('userInfo').user_num;
         console.log(this.images)
       });
   },
