@@ -211,11 +211,11 @@ export default {
       var data = {
         pjtNum: id
       }
-      console.log(data)
+      // console.log(data)
       this.$http.post(this.$store.state.testIp + '/myproject/delete/project', data)
       .then((res) => {
         alert("글 삭제 완료");
-        console.log(res)
+        // console.log(res)
         this.$router.push('/myproject')
       })
     },
