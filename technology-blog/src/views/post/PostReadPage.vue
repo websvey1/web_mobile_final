@@ -84,7 +84,18 @@ export default {
     else{
       if(user == undefined || user != this.$session.get('userInfo').user_id){
         alert("권한이 없습니다.");
-        this.$router.push("/post")
+        if(this.$route.params.route == 'PostCard'){
+          this.$router.push("/")
+        }
+        else if(this.$route.params.route == 'DownCard'){
+          this.$router.push("/post")
+        }
+        else if(this.$route.params.route == 'ProjectRead'){
+          this.$router.go(-1)
+        }
+        else{
+          this.$router.push("/post")
+        }
       }
       else{
         await this.fetchData();
