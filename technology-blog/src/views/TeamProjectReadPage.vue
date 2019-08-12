@@ -82,8 +82,8 @@
         <v-container grid-list-md style="display:flex; justify-content:center;">
           <v-layout wrap>
             <v-flex xs12>
-              - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
-              - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
+              - 프로젝트 생성일 : {{ created }}<br>
+              - 프로젝트 최종 수정일 : {{ modified }}<br>
               - Git-url : {{ project.project_git_url }}<br>
               - Tech : {{ project.project_tech }}
             </v-flex>
@@ -151,7 +151,9 @@ export default {
       loginUser: this.$session.get('userInfo').user_num,
       loginName: this.$session.get('userInfo').user_name,
       chk: 0,
-      dialog: false
+      dialog: false,
+      created: '',
+      modified: ''
     }
   },
   computed: {
@@ -236,7 +238,9 @@ export default {
         this.$http.post(this.$store.state.testIp + '/teamProject/getproject', data)
         .then((res) => {
             this.project = res.body[0]
-            console.log(this.project)
+            this.created = this.project.project_created_at.substring(0, 10)
+            this.modified = this.project.project_updated_at.substring(0, 10)
+            // console.log(this.project)
         })
     },
     getMember() {

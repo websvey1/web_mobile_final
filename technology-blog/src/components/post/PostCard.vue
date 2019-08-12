@@ -41,7 +41,7 @@ export default {
     post: {}
   },
   mounted(){
-    console.log(this.$props.post);
+    // console.log(this.$props.post);
   },
   methods: {
     toggle: function() {
