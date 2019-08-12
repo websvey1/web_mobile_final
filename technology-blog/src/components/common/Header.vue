@@ -10,13 +10,9 @@
       ">
       <v-toolbar-title class="header__container">
             <router-link to="/"> <img src="@/assets/code3.png/" height="50px;" width="50px;"alt=""> </router-link>
-            <!-- <span v-if="this.$session.has('userInfo')" style="width:100%;text-align:right;">{{this.$session.get('userInfo').user_name}}님 </span> -->
-            <!-- <v-btn flat class="outlined" @click=""><LoginForm class="login"></LoginForm></v-btn> -->
             <div style="padding-top: 18px;">
-              <LoginForm class="login"></LoginForm>
+              <LoginForm class="login" v-on:loginstate="logstate"></LoginForm>
             </div>
-
-            <!-- <span>?</span> -->
       </v-toolbar-title>
     </v-toolbar>
 
@@ -51,22 +47,27 @@
     </div>
   </fixed-header>
 
-            <!-- <router-link to="/postwrite" style="margin-right:20px;">PostWrite</router-link>
-            <router-link to="/removeuser"style="margin-right:20px;">RemoveUser</router-link>
-            <router-link to="/updateuser" style="margin-right:20px;">UpdateUser</router-link> -->
-
   <!-- 메뉴 누르면 나오는 drawer-->
   <v-navigation-drawer v-model="drawer" fixed temporary hide-overlay style="background-color: rgb(255, 255, 255);">
     <v-list>
     <v-list>
-      <div ></div>
-      <v-list-tile avatar style="height:75px">
-        <v-list-tile-content style="margin-left: 13px;">
-          <span id="SSAFY">
-            <b>SSAFY</b>
-          </span>
-        </v-list-tile-content>
-      </v-list-tile>
+      <v-list-tile style="padding-left:10px;" v-if="user">
+         <v-list-tile-avatar>
+           <v-img :src="user.user_image"></v-img>
+         </v-list-tile-avatar>
+         <v-list-tile-content>
+            <v-list-tile-title class="title" style="font-family: 'Nanum Pen Script' !important; font-size:25px !important;">{{user.user_name|username}}</v-list-tile-title>
+            <v-list-tile-title style="font-family: 'Nanum Pen Script' !important; font-size:20px !important; color:grey;">{{user.user_id|userid}}</v-list-tile-title>
+          </v-list-tile-content>
+       </v-list-tile>
+       <v-list-tile v-else>
+          <v-list-tile-content>
+            <span style="font-family: 'Nanum Pen Script' !important; font-size:30px !important; color:grey; text-align:center; min-width:100%;">
+              로그인 해주세요.
+            </span>
+           </v-list-tile-content>
+        </v-list-tile>
+
     </v-list>
 
     <v-list-tile @click="" to="/" style="margin-top:10px;">
@@ -100,7 +101,7 @@
       </v-list-tile>
       <v-divider />
 
-      <v-list-tile to="/personal/post" style="background:white;">
+      <v-list-tile to="/post" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">Post</span>
@@ -129,7 +130,7 @@
       </v-list-tile>
       <v-divider/>
     </v-list-group>
-<!-- dklafjlkdjfkljakldfjklasdjfkljadsklfjdfkljkldfjakljdklfjaklfj -->
+
     <v-list-group>
       <template v-slot:activator>
         <v-list-tile>
@@ -151,15 +152,7 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
-<!--
-      <v-list-tile v-else @click="go()" style="background:white;">
-        <v-list-tile-content style="height:auto;">
-          <h1 style="margin-left: 30px;">
-            <span class="spantag">Team: {{ teamName }}</span>
-          </h1>
-        </v-list-tile-content>
-      </v-list-tile>
--->
+
       <v-divider />
             <v-list-tile to="/teamCalendar" style="background:white;">
         <v-list-tile-content style="height:auto;">
@@ -238,6 +231,7 @@ export default {
       TeamId: null,
       teamName: '',
       newOne: false,
+      user:null,
     }
   },
   mounted(){
@@ -246,12 +240,23 @@ export default {
   created () {
     // 뷰가 생성되고 데이터가 이미 감시 되고 있을 때 데이터를 가져온다.
     // this.fetchData()
+    if(this.$session.has('userInfo')){
+      this.user = this.$session.get('userInfo');
+    }
   },
   watch: {
     // 라우트가 변경되면 메소드를 다시 호출됩니다.
     // '$route': 'fetchData',
     exist(to, from){
       this.check();
+    }
+  },
+  filters:{
+    username(v){
+      return v + "님";
+    },
+    userid(v){
+      return "ID : " + v;
     }
   },
   computed:
@@ -271,7 +276,7 @@ export default {
     //     //   }
 
     //     //   console.log(data)
-    //     //   this.$http.post(this.$store.state.testIp + '/team/getLatestTeam', data)
+    //     //   this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
     //     //   .then((response) => {
     //     //     this.teamName = response.body[0].team_name
     //     //   })
@@ -283,6 +288,14 @@ export default {
     // go(id){
     //   this.$router.push({ name: "TeamProjectPage", params: {id: id} })
     // }
+    logstate(){
+      if(this.$session.has('userInfo')){
+        this.user = this.$session.get('userInfo');
+      }
+      else{
+        this.user = null;
+      }
+    },
     check(){
       if(this.$store.state.exist){
         this.newOne = true

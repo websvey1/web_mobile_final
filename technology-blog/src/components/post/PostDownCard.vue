@@ -1,5 +1,5 @@
  <template>
-  <div class="post-container">
+  <div class="post-container" v-if="post.post_share=='0'">
     <span class="published">
       <p class="date">
         {{ post.post_created_at | date}}
@@ -13,7 +13,7 @@
       <img v-if="post.image_url != null" :src="post.image_url"/>
       <img v-else src="https://source.unsplash.com/random/300x300"></img>
 
-      <a @click="goReadPage(post.post_num)">
+      <a @click="goReadPage(post)">
         <h1 class="posth1">
           <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
           <span v-if="post.post_category == '0'" style="color:red">[개인]</span>
@@ -25,9 +25,35 @@
       <v-divider style="margin-left:200px"></v-divider>
       <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
     </div>
-  <!-- <br>
-  <br>
-  <hr style="width: 95%; margin: auto;"> -->
+  </div>
+
+
+  <div class="post-container" v-else>
+    <span class="published">
+      <p class="date">
+        {{ post.post_created_at | date}}
+      </p>
+
+      <p class="date">
+        {{ post.post_created_at | time}}
+      </p>
+    </span>
+    <div class="post">
+      <img v-if="post.image_url != null" :src="post.image_url"/>
+      <img v-else src="https://source.unsplash.com/random/300x300"></img>
+
+      <a @click="goReadPage(post)">
+        <h1 class="posth1">
+          <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
+          <span v-if="post.post_category == '0'" style="color:red">[개인]</span>
+          <span v-else style="color:blue">[팀]</span>
+          {{ post.post_title}}
+        </h1>
+      </a>
+      <p class="pcontent">비밀 글입니다.</p>
+      <v-divider style="margin-left:200px"></v-divider>
+      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
+    </div>
   </div>
  </template>
 
@@ -44,12 +70,15 @@ export default {
     // console.log(this.$props.post);
   },
   methods: {
-    goReadPage(postNum) {
+    goReadPage(post) {
       // console.log(postNum);
+
+      var postNum = post.post_num;
       router.push({
         name: "PostReadPage",
         params: {
-          id: postNum
+          id: postNum,
+          user: post.user_id
         }
       })
     }

@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <v-layout wrap>
+  <v-layout wrap v-if="users.length > 0">
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
       <div class="card" @click="userRead(userInfo.userN)">
         <div class="banner">
@@ -30,6 +30,11 @@
         <ul>
         </ul>
       </div>
+    </v-flex>
+  </v-layout>
+  <v-layout v-else wrap>
+    <v-flex xs12 px-2 mt-4 style="margin-bottom: 35px;">
+      <h1 style="margin-top:50px;text-align:center;">USER가 없습니다.</h1>
     </v-flex>
   </v-layout>
 </div>

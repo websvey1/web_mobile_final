@@ -984,12 +984,12 @@ router.post('/listById/:id/:page', function(req, res, next) {
   var user_num = req.params.id;
 
   if (post_category == '2') {
-    var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, pjt.project_title, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where u.user_num = ? order by p.post_num desc limit ?, ?;'
+    var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, pjt.project_title, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num left join project as pjt on pjt.project_num = p.post_project where u.user_num = ? order by p.post_num desc limit ?, ?;'
     var sql_data = [user_num, start, limit];
     flag = true;
   }
   else if(post_category == '0' || post_category == '1'){
-    var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, pjt.project_title, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num where u.user_num = ? and p.post_category = ? order by p.post_num desc limit ?, ?;'
+    var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, pjt.project_title, i.image_url, u.user_id, u.user_name from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num left join user as u on p.post_user = u.user_num left join project as pjt on pjt.project_num = p.post_project where u.user_num = ? and p.post_category = ? order by p.post_num desc limit ?, ?;'
     var sql_data = [user_num, post_category, start, limit];
     flag = true;
   }
@@ -1046,7 +1046,6 @@ router.post('/totalPageNumById/:id', function(req, res, next) {
     pool.getConnection((ex, conn) => {
       if (ex) {
         console.log(ex);
-        conn.release();
       } else {
         var query = conn.query(sql, sql_data, function(err, result) {
           if (err) {

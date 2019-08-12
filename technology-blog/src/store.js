@@ -28,7 +28,10 @@ export const store = new Vuex.Store({
     teamNum: '',
     exist: false,
 
-    testIp:'http://192.168.31.63:3000'
+    userName:null, // header drawer에서 사용
+    userId:null, // header drawer에서 사용
+    
+    testIp:'http://192.168.31.65:3000' // 전체에서 사용
 	}
 
 

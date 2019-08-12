@@ -78,7 +78,17 @@ export default {
     }
   },
   async created(){
-    await this.fetchData();
+    var user = this.$route.params.user;
+
+    console.log(user);
+
+    if(user == undefined || user != this.$session.get('userInfo').user_id){
+      alert("권한이 없습니다.");
+      this.$router.push("/post")
+    }
+    else{
+      await this.fetchData();
+    }
   },
   beforeRouteLeave(to, from, next){
     next();
