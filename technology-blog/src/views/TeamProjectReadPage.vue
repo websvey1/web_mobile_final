@@ -25,7 +25,7 @@
       </v-speed-dial>
       </v-flex>
     </v-layout>
-    
+
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
       <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
     </v-carousel>
@@ -96,7 +96,7 @@
       </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
     <v-layout wrap align-center justify-center row fill-height style="clear:both; padding-top:20px;">
       <v-flex>
         <fieldset style="padding:10px 15px; height:80%">
