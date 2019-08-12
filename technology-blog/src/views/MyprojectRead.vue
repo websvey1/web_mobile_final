@@ -68,7 +68,10 @@
               <br>
 
               <h2 style="padding:5px 0;">git_url</h2>
-              <p>{{ project.project_git_url }}</p>
+              <p>{{ project.project_git_url }}</p><br>
+              <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
+                <v-icon dark>add</v-icon>
+              </v-btn>
             </div>
           </fieldset>
         </v-flex>
