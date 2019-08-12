@@ -68,7 +68,10 @@
               <br>
 
               <h2 style="padding:5px 0;">git_url</h2>
-              <p>{{ project.project_git_url }}</p>
+              <p>{{ project.project_git_url }}</p><br>
+              <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
+                <v-icon dark>add</v-icon>
+              </v-btn>
             </div>
           </fieldset>
         </v-flex>
@@ -95,8 +98,8 @@
         <v-container grid-list-md style="display:flex; justify-content:center;">
           <v-layout wrap>
             <v-flex xs12>
-              - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
-              - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
+              - 프로젝트 생성일 : {{ created }}<br>
+              - 프로젝트 최종 수정일 : {{ modified }}<br>
               - Git-url : {{ project.project_git_url }}<br>
               - Tech : {{ project.project_tech }}
             </v-flex>
@@ -116,7 +119,7 @@
         <fieldset style="padding:10px 15px; height:80%">
           <h2 style="padding:10px 0;">Post</h2>
           <ul v-for="post in posts">
-            <!-- <li><a @click="postMove(post.post_num)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li> -->
+            <li><a @click="postMove(post)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
           </ul>
         </fieldset>
       </v-flex>
@@ -161,23 +164,40 @@ export default {
       loginUser: this.$session.get('userInfo').user_num,
       loginName: this.$session.get('userInfo').user_name,
       chk: 0,
-      dialog: false
+      dialog: false,
+      created: '',
+      modified: ''
     }
   },
   mounted() {
     var id = this.$route.params.id;
     this.$http.get(this.$store.state.testIp + '/myproject/' + id)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         this.project = res.data.project[0];
+        this.created = this.project.project_created_at.substring(0, 10)
+        this.modified = this.project.project_updated_at.substring(0, 10)
         this.images = res.data.images;
-        console.log(this.images)
+        // console.log(this.images)
       });
-    console.log(this.$session.get('userInfo').user_num)
+    // console.log(this.$session.get('userInfo').user_num)
+    this.getPostList()
   },
   methods: {
     todo(){
       this.$router.push(`/todolist/${this.$route.params.id}`)
+    },
+    getPostList(){
+      var data = {
+        num : this.$route.params.id
+      }
+      this.$http.post(this.$store.state.testIp + '/myproject/getPost', data)
+      .then((response) => {
+        this.posts = response.body
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     goHome() {
       this.$router.push("/myproject")
@@ -191,28 +211,26 @@ export default {
       var data = {
         pjtNum: id
       }
-      console.log(data)
+      // console.log(data)
       this.$http.post(this.$store.state.testIp + '/myproject/delete/project', data)
       .then((res) => {
         alert("글 삭제 완료");
-        console.log(res)
+        // console.log(res)
         this.$router.push('/myproject')
       })
     },
-    postMove(num){
-    //   this.$router.push(`/post/read/${num}`)
-    // },
-    // getPostList(){
-    //   var data = {
-    //     id : this.$route.params.id
-    //   }
-    //   this.$http.post(this.$store.state.testIp + '/teamProject/getPost', data)
-    //   .then((response) => {
-    //     this.posts = response.body
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
+    postMove(post){
+      var num = post.post_num;
+
+      this.$router.push({
+        name: "PostReadPage",
+        params: {
+          id: num,
+          user: post.user_id,
+          share: post.post_share,
+          route: 'ProjectRead'
+        }
+      })
     },
     postWrite(){
       // this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
@@ -220,7 +238,7 @@ export default {
     },
     postRead(){
       // this.$router.push({ name: "TeamPostPage", params: {id: this.$route.params.id, num: this.$route.params.num} })
-      this.$router.push(`/personalPostPage/${this.$route.params.id}`)
+      this.$router.push(`/myPostPage/${this.$route.params.id}`)
     }
   }
 }

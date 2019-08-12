@@ -105,7 +105,7 @@ export default {
       if (this.checkValidation()) {
         this.isLoading = true;
 
-        this.$http.post(this.$store.state.testIp + "/user/login", this.form)
+        this.$http.post("http://192.168.31.65:3000/user/login", this.form)
           .then((res) => {
             console.log(res.data);
             if (res.data == "fail") {
@@ -118,6 +118,7 @@ export default {
               console.log(this.$session.get('userInfo').user_num)
               this.userName = this.$session.get('userInfo').user_name
               this.closeDialog();
+              this.$emit('loginstate');
             }
             this.isLoading = false;
           })
@@ -135,6 +136,7 @@ export default {
 
       this.resetForm();
       alert("로그아웃 되었습니다.")
+      this.$emit('loginstate');
       this.$router.push("/")
     },
 

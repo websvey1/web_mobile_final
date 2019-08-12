@@ -1,5 +1,5 @@
  <template>
-  <div class="post-container">
+  <div class="post-container" v-if="post.post_share=='0'">
     <span class="published">
       <v-chip
         v-if="post.post_category == '0'" 
@@ -23,16 +23,20 @@
       <img v-if="post.image_url != null" :src="post.image_url"/>
       <img v-else src="https://source.unsplash.com/random/300x300"></img>
 
-      <a @click="goReadPage(post.post_num)">
+      <a @click="goReadPage(post)">
         <br>
         <h1 class="posth1">
+          <i v-if="post.post_share=='1'"><img src="@/assets/lock.png/" style="width:20px; height:20px; margin-right:10px;"/></i>
           <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
           {{ post.post_title}}
         </h1>
       </a>
       <p class="pcontent">{{ post.post_content | content }}</p>
       <v-divider style="margin-left:170px"></v-divider>
-      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}</p>
+      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}
+        <v-avatar v-if="post.user_image"><img style="height:30px; width:30px; margin:0px;" :src="post.user_image"></img></v-avatar>
+        <v-avatar v-else><img style="height:30px; width:30px; margin:0px;" src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"></img></v-avatar>
+      </p>
     </div>
   </div>
  </template>
@@ -50,12 +54,17 @@ export default {
     // console.log(this.$props.post);
   },
   methods: {
-    goReadPage(postNum) {
+    goReadPage(post) {
       // console.log(postNum);
+
+      var postNum = post.post_num;
       router.push({
         name: "PostReadPage",
         params: {
-          id: postNum
+          id: postNum,
+          user: post.user_id,
+          share: post.post_share,
+          route:'DownCard'
         }
       })
     }
@@ -125,7 +134,7 @@ export default {
 
 .post {
   padding-left: 50px;
-  padding-bottom: 60px;
+  padding-bottom: 40px;
   margin: 0 auto;
   border-left: 1px solid #999;
   min-height: 180px;
@@ -136,14 +145,14 @@ export default {
 } */
 
 .posth1 {
-  /* padding-top: 3px; */
+  /* padding-top: 10px; */
   font-family: Open Sans;
   font-weight: bold;
   color: #222;
   font-size: 30px;
   padding-left: 10px;
-  margin: 0;
-  margin-top: 10px;
+  /* margin: 0; */
+  margin-top: 7px;
   margin-bottom: 7px;
   text-transform: uppercase;
   /* 여러 줄 자르기 추가 스타일 */
@@ -176,7 +185,7 @@ export default {
 
 .pcontent {
   padding-left: 13px;
-  padding-top: 10px;
+  padding-top: 15px;
   font-family: Open Sans;
   color: #333;
   line-height: 1.6;

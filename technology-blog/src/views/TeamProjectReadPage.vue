@@ -25,7 +25,7 @@
       </v-speed-dial>
       </v-flex>
     </v-layout>
-    
+
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
       <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
     </v-carousel>
@@ -82,8 +82,8 @@
         <v-container grid-list-md style="display:flex; justify-content:center;">
           <v-layout wrap>
             <v-flex xs12>
-              - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
-              - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
+              - 프로젝트 생성일 : {{ created }}<br>
+              - 프로젝트 최종 수정일 : {{ modified }}<br>
               - Git-url : {{ project.project_git_url }}<br>
               - Tech : {{ project.project_tech }}
             </v-flex>
@@ -96,7 +96,7 @@
       </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
     <v-layout wrap align-center justify-center row fill-height style="clear:both; padding-top:20px;">
       <v-flex>
         <fieldset style="padding:10px 15px; height:80%">
@@ -111,7 +111,7 @@
         <fieldset style="padding:10px 15px; height:80%">
           <h2 style="padding:10px 0;">Post</h2>
           <ul v-for="post in posts">
-            <li><a @click="postMove(post.post_num)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
+            <li><a @click="postMove(post)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
           </ul>
         </fieldset>
       </v-flex>
@@ -151,7 +151,9 @@ export default {
       loginUser: this.$session.get('userInfo').user_num,
       loginName: this.$session.get('userInfo').user_name,
       chk: 0,
-      dialog: false
+      dialog: false,
+      created: '',
+      modified: ''
     }
   },
   computed: {
@@ -189,8 +191,19 @@ export default {
     todo(){
       this.$router.push(`/todolist/${this.$store.state.pn}`)
     },
-    postMove(num){
-      this.$router.push(`/post/read/${num}`)
+    postMove(post){
+      // this.$router.push(`/post/read/${num}`)
+      var num = post.post_num;
+
+      this.$router.push({
+        name: "PostReadPage",
+        params: {
+          id: num,
+          user: post.user_id,
+          share: post.post_share,
+          route: 'ProjectRead'
+        }
+      })
     },
     getPostList(){
       var data = {
@@ -225,7 +238,9 @@ export default {
         this.$http.post(this.$store.state.testIp + '/teamProject/getproject', data)
         .then((res) => {
             this.project = res.body[0]
-            console.log(this.project)
+            this.created = this.project.project_created_at.substring(0, 10)
+            this.modified = this.project.project_updated_at.substring(0, 10)
+            // console.log(this.project)
         })
     },
     getMember() {

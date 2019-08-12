@@ -69,8 +69,6 @@ export default {
             color:colors[i%6]
           })
         }
-
-        console.log(this.post);
       })
       .catch((error) => {
         alert(error)
@@ -78,7 +76,31 @@ export default {
     }
   },
   async created(){
-    await this.fetchData();
+    var user = this.$route.params.user;
+
+    if(this.$route.params.share == '0'){
+      await this.fetchData();
+    }
+    else{
+      if(user == undefined || user != this.$session.get('userInfo').user_id){
+        alert("권한이 없습니다.");
+        if(this.$route.params.route == 'PostCard'){
+          this.$router.push("/")
+        }
+        else if(this.$route.params.route == 'DownCard'){
+          this.$router.push("/post")
+        }
+        else if(this.$route.params.route == 'ProjectRead'){
+          this.$router.go(-1)
+        }
+        else{
+          this.$router.push("/post")
+        }
+      }
+      else{
+        await this.fetchData();
+      }
+    }
   },
   beforeRouteLeave(to, from, next){
     next();
