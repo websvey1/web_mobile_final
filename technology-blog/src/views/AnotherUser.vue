@@ -8,11 +8,12 @@
       <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
     </div>
     <div class="searchbar-third">
-      <v-btn class="v-btn theme--dark" @click="searchPosts">검색</v-btn>
-      <v-btn class="v-btn theme--dark" @click="allPosts">전체글 보기</v-btn>
+      <v-btn class="v-btn theme--dark" @click="searchUser(categoryForSearch)">검색</v-btn>
+      <v-btn class="v-btn theme--dark" @click="allUsers">전체 보기</v-btn>
     </div>
   </div>
-  <v-layout wrap>
+
+  <v-layout wrap v-if="search">
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
       <div class="card" @click="userRead(userInfo.userN)">
         <div class="banner">
@@ -20,18 +21,41 @@
           <img class="avatar" :src="userInfo.user_image|image"></img>
           <!-- </div> -->
         </div>
-      <h3><b>{{ userInfo.userId }}</b></h3>
-      <a>📧 {{ userInfo.userEmail }}</a>
-      <a>📱 Project - {{ userInfo.userProject }} Post - {{ userInfo.userPost }}</a>
-      <span v-for="tech in userInfo.userTech">
-        <v-chip color="rgb(191, 234, 255)">{{ tech }}</v-chip>
-      </span>
-      <ul>
-      </ul>
-    </div>
+        <h3><b>{{ userInfo.userId }}</b></h3>
+        <a>📧 {{ userInfo.userEmail }}</a>
+        <a>📱 Project - {{ userInfo.userProject }} Post - {{ userInfo.userPost }}</a>
+        <span v-for="tech in userInfo.userTech">
+          <v-chip color="rgb(191, 234, 255)">{{ tech }}</v-chip>
+        </span>
+        <ul>
+        </ul>
+      </div>
+    </v-flex>
+  </v-layout>
 
-</v-flex>
-</v-layout>
+  <v-layout v-else wrap>
+    <v-flex wrap v-for="userInfo in tempUsers" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
+      <div class="card" @click="userRead(userInfo.userN)">
+        <div class="banner">
+          <!-- <div class="avatar"> -->
+          <img class="avatar" :src="userInfo.user_image|image"></img>
+          <!-- </div> -->
+        </div>
+        <h3><b>{{ userInfo.userId }}</b></h3>
+        <a>📧 {{ userInfo.userEmail }}</a>
+        <a>📱 Project - {{ userInfo.userProject }} Post - {{ userInfo.userPost }}</a>
+        <span v-for="tech in userInfo.userTech">
+          <v-chip color="rgb(191, 234, 255)">{{ tech }}</v-chip>
+        </span>
+        <ul>
+        </ul>
+      </div>
+    </v-flex>
+  </v-layout>
+
+  <v-layout v-if="nonexist" wrap>
+    <h1 style="text-align: center">검색한 내용에 해당하는 User가 없습니다.</h1>
+  </v-layout>
 </div>
 </template>
 
@@ -41,18 +65,21 @@ export default {
   data() {
     return {
       users: [],
-      search:false,
+      tempUsers: [],
+      search: true,
+      nonexist: false,
       searchResult:'',
       searchContent:{
         category:'',
         text:''
       },
-
       categorysForSearch: [
         {text:'ID', value:'0'},
         {text:'Email', value:'1'},
         {text:'관심 기술', value:'2'},
       ],
+      categoryForSearch: {text:'', value:''} ,
+      textForSearch: '',
     }
   },
   filters: {
@@ -69,13 +96,13 @@ export default {
   },
   methods: {
     async onUser() {
-      await this.$http.post('http://192.168.31.61:3000/another/getUsers')
+      await this.$http.post(this.$store.state.testIp + '/another/getUsers')
         .then(async (response) => {
           for (var i = 0; i < response.body.length; i++) {
             var data = {
               userNum: response.body[i].user_num
             }
-            await this.$http.post('http://192.168.31.61:3000/another/getInfo', data)
+            await this.$http.post(this.$store.state.testIp + '/another/getInfo', data)
               .then(async (response) => {
                 var tech = response.body;
                 this.users.push(tech)
@@ -93,6 +120,65 @@ export default {
       var userid = user_id
       console.log(userid)
       this.$router.push(`/another/${userid}`)
+    },
+    async searchUser(input){
+      if(input.value !== ''){
+        if(this.textForSearch !== ''){
+          this.search = false
+          this.tempUsers = []
+
+          var data = {
+            category: input.value,
+            text: this.textForSearch
+          }
+
+          if(input.value == 2){
+            for(var i = 0; i < this.users.length; i++){
+              if(this.users[i].userTech.length > 0){
+                for(var m = 0; m < this.users[i].userTech.length; m++){
+                  if(this.users[i].userTech[m].toLowerCase().includes(this.textForSearch.toLowerCase())){
+                    this.tempUsers.push(this.users[i])
+                    break;
+                  }
+                }
+              }
+            }
+          }else{
+            await this.$http.post(this.$store.state.testIp + '/another/getSelectUsers', data)
+            .then(async (response) => {
+              // console.log(response.body)
+              for (var i = 0; i < response.body.length; i++) {
+                var data = {
+                  userNum: response.body[i].user_num
+                }
+                // console.log(data.userNum)
+                await this.$http.post(this.$store.state.testIp + '/another/getInfo', data)
+                .then(async (response) => {
+                  var tech = response.body;
+                  // console.log(tech)
+                  this.tempUsers.push(tech)
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
+              }
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          }
+          if(this.tempUsers.length > 0){
+              this.nonexist = false;
+            }else{
+              this.nonexist = true;
+            }
+        }
+      }
+    },
+    allUsers(){
+      // this.onUser();
+      this.search = true
+      this.textForSearch = ''
     }
   }
 }

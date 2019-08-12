@@ -118,6 +118,7 @@ export default {
               console.log(this.$session.get('userInfo').user_num)
               this.userName = this.$session.get('userInfo').user_name
               this.closeDialog();
+              this.$emit('loginstate');
             }
             this.isLoading = false;
           })
@@ -135,6 +136,7 @@ export default {
 
       this.resetForm();
       alert("로그아웃 되었습니다.")
+      this.$emit('loginstate');
       this.$router.push("/")
     },
 

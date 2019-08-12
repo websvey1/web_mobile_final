@@ -19,7 +19,7 @@ import PostList from '@/components/post/PostList'
 import PostDownList from '@/components/post/PostDownList'
 
 export default {
-  name: 'TeamPostPage',
+  name: 'MyPostPage',
   components: {
     PostList,
     PostDownList,
@@ -40,7 +40,7 @@ export default {
   },
   async created() {
     if (this.$session.has('userInfo')) {
-      await this.getTeamName();
+      await this.getProjectName();
       await this.readPosts(this.page - 1);
       await this.getTotalPageNum();
     } else {
@@ -52,8 +52,8 @@ export default {
       // console.log(this.$route.params.num)
   },
   methods: {
-    async getTeamName(){
-      await this.$http.post(this.$store.state.testIp + '/teamProject/getProjectName', {pjtNum: this.$route.params.num})
+    async getProjectName(){
+      await this.$http.post(this.$store.state.testIp + '/myproject/getProjectName', {pjtNum: this.$route.params.num})
       .then((response) => {
         this.pjtName = response.body[0].project_title
       })

@@ -6,7 +6,7 @@
       <v-layout wrap fill-height>
       <v-flex>
         <h1 style="text-align: center">Project</h1>
-        <v-speed-dial style="margin-left: 90%" v-model="fab" :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
+        <v-speed-dial style="margin-left: 90%;" v-model="fab" :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
         <template v-slot:activator>
           <v-btn v-model="fab" color="blue darken-2" dark fab>
             <v-icon v-if="fab">close</v-icon>
@@ -14,27 +14,18 @@
           </v-btn>
         </template>
         <v-btn fab dark large color="green" @click="postRead">
-          Post
-          <br>
-          보기
+          Post<br>보기
         </v-btn>
         <v-btn fab dark large color="indigo" @click="postWrite">
-          Post
-          <br>
-          작성
+          Post<br>작성
         </v-btn>
         <v-btn fab dark large color="red" @click="todo()">
-          To do
-          <br>
-          List
+          To do<br>List
         </v-btn>
       </v-speed-dial>
       </v-flex>
     </v-layout>
-    <!-- <p>{{  }}</p> -->
-    <!-- <p>{{project.pjt.project_num}}</p> -->
-    <!-- {{ pn }} -->
-    <!-- 상세 -->
+
     <v-carousel hide-delimiters style="width: 50%; float:left; margin-top: 3px;">
       <v-carousel-item v-for="(image, i) in images" :key="i" :src="image.image_url"></v-carousel-item>
     </v-carousel>
@@ -46,7 +37,7 @@
           <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
           <div style="margin:15px 20p;">
             <h2 style="padding:5px 0;">Title</h2>
-            <p>{{ project.project_title }}</p>  
+            <p>{{ project.project_title }}</p>
             <h2 style="padding:5px 0;">Goal</h2>
             <p>{{ project.project_goal }}</p>
             <h2 style="padding:5px 0;">Term</h2>
@@ -73,7 +64,7 @@
               <v-chip v-else color="rgb(191, 234, 255)" style="display: inline-block">{{ member }}</v-chip>
             </span>
             <br>
-            <v-btn fab dark color="indigo" style="float: right;">
+            <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
               <v-icon dark>add</v-icon>
             </v-btn>
           </div>
@@ -81,6 +72,30 @@
         </v-flex>
       </v-layout>
     </div>
+
+    <v-dialog hide-overlay v-model="dialog" persistent max-width="520px">
+      <v-card>
+        <v-card-title style="display:flex; justify-content:center;">
+        <h2> Detail Information </h2>
+      </v-card-title>
+      <v-card-text style="text-align:center;" >
+        <v-container grid-list-md style="display:flex; justify-content:center;">
+          <v-layout wrap>
+            <v-flex xs12>
+              - 프로젝트 생성일 : {{ created }}<br>
+              - 프로젝트 최종 수정일 : {{ modified }}<br>
+              - Git-url : {{ project.project_git_url }}<br>
+              - Tech : {{ project.project_tech }}
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions style="display:flex; justify-content:center;">
+      <!-- <v-spacer></v-spacer> -->
+        <v-btn color="blue darken-1" flat @click="dialog = false">OK!</v-btn>
+      </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-layout wrap align-center justify-center row fill-height style="clear:both; padding-top:20px;">
       <v-flex>
@@ -96,7 +111,7 @@
         <fieldset style="padding:10px 15px; height:80%">
           <h2 style="padding:10px 0;">Post</h2>
           <ul v-for="post in posts">
-            <li><a @click="postMove(post.post_num)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
+            <li><a @click="postMove(post)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
           </ul>
         </fieldset>
       </v-flex>
@@ -135,7 +150,10 @@ export default {
       transition: 'slide-y-reverse-transition',
       loginUser: this.$session.get('userInfo').user_num,
       loginName: this.$session.get('userInfo').user_name,
-      chk: 0
+      chk: 0,
+      dialog: false,
+      created: '',
+      modified: ''
     }
   },
   computed: {
@@ -167,20 +185,31 @@ export default {
     this.getImage()
     this.getMember()
     this.getPostList()
-    console.log(this.$session.get('userInfo').user_name)
+    // console.log(this.$session.get('userInfo').user_name)
   },
   methods: {
     todo(){
       this.$router.push(`/todolist/${this.$store.state.pn}`)
     },
-    postMove(num){
-      this.$router.push(`/post/read/${num}`)
+    postMove(post){
+      // this.$router.push(`/post/read/${num}`)
+      var num = post.post_num;
+
+      this.$router.push({
+        name: "PostReadPage",
+        params: {
+          id: num,
+          user: post.user_id,
+          share: post.post_share,
+          route: 'ProjectRead'
+        }
+      })
     },
     getPostList(){
       var data = {
         num : this.$route.params.num
       }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getPost', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/getPost', data)
       .then((response) => {
         this.posts = response.body
       })
@@ -192,7 +221,7 @@ export default {
       var data = {
         pjtNum: this.$route.params.num
       }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/getimage', data)
       .then((res) => {
         this.images = res.body
       })
@@ -206,23 +235,26 @@ export default {
             pjtNum: pjt_num
         }
         this.$http.post()
-        this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
+        this.$http.post(this.$store.state.testIp + '/teamProject/getproject', data)
         .then((res) => {
             this.project = res.body[0]
+            this.created = this.project.project_created_at.substring(0, 10)
+            this.modified = this.project.project_updated_at.substring(0, 10)
+            // console.log(this.project)
         })
     },
     getMember() {
         var data = {
             teamNum: this.$route.params.id
         }
-        this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+        this.$http.post(this.$store.state.testIp + '/team/getMember', data)
         .then((res) => {
             var member = []
             for (var i=0; i < res.body.length; i++) {
                 var name = res.body[i].user_name
                 member.push(name)
-                console.log(this.loginUser)
-                console.log(name)
+                // console.log(this.loginUser)
+                // console.log(name)
                 if (this.loginName === name) {
                   this.chk = 1
                 }
@@ -244,7 +276,7 @@ export default {
       var data = {
         pjtNum: this.$route.params.num
       }
-      this.$http.post('http://192.168.31.61:3000/teamProject/delete/project', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/delete/project', data)
       .then((res) => {
         alert("글 삭제 완료");
         this.$router.push(`/teamProject/${teamNum}`)

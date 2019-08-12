@@ -5,7 +5,7 @@ var db = require("../database");
 /////////////////////////////////////////// create //////////////////////////////////////////
 router.post('/create', function(req, res, next) {
   var pool = db.getPool();
-  
+
   // console.log(req.body);
 
   var user = req.body.user;
@@ -28,8 +28,8 @@ router.post('/create', function(req, res, next) {
       }
       else{
         console.log()
-        var query = conn.query('insert into project(project_user, project_title, project_goal, project_start_date, project_end_date,' + 
-        'project_tech,project_content,project_status,project_git_url,project_share, project_category)' + 
+        var query = conn.query('insert into project(project_user, project_title, project_goal, project_start_date, project_end_date,' +
+        'project_tech,project_content,project_status,project_git_url,project_share, project_category)' +
         'values("'+ user + '","' + title + '","' + goal + '","' + start_date + '","' + end_date + '","' + tech + '","' + content + '","' +
         status + '","' + git_url + '","' + share + '","' + category + '")',
           (err, result) => {
@@ -37,7 +37,7 @@ router.post('/create', function(req, res, next) {
             console.error(err);
             throw err;
           }
-          
+
           var project_num = result.insertId;
           // console.log(project_num)
           // var query = conn.query('inset into todolist(todo_project) values('+project_num+')');
@@ -52,9 +52,9 @@ router.post('/create', function(req, res, next) {
                 img_query += ';'
               } else {
                 img_query += ','
-              }     
+              }
             }
-            
+
             var imgquery = conn.query(img_query, (err, result) => {
               if (err) {
                 console.error(err);
@@ -100,7 +100,7 @@ router.post('/create', function(req, res, next) {
 /////////////////////////////////////////// Read //////////////////////////////////////////
 router.post('/getPjt', function(req, res, next) {
   var pool = db.getPool();
-  
+
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
@@ -115,7 +115,7 @@ router.post('/getPjt', function(req, res, next) {
       });
     }
     conn.release();
-  });    
+  });
 })
 
 router.post('/userproject', function(req, res, next) {
@@ -127,7 +127,7 @@ router.post('/userproject', function(req, res, next) {
       console.log(ex)
     }
     else {
-      var query = conn.query('select project_num from project where project_user = ?', userNum, function(err, result) {
+      var query = conn.query('select project_num from project where project_user = ? and project_category = 0', userNum, function(err, result) {
         if (err){
           console.error(err)
           throw err
@@ -140,7 +140,7 @@ router.post('/userproject', function(req, res, next) {
 })
 
 router.post('/getProject', function(req, res, next) {
-  var pool = db.getPool();  
+  var pool = db.getPool();
   var pjtNum = req.body.pjtNum;
 
   pool.getConnection((ex, conn) => {
@@ -177,7 +177,7 @@ router.post('/getProject', function(req, res, next) {
 
           res.send(project);
         })
-        
+
       })
     }
     conn.release();
@@ -191,13 +191,13 @@ router.get('/:id', function(req, res, next) {
 
   var project_num = req.params.id;
   // console.log(project_num);
-  
+
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex);
     }
     else {
-      var query = conn.query('select * from project where project_num = ' + project_num + ';', 
+      var query = conn.query('select * from project where project_num = ' + project_num + ';',
         function(err, result) {
           if (err) {
             console.error(err);
@@ -211,7 +211,7 @@ router.get('/:id', function(req, res, next) {
             images: null,
           }
 
-          var query = conn.query('select i.image_num, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_category = 0 and ic.imageconn_project =' + project_num + ';',
+          var query = conn.query('select i.image_num, i.image_url from project as pjt inner join imageconnector as ic on ic.imageconn_project = pjt.project_num inner join image as i on ic.imageconn_image = i.image_num where ic.imageconn_project =' + project_num + ';',
           function(err, result) {
             if (err) {
               console.error(err);
@@ -220,6 +220,7 @@ router.get('/:id', function(req, res, next) {
             }
 
             var image = []
+            console.log(result);
             for (var i=0; i < result.length; i++){
               image.push({imgnum: result[i].image_num, imgurl: result[i].image_url});
             }
@@ -242,7 +243,7 @@ router.post('/update/getProject', function(req, res, next) {
       console.log(ex)
     }
     else {
-      var query = conn.query('select * from project where project_category = 0 and project_num = ?', pjtNum, 
+      var query = conn.query('select * from project where project_category = 0 and project_num = ?', pjtNum,
       function(err, result) {
         if (err){
           console.error(err)
@@ -273,7 +274,7 @@ router.post('/update/getProject', function(req, res, next) {
       })
     }
     conn.release()
-  }) 
+  })
 })
 
 router.post('/delete/image', function(req, res, next) {
@@ -307,7 +308,7 @@ router.post('/delete/project', function(req, res, next) {
       console.log(ex)
     }
     else {
-      var query = conn.query('delete from project where project_num = ?', pjtNum, 
+      var query = conn.query('delete from project where project_num = ?', pjtNum,
       function(err, result) {
         if (err){
           console.error(err)
@@ -331,8 +332,8 @@ router.post('/update/project', function(req, res, next) {
       console.log(ex)
     }
     else {
-      var query = conn.query('update project set project_title = ?, project_goal = ?, project_status = ?, project_start_date = ?, project_end_date = ?, project_content = ?, project_tech = ?, project_share = ? where project_num = ' + pjtNum + ';', 
-      [project.project_title, project.project_goal, project.project_status, project.project_start_date, project.project_end_date, project.project_content, project.project_tech, project.project_share],
+      var query = conn.query('update project set project_title = ?, project_goal = ?, project_status = ?, project_start_date = ?, project_end_date = ?, project_content = ?, project_tech = ?, project_share = ?, project_git_url = ?, project_updated_at = now() where project_num = ' + pjtNum + ';',
+      [project.project_title, project.project_goal, project.project_status, project.project_start_date, project.project_end_date, project.project_content, project.project_tech, project.project_share, project.project_git_url],
       function(err, result) {
         if (err){
           console.err(err)
@@ -350,7 +351,7 @@ router.post('/update/images', function(req, res, next) {
   console.log(req.body)
   var pjtNum = req.body.pjtNum
   var imgUrl = req.body.imgUrl
-  
+
   pool.getConnection((ex, conn) => {
     if (ex) {
       console.log(ex)
@@ -361,7 +362,7 @@ router.post('/update/images', function(req, res, next) {
           console.error(err)
           throw err
         }
-        
+
         var imgNum = result.insertId;
         console.log(imgNum)
 
@@ -379,10 +380,77 @@ router.post('/update/images', function(req, res, next) {
           console.log(image)
           res.send(image)
         })
-      }) 
+      })
     }
   })
 })
 
+////////////////// 개인 project에서, post 작성할 때- 해당 project가 개인 project인지 확인하기 위해서 /////////////////////
+router.post('/getCategory', function(req, res, next) {
+  var pool = db.getPool();
+  var pjtNum = req.body.pjtNum
+
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select project_category from project where project_num = ?', pjtNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// MyPostPage에서 현재 Project Name 가져오기 위함 ////////////////////////////////////
+router.post('/getProjectName', function(req, res, next){
+  var pjtNum = req.body.pjtNum
+  var pool = db.getPool()
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select project_title from project where project_num = ?', pjtNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release();
+  })
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////// MyprojectRead에서 밑에 Post 부분에 들어갈 post들 가져오기 위함 ////////////////////////////
+router.post('/getPost', function(req, res, next){
+  var pjtNum = req.body.num
+  var pool = db.getPool()
+  // console.log(pjtNum)
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select * from post as p inner join user as u on p.post_user = u.user_num where p.post_project = ?', pjtNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;

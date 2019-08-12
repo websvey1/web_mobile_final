@@ -26,8 +26,8 @@ import PageTest from './views/test/PageTest.vue'
 //// test ////
 
 //// project ////
-import ProjectPage from './views/ProjectPage.vue'
-import ProjectReadPage from './views/ProjectReadPage.vue'
+import ProjectPage from './views/project/ProjectPage.vue'
+import ProjectReadPage from './views/project/ProjectReadPage.vue'
 import HeaderTeamRead from './views/HeaderTeamRead'
 //// project ////
 
@@ -35,13 +35,13 @@ import HeaderTeamRead from './views/HeaderTeamRead'
 import MyprojectPage from './views/MyprojectPage.vue'
 import TeamProjectPage from './views/TeamProjectPage.vue'
 
-import ProjectWritePage from './views/ProjectWritePage.vue'
+import ProjectWritePage from './views/project/ProjectWritePage.vue'
 import TeamProjectWritePage from './views/TeamProjectWritePage.vue'
 
 import MyprojectRead from './views/MyprojectRead.vue'
 import TeamProejctReadPage from './views/TeamProjectReadPage'
 
-import ProjectUpdatePage from './views/ProjectUpdatePage.vue'
+import ProjectUpdatePage from './views/project/ProjectUpdatePage.vue'
 import TeamProjectUpdatePage from './views/TeamProjectUpdatePage.vue'
 //// myproject ////
 
@@ -50,7 +50,9 @@ import TeamCalendarPage from './views/TeamCalendarPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
 import AnotherUser from './views/AnotherUser.vue'
 import AnotherUserRead from './views/AnotherUserRead.vue'
+import MyPostPage from './views/post/MyPostPage.vue'
 import TeamPostPage from './views/post/TeamPostPage.vue'
+import PersonalPostPage from '@/views/post/PersonalPostPage.vue'
 
 Vue.use(Router)
 
@@ -100,6 +102,16 @@ export default new Router({
       name: 'PostCreatePage',
       component: PostCreatePage
     },
+    {
+      path: '/personal/post',
+      name: 'PersonalPostPage',
+      component: PersonalPostPage
+    },
+    {
+      path: '/myPostPage/:num',
+      name: 'MyPostPage',
+      component: MyPostPage
+    },
     ///////////////////// Personal Project /////////////////////
     {
       path: '/myproject',
@@ -133,7 +145,7 @@ export default new Router({
       path: '/teamPostPage/:num',
       name: 'TeamPostPage',
       component: TeamPostPage
-    }, 
+    },
     ////////////////////////////////////////////////////////////
 
     /////////////////////// Team Project ///////////////////////

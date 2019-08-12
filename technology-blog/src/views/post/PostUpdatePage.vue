@@ -1,6 +1,6 @@
 <template>
 <v-layout wrap align-center justify-center row fill-height>
-  <v-flex xs12 ma-5 text-xs-left>
+  <v-flex xs12 ma-5 text-xs-left v-if="post != null">
     <v-layout warp>
       <v-flex xs9>
         <fieldset style="margin-right:4px; height:100%">
@@ -91,7 +91,7 @@ export default {
   },
   data() {
     return {
-      post: {},
+      post: null,
       items:[],
       project:{},
       isLoading: false,
@@ -125,7 +125,7 @@ export default {
     async fetchData() {
       this.post = null;
 
-      await this.$http.get("http://192.168.31.65:3000/post/readById/" + this.$route.params.id)
+      await this.$http.get(this.$store.state.testIp + "/post/readById/" + this.$route.params.id)
         .then((response) => {
           this.post = response.data.post;
 
@@ -155,7 +155,7 @@ export default {
       this.isLoading = true;
       var post = await this.form;
 
-      this.$http.put("http://192.168.31.65:3000/post/updateById/"+this.$route.params.id, post)
+      this.$http.put(this.$store.state.testIp + "/post/updateById/"+this.$route.params.id, post)
       .then((response) => {
         alert("수정이 완료 되었습니다.");
         this.isLoading = false;
@@ -171,7 +171,7 @@ export default {
 
       if(isDelete){
         this.isLoading = true;
-        this.$http.delete("http://192.168.31.65:3000/post/deleteById/" + this.$route.params.id)
+        this.$http.delete(this.$store.state.testIp + "/post/deleteById/" + this.$route.params.id)
         .then((response) => {
           alert("삭제되었습니다.")
           this.isLoading = false;
@@ -184,7 +184,7 @@ export default {
       }
     },
     readProjectList(){
-      this.$http.post("http://192.168.31.65:3000/post/project/list/" + this.$session.get("userInfo").user_num)
+      this.$http.post(this.$store.state.testIp + "/post/project/list/" + this.$session.get("userInfo").user_num)
       .then((result) => {
         this.items = result.data;
         for(var i = 0; i < this.items.length; i++){

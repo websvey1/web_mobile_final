@@ -114,7 +114,7 @@ export default {
             this.description = event.description;
             this.dialog = true
 
-            this.$http.post('http://192.168.31.63:3000/plan/getCalId', data)
+            this.$http.post(this.$store.state.testIp + '/plan/getCalId', data)
             .then((response) => {
                 this.$store.state.cal_id = response.body[0].cal_id;
             })
@@ -125,7 +125,7 @@ export default {
             var data = {
                 teamNum : this.team
             }
-            this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
+            this.$http.post(this.$store.state.testIp + '/team/getLatestTeam', data)
             .then((response) => {
                 this.teamName = response.body[0].team_name;
             })
@@ -150,7 +150,7 @@ export default {
                 cssClass : this.cssClass
             }
 
-            this.$http.post('http://192.168.31.63:3000/plan/modifyPersonal', data)
+            this.$http.post(this.$store.state.testIp + '/plan/modifyPersonal', data)
             .then((response) => {
                 this.$store.state.teamPlan = true;
                 this.dialog = false;
@@ -163,7 +163,7 @@ export default {
             var data = {
                 id : this.$store.state.cal_id
             }
-            this.$http.post('http://192.168.31.63:3000/plan/delete', data)
+            this.$http.post(this.$store.state.testIp + '/plan/delete', data)
             .then((response) => {
                 this.$store.state.teamPlan = true;
                 this.dialog = false;

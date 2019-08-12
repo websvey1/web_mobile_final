@@ -21,11 +21,15 @@ export const store = new Vuex.Store({
       enterTime: '',
       exitTime: ''
     },
-    
+
     plan: false,
     teamPlan: false,
     cal_id: '',
     teamNum: '',
     exist: false,
+
+    testIp:'http://192.168.31.78:3000'
 	}
+
+
 });

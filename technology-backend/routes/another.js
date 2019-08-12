@@ -10,8 +10,7 @@ router.post('/getUsers', function(req, res, next) {
             console.log(ex);
         }
         else{
-            var query = conn.query('select user_num from user',
-            function(err, result){
+            var query = conn.query('select user_num from user', function(err, result){
                 if(err) {
                     console.error(err);
                     throw err;
@@ -23,10 +22,54 @@ router.post('/getUsers', function(req, res, next) {
     })
 })
 
+router.post('/getSelectUsers', function(req, res, next) {
+    var category = req.body.category;
+    var text = req.body.text;
+    var pool = db.getPool();
+
+    if(category == 0){
+        console.log("ID")
+        pool.getConnection((ex, conn) => {
+            if (ex){
+                console.log(ex);
+            }
+            else{
+                var query = conn.query('select user_num from user where user_id like concat("%", ? ,"%")', text, function(err, result){
+                    if(err) {
+                        console.error(err);
+                        throw err;
+                    }
+                    res.send(result);
+                })
+            }
+            conn.release();
+        })
+    }else if(category == 1){
+        console.log("E-MAIL")
+        pool.getConnection((ex, conn) => {
+            if (ex){
+                console.log(ex);
+            }
+            else{
+                var query = conn.query('select user_num from user where user_email like concat("%", ? ,"%")', text, function(err, result){
+                    if(err) {
+                        console.error(err);
+                        throw err;
+                    }
+                    res.send(result);
+                })
+            }
+            conn.release();
+        })
+    }else{
+        console.log("관심기술")
+    }
+})
+
 router.post('/getInfo', function(req, res, next) {
     var userNum = req.body.userNum;
     var pool = db.getPool();
-
+    
     pool.getConnection((ex, conn) => {
         if (ex){
             console.log(ex);
@@ -50,6 +93,7 @@ router.post('/getInfo', function(req, res, next) {
                     userProject: '',
                     userPost: ''
                 }
+                
                 if (result == '[]') {
                     info.userTech = null
                 }

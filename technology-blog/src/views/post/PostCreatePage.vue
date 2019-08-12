@@ -9,9 +9,9 @@
         </fieldset>
       </v-flex>
       <v-flex xs3>
-        <fieldset style="margin-left:4px; height:100%">
+        <fieldset style="margin-left:4px; height:100%;">
           <legend>Project</legend>
-          <p>{{ pjtName }}</p>
+          <h2  style="display:flex; justify-content:center; padding:10% 0;">{{ pjtName }}</h2>
         </fieldset>
       </v-flex>
     </v-layout>
@@ -87,7 +87,8 @@ export default {
       writer: "",
       share:"0",
       isLoading:false,
-      pjtName: ''
+      pjtName: '',
+      category: ''
     }
   },
   created(){                               // 동작이 완벽하지 않음
@@ -107,7 +108,7 @@ export default {
         content: this.content,
         share: this.share,
         created_at:Time.getFullDate(),
-        category: 1,
+        category: this.category,
         tags: this.$refs.hashtag.getTagsForDb(),
         imageUrl: await this.$refs.imagePicker.getImageUrl(),
         project: this.$route.params.num
@@ -129,13 +130,13 @@ export default {
         return false;
       }
       if (this.title.length>45){
-        
+
           alert("제목이 너무 깁니다");
           return false;
         }
-      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/ ";
+      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/";
       console.log(this.title, '중간체크')
-      for (var i=0; i<this.title.length; i++){        
+      for (var i=0; i<this.title.length; i++){
         for (var j=0; j<num.length; j++){
           if (this.title[i] == num[j]){
             alert("특수문자 사용 금지입니다");
@@ -151,16 +152,31 @@ export default {
       this.isLoading = true;
 
       if(this.checkValidation()){
-        var form = await this.form
+        // project table 가서, 지금 project_num으로 검색하여 category가 0이면, form.category = 0으로 해주자
+        var data = {
+          pjtNum: this.$route.params.num
+        }
+        await this.$http.post(this.$store.state.testIp + "/myproject/getCategory", data)
+        .then(async(response) => {
+          if(response.body[0].project_category == 0){
+            this.category = 0
+          }else{
+            this.category = 1
+          }
 
-        await this.$http.post("http://192.168.31.65:3000/post/create", form)
-        .then((req) => {
-          alert("글이 작성되었습니다.");
-          this.isLoading = false;
-          this.goHome();
+          var form = await this.form
+          await this.$http.post(this.$store.state.testIp + "/post/create", form)
+          .then((req) => {
+            alert("글이 작성되었습니다.");
+            this.isLoading = false;
+            this.goHome();
+          })
+          .catch((error) => {
+            this.isLoading = false;
+          })
         })
         .catch((error) => {
-          this.isLoading = false;
+          console.log(error)
         })
       }
       else{
@@ -171,7 +187,7 @@ export default {
       var data = {
         pjtNum: this.$route.params.num
       }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getProjectName', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/getProjectName', data)
       .then((response) => {
         this.pjtName = response.body[0].project_title
       })

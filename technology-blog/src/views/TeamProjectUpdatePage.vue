@@ -218,7 +218,7 @@ export default {
     },
     mounted() {
       this.getProject()
-      console.log(this.updateimgs)
+      // console.log(this.updateimgs)
     },
     methods: {
         goHome(){
@@ -228,12 +228,12 @@ export default {
             var data = {
                 pjtNum: this.$route.params.num
             }
-            this.$http.post('http://192.168.31.63:3000/teamProject/update/getProject', data)
+            this.$http.post(this.$store.state.testIp + '/teamProject/update/getProject', data)
             .then((res)=> {
                 this.project = res.body.project[0]
                 this.updateimgs = res.body.images
-                console.log(res)
-                console.log(this.project)
+                // console.log(res)
+                // console.log(this.project)
             })
         },
         addFiles(){
@@ -285,7 +285,7 @@ export default {
         },
 
         removeFile( key ){
-            console.log(key)
+            // console.log(key)
             this.newfiles.splice( key, 1 );
         },
 
@@ -293,7 +293,7 @@ export default {
           this.updateimgs.splice(key, 1);
           var delimg = image
           this.delfiles.push(delimg)
-          console.log(this.delfiles)
+          // console.log(this.delfiles)
         },
 
         async updateTeamProject(){
@@ -305,7 +305,7 @@ export default {
             project: this.project,
           }
 
-          await this.$http.post('http://192.168.31.61:3000/teamProject/update/project', data)
+          await this.$http.post(this.$store.state.testIp + '/teamProject/update/project', data)
             .then(async (res) => {
               console.log(res)
               for (var i=0; i < this.newfiles.length; i++){
@@ -313,7 +313,7 @@ export default {
                   pjtNum: num,
                   imgUrl: this.newfiles[i]
                 }
-                await this.$http.post('http://192.168.31.61:3000/teamProject/update/images', data)
+                await this.$http.post(this.$store.state.testIp + '/teamProject/update/images', data)
                 .then(async (res) => {
                   console.log(res.body)
                 })
@@ -324,7 +324,7 @@ export default {
                 var data = {
                   imgNum: this.delfiles[j].imgnum
                 }
-                await this.$http.post('http://192.168.31.61:3000/myproject/delete/image', data)
+                await this.$http.post(this.$store.state.testIp + '/myproject/delete/image', data)
                   .then(async (res) => {
                     console.log(res)
                 })

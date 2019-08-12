@@ -3,29 +3,32 @@
   width: 73%; margin: 0 auto;
   ">
   <v-container>
-    <div style="margin-top: 30px;">
+    <div style="margin-top: 20px;">
       <!-- 사진 -->
+      <v-layout wrap fill-height>
+        <v-flex  style="margin-bottom: 50px;">
+          <h1 style="text-align: center">Project</h1>
 
-        <v-btn fab dark large color="red" @click="todo()" style="margin-left: 90%">
-          To do
-          <br>
-          List
-        </v-btn>
+          <!-- <v-btn round outline color="black" @click="todo()" style="margin-left: 85%; margin-bottom: 20px; font-size:13px; height:40px; ">
+             <div style="color:black; font-weight:bolder;">todo list</div><img src="@/assets/todo2.png/" style="width:30px; margin-left:10px;"/>
+          </v-btn> -->
+        </v-flex>
+      </v-layout>
+
       <v-carousel hide-delimiters style="
-      width:50%; height:45%; float:left; margin-top: 3px;
+      width:50%; float:left; margin-top: 3px;
       ">
         <v-carousel-item v-resize="onResize" v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
       </v-carousel>
 
-      <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
       <!-- 상세 -->
       <v-layout wrap align-center justify-center row fill-height style="
-      width:47%; height:50%; float:right;
+      width:47%; float:right;
       ">
         <v-flex wrap>
-          <fieldset style="margin-right:4px; height:80%; padding:10px 15px;">
+          <fieldset style="margin-right:4px; height:100%; padding:20px 10px;">
             <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
-            <div style="margin:15px 20p;">
+            <div style="margin:0 20px;">
               <h2 style="padding:5px 0;">Title</h2>
               <p>{{ project.project_title }}</p>
 
@@ -52,6 +55,10 @@
 
               <h2 style="padding:5px 0;">git_url</h2>
               <p>{{ project.project_git_url }}</p>
+              <br>
+              <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
+                <v-icon dark>add</v-icon>
+              </v-btn>
             </div>
           </fieldset>
         </v-flex>
@@ -68,6 +75,31 @@
         </fieldset>
       </v-flex>
     </v-layout>
+
+    <v-dialog hide-overlay v-model="dialog" persistent max-width="520px">
+      <v-card>
+        <v-card-title style="display:flex; justify-content:center;">
+        <h2> Detail Information </h2>
+      </v-card-title>
+      <v-card-text style="text-align:center;" >
+        <v-container grid-list-md style="display:flex; justify-content:center;">
+          <v-layout wrap>
+            <v-flex xs12>
+              - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
+              - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
+              - Git-url : {{ project.project_git_url }}<br>
+              - Tech : {{ project.project_tech }}
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions style="display:flex; justify-content:center;">
+      <!-- <v-spacer></v-spacer> -->
+        <v-btn color="blue darken-1" flat @click="dialog = false">OK!</v-btn>
+      </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div style="text-align:center; margin-top: 20px;" id="write-btn">
       <v-btn v-if="project.project_user === loginUser" class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
       <v-btn v-if="project.project_user === loginUser" class="v-btn theme--dark" @click="goDelete">삭제</v-btn>
@@ -93,7 +125,8 @@ export default {
       modify: false,
       menu: false,
       picker: new Date().toISOString().substr(0, 10),
-      loginUser: this.$session.get('userInfo').user_num,
+      loginUser: null,
+      dialog: false
     }
   },
   mounted() {
@@ -103,18 +136,19 @@ export default {
         console.log(res)
         this.project = res.data.project[0];
         this.images = res.data.images;
+        this.loginUser= this.$session.get('userInfo').user_num;
         console.log(this.images)
       });
   },
   methods: {
-    todo(){
+    todo() {
       this.$router.push(`/todolist/${this.$route.params.id}`)
     },
     goHome() {
       this.$router.push("/project")
     },
     goUpdate() {
-      var id =this.$route.params.id;
+      var id = this.$route.params.id;
       this.$router.push(`/myproject/update/${id}`)
     },
     goDelete() {
@@ -123,12 +157,12 @@ export default {
         pjtNum: id
       }
       console.log(data)
-      this.$http.post('http://192.168.31.61:3000/myproject/delete/project', data)
-      .then((res) => {
-        alert("글 삭제 완료");
-        console.log(res)
-        this.$router.push('/myproject')
-      })
+      this.$http.post(this.$store.state.testIp + '/myproject/delete/project', data)
+        .then((res) => {
+          alert("글 삭제 완료");
+          console.log(res)
+          this.$router.push('/myproject')
+        })
     }
   }
 }

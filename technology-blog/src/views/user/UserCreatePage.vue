@@ -150,7 +150,7 @@ export default {
           return
         }
         /////////////////////////////////////////////////////
-        await this.$http.post("http://192.168.31.65:3000/user/create", form)
+        await this.$http.post(this.$store.state.testIp + "/user/create", form)
         .then((req) => {
           if(req.data == "Success"){
             alert("가입 성공")
@@ -172,7 +172,7 @@ export default {
     },
   },
   async created() {
-    await this.$http.get("http://192.168.31.65:3000/user/tech")
+    await this.$http.get(this.$store.state.testIp + "/user/tech")
     .then((req) => {
       this.techs = req.data;
     })

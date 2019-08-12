@@ -1,11 +1,17 @@
 <template>
 <div style="background-color: white;">
-  <v-layout wrap row pa-4> 
+  <v-layout wrap row pa-4>
       <v-flex fill-height d-flex xs12>
         <div class="container">
-            <h1 style="display:inline;">{{ pjtName }}</h1>
-            <v-divider></v-divider>
-            <PostDownList :posts="posts" :category="'2'" ref="post"></PostDownList>
+        <!-- <span style="font-size:30px">{{tabs.text}}</span> -->
+        <div class="" style="width:150px; display:inline-block; margin-right:10px;">
+          <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
+        </div>
+        <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
+        <!-- <h1 style="display:inline;">검색 결과</h1> -->
+        <v-divider></v-divider>
+        <PostDownList :posts="posts" :category="'2'" ref="post">
+        </PostDownList>
         </div>
       </v-flex>
       <v-flex xs12 text-xs-center>
@@ -19,7 +25,7 @@ import PostList from '@/components/post/PostList'
 import PostDownList from '@/components/post/PostDownList'
 
 export default {
-  name: 'TeamPostPage',
+  name: 'PersonalPostPage',
   components: {
     PostList,
     PostDownList,
@@ -27,46 +33,43 @@ export default {
   data() {
     return {
       posts:[],
+
+      categorysForPostlist: [
+        {text: 'All Post', value: '2'},{text: 'My Post', value: '0'},{text: 'Team Post', value: '1'}
+      ],
+      categoryForPostlist:{text: 'All Post', value: '2'},
+
       page: 1,
       length: 1,
-      totalVisible: 7,
-      pjtName: ''
+      totalVisible: 7
     }
   },
   watch: {
     async page(v) {
-        await this.readPosts(v - 1);
+        await this.readPosts(v - 1, this.categoryForPostlist.value);
     },
+
+    async categoryForPostlist(v){
+      this.page = 1;
+      await this.readPosts(this.page - 1, v.value);
+      await this.getTotalPageNum(v.value);
+    }
   },
   async created() {
     if (this.$session.has('userInfo')) {
-      await this.getTeamName();
-      await this.readPosts(this.page - 1);
-      await this.getTotalPageNum();
+      await this.readPosts(this.page - 1, this.categoryForPostlist.value);
+      await this.getTotalPageNum(this.categoryForPostlist.value);
     } else {
       alert("로그인 해주세요.");
       this.$router.push("/");
     }
   },
   mounted() {
-      // console.log(this.$route.params.num)
+
   },
   methods: {
-    async getTeamName(){
-      await this.$http.post(this.$store.state.testIp + '/teamProject/getProjectName', {pjtNum: this.$route.params.num})
-      .then((response) => {
-        this.pjtName = response.body[0].project_title
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    },
-    allPosts(){
-        this.page = 1;
-    },
-
-    async readPosts(page) {
-      await this.$http.post(this.$store.state.testIp + "/post/teamAllList/" + page, {pjtNum:this.$route.params.num})
+    async readPosts(page, category) {
+      await this.$http.post(this.$store.state.testIp + "/post/listById/"+this.$session.get("userInfo").user_num+"/" + page, {post_category:category})
       .then((response) => {
         this.posts = response.data;
       })
@@ -75,13 +78,13 @@ export default {
       })
     },
 
-    async getTotalPageNum() {
-      await this.$http.post(this.$store.state.testIp + "/post/teamPageNum", {pjtNum:this.$route.params.num})
+    async getTotalPageNum(category) {
+      await this.$http.post(this.$store.state.testIp + "/post/totalPageNumById/"+this.$session.get("userInfo").user_num, {post_category:category})
         .then((req) => {
           console.log(req.data);
           this.length = req.data * 1;
         })
-    }
+    },
   },
   beforeRouteLeave(to, from, next) {
     next();
