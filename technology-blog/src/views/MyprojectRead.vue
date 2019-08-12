@@ -5,19 +5,36 @@
   <v-container>
     <div style="margin-top: 30px;">
       <!-- 사진 -->
-
-        <v-btn fab dark large color="red" @click="todo()">
-          To do
-          <br>
-          List
+      <v-layout wrap fill-height>
+      <v-flex>
+        <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
+        <v-speed-dial style="margin-left: 90%;" v-model="fab" :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
+        <template v-slot:activator>
+          <v-btn v-model="fab" color="blue darken-2" dark fab>
+            <v-icon v-if="fab">close</v-icon>
+            <v-icon v-else>fas fa-list</v-icon>
+          </v-btn>
+        </template>
+        <v-btn fab dark large color="green" @click="postRead">
+          Post<br>보기
         </v-btn>
+        <v-btn fab dark large color="indigo" @click="postWrite">
+          Post<br>작성
+        </v-btn>
+        <v-btn fab dark large color="red" @click="todo()">
+          To do<br>List
+        </v-btn>
+      </v-speed-dial>
+
+      </v-flex>
+    </v-layout>
       <v-carousel hide-delimiters style="
       width:50%; height:45%; float:left; margin-top: 3px;
       ">
         <v-carousel-item v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
       </v-carousel>
 
-      <h1 style="text-align:center; padding-bottom:20px;">Project</h1>
+
       <!-- 상세 -->
       <v-layout wrap align-center justify-center row fill-height style="
       width:47%; height:50%; float:right;
@@ -68,6 +85,43 @@
         </fieldset>
       </v-flex>
     </v-layout>
+
+    <v-dialog hide-overlay v-model="dialog" persistent max-width="520px">
+      <v-card>
+        <v-card-title style="display:flex; justify-content:center;">
+        <h2> Detail Information </h2>
+      </v-card-title>
+      <v-card-text style="text-align:center;" >
+        <v-container grid-list-md style="display:flex; justify-content:center;">
+          <v-layout wrap>
+            <v-flex xs12>
+              - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
+              - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
+              - Git-url : {{ project.project_git_url }}<br>
+              - Tech : {{ project.project_tech }}
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions style="display:flex; justify-content:center;">
+      <!-- <v-spacer></v-spacer> -->
+        <v-btn color="blue darken-1" flat @click="dialog = false">OK!</v-btn>
+      </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+<!-- /////////////// ///////////////////////////// -->
+    <v-layout wrap align-center justify-center row fill-height style="clear:both; padding-top:20px;">
+      <v-flex>
+        <fieldset style="padding:10px 15px; height:80%">
+          <h2 style="padding:10px 0;">Post</h2>
+          <ul v-for="post in posts">
+            <!-- <li><a @click="postMove(post.post_num)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li> -->
+          </ul>
+        </fieldset>
+      </v-flex>
+    </v-layout>
+
     <div style="text-align:center; margin-top: 20px;" id="write-btn">
       <v-btn v-if="project.project_user === loginUser" class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
       <v-btn v-if="project.project_user === loginUser" class="v-btn theme--dark" @click="goDelete">삭제</v-btn>
@@ -93,7 +147,21 @@ export default {
       modify: false,
       menu: false,
       picker: new Date().toISOString().substr(0, 10),
+      posts: [],
+      direction: 'left',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: false,
+      bottom: true,
+      left: true,
+      transition: 'slide-y-reverse-transition',
       loginUser: this.$session.get('userInfo').user_num,
+      loginName: this.$session.get('userInfo').user_name,
+      chk: 0,
+      dialog: false
     }
   },
   mounted() {
@@ -130,6 +198,29 @@ export default {
         console.log(res)
         this.$router.push('/myproject')
       })
+    },
+    postMove(num){
+    //   this.$router.push(`/post/read/${num}`)
+    // },
+    // getPostList(){
+    //   var data = {
+    //     id : this.$route.params.id
+    //   }
+    //   this.$http.post(this.$store.state.testIp + '/teamProject/getPost', data)
+    //   .then((response) => {
+    //     this.posts = response.body
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //   })
+    },
+    postWrite(){
+      // this.$router.push({ name: "PostCreatePage", params: {id: this.$route.params.id, num: this.$route.params.num} })
+      this.$router.push(`/post/create/${this.$route.params.id}`)
+    },
+    postRead(){
+      // this.$router.push({ name: "TeamPostPage", params: {id: this.$route.params.id, num: this.$route.params.num} })
+      this.$router.push(`/personalPostPage/${this.$route.params.id}`)
     }
   }
 }
