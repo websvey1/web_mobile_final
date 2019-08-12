@@ -15,6 +15,7 @@
 
       <a @click="goReadPage(post)">
         <h1 class="posth1">
+          <i v-if="post.post_share=='1'"><img src="@/assets/lock.png/" style="width:20px; height:20px; margin-right:10px;"/></i>
           <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
           <span v-if="post.post_category == '0'" style="color:red">[개인]</span>
           <span v-else style="color:blue">[팀]</span>
@@ -44,7 +45,8 @@
 
       <a @click="goReadPage(post)">
         <h1 class="posth1">
-          <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
+          <i v-if="post.post_share=='1'"><img src="@/assets/lock.png/" style="border-radius:0; width:30px; height:30px; margin-right:10px;"/></i>
+          <!-- <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i> -->
           <span v-if="post.post_category == '0'" style="color:red">[개인]</span>
           <span v-else style="color:blue">[팀]</span>
           {{ post.post_title}}
