@@ -39,6 +39,46 @@
       </p>
     </div>
   </div>
+  <div class="post-container" v-else>
+    <span class="published">      
+      <v-chip
+        v-if="post.post_category == '0'" 
+        small
+        color="#FFD54F">
+        <b>personal</b>
+      </v-chip>
+      <v-chip
+        v-else
+        small
+        color="#FF8A65">
+        <b>Team</b>
+      </v-chip>
+      <p class="date">
+        {{ post.post_created_at | date}}
+        <br>
+        {{ post.post_created_at | time}}
+      </p>
+    </span>
+    <div class="post">
+      <img v-if="post.image_url != null" :src="post.image_url"/>
+      <img v-else src="https://source.unsplash.com/random/300x300"></img>
+
+      <a @click="goReadPage(post)">
+        <br>
+        <h1 class="posth1">
+          <i v-if="post.post_share=='1'"><img src="@/assets/lock.png/" style="border-radius:0; width:30px; height:30px; margin-top: 2px; margin-right: 8px;"/></i>
+          <!-- <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i> -->
+          {{ post.post_title}}
+        </h1>
+      </a>
+      <p class="pcontent">비밀 글입니다.</p>
+      <v-divider style="margin-left:200px"></v-divider>
+      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}
+        <v-avatar v-if="post.user_image"><img style="height:30px; width:30px; margin:0px;" :src="post.user_image"></img></v-avatar>
+        <v-avatar v-else><img style="height:30px; width:30px; margin:0px;" src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"></img></v-avatar>
+      </p>
+    </div>
+  </div>
  </template>
 
 <script>
