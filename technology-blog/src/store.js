@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
     teamNum: '',
     exist: false,
 
-    testIp:'http://192.168.31.63:3000'
+    testIp:'http://192.168.31.78:3000'
 	}
 
 
