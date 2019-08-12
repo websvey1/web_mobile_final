@@ -6,7 +6,7 @@
       <v-layout wrap fill-height>
       <v-flex>
         <h1 style="text-align: center">Project</h1>
-        <v-speed-dial style="margin-left: 90%" v-model="fab" :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
+        <v-speed-dial style="margin-left: 90%;" v-model="fab" :top="top" :bottom="bottom" :right="right" :left="left" :direction="direction" :open-on-hover="hover" :transition="transition">
         <template v-slot:activator>
           <v-btn v-model="fab" color="blue darken-2" dark fab>
             <v-icon v-if="fab">close</v-icon>
@@ -46,7 +46,7 @@
           <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
           <div style="margin:15px 20p;">
             <h2 style="padding:5px 0;">Title</h2>
-            <p>{{ project.project_title }}</p>  
+            <p>{{ project.project_title }}</p>
             <h2 style="padding:5px 0;">Goal</h2>
             <p>{{ project.project_goal }}</p>
             <h2 style="padding:5px 0;">Term</h2>

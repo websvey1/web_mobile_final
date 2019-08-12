@@ -26,7 +26,7 @@ export default {
     },
     data() {
         return {
-            projects: [], 
+            projects: [],
         }
     },
     mounted(){
@@ -58,7 +58,7 @@ export default {
         },
 
         goWrite() {
-            this.$route.push('/myproject/create')
+            this.$router.push('/myproject/create')
         }
     },
  }
