@@ -5,7 +5,9 @@
     <v-img v-else height="230px" src="https://source.unsplash.com/random/300x300" aspect-ratio="2.75"></v-img>
 
     <v-card-title primary-title>
-      <h3 class="headline mb-0 oneline">{{post.post_title}}</h3>
+      <h3 class="headline mb-0 oneline">
+        <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
+        {{post.post_title}}</h3>
     </v-card-title>
     <v-card-text>
       <p class="fourline"> {{post.post_content}} </p>
@@ -19,7 +21,6 @@
           <v-list-tile-title ><span class="oneline">{{post.post_created_at}}  </span></v-list-tile-title>
           <v-list-tile-sub-title class="oneline">{{post.user_name}}</v-list-tile-sub-title>
         </v-list-tile-content>
-        <i v-if="post.visibility=='false'" class="fas fa-lock">&nbsp;&nbsp;</i>
       </v-list-tile>
     </v-card-text>
   </v-card>
