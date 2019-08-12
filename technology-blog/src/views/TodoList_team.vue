@@ -101,8 +101,8 @@ export default {
 	  methods: {
       async temp(){
         var user_num = this.$session.get("userInfo").user_num;
-        // this.$http.get("http://192.168.31.85:3000/todolist", {un : user_num}) // 호출
-        this.$http.post("http://192.168.31.85:3000/todolist/" +user_num) // 호출
+        // this.$http.get(this.$store.state.testIp + "/todolist", {un : user_num}) // 호출
+        this.$http.post(this.$store.state.testIp + "/todolist/" +user_num) // 호출
         .then(result=> {
           // console.log(result.data);
           //--
@@ -142,7 +142,7 @@ export default {
 
       async updateTodo() {
         var form = await this.form
-        this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
+        this.$http.put(this.$store.state.testIp + "/todolist/update", form) // 호출
         .then((req) => {
           // console.log(form)
           alert(req.data)

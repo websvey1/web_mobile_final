@@ -85,7 +85,7 @@ export default {
     },
     mounted(){
       // console.log("?")
-      
+
       this.temp();
       // console.log("?")
 
@@ -101,20 +101,20 @@ export default {
       }
     },
 	  methods: {
-      async temp(){        
-        // this.$http.get("http://192.168.31.85:3000/todolist", {un : user_num}) // 호출
+      async temp(){
+        // this.$http.get(this.$store.state.testIp + "/todolist", {un : user_num}) // 호출
         var pn = this.$route.params.id
         var back_pn = { back_pn : pn }
         // console.log(pn, 'pn')
 
-        this.$http.post("http://192.168.31.85:3000/todolist/" +pn, back_pn) // 호출
-        // this.$http.get("http://192.168.31.85:3000/todolist/") // 호출
+        this.$http.post(this.$store.state.testIp + "/todolist/" +pn, back_pn) // 호출
+        // this.$http.get(this.$store.state.testIp + "/todolist/") // 호출
         .then(result=> {
           // console.log(result.data);
           //--
           var todos = result.data;
           // console.log(todos, 'todos');
-          
+
           for(var i = 0; i < todos.length; i++){
             if(todos[i].todo_state == "1"){
               this.myArray1.push(todos[i])
@@ -132,30 +132,30 @@ export default {
       async createTodo() {
         // var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
         // console.log(this.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
-        var content = this.inputTodo;             
+        var content = this.inputTodo;
         if (!content ==""){
-          this.myArray1.push({          
-          todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨    
+          this.myArray1.push({
+          todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨
           todo_category: 0,
           // todo_user: user_num ,
           todo_project: this.$route.params.id
-          ,    
-          })  
+          ,
+          })
         this.inputTodo = "";
         }
         this.dialog = false;
       },
-      async deleteTodo1(id){     
+      async deleteTodo1(id){
         this.myArray1.splice(id,1);
       },
-      async deleteTodo2(id){ 
+      async deleteTodo2(id){
         this.myArray2.splice(id,1);
       },
-      async deleteTodo3(id){     
+      async deleteTodo3(id){
         // var pn = this.$route.params.id
         // var back_pn = { back_pn : pn }
         // console.log(back_pn)
-        // await this.$http.post("http://192.168.31.85:3000/todolist/delete", back_pn) // 호출
+        // await this.$http.post(this.$store.state.testIp + "/todolist/delete", back_pn) // 호출
         // .then(async (req) => {
         //   alert("Delete")
         // })
@@ -164,14 +164,14 @@ export default {
 
       async updateTodo() {
         var form = await this.form
-        
-        await this.$http.put("http://192.168.31.85:3000/todolist/update", form) // 호출
+
+        await this.$http.put(this.$store.state.testIp + "/todolist/update", form) // 호출
         .then(async (req) => {
           // console.log(form)
           alert(req.data)
         })
       },
-      
+
       openDialog(){
           this.dialog = true;
           console.log(this.dialog)
