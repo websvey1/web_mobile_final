@@ -51,6 +51,7 @@ import TeamChoose from './views/TeamChoose.vue'
 import AnotherUser from './views/AnotherUser.vue'
 import AnotherUserRead from './views/AnotherUserRead.vue'
 import TeamPostPage from './views/post/TeamPostPage.vue'
+import PersonalPostPage from '@/views/post/PersonalPostPage.vue'
 
 Vue.use(Router)
 
@@ -100,6 +101,11 @@ export default new Router({
       name: 'PostCreatePage',
       component: PostCreatePage
     },
+    {
+      path: '/personal/post',
+      name: 'PersonalPostPage',
+      component: PersonalPostPage
+    },
     ///////////////////// Personal Project /////////////////////
     {
       path: '/myproject',
@@ -133,7 +139,7 @@ export default new Router({
       path: '/teamPostPage/:num',
       name: 'TeamPostPage',
       component: TeamPostPage
-    }, 
+    },
     ////////////////////////////////////////////////////////////
 
     /////////////////////// Team Project ///////////////////////

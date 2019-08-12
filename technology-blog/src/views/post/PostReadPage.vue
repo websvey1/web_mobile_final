@@ -4,14 +4,12 @@
     <v-img v-if="post != null" :src="post.image_url" aspect-ratio="1.7">
       <v-layout wrap pa-5 fill-height>
         <v-flex pa-5 ma-5 white xs12>
-          <h1>{{post.post_title}} [{{post.project_title}}]</h1>
+          <h1 class="multipleline">{{post.post_title}} [{{post.project_title}}]</h1>
           <h3 style="text-align:right;color:grey;">작성자 : {{post.user_name}}</h3>
           <v-divider></v-divider>
           <h3 style="text-align:right;color:grey;">마지막 수정 날짜 : {{post.post_updated_at}}</h3>
           <v-divider dark></v-divider>
-          <div class="content-field">
-            <h3>{{post.post_content}}</h3>
-          </div>
+          <h1 class="multipleline content-field">{{post.post_content}}</h1>
           <div style="text-align:center;" id="write-btn">
             <v-chip v-for="tag in tags" outline :color="tag.color" >
                #{{tag.text}}
@@ -109,6 +107,20 @@ export default {
 }
 
 .content-field{
+  /* width: 100%; */
   min-height: 500px;
+}
+
+.multipleline {
+  max-width: 1200px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* 여러 줄 자르기 추가 스타일 */
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 </style>

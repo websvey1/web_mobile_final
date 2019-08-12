@@ -1,6 +1,6 @@
 <template>
 <v-layout wrap align-center justify-center row fill-height>
-  <v-flex xs12 ma-5 text-xs-left>
+  <v-flex xs12 ma-5 text-xs-left v-if="post != null">
     <v-layout warp>
       <v-flex xs9>
         <fieldset style="margin-right:4px; height:100%">
@@ -91,7 +91,7 @@ export default {
   },
   data() {
     return {
-      post: {},
+      post: null,
       items:[],
       project:{},
       isLoading: false,
