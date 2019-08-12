@@ -1,11 +1,21 @@
  <template>
   <div class="post-container" v-if="post.post_share=='0'">
     <span class="published">
+      <v-chip
+        v-if="post.post_category == '0'" 
+        small
+        color="#FFD54F">
+        <b>personal</b>
+      </v-chip>
+      <v-chip
+        v-else
+        small
+        color="#FF8A65">
+        <b>Team</b>
+      </v-chip>
       <p class="date">
         {{ post.post_created_at | date}}
-      </p>
-
-      <p class="date">
+        <br>
         {{ post.post_created_at | time}}
       </p>
     </span>
@@ -14,49 +24,15 @@
       <img v-else src="https://source.unsplash.com/random/300x300"></img>
 
       <a @click="goReadPage(post)">
+        <br>
         <h1 class="posth1">
           <i v-if="post.post_share=='1'"><img src="@/assets/lock.png/" style="width:20px; height:20px; margin-right:10px;"/></i>
           <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
-          <span v-if="post.post_category == '0'" style="color:red">[개인]</span>
-          <span v-else style="color:blue">[팀]</span>
           {{ post.post_title}}
         </h1>
       </a>
       <p class="pcontent">{{ post.post_content | content }}</p>
-      <v-divider style="margin-left:200px"></v-divider>
-      <p class="puser">{{post.project_title|project}} {{post.user_name|name}}
-        <v-avatar v-if="post.user_image"><img style="height:30px; width:30px; margin:0px;" :src="post.user_image"></img></v-avatar>
-        <v-avatar v-else><img style="height:30px; width:30px; margin:0px;" src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"></img></v-avatar>
-      </p>
-    </div>
-  </div>
-
-
-  <div class="post-container" v-else>
-    <span class="published">
-      <p class="date">
-        {{ post.post_created_at | date}}
-      </p>
-
-      <p class="date">
-        {{ post.post_created_at | time}}
-      </p>
-    </span>
-    <div class="post">
-      <img v-if="post.image_url != null" :src="post.image_url"/>
-      <img v-else src="https://source.unsplash.com/random/300x300"></img>
-
-      <a @click="goReadPage(post)">
-        <h1 class="posth1">
-          <i v-if="post.post_share=='1'"><img src="@/assets/lock.png/" style="border-radius:0; width:30px; height:30px; margin-right:10px;"/></i>
-          <!-- <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i> -->
-          <span v-if="post.post_category == '0'" style="color:red">[개인]</span>
-          <span v-else style="color:blue">[팀]</span>
-          {{ post.post_title}}
-        </h1>
-      </a>
-      <p class="pcontent">비밀 글입니다.</p>
-      <v-divider style="margin-left:200px"></v-divider>
+      <v-divider style="margin-left:170px"></v-divider>
       <p class="puser">{{post.project_title|project}} {{post.user_name|name}}
         <v-avatar v-if="post.user_image"><img style="height:30px; width:30px; margin:0px;" :src="post.user_image"></img></v-avatar>
         <v-avatar v-else><img style="height:30px; width:30px; margin:0px;" src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"></img></v-avatar>
@@ -143,7 +119,7 @@ export default {
   position: absolute;
   width: 100px;
   left: 25px;
-  padding: 10px 0;
+  padding: 7px 0;
   text-align: center;
   background-color: #fff;
 }
@@ -158,7 +134,7 @@ export default {
 
 .post {
   padding-left: 50px;
-  margin-bottom: 40px;
+  padding-bottom: 40px;
   margin: 0 auto;
   border-left: 1px solid #999;
   min-height: 180px;
@@ -169,13 +145,15 @@ export default {
 } */
 
 .posth1 {
-  /* padding-top: 3px; */
+  /* padding-top: 10px; */
   font-family: Open Sans;
   font-weight: bold;
   color: #222;
   font-size: 30px;
-  margin: 0;
-  margin-bottom: 15px;
+  padding-left: 10px;
+  /* margin: 0; */
+  margin-top: 7px;
+  margin-bottom: 7px;
   text-transform: uppercase;
   /* 여러 줄 자르기 추가 스타일 */
   overflow: hidden;
@@ -197,17 +175,17 @@ export default {
 }
 
 .post img {
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
   border-radius: 9999px;
   float: left;
   margin-right: 15px;
-  margin-top: 5px;
+  margin-top: 13px;
 }
 
 .pcontent {
-  padding-left: 25px;
-  padding-top: 10px;
+  padding-left: 13px;
+  padding-top: 15px;
   font-family: Open Sans;
   color: #333;
   line-height: 1.6;
@@ -242,5 +220,9 @@ export default {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+p {
+  margin-bottom: 0px !important;
 }
 </style>
