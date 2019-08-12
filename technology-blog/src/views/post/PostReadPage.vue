@@ -69,8 +69,6 @@ export default {
             color:colors[i%6]
           })
         }
-
-        console.log(this.post);
       })
       .catch((error) => {
         alert(error)
@@ -80,14 +78,17 @@ export default {
   async created(){
     var user = this.$route.params.user;
 
-    console.log(user);
-
-    if(user == undefined || user != this.$session.get('userInfo').user_id){
-      alert("권한이 없습니다.");
-      this.$router.push("/post")
+    if(this.$route.params.share == '0'){
+      await this.fetchData();
     }
     else{
-      await this.fetchData();
+      if(user == undefined || user != this.$session.get('userInfo').user_id){
+        alert("권한이 없습니다.");
+        this.$router.push("/post")
+      }
+      else{
+        await this.fetchData();
+      }
     }
   },
   beforeRouteLeave(to, from, next){

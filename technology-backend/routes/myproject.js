@@ -430,4 +430,27 @@ router.post('/getProjectName', function(req, res, next){
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////// MyprojectRead에서 밑에 Post 부분에 들어갈 post들 가져오기 위함 ////////////////////////////
+router.post('/getPost', function(req, res, next){
+  var pjtNum = req.body.num
+  var pool = db.getPool()
+  // console.log(pjtNum)
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select * from post as p inner join user as u on p.post_user = u.user_num where p.post_project = ?', pjtNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 module.exports = router;

@@ -55,6 +55,10 @@
 
               <h2 style="padding:5px 0;">git_url</h2>
               <p>{{ project.project_git_url }}</p>
+              <br>
+              <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
+                <v-icon dark>add</v-icon>
+              </v-btn>
             </div>
           </fieldset>
         </v-flex>
@@ -71,6 +75,31 @@
         </fieldset>
       </v-flex>
     </v-layout>
+
+    <v-dialog hide-overlay v-model="dialog" persistent max-width="520px">
+      <v-card>
+        <v-card-title style="display:flex; justify-content:center;">
+        <h2> Detail Information </h2>
+      </v-card-title>
+      <v-card-text style="text-align:center;" >
+        <v-container grid-list-md style="display:flex; justify-content:center;">
+          <v-layout wrap>
+            <v-flex xs12>
+              - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
+              - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
+              - Git-url : {{ project.project_git_url }}<br>
+              - Tech : {{ project.project_tech }}
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions style="display:flex; justify-content:center;">
+      <!-- <v-spacer></v-spacer> -->
+        <v-btn color="blue darken-1" flat @click="dialog = false">OK!</v-btn>
+      </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div style="text-align:center; margin-top: 20px;" id="write-btn">
       <v-btn v-if="project.project_user === loginUser" class="v-btn theme--dark" @click="goUpdate">수정</v-btn>
       <v-btn v-if="project.project_user === loginUser" class="v-btn theme--dark" @click="goDelete">삭제</v-btn>
@@ -97,6 +126,7 @@ export default {
       menu: false,
       picker: new Date().toISOString().substr(0, 10),
       loginUser: null,
+      dialog: false
     }
   },
   mounted() {
