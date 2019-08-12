@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <v-layout v-if="search" wrap>
+  <v-layout wrap v-if="users.length > 0">
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
       <div class="card" @click="userRead(userInfo.userN)">
         <div class="banner">

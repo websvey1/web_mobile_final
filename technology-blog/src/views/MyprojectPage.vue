@@ -5,10 +5,15 @@
     </div>
     <span class="mdi mdi-home"></span>
     <div class="container project">
-        <v-layout wrap>
+        <v-layout wrap v-if="projects.length > 0">
             <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
                 <MyprojectCard :project="project"></MyprojectCard>
             </v-flex>
+        </v-layout>
+        <v-layout v-else wrap>
+          <v-flex xs12 px-2 mt-4 style="margin-bottom: 35px;">
+            <h1 style="margin-top:50px;text-align:center;">PROJECT가 없습니다.</h1>
+          </v-flex>
         </v-layout>
     </div>
 </div>

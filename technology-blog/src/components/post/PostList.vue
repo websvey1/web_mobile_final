@@ -1,7 +1,12 @@
 <template>
-<v-layout v-dragscroll class="overflow">
+<v-layout v-if="posts.length > 0" v-dragscroll class="overflow">
   <v-flex xs3 v-for="post in posts" px-2 py-4>
     <PostCard :post="post"></PostCard>
+  </v-flex>
+</v-layout>
+<v-layout v-else wrap>
+  <v-flex xs12 px-2 mt-4 style="margin-bottom: 35px;">
+    <h1 style="margin-top:50px;text-align:center;">POST가 없습니다.</h1>
   </v-flex>
 </v-layout>
 </template>

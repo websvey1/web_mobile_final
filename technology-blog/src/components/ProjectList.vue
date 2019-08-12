@@ -1,9 +1,8 @@
 <template>
-<v-layout wrap>
+<v-layout wrap v-if="projects.length > 0 || teamprojects.length > 0">
     <!-- <v-flex xs12>
         <v-select v-model="status" :items="items" :label="status" solo></v-select>
     </v-flex> -->
-
     <v-layout wrap v-if="status == 'Project'">
         <v-flex v-for="project in projects" :key="project.pjt.project_num" xs6 style=" margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
@@ -14,6 +13,11 @@
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
+</v-layout>
+<v-layout v-else wrap>
+  <v-flex xs12 px-2 mt-4 style="margin-bottom: 35px;">
+    <h1 style="margin-top:50px;text-align:center;">PROJECT가 없습니다.</h1>
+  </v-flex>
 </v-layout>
 </template>
 
