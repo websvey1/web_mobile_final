@@ -101,7 +101,7 @@
       </v-list-tile>
       <v-divider />
 
-      <v-list-tile to="/post" style="background:white;">
+      <v-list-tile to="/personal/post" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">Post</span>

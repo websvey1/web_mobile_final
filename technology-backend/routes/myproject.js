@@ -385,7 +385,6 @@ router.post('/update/images', function(req, res, next) {
   })
 })
 
-
 ////////////////// 개인 project에서, post 작성할 때- 해당 project가 개인 project인지 확인하기 위해서 /////////////////////
 router.post('/getCategory', function(req, res, next) {
   var pool = db.getPool();
@@ -409,5 +408,26 @@ router.post('/getCategory', function(req, res, next) {
 })
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////// MyPostPage에서 현재 Project Name 가져오기 위함 ////////////////////////////////////
+router.post('/getProjectName', function(req, res, next){
+  var pjtNum = req.body.pjtNum
+  var pool = db.getPool()
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select project_title from project where project_num = ?', pjtNum, function(err, result) {
+        if (err){
+          console.error(err)
+          throw err
+        }
+        res.send(result)
+      })
+    }
+    conn.release();
+  })
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;

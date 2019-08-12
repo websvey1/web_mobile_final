@@ -220,7 +220,7 @@ export default {
     },
     postRead(){
       // this.$router.push({ name: "TeamPostPage", params: {id: this.$route.params.id, num: this.$route.params.num} })
-      this.$router.push(`/personalPostPage/${this.$route.params.id}`)
+      this.$router.push(`/myPostPage/${this.$route.params.id}`)
     }
   }
 }
