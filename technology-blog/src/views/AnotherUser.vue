@@ -8,10 +8,11 @@
       <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
     </div>
     <div class="searchbar-third">
-      <v-btn class="v-btn theme--dark" @click="searchPosts">검색</v-btn>
-      <v-btn class="v-btn theme--dark" @click="allPosts">전체글 보기</v-btn>
+      <v-btn class="v-btn theme--dark" @click="searchUser(categoryForSearch)">검색</v-btn>
+      <v-btn class="v-btn theme--dark" @click="allUsers">전체 보기</v-btn>
     </div>
   </div>
+
   <v-layout wrap>
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
       <div class="card" @click="userRead(userInfo.userN)">
@@ -20,18 +21,17 @@
           <img class="avatar" :src="userInfo.user_image|image"></img>
           <!-- </div> -->
         </div>
-      <h3><b>{{ userInfo.userId }}</b></h3>
-      <a>📧 {{ userInfo.userEmail }}</a>
-      <a>📱 Project - {{ userInfo.userProject }} Post - {{ userInfo.userPost }}</a>
-      <span v-for="tech in userInfo.userTech">
-        <v-chip color="rgb(191, 234, 255)">{{ tech }}</v-chip>
-      </span>
-      <ul>
-      </ul>
-    </div>
-
-</v-flex>
-</v-layout>
+        <h3><b>{{ userInfo.userId }}</b></h3>
+        <a>📧 {{ userInfo.userEmail }}</a>
+        <a>📱 Project - {{ userInfo.userProject }} Post - {{ userInfo.userPost }}</a>
+        <span v-for="tech in userInfo.userTech">
+          <v-chip color="rgb(191, 234, 255)">{{ tech }}</v-chip>
+        </span>
+        <ul>
+        </ul>
+      </div>
+    </v-flex>
+  </v-layout>
 </div>
 </template>
 
@@ -53,6 +53,8 @@ export default {
         {text:'Email', value:'1'},
         {text:'관심 기술', value:'2'},
       ],
+      categoryForSearch: {text:'', value:''} ,
+      textForSearch: '',
     }
   },
   filters: {
@@ -93,6 +95,12 @@ export default {
       var userid = user_id
       console.log(userid)
       this.$router.push(`/another/${userid}`)
+    },
+    searchUser(input){
+
+    },
+    allUsers(){
+
     }
   }
 }

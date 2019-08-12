@@ -230,8 +230,8 @@ router.post('/update/project', function(req, res, next) {
         console.log(ex)
       }
       else {
-        var query = conn.query('update project set project_title = ?, project_goal = ?, project_status = ?, project_start_date = ?, project_end_date = ?, project_content = ?, project_tech = ?, project_share = ? where project_num = ' + pjtNum + ';', 
-        [project.project_title, project.project_goal, project.project_status, project.project_start_date, project.project_end_date, project.project_content, project.project_tech, project.project_share],
+        var query = conn.query('update project set project_title = ?, project_goal = ?, project_status = ?, project_start_date = ?, project_end_date = ?, project_content = ?, project_tech = ?, project_share = ?, project_git_url = ?, project_updated_at = now() where project_num = ' + pjtNum + ';', 
+        [project.project_title, project.project_goal, project.project_status, project.project_start_date, project.project_end_date, project.project_content, project.project_tech, project.project_share, project.project_git_url],
         function(err, result) {
           if (err){
             console.err(err)
@@ -247,7 +247,7 @@ router.post('/update/project', function(req, res, next) {
 
 router.post('/update/images', function(req, res, next) {
   var pool = db.getPool();
-  console.log(req.body)
+  // console.log(req.body)
   var pjtNum = req.body.pjtNum
   var imgUrl = req.body.imgUrl
   

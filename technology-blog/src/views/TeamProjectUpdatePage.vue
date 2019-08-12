@@ -218,7 +218,7 @@ export default {
     },
     mounted() {
       this.getProject()
-      console.log(this.updateimgs)
+      // console.log(this.updateimgs)
     },
     methods: {
         goHome(){
@@ -232,8 +232,8 @@ export default {
             .then((res)=> {
                 this.project = res.body.project[0]
                 this.updateimgs = res.body.images
-                console.log(res)
-                console.log(this.project)
+                // console.log(res)
+                // console.log(this.project)
             })
         },
         addFiles(){
@@ -285,7 +285,7 @@ export default {
         },
 
         removeFile( key ){
-            console.log(key)
+            // console.log(key)
             this.newfiles.splice( key, 1 );
         },
 
@@ -293,7 +293,7 @@ export default {
           this.updateimgs.splice(key, 1);
           var delimg = image
           this.delfiles.push(delimg)
-          console.log(this.delfiles)
+          // console.log(this.delfiles)
         },
 
         async updateTeamProject(){
