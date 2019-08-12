@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     async getTeamName(){
-      await this.$http.post('http://192.168.31.63:3000/teamProject/getProjectName', {pjtNum: this.$route.params.num})
+      await this.$http.post('http://192.168.31.z:3000/teamProject/getProjectName', {pjtNum: this.$route.params.num})
       .then((response) => {
         this.pjtName = response.body[0].project_title
       })

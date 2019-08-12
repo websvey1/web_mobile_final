@@ -47,13 +47,13 @@ export default {
             var data = {
                 id : this.$route.params.id
             }
-            await this.$http.post('http://192.168.31.63:3000/teamProject', data)
+            await this.$http.post('http://192.168.31.85:3000/teamProject', data)
             .then(async (response) => {
                 for (var i=0; i < response.body.length; i++){
                     var temp = {
                         pjtNum: response.body[i].project_num
                     }
-                    await this.$http.post('http://192.168.31.63:3000/teamProject/getpjt', temp)
+                    await this.$http.post('http://192.168.31.85:3000/teamProject/getpjt', temp)
                     .then(async (res) => {
                         console.log(res.body)
                         this.projects.push({ pjt: res.body.project[0], image: res.body.image })
