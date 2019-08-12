@@ -26,8 +26,8 @@ import PageTest from './views/test/PageTest.vue'
 //// test ////
 
 //// project ////
-import ProjectPage from './views/ProjectPage.vue'
-import ProjectReadPage from './views/ProjectReadPage.vue'
+import ProjectPage from './views/project/ProjectPage.vue'
+import ProjectReadPage from './views/project/ProjectReadPage.vue'
 import HeaderTeamRead from './views/HeaderTeamRead'
 //// project ////
 
@@ -35,13 +35,13 @@ import HeaderTeamRead from './views/HeaderTeamRead'
 import MyprojectPage from './views/MyprojectPage.vue'
 import TeamProjectPage from './views/TeamProjectPage.vue'
 
-import ProjectWritePage from './views/ProjectWritePage.vue'
+import ProjectWritePage from './views/project/ProjectWritePage.vue'
 import TeamProjectWritePage from './views/TeamProjectWritePage.vue'
 
 import MyprojectRead from './views/MyprojectRead.vue'
 import TeamProejctReadPage from './views/TeamProjectReadPage'
 
-import ProjectUpdatePage from './views/ProjectUpdatePage.vue'
+import ProjectUpdatePage from './views/project/ProjectUpdatePage.vue'
 import TeamProjectUpdatePage from './views/TeamProjectUpdatePage.vue'
 //// myproject ////
 
