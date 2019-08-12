@@ -123,7 +123,7 @@ export default {
         pjtNum: id
       }
       console.log(data)
-      this.$http.post('http://192.168.31.61:3000/myproject/delete/project', data)
+      this.$http.post(this.$store.state.testIp + '/myproject/delete/project', data)
       .then((res) => {
         alert("글 삭제 완료");
         console.log(res)

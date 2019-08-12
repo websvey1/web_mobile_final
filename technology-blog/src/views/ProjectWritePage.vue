@@ -3,7 +3,7 @@
 <v-layout wrap align-center justify-center row fill-height>
   <v-flex xs12 ma-5 text-xs-left>
     <div style="margin: 0px 16px 1px">
-      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요." 
+      <v-text-field xs12 label="Title" placeholder="프로젝트명을 입력해 주세요."
       v-model='title' counter="20" :maxlength="20" :rules="titleRules" required></v-text-field>
     </div>
     <v-layout wrap>
@@ -117,7 +117,7 @@
           Random Image
           <v-icon right dark style="margin-left: -0.1px;">add</v-icon>
         </v-btn>
-        
+
         <div style="height: 10px"></div>
 
         <div v-for="(file, key) in files" :key="key" class="file-listing" style="margin-left: 20px; margin-bottom: 5px;">
@@ -131,7 +131,7 @@
       <div style="margin:16px;">
         <markdown-editor v-model="content" ref="markdownEditor" :rules="contentRules" required></markdown-editor>
       </div>
-    </fieldset> 
+    </fieldset>
 
     <v-layout wrap>
       <v-flex xs9>
@@ -258,7 +258,7 @@ export default {
           imgArray: this.files
         }
 
-        this.$http.post("http://192.168.31.63:3000/myproject/create", post)
+        this.$http.post(this.$store.state.testIp + "/myproject/create", post)
         .then((result) => {
           console.log(result.data);
         }).catch((error) => {
@@ -323,7 +323,7 @@ export default {
       this.files.push(this.newimg)
       console.log(this.files)
     }
-    ,      
+    ,
     removeFile( key ){
        this.files.splice( key, 1 );
     },

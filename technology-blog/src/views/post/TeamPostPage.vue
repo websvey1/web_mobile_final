@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     async getTeamName(){
-      await this.$http.post('http://192.168.31.63:3000/teamProject/getProjectName', {pjtNum: this.$route.params.num})
+      await this.$http.post(this.$store.state.testIp + '/teamProject/getProjectName', {pjtNum: this.$route.params.num})
       .then((response) => {
         this.pjtName = response.body[0].project_title
       })
@@ -67,7 +67,7 @@ export default {
     },
 
     async readPosts(page) {
-      await this.$http.post("http://192.168.31.63:3000/post/teamAllList/" + page, {pjtNum:this.$route.params.num})
+      await this.$http.post(this.$store.state.testIp + "/post/teamAllList/" + page, {pjtNum:this.$route.params.num})
       .then((response) => {
         this.posts = response.data;
       })
@@ -77,7 +77,7 @@ export default {
     },
 
     async getTotalPageNum() {
-      await this.$http.post("http://192.168.31.63:3000/post/teamPageNum", {pjtNum:this.$route.params.num})
+      await this.$http.post(this.$store.state.testIp + "/post/teamPageNum", {pjtNum:this.$route.params.num})
         .then((req) => {
           console.log(req.data);
           this.length = req.data * 1;

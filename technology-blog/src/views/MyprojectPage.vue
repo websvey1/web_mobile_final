@@ -37,14 +37,14 @@ export default {
             var data = {
                 userNum: this.$session.get('userInfo').user_num
             }
-            await this.$http.post('http://192.168.31.61:3000/myproject/userproject', data)
+            await this.$http.post(this.$store.state.testIp + '/myproject/userproject', data)
             .then(async (response) => {
                 for (var i=0; i < response.body.length; i++){
                     var temp = {
                         pjtNum: response.body[i].project_num
                     }
                     console.log(temp)
-                    await this.$http.post('http://192.168.31.61:3000/myproject/getProject', temp)
+                    await this.$http.post(this.$store.state.testIp + '/myproject/getProject', temp)
                     .then(async (res) => {
                         console.log(res.body)
                         this.projects.push({

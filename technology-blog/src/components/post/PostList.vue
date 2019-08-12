@@ -39,7 +39,7 @@ export default {
     },
 
     async readPosts() {
-      var posts = await this.$http.get("http://192.168.31.63:3000/post")
+      var posts = await this.$http.get(this.$store.state.testIp + "/post")
         .then((response) => {
           // console.log(response.data);
           this.posts = response.data;

@@ -129,13 +129,13 @@ export default {
         return false;
       }
       if (this.title.length>45){
-        
+
           alert("제목이 너무 깁니다");
           return false;
         }
       var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/ ";
       console.log(this.title, '중간체크')
-      for (var i=0; i<this.title.length; i++){        
+      for (var i=0; i<this.title.length; i++){
         for (var j=0; j<num.length; j++){
           if (this.title[i] == num[j]){
             alert("특수문자 사용 금지입니다");
@@ -153,7 +153,7 @@ export default {
       if(this.checkValidation()){
         var form = await this.form
 
-        await this.$http.post("http://192.168.31.65:3000/post/create", form)
+        await this.$http.post(this.$store.state.testIp + "/post/create", form)
         .then((req) => {
           alert("글이 작성되었습니다.");
           this.isLoading = false;
@@ -171,7 +171,7 @@ export default {
       var data = {
         pjtNum: this.$route.params.num
       }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getProjectName', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/getProjectName', data)
       .then((response) => {
         this.pjtName = response.body[0].project_title
       })

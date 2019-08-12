@@ -112,7 +112,7 @@ export default {
     },
 
     async readTech(){
-      await this.$http.get("http://192.168.31.63:3000/user/tech")
+      await this.$http.get(this.$store.state.testIp + "/user/tech")
       .then((req) => {
         this.techs = req.data;
       })
@@ -128,14 +128,14 @@ export default {
           return
         }
 
-        this.$http.put("http://192.168.31.63:3000/user/update", this.form).
+        this.$http.put(this.$store.state.testIp + "/user/update", this.form).
         then((req) => {
           if(req.data == "fail"){
             alert("비밀번호를 다시 확인해주세요.");
             this.isLoading = false;
           }
           else{
-            this.$http.post("http://192.168.31.63:3000/user/read/" + this.$session.get("userInfo").user_num)
+            this.$http.post(this.$store.state.testIp + "/user/read/" + this.$session.get("userInfo").user_num)
             .then((req) => {
               this.$session.set("userInfo", req.data);
               console.log(req.data);

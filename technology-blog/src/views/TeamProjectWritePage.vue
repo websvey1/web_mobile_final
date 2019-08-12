@@ -243,7 +243,7 @@ export default {
       var data = {
         teamNum: this.$route.params.id
       }
-      this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+      this.$http.post(this.$store.state.testIp + '/team/getMember', data)
       .then((res) => {
         // console.log(res.body)
         var member = []
@@ -264,7 +264,7 @@ export default {
           teamNum: this.$route.params.id,
           project: this.project
         }
-        this.$http.post('http://192.168.31.63:3000/teamProject/create', data)
+        this.$http.post(this.$store.state.testIp + '/teamProject/create', data)
         .then((res) => {
           var pjt_num = res.body
           for (var i=0; i < this.files.length; i++){
@@ -274,7 +274,7 @@ export default {
               image: this.files[i]
             }
             // console.log(data)
-            this.$http.post('http://192.168.31.63:3000/teamProject/images', data)
+            this.$http.post(this.$store.state.testIp + '/teamProject/images', data)
             .then((res) => {
               console.log(res)
             })

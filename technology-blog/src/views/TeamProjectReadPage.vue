@@ -180,7 +180,7 @@ export default {
       var data = {
         num : this.$route.params.num
       }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getPost', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/getPost', data)
       .then((response) => {
         this.posts = response.body
       })
@@ -192,7 +192,7 @@ export default {
       var data = {
         pjtNum: this.$route.params.num
       }
-      this.$http.post('http://192.168.31.63:3000/teamProject/getimage', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/getimage', data)
       .then((res) => {
         this.images = res.body
       })
@@ -206,7 +206,7 @@ export default {
             pjtNum: pjt_num
         }
         this.$http.post()
-        this.$http.post('http://192.168.31.63:3000/teamProject/getproject', data)
+        this.$http.post(this.$store.state.testIp + '/teamProject/getproject', data)
         .then((res) => {
             this.project = res.body[0]
         })
@@ -215,7 +215,7 @@ export default {
         var data = {
             teamNum: this.$route.params.id
         }
-        this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+        this.$http.post(this.$store.state.testIp + '/team/getMember', data)
         .then((res) => {
             var member = []
             for (var i=0; i < res.body.length; i++) {
@@ -244,7 +244,7 @@ export default {
       var data = {
         pjtNum: this.$route.params.num
       }
-      this.$http.post('http://192.168.31.61:3000/teamProject/delete/project', data)
+      this.$http.post(this.$store.state.testIp + '/teamProject/delete/project', data)
       .then((res) => {
         alert("글 삭제 완료");
         this.$router.push(`/teamProject/${teamNum}`)

@@ -37,7 +37,7 @@ export default {
         var data = {
           id : this.$session.get('userInfo').user_num
         }
-        this.$http.post('http://192.168.31.63:3000/team/checkNew', data)
+        this.$http.post(this.$store.state.testIp + '/team/checkNew', data)
         .then((response) => {
           if(response.body[0].total > 0){
             this.$store.state.exist = true

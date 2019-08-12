@@ -50,7 +50,7 @@ export default {
        var data = {
         num : this.$session.get('userInfo').user_num
     }
-    this.$http.post('http://192.168.31.63:3000/plan/getPlan', data)
+    this.$http.post(this.$store.state.testIp + '/plan/getPlan', data)
       .then((response) => {
         var items = response.body;
 
