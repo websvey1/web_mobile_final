@@ -50,6 +50,7 @@ import TeamCalendarPage from './views/TeamCalendarPage.vue'
 import TeamChoose from './views/TeamChoose.vue'
 import AnotherUser from './views/AnotherUser.vue'
 import AnotherUserRead from './views/AnotherUserRead.vue'
+import MyPostPage from './views/post/MyPostPage.vue'
 import TeamPostPage from './views/post/TeamPostPage.vue'
 import PersonalPostPage from '@/views/post/PersonalPostPage.vue'
 
@@ -107,9 +108,9 @@ export default new Router({
       component: PersonalPostPage
     },
     {
-      path: '/personalPostPage/:num',
-      name: 'TeamPostPage',
-      component: TeamPostPage
+      path: '/myPostPage/:num',
+      name: 'MyPostPage',
+      component: MyPostPage
     },
     ///////////////////// Personal Project /////////////////////
     {
