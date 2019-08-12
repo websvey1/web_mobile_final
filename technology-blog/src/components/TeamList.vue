@@ -88,7 +88,7 @@ export default {
         num: this.$session.get('userInfo').user_num
       }
 
-      await this.$http.post('http://192.168.31.63:3000/team/getTeamList', temp)
+      await this.$http.post(this.$store.state.testIp + '/team/getTeamList', temp)
         .then(async (response) => {
           // 속해있는 여러 개의 팀이 response.body를 통해 전달됨
           for (var i = 0; i < response.body.length; i++) {
@@ -97,7 +97,7 @@ export default {
               teamNum: response.body[i].team_num
             }
             // 선택된 팀에 속한 member들을 구함
-            await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+            await this.$http.post(this.$store.state.testIp + '/team/getMember', data)
             .then(async (response) => {
               var tempTeamName = response.body[0].team_name;
               var tempMember = '';
@@ -112,7 +112,7 @@ export default {
                 teamNum : response.body[0].team_num
               }
 
-              await this.$http.post('http://192.168.31.63:3000/team/getAuth', tempData)
+              await this.$http.post(this.$store.state.testIp + '/team/getAuth', tempData)
               .then((response) => {
                 this.items.push({ title: tempTeamName, member: tempMember, auth: response.body[0].member_auth, exist: true, teamNum: tempTeamNum })
               })
@@ -149,19 +149,19 @@ export default {
         num: this.$session.get('userInfo').user_num,
         teamName: titleData
       }
-      this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
+      this.$http.post(this.$store.state.testIp + '/team/getTeamNum', temp)
       .then((response) => {
         var auth = {
           num: this.$session.get('userInfo').user_num,
           teamNum: response.body[0].team_num
         }
-        this.$http.post('http://192.168.31.63:3000/team/changeAuth', auth)
+        this.$http.post(this.$store.state.testIp + '/team/changeAuth', auth)
           .then((response) => {
             console.log("Change complete")
             var data = {
               id : this.$session.get('userInfo').user_num
             }
-            this.$http.post('http://192.168.31.63:3000/team/checkNew', data)
+            this.$http.post(this.$store.state.testIp + '/team/checkNew', data)
             .then((response) => {
               if(response.body[0].total > 0){
                 this.$store.state.exist = true
@@ -193,13 +193,13 @@ export default {
         num: this.$session.get('userInfo').user_num,
         teamName: titleData
       }
-      this.$http.post('http://192.168.31.63:3000/team/getTeamNum', temp)
+      this.$http.post(this.$store.state.testIp + '/team/getTeamNum', temp)
         .then((response) => {
           var auth = {
             num: this.$session.get('userInfo').user_num,
             teamNum: response.body[0].team_num
           }
-          this.$http.post('http://192.168.31.63:3000/team/deleteTeam', auth)
+          this.$http.post(this.$store.state.testIp + '/team/deleteTeam', auth)
             .then((response) => {
               console.log("Delete complete")
             })
@@ -218,7 +218,7 @@ export default {
         teamNum: pk
       }
 
-      await this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', temp)
+      await this.$http.post(this.$store.state.testIp + '/team/getLatestTeam', temp)
         .then(async (response) => {
           console.log('team name:')
           console.log(response.body)
@@ -228,7 +228,7 @@ export default {
             teamNum: pk
           }
           // 선택된 팀에 속한 member들을 구함
-          await this.$http.post('http://192.168.31.63:3000/team/getMember', data)
+          await this.$http.post(this.$store.state.testIp + '/team/getMember', data)
             .then(async (response) => {
               console.log(response.body)
               var tempMember = '';

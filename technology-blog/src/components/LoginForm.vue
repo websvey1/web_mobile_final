@@ -105,7 +105,7 @@ export default {
       if (this.checkValidation()) {
         this.isLoading = true;
 
-        this.$http.post("http://192.168.31.65:3000/user/login", this.form)
+        this.$http.post(this.$store.state.testIp + "/user/login", this.form)
           .then((res) => {
             console.log(res.data);
             if (res.data == "fail") {

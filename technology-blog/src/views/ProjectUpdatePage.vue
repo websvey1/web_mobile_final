@@ -217,7 +217,7 @@ export default {
             var data = {
                 pjtNum: this.$route.params.id
             }
-            this.$http.post('http://192.168.31.63:3000/myproject/update/getProject', data)
+            this.$http.post(this.$store.state.testIp + '/myproject/update/getProject', data)
             .then((res)=> {
                 this.project = res.body.project[0]
                 this.updateimgs = res.body.images
@@ -292,7 +292,7 @@ export default {
             project: this.project,
           }
 
-          await this.$http.post('http://192.168.31.61:3000/myproject/update/project', data)
+          await this.$http.post(this.$store.state.testIp + '/myproject/update/project', data)
             .then(async (res) => {
               var id = this.$route.params.id
               for (var i=0; i < this.newfiles.length; i++){
@@ -300,7 +300,7 @@ export default {
                   pjtNum: id,
                   imgUrl: this.newfiles[i]
                 }
-                await this.$http.post('http://192.168.31.61:3000/myproject/update/images', data)
+                await this.$http.post(this.$store.state.testIp + '/myproject/update/images', data)
                 .then(async (res) => {
                   console.log(res.body)
                 })
@@ -311,7 +311,7 @@ export default {
                 var data = {
                   imgNum: this.delfiles[j].imgnum
                 }
-                await this.$http.post('http://192.168.31.61:3000/myproject/delete/image', data)
+                await this.$http.post(this.$store.state.testIp + '/myproject/delete/image', data)
                 .then(async (res) => {
                   console.log(res)
                 })

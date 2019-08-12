@@ -280,7 +280,7 @@ export default {
     //     //   }
 
     //     //   console.log(data)
-    //     //   this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
+    //     //   this.$http.post(this.$store.state.testIp + '/team/getLatestTeam', data)
     //     //   .then((response) => {
     //     //     this.teamName = response.body[0].team_name
     //     //   })

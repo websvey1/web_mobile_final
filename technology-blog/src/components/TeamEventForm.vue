@@ -60,7 +60,7 @@ export default {
         num: this.$session.get('userInfo').user_num
       }
 
-      this.$http.post('http://192.168.31.63:3000/team/getTeamList', data)
+      this.$http.post(this.$store.state.testIp + '/team/getTeamList', data)
       .then((response) => {
         for(var i = 0; i < response.body.length; i++){
           this.teamList.push(response.body[i].team_name)
@@ -79,7 +79,7 @@ export default {
         num: this.$session.get('userInfo').user_num,
         teamName: this.event.team
       }
-      this.$http.post('http://192.168.31.63:3000/team/getTeamNum', data)
+      this.$http.post(this.$store.state.testIp + '/team/getTeamNum', data)
       .then((response) => {
         // console.log(response.body[0].team_num)
         const start = format(this.event.start, 'YYYY-MM-DD');
@@ -113,7 +113,7 @@ export default {
           }
         }
 
-        this.$http.post('http://192.168.31.63:3000/plan/team', config)
+        this.$http.post(this.$store.state.testIp + '/plan/team', config)
           .then((response) => {
             this.$store.state.teamPlan = true;
             this.resetValues();

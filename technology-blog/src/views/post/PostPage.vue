@@ -152,7 +152,7 @@ export default {
     },
 
     async readPosts(page, category) {
-      await this.$http.post("http://192.168.31.65:3000/post/alllist/" + page, {post_category:category})
+      await this.$http.post(this.$store.state.testIp + "/post/alllist/" + page, {post_category:category})
       .then((response) => {
         this.posts = response.data;
       })
@@ -162,7 +162,7 @@ export default {
     },
 
     async getTotalPageNum(category) {
-      await this.$http.post("http://192.168.31.65:3000/post/totalPageNum", {post_category:category})
+      await this.$http.post(this.$store.state.testIp + "/post/totalPageNum", {post_category:category})
         .then((req) => {
           console.log(req.data);
           this.length = req.data * 1;
@@ -187,7 +187,7 @@ export default {
     },
 
     async readPostsForSearch(page, category) {
-      this.$http.post("http://192.168.31.65:3000/post/search/" + page, {post_category : category, search_content : this.searchContent})
+      this.$http.post(this.$store.state.testIp + "/post/search/" + page, {post_category : category, search_content : this.searchContent})
       .then((result) => {
         this.posts = result.data;
       })
@@ -196,7 +196,7 @@ export default {
       })
     },
     async getTotalPageNumForSearch(category) {
-      await this.$http.post("http://192.168.31.65:3000/post/totalPageNumForSearch", {post_category : category, search_content : this.searchContent})
+      await this.$http.post(this.$store.state.testIp + "/post/totalPageNumForSearch", {post_category : category, search_content : this.searchContent})
         .then((req) => {
           this.length = req.data * 1;
         })

@@ -50,7 +50,7 @@ export default {
         }
       },
         async onList() {
-            await this.$http.post('http://192.168.31.61:3000/myproject/getPjt')
+            await this.$http.post(this.$store.state.testIp + '/myproject/getPjt')
             .then(async (res) => {
                 for (var i=0; i < res.body.length; i++){
                     var temp = {
@@ -58,7 +58,7 @@ export default {
                         userNum: res.body[i].project_user
                     }
                     console.log(temp)
-                    await this.$http.post('http://192.168.31.61:3000/myproject/getProject', temp)
+                    await this.$http.post(this.$store.state.testIp + '/myproject/getProject', temp)
                     .then(async (res) => {
                         // console.log(res.body)
                         this.projects.push({
@@ -78,7 +78,7 @@ export default {
         },
 
         async onTeamList() {
-            await this.$http.post('http://192.168.31.61:3000/teamProject/teamproject')
+            await this.$http.post(this.$store.state.testIp + '/teamProject/teamproject')
             .then(async (res) => {
                 console.log(res.body)
                 if (res.body.length > 0) {
@@ -86,7 +86,7 @@ export default {
                         var data = {
                             pjtNum: res.body[i].project_num
                         }
-                        await this.$http.post('http://192.168.31.61:3000/teamProject/projectimage', data)
+                        await this.$http.post(this.$store.state.testIp + '/teamProject/projectimage', data)
                         .then(async (response) => {
                             var image = []
                             if (response.body.length > 0) {

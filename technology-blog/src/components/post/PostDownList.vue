@@ -39,7 +39,7 @@ export default {
     // },
     // async readPosts() {
     //   console.log(this.$props.category);
-    //   await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:this.$props.category})
+    //   await this.$http.post(this.$store.state.testIp + "/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:this.$props.category})
     //     .then((response) => {
     //       this.posts = response.data;
     //       // console.log(this.posts);
@@ -53,7 +53,7 @@ export default {
     //   this.posts = [];
     //   // console.log(config);
     //   config["post_category"] = this.$props.category;
-    //   this.$http.post("http://192.168.31.65:3000/post/search", config)
+    //   this.$http.post(this.$store.state.testIp + "/post/search", config)
     //     .then((response) => {
     //       // console.log(response.date);
     //       this.posts = response.data;
@@ -64,7 +64,7 @@ export default {
     // },
     //
     // async readPosts(category) {
-    //   await this.$http.post("http://192.168.31.65:3000/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:category})
+    //   await this.$http.post(this.$store.state.testIp + "/post/list/" + this.$session.get('userInfo').user_num + "/" + this.page, {post_category:category})
     //     .then((response) => {
     //       this.posts = response.data;
     //       // console.log(this.posts);
