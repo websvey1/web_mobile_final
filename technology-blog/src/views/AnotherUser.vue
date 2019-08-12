@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <v-layout wrap v-if="users.length > 0">
+  <v-layout wrap v-if="search">
     <v-flex wrap v-for="userInfo in users" v-bind:key="userInfo.userN" xs3 style="margin-top: 30px; margin-bottom: 40px;">
       <div class="card" @click="userRead(userInfo.userN)">
         <div class="banner">
@@ -53,7 +53,7 @@
     </v-flex>
   </v-layout>
 
-  <v-layout v-if="tempUsers.length == 0" wrap>
+  <v-layout v-if="nonexist" wrap>
     <h1 style="text-align: center">검색한 내용에 해당하는 User가 없습니다.</h1>
   </v-layout>
 </div>
@@ -67,6 +67,7 @@ export default {
       users: [],
       tempUsers: [],
       search: true,
+      nonexist: false,
       searchResult:'',
       searchContent:{
         category:'',
@@ -133,9 +134,7 @@ export default {
 
           if(input.value == 2){
             for(var i = 0; i < this.users.length; i++){
-              if(this.users[i].userTech.length == 0){
-                console.log("Do not exist")
-              }else{
+              if(this.users[i].userTech.length > 0){
                 for(var m = 0; m < this.users[i].userTech.length; m++){
                   if(this.users[i].userTech[m].toLowerCase().includes(this.textForSearch.toLowerCase())){
                     this.tempUsers.push(this.users[i])
@@ -152,13 +151,12 @@ export default {
                 var data = {
                   userNum: response.body[i].user_num
                 }
-                console.log(data.userNum)
+                // console.log(data.userNum)
                 await this.$http.post(this.$store.state.testIp + '/another/getInfo', data)
                 .then(async (response) => {
                   var tech = response.body;
-                  console.log(tech)
+                  // console.log(tech)
                   this.tempUsers.push(tech)
-
                 })
                 .catch((error) => {
                   console.log(error)
@@ -169,6 +167,11 @@ export default {
               console.log(error)
             })
           }
+          if(this.tempUsers.length > 0){
+              this.nonexist = false;
+            }else{
+              this.nonexist = true;
+            }
         }
       }
     },
