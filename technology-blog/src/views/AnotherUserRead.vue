@@ -6,11 +6,11 @@
         <v-avatar color="rgb(140, 140, 140)" size="175">
           <img :src="user.userImage|image"/>
 
-          <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/"
+          <!-- <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/"
           style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px;"/>
 
           <img class="imgclick" @click="nofollow(user.usernum, login_id)" v-else-if="status === 1" src="@/assets/31.png/"
-          style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/>
+          style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/> -->
         </v-avatar>
       </v-flex>
       <v-flex text-center style="padding-top:10px;">
@@ -92,48 +92,45 @@
             </tbody>
           </table>
         </div>
-        <v-layout wrap v-else-if="item == 'Post'" style="display: flex; justify-content:center;">
-          <v-flex wrap v-for="p in post" :key="p.post.post_num" xs3 style="margin: 20px 0px 20px 20px; ">
-              <v-card hover @click="goPost(p.post.post_num)" width="330" height="240"  class="mx-auto">
-              <v-card-title v-if="p.post.post_category == 0" style="background-color:#2980b9;">
-                <h2 style="color:white;">[개인]</h2>
-              </v-card-title>
-              <v-card-title v-else-if="p.post.post_category == 1" style="background-color:#8e44ad;">
-                <h2 style="color:white;">[팀]</h2>
-              </v-card-title>
-
-<!-- 개인 내용 -->
-              <v-card-text v-if="p.post.post_category == 0" style="height:177px; background-color:#3498db; padding:25px;flex: 1 0 auto;">
-                <h2 style="color:white; margin-bottom:20px;">{{ p.post.post_title }}</h2>
-                  <div v-if="p.tag[0] !== null">
-                    <span v-for="t in p.tag" :key="t">
-                      <v-chip class="ma-2" color="pink" label text-color="white">
-                        <v-icon left>label</v-icon>
-                        {{ t }}
-                      </v-chip>
-                    </span>
-                  </div>
-              </v-card-text>
-<!-- 팀 내용 -->
-              <v-card-text v-else-if="p.post.post_category == 1" style="height:177px; background-color:#9b59b6; padding:25px;flex: 1 0 auto;">
-                <h2 style="color:white; margin-bottom:20px;">{{ p.post.post_title }}</h2>
-
-                  <div v-if="p.tag[0] !== null">
-                    <span v-for="t in p.tag" :key="t">
-                      <v-chip class="ma-2" color="pink" label text-color="white">
-                        <v-icon left>label</v-icon>
-                        {{ t }}
-                      </v-chip>
-                    </span>
-                  </div>
-              </v-card-text>
-
-            </v-card>
-          </v-flex>
+        <v-layout wrap v-else-if="item == 'My Post'">
+          <table>
+            <thead>
+                <tr style="background: rgba(0,0,0,0.05)">
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Created Time</th>
+                </tr>
+            </thead>
+            <tbody  v-for="p in post" :key="p.post.post_num">
+                <tr v-if="p.post.post_category == 0" @click="goPost(p.post.post_num)">
+                    <td data-title="Title"> {{ p.post.post_title }}</td>
+                    <td data-title="Content">{{  p.post.post_content }}</td>
+                    <td data-title="Created Time">{{  p.post.post_created_at }}</td>
+                </tr>
+            </tbody>
+          </table>
         </v-layout>
-        <div v-else-if="item == 'Follow'">
+        <v-layout wrap v-else-if="item == 'Team Post'">
+          <table>
+            <thead>
+                <tr style="background: rgba(0,0,0,0.05)">
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Created Time</th>
+                </tr>
+            </thead>
+            <tbody  v-for="p in post" :key="p.post.post_num">
+                <tr v-if="p.post.post_category == 1" @click="goPost(p.post.post_num)">
+                    <td data-title="Title">{{ p.post.post_title }}</td>
+                    <td data-title="Content">{{  p.post.post_content }}</td>
+                    <td data-title="Created Time">{{  p.post.post_created_at  }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </v-layout>
+        <!-- <div v-else-if="item == 'Follow'">
          SDFJSLDFJLSDKFJSLKJ
-        </div>
+        </div> -->
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -155,7 +152,7 @@ export default {
         post: [],
         tab: null,
         items: [
-          'My Project', 'Team Project', 'Post', 'Follow',
+          'My Project', 'Team Project', 'My Post', 'Team Post',
         ],
         project_user: this.$route.params.id,
         status: null,
@@ -184,7 +181,6 @@ export default {
           // console.log(this.user)
       })
     },
-
     getProject() {
       var user_num = this.$route.params.id
       var data = {
