@@ -164,7 +164,6 @@ export default {
     async getTotalPageNum(category) {
       await this.$http.post(this.$store.state.testIp + "/post/totalPageNum", {post_category:category})
         .then((req) => {
-          console.log(req.data);
           this.length = req.data * 1;
         })
     },

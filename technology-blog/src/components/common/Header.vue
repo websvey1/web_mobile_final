@@ -101,7 +101,7 @@
       </v-list-tile>
       <v-divider />
 
-      <v-list-tile to="/post" style="background:white;">
+      <v-list-tile to="/personal/post" style="background:white;">
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">Post</span>
@@ -111,7 +111,7 @@
       <v-divider/>
 
       <!-- <v-list-tile to="/todolist" style="background:white;"> -->
-      <v-list-tile @click="todolist" style="background:white;">
+      <!-- <v-list-tile @click="todolist" style="background:white;">
 
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
@@ -119,7 +119,7 @@
           </h1>
         </v-list-tile-content>
       </v-list-tile>
-      <v-divider/>
+      <v-divider/> -->
 
       <v-list-tile to="/calendar" style="background:white;">
         <v-list-tile-content style="height:auto;">
@@ -302,9 +302,6 @@ export default {
       }else{
         this.newOne = false
       }
-    },
-    todolist(){
-        this.$router.push(`/todolist/${this.$store.state.pn}`)
     }
   }
 
