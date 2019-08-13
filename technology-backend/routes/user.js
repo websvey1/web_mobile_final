@@ -111,7 +111,9 @@ router.post('/create', function(req, res, next) {
       console.log(ex, 'this is create_log');
     }
     else{
-      if ('select count(*) from user where user_id=' +id ==0){
+      var test = conn.query('select count(*) from user where user_id='+id)
+      // console.log(test)
+      // if ('select count(*) from user where user_id=' +id ==0){
       var sql = 'insert into user(user_id, user_password, user_email, user_name, user_image) values(?,?,?,?,?)';
       // console.log(sql, 'this is create_sql')
       var sql_data = [id, password, email, name, image];
@@ -151,10 +153,10 @@ router.post('/create', function(req, res, next) {
           res.send("Success");
         }
       });
-    }
-    else{
-      res.send("ID");
-    }    
+    // }
+    // else{
+    //   res.send("ID");
+    // }    
     }
     conn.release();
   });
