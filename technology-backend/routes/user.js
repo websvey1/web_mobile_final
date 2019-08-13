@@ -108,10 +108,12 @@ router.post('/create', function(req, res, next) {
 
   pool.getConnection((ex, conn) => {
     if(ex){
-      console.log(ex);
+      console.log(ex, 'this is create_log');
     }
     else{
+      if ('select count(*) from user where user_id=' +id ==0){
       var sql = 'insert into user(user_id, user_password, user_email, user_name, user_image) values(?,?,?,?,?)';
+      // console.log(sql, 'this is create_sql')
       var sql_data = [id, password, email, name, image];
       var query = conn.query(sql,sql_data,function (err, result) {
         if (err) {
@@ -149,6 +151,10 @@ router.post('/create', function(req, res, next) {
           res.send("Success");
         }
       });
+    }
+    else{
+      res.send("ID");
+    }    
     }
     conn.release();
   });
