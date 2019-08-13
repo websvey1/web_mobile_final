@@ -84,6 +84,9 @@ export default {
     methods: {
         // 여기 parameter에 검색의 category, content 포함해서 받아와야 함!
         async selectProject(status, category, content){
+            if(content == ''){
+                alert("검색할 단어 혹은 문구를 입력해주세요.")
+            }
             this.nameProjects = []
             this.contProjects = []
             this.teamNameProjects = []
