@@ -102,7 +102,6 @@ export default {
             var temp = {
                 name: this.teamName
             }
-
             // 1st. DB에 가서, Team 만들기
             /////////////////////////// Team 만들기 /////////////////////////////////
 
