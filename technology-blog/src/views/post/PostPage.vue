@@ -1,6 +1,6 @@
 <template>
-<div style="background-color: white; width: 80%; margin: 0 auto;">
-  <v-layout v-if="!search" wrap row pa-4>
+<div style="background-color: white; width: 90%; margin: 0 auto;">
+  <v-layout v-if="!search" wrap row pa-3>
     <v-flex fill-height d-flex xs12>
       <div class="container">
         <div style="width:200px; display:inline-block; margin-left:50px; margin-bottom: 15px;">
