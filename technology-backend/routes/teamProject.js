@@ -343,7 +343,44 @@ router.post('/teamproject', function(req, res, next) {
   })
 })
 
+////////////////////////////// ProjectList.vue 제목이 포함된 team project만을 가져오려고 사용하는 것 //////////////////////////
+router.post('/searchNameProject', function(req, res, next) {
+  var content = req.body.content;
+  var pool = db.getPool();
 
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select p.*, t.team_name, u.user_id from project as p inner join team as t on p.project_team = t.team_num inner join user as u on p.project_user = u.user_num where p.project_category = 1 and p.project_share = 0 and p.project_title like concat("%", ?, "%")', content, function(err, result) {
+        console.log(result)
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////// ProjectList.vue 내용이 포함된 team project만을 가져오려고 사용하는 것 //////////////////////////
+router.post('/searchContProject', function(req, res, next) {
+  var content = req.body.content;
+  var pool = db.getPool();
+  
+  pool.getConnection((ex, conn) => {
+    if (ex){
+      console.log(ex)
+    }
+    else {
+      var query = conn.query('select p.*, t.team_name, u.user_id from project as p inner join team as t on p.project_team = t.team_num inner join user as u on p.project_user = u.user_num where p.project_category = 1 and p.project_share = 0 and p.project_content like concat("%", ?, "%")', content, function(err, result) {
+        res.send(result)
+      })
+    }
+    conn.release()
+  })
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.post('/getProjectName', function(req, res, next){
   var pjtNum = req.body.pjtNum
   var pool = db.getPool()
