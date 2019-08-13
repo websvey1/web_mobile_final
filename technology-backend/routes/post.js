@@ -317,7 +317,7 @@ router.post('/alllist/:page', function(req, res, next) {
   var pool = db.getPool();
 
   var post_category = req.body.post_category;
-
+  console.log(req.body,'req body')
   var start = req.params.page * limit;
   if (post_category == '2') {
     pool.getConnection((ex, conn) => {

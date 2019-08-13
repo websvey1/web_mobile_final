@@ -24,7 +24,7 @@ router.post('/create', function(req, res, next) {
 
   pool.getConnection((ex, conn) => {
       if(ex){
-        console.log(ex);
+        console.log(ex, 'ex');
       }
       else{
         console.log()
@@ -34,7 +34,7 @@ router.post('/create', function(req, res, next) {
         status + '","' + git_url + '","' + share + '","' + category + '")',
           (err, result) => {
           if (err) {
-            console.error(err);
+            console.error(err,'err');
             throw err;
           }
 
