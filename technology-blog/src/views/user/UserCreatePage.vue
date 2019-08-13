@@ -113,7 +113,18 @@ export default {
           if(this.$refs[f] != undefined && this.$refs[f].validate(true) == false){
             return false;
           }
+
       })
+      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/ ";
+      console.log(this.user.id.length, '중간체크')
+      for (var i=0; i<this.user.id.length; i++){        
+        for (var j=0; j<num.length; j++){
+          if (this.user.id[i] == num[j]){
+            alert("특수문자 사용 금지입니다");
+            return false;
+          }
+        }
+      }
 
       return true;
     },
