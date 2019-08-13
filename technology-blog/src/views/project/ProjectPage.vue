@@ -1,27 +1,34 @@
 <template>
 <div style="background-color: white;">
-  <div class="searchbar-total">
-    <div class="searchbar-first">
-      <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
-    </div>
-    <div class="searchbar-second">
-      <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
-    </div>
-    <div class="searchbar-third">
-      <v-btn class="v-btn theme--dark" @click="searchPosts">검색</v-btn>
-      <v-btn class="v-btn theme--dark" @click="allPosts">전체글 보기</v-btn>
-    </div>
-  </div>
+  <v-layout wrap row pa-3>
+    <v-flex fill-height d-flex>
+      <div class="container">
+        <div style="width: 89%; margin: 0 auto;">
+          <div style="width:210px; display:inline-block; margin-bottom: 18px;">
+            <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
+          </div>
 
-  <div class="container">
-    <div class="" style="width:150px; display:inline-block; margin-right:10px;">
-      <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
-    </div>
-    <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
-    <v-divider style="padding-bottom:20px;"></v-divider>
-
-    <ProjectList ref="project"></ProjectList>
-  </div>
+          <div style="float:right; display: inline-block; margin-top: -5px; ">
+            <div style="display: inline-block; margin: 5px; max-width: 130px;">
+              <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
+            </div>
+            <div style="display: inline-block; margin: 5px; max-width: 200px;">
+              <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
+            </div>
+            <div style="display: inline-block; margin: 5px 0px; vertical-align: center;">
+              <v-btn fab dark small color="black" @click="searchPosts" style="margin-top: 12px;">
+                <v-icon dark>fas fa-search</v-icon>
+              </v-btn>
+              <v-btn class="v-btn theme--dark" @click="allPosts">전체글 보기</v-btn>
+            </div>
+          </div>
+        </div>
+        <div style="width: 95%; margin: 20px auto;">
+       <ProjectList ref="project"></ProjectList>
+       </div>
+      </div>
+    </v-flex>
+  </v-layout>
 </div>
 </template>
 
