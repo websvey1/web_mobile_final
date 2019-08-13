@@ -1,12 +1,12 @@
 <template>
 <div style="background-color: white; padding-bottom:50px;">
-    <div style="padding:50px 17%;">
+    <div style="padding:30px 17% 50px;">
     <v-btn @click="goWrite" outline color="indigo" round style="float:right;">Project 추가</v-btn>
     </div>
     <span class="mdi mdi-home"></span>
     <div class="container project">
         <v-layout wrap v-if="projects.length > 0">
-            <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
+            <v-flex v-for="project in projects" :key="project" px-3 xs6 style="margin-bottom: 65px;">
                 <MyprojectCard :project="project"></MyprojectCard>
             </v-flex>
         </v-layout>
@@ -48,15 +48,15 @@ export default {
                     var temp = {
                         pjtNum: response.body[i].project_num
                     }
-                    console.log(temp)
+                    // console.log(temp)
                     await this.$http.post(this.$store.state.testIp + '/myproject/getProject', temp)
                     .then(async (res) => {
-                        console.log(res.body)
+                        // console.log(res.body)
                         this.projects.push({
                             pjt: res.body.project[0],
                             image: res.body.image
                         })
-                        console.log(this.projects)
+                        // console.log(this.projects)
                     })
                 }
             })

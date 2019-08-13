@@ -64,7 +64,7 @@
               <v-chip v-else color="rgb(191, 234, 255)" style="display: inline-block">{{ member }}</v-chip>
             </span>
             <br>
-            <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
+            <v-btn fab small dark color="indigo" style="float: right;" @click="dialog = true">
               <v-icon dark>add</v-icon>
             </v-btn>
           </div>
@@ -139,7 +139,7 @@ export default {
       members: null,
       posts: [],
       direction: 'left',
-      fab: false,
+      fab: true,
       fling: false,
       hover: false,
       tabs: null,

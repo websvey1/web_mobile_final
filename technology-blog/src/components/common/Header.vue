@@ -148,7 +148,11 @@
         <v-list-tile-content style="height:auto;">
           <h1 style="margin-left: 30px;">
             <span class="spantag">Team 선택</span>&nbsp;
-            <span v-if="newOne" style="color: red">new!</span>
+            <span v-if="newOne">
+              <v-avatar color="#FFFF00" size="30" style="margin-left: -8px;">
+                <span class="white--text headline" style="font-size: 5px;"><b>New</b></span>
+              </v-avatar>
+            </span>
           </h1>
         </v-list-tile-content>
       </v-list-tile>
@@ -422,4 +426,11 @@ export default {
       margin-left: 100px;
     }
 
+    .headline {
+      font-size: 13px !important;
+    }
+
+    .white--text {
+      color: #110025 !important;
+    }
 </style>

@@ -665,7 +665,7 @@ router.post('/search/:page', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
-          var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name, u.user_image from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num  left join project as pjt on p.post_project = pjt.project_num where pjt.project_share = 0 order by p.post_num desc limit ?, ?;'
+          var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name, u.user_image from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num inner join (select * from user where user_name like concat ("%",?,"%")) as u on p.post_user = u.user_num  left join project as pjt on p.post_project = pjt.project_num where pjt.project_share = 0 order by p.post_num desc limit ?, ?;'
           var query = conn.query(sql, [search_content.text, start, limit], function(err, result) {
             if (err) {
               console.error(err);
