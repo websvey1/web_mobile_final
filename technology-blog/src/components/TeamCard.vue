@@ -1,6 +1,13 @@
  <template>
-   <v-card class="mx-auto" max-width="475" flat>
-      <v-img class="white--text" height="285px" :src="teampjt.image[0]"
+   <v-card
+      class="mx-auto"
+      max-width="475"
+      flat
+    >
+      <v-img
+        class="white--text"
+        height="285px"
+        :src="teampjt.image[0]"
         style="border: 1px solid rgba(0,0,0,.15); cursor:pointer; border-radius: 7px;"
         @click="goReadProject(teampjt.pjt.project_team, teampjt.pjt.project_num)"
       >

@@ -39,7 +39,7 @@
     </v-layout>
 
     <v-layout wrap v-else-if="status == 'TeamProject' && category == '' && content == ''">
-        <v-flex v-for="teampjt in teamprojects" px-3 xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="teampjt in teamprojects" xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
