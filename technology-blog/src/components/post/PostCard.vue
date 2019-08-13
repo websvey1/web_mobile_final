@@ -10,7 +10,9 @@
         {{post.post_title}}</h3>
     </v-card-title>
     <v-card-text>
-      <p class="fourline"> {{post.post_content}} </p>
+      <p v-if="post.post_share==1" class="secret_board"> (비밀글입니다.) </p>
+      <p v-else class="fourline"> {{post.post_content}} </p>
+
       <v-list-tile avatar @click="" style="overflow:hidden; width:300px;">
         <v-list-tile-avatar class="hidden-xs-only">
           <v-img v-if="post.user_image" :src="post.user_image"></v-img>
@@ -93,7 +95,22 @@ export default {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-
+.secret_board {
+  font-style: italic;
+  color: gray;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* 여러 줄 자르기 추가 스타일 */
+  white-space: normal;
+  line-height: 1.5;
+  height: 6em;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
 .fourline {
   display: inline-block;
   overflow: hidden;
