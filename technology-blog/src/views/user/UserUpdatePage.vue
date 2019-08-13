@@ -160,6 +160,12 @@ export default {
    }
   },
   async created(){
+    if (this.$session.has('userInfo')) {
+      await this.onUser()
+    } else {
+      alert("로그인 해주세요.");
+      this.$router.push("/");
+    }
     await this.readTech();
     this.user = this.$session.get("userInfo")
     this.$refs.imagePicker.setImage(this.user.user_image);

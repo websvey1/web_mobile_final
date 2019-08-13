@@ -34,8 +34,16 @@ export default {
             projects: [],
         }
     },
+    async created() {
+        if (this.$session.has('userInfo')) {
+            await this.getProject()
+        } else {
+            alert("로그인 해주세요.");
+            this.$router.push("/");
+        }
+    },
     mounted(){
-        this.getProject()
+        // this.getProject()
     },
     methods: {
         async getProject() {
