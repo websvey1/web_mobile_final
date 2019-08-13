@@ -30,6 +30,4 @@ export const store = new Vuex.Store({
 
     testIp:'http://192.168.31.63:3000'
 	}
-
-
 });

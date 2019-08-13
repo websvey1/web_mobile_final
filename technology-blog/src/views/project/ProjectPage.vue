@@ -95,46 +95,4 @@ export default {
    height: 100%;
    margin: 0 auto;
  }
-
-  .searchbar-total {
-    display: flex;
-    justify-content: center;
-    padding-top: 40px;
-    padding-bottom: 20px;
-    /* background-color: rgba(9,9,9,0.1); */
-  }
-
-  .container h1 {
-    margin-left: 50px;
-  }
-
-  .searchbar-first {
-    float: left;
-    display: inline-block;
-    margin: 5px;
-    max-width: 150px;
-  }
-
-  .searchbar-second {
-    float: left;
-    display: inline-block;
-    margin: 5px;
-
-  }
-
-  .searchbar-third {
-    float: left;
-    display: inline-block;
-    margin: 5px 0px;
-    vertical-align: center;
-
-  }
-
-  .searchBtn {
-    border-radius: 5%;
-    /* font-weight:bold; */
-    color: rgb(0, 0, 0);
-    background-color: rgb(156, 156, 156);
-    text-align: center;
-  }
  </style>

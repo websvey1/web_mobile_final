@@ -1,45 +1,45 @@
 <template>
 <v-layout wrap v-if="projects.length > 0 || teamprojects.length > 0">
     <v-layout wrap v-if="status == 'Project' && content == ''">
-        <v-flex v-for="project in projects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="project in projects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
     </v-layout>
     <v-layout wrap v-else-if="status == 'Project' && category == 0 && content != ''">
-        <v-flex v-for="project in nameProjects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="project in nameProjects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
     </v-layout>
 
     <v-layout wrap v-else-if="status == 'Project' && category == 1 && content != ''">
-        <v-flex v-for="project in contProjects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="project in contProjects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
     </v-layout>
     <v-layout wrap v-else-if="status == 'Project' && category == '' && content == ''">
-        <v-flex v-for="project in projects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="project in projects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
     </v-layout>
 
     <v-layout wrap v-else-if="status == 'TeamProject' && content == ''">
-        <v-flex v-for="teampjt in teamprojects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="teampjt in teamprojects" px-3 xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
     <v-layout wrap v-else-if="status == 'TeamProject' && category == 0 && content != ''">
-        <v-flex v-for="teampjt in teamNameProjects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="teampjt in teamNameProjects" px-3 xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
     <v-layout wrap v-else-if="status == 'TeamProject' && category == 1 && content != ''">
-        <v-flex v-for="teampjt in teamContProjects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="teampjt in teamContProjects" px-3 xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
 
     <v-layout wrap v-else-if="status == 'TeamProject' && category == '' && content == ''">
-        <v-flex v-for="teampjt in teamprojects" xs6 style="margin-bottom: 40px;">
+        <v-flex v-for="teampjt in teamprojects" px-3 xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
