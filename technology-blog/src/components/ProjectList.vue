@@ -61,7 +61,7 @@ export default {
                         pjtNum: res.body[i].project_num,
                         userNum: res.body[i].project_user
                     }
-                    console.log(temp)
+                    // console.log(temp)
                     await this.$http.post(this.$store.state.testIp + '/myproject/getProject', temp)
                     .then(async (res) => {
                         // console.log(res.body)
@@ -74,7 +74,7 @@ export default {
                         console.log(error)
                     })
                 }
-                console.log(this.projects)
+                // console.log(this.projects)
             })
             .catch((error) => {
                 console.log(error)
@@ -84,7 +84,7 @@ export default {
         async onTeamList() {
             await this.$http.post(this.$store.state.testIp + '/teamProject/teamproject')
             .then(async (res) => {
-                console.log(res.body)
+                // console.log(res.body)
                 if (res.body.length > 0) {
                     for (var i=0; i < res.body.length; i++) {
                         var data = {
@@ -102,7 +102,7 @@ export default {
                             })
                         })
                     }
-                    console.log(this.teamprojects)
+                    // console.log(this.teamprojects)
                 }
             })
         }

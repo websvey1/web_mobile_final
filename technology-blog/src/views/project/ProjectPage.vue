@@ -3,7 +3,7 @@
   <v-layout wrap row pa-3>
     <v-flex fill-height d-flex>
       <div class="container">
-        <div style="width: 89%; margin: 0 auto;">
+        <div style="width: 91%; margin: 0 auto;">
           <div style="width:210px; display:inline-block; margin-bottom: 18px;">
             <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Project" return-object></v-select>
           </div>
@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div style="width: 95%; margin: 0 auto;">
+        <div style="width: 100%; margin: 0 auto;">
         <ProjectList ref="project"></ProjectList>
         </div>
       </div>
