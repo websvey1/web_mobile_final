@@ -1,25 +1,46 @@
 <template>
 <v-layout wrap v-if="projects.length > 0 || teamprojects.length > 0">
+
     <v-layout wrap v-if="status == 'Project' && content == ''">
         <v-flex v-for="project in projects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
     </v-layout>
+
     <v-layout wrap v-else-if="status == 'Project' && category == 0 && content != ''">
+        <v-layout v-if="nameProjects.length > 0">
         <v-flex v-for="project in nameProjects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
+        </v-layout>
+        <v-layout v-else wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+          <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+          <h1 style="margin:50px 0;">검색한 내용에 해당하는 PROJECT가 없습니다.</h1>
+        </v-layout>
     </v-layout>
 
     <v-layout wrap v-else-if="status == 'Project' && category == 1 && content != ''">
+        <v-layout v-if="contProjects.length > 0">
         <v-flex v-for="project in contProjects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
+      </v-layout>
+      <v-layout v-else wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+        <h1 style="margin:50px 0;">검색한 내용에 해당하는 PROJECT가 없습니다.</h1>
+      </v-layout>
     </v-layout>
+
     <v-layout wrap v-else-if="status == 'Project' && category == '' && content == ''">
+        <v-layout v-if="projects.length > 0">
         <v-flex v-for="project in projects" px-3 xs6 style="margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
+      </v-layout>
+      <v-layout v-else wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+        <h1 style="margin:50px 0;">검색한 내용에 해당하는 PROJECT가 없습니다.</h1>
+      </v-layout>
     </v-layout>
 
     <v-layout wrap v-else-if="status == 'TeamProject' && content == ''">
@@ -27,31 +48,49 @@
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
+
     <v-layout wrap v-else-if="status == 'TeamProject' && category == 0 && content != ''">
+        <v-layout v-if="teamNameProjects.length > 0">
         <v-flex v-for="teampjt in teamNameProjects" px-3 xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
+      </v-layout>
+      <v-layout v-else wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+        <h1 style="margin:50px 0;">검색한 내용에 해당하는 PROJECT가 없습니다.</h1>
+      </v-layout>
     </v-layout>
+
     <v-layout wrap v-else-if="status == 'TeamProject' && category == 1 && content != ''">
+        <v-layout v-if="teamContProjects.length > 0">
         <v-flex v-for="teampjt in teamContProjects" px-3 xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
+      </v-layout>
+      <v-layout v-else wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+        <h1 style="margin:50px 0;">검색한 내용에 해당하는 PROJECT가 없습니다.</h1>
+      </v-layout>
     </v-layout>
 
     <v-layout wrap v-else-if="status == 'TeamProject' && category == '' && content == ''">
+        <v-layout v-if="teamprojects.length > 0">
         <v-flex v-for="teampjt in teamprojects" xs6 style="margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
+      </v-layout>
+      <v-layout v-else wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+        <h1 style="margin:50px 0;">검색한 내용에 해당하는 PROJECT가 없습니다.</h1>
+      </v-layout>
     </v-layout>
 
-    
+    <v-layout wrap v-else >
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+        <h1 style="margin-top:50px;text-align:center;">검색한 내용에 해당하는 PROJECT가 없습니다.</h1>
+    </v-layout>
 </v-layout>
 
-<v-layout v-else wrap>
-  <v-flex xs12 px-2 mt-4 style="margin-bottom: 35px;">
-    <h1 style="margin-top:50px;text-align:center;">PROJECT가 없습니다.</h1>
-  </v-flex>
-</v-layout>
 </template>
 
 <script>
@@ -76,7 +115,7 @@ export default {
             items: ['Project', 'TeamProject'],
             status: 'Project',
             category: '',
-            content: ''
+            content: '',
         }
     },
     mounted() {
