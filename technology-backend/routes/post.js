@@ -317,7 +317,7 @@ router.post('/alllist/:page', function(req, res, next) {
   var pool = db.getPool();
 
   var post_category = req.body.post_category;
-
+  console.log(req.body,'req body')
   var start = req.params.page * limit;
   if (post_category == '2') {
     pool.getConnection((ex, conn) => {
@@ -665,7 +665,7 @@ router.post('/search/:page', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
-          var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name, u.user_image from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num  left join project as pjt on p.post_project = pjt.project_num where pjt.project_share = 0 order by p.post_num desc limit ?, ?;'
+          var sql = 'select p.post_num, p.post_title, p.post_content, p.post_share, p.post_created_at, p.post_category, i.image_url, u.user_id, u.user_name, u.user_image from post as p left join imageconnector as ic on p.post_num = ic.imageconn_post left join image as i on ic.imageconn_image = i.image_num inner join (select * from user where user_name like concat ("%",?,"%")) as u on p.post_user = u.user_num  left join project as pjt on p.post_project = pjt.project_num where pjt.project_share = 0 order by p.post_num desc limit ?, ?;'
           var query = conn.query(sql, [search_content.text, start, limit], function(err, result) {
             if (err) {
               console.error(err);
@@ -725,7 +725,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
             if (ex) {
               console.log(ex);
             } else {
-              var sql = 'select count(post_num) from post where post_title like concat ("%",?,"%") and post_category = ?;'
+              var sql = 'select count(post_num) from post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0 and post_title like concat ("%",?,"%") and post_category = ?;'
               var sql_data = [search_content.text, post_category];
               var query = conn.query(sql, sql_data, function(err, result) {
                 if (err) {
@@ -750,7 +750,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
             if (ex) {
               console.log(ex);
             } else {
-              var sql = 'select count(post_num) from post where post_content like concat ("%",?,"%") and post_category = ?;'
+              var sql = 'select count(post_num) from post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0 and  post_content like concat ("%",?,"%") and post_category = ?;'
               var sql_data = [search_content.text, post_category];
               var query = conn.query(sql,sql_data, function(err, result) {
                 if (err) {
@@ -776,7 +776,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
             if (ex) {
               console.log(ex);
             } else {
-              var sql = 'select count(post_num) from post where (post_category = ?) and (post_content like concat ("%",?,"%") or post_title like concat ("%",?,"%"));'
+              var sql = 'select count(post_num) from post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0 and  (post_category = ?) and (post_content like concat ("%",?,"%") or post_title like concat ("%",?,"%"));'
               var sql_data = [post_category, search_content.text,     search_content.text ];
               var query = conn.query(sql,sql_data, function(err, result) {
                 if (err) {
@@ -801,7 +801,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
             if (ex) {
               console.log(ex);
             } else {
-              var sql = 'select count(post_num) from post as p inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num where p.post_category = ?;'
+              var sql = 'select count(post_num) from post as p inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0 and  p.post_category = ?;'
               var sql_data = [search_content.text, post_category];
               var query = conn.query(sql, sql_data,function(err, result) {
                 if (err) {
@@ -826,7 +826,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
             if (ex) {
               console.log(ex);
             } else {
-              var sql = 'select count(post_num) from (select * from post where post_category = ? )as p inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post;'
+              var sql = 'select count(post_num) from (select * from post where post_category = ? )as p inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0;'
               var sql_data = [post_category,search_content.text];
               var query = conn.query(sql, sql_data, function(err, result) {
                 if (err) {
@@ -852,7 +852,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
-          var sql = 'select count(post_num) from post where post_title like concat ("%",?,"%");'
+          var sql = 'select count(post_num) from post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0 and post_title like concat ("%",?,"%");'
           var sql_data = search_content.text;
           var query = conn.query(sql, sql_data, function(err, result) {
             if (err) {
@@ -877,7 +877,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
-          var sql = 'select count(post_num) from post where post_content like concat ("%",?,"%");'
+          var sql = 'select count(post_num) from post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0 and  post_content like concat ("%",?,"%");'
           var sql_data = search_content.text;
           var query = conn.query(sql,sql_data, function(err, result) {
             if (err) {
@@ -902,7 +902,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
-          var sql = 'select count(post_num) from post where (post_content like concat ("%",?,"%") or post_title like concat ("%",?,"%"));'
+          var sql = 'select count(post_num) from post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0 and  (post_content like concat ("%",?,"%") or post_title like concat ("%",?,"%"));'
           var sql_data = [search_content.text, search_content.text];
           var query = conn.query(sql,sql_data, function(err, result) {
             if (err) {
@@ -927,7 +927,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
-          var sql = 'select count(post_num) from post as p inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num;'
+          var sql = 'select count(post_num) from post as p inner join (select * from user where user_id like concat ("%",?,"%")) as u on p.post_user = u.user_num left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0;'
           var sql_data = search_content.text;
           var query = conn.query(sql,sql_data, function(err, result) {
             if (err) {
@@ -952,7 +952,7 @@ router.post('/totalPageNumForSearch', function(req, res, next) {
         if (ex) {
           console.log(ex);
         } else {
-          var sql = 'select count(post_num) from post as p inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post;'
+          var sql = 'select count(post_num) from post as p inner join (select * from tag where tag_name like concat("%",?,"%")) as t on p.post_num = t.tag_post left join project as pjt on post_project = pjt.project_num where pjt.project_share = 0;'
           var sql_data = [search_content.text];
           var query = conn.query(sql, sql_data, function(err, result) {
             if (err) {

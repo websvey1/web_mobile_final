@@ -1,14 +1,14 @@
  <template>
    <v-card
       class="mx-auto"
-      max-width="450"
+      max-width="475"
       flat
     >
       <v-img
         class="white--text"
         height="285px"
         :src="project.image"
-        style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
+        style="border: 1px solid rgba(0,0,0,.15); cursor:pointer; border-radius: 5px;"
         @click="goReadProject(project.pjt.project_num)"
       >
       </v-img>
@@ -140,7 +140,7 @@ export default {
 
 .v-card__title {
   padding: 0px !important;
-  padding-top: 25px !important;
+  padding-top: 15px !important;
   padding-bottom: 5px !important;
 }
 

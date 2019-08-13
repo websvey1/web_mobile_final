@@ -4,12 +4,12 @@
       <v-flex fill-height d-flex xs12>
         <div class="container">
         <!-- <span style="font-size:30px">{{tabs.text}}</span> -->
-        <div class="" style="width:150px; display:inline-block; margin-right:10px;">
+        <div style="width:250px; display:inline-block; margin-left:50px; margin-bottom: 15px;">
           <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
         </div>
-        <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
+        <!-- <h1 style="display:inline;">{{categoryForPostlist.text}}</h1> -->
         <!-- <h1 style="display:inline;">검색 결과</h1> -->
-        <v-divider></v-divider>
+        <!-- <v-divider></v-divider> -->
         <PostDownList :posts="posts" :category="'2'" ref="post">
         </PostDownList>
         </div>
