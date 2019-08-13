@@ -213,11 +213,11 @@ export default new Router({
     name: 'TodoList',
     component: TodoList
 },
-  {
-    path: '/todolist_team/:id',
-    name: 'TodoList_team',
-    component: TodoList_team
-  },
+  // {
+  //   path: '/todolist_team/:id',
+  //   name: 'TodoList_team',
+  //   component: TodoList_team
+  // },
 ////////////////////////////////////////////////////////////
 	{
 		path: '/another',

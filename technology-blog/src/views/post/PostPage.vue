@@ -60,8 +60,16 @@
             </v-sheet>
         </div>
       <h1 style="display:inline;">{{searchResult}}검색 결과</h1> -->
+      <v-layout v-if="posts.length > 0" wrap>
       <PostDownList :posts="posts" :category="'2'" ref="post">
       </PostDownList>
+      </v-layout>
+      <v-layout v-else>
+      <v-layout wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+          <h1 style="margin:50px 0;">검색한 내용에 해당하는 POST가 없습니다.</h1>
+      </v-layout>
+      </v-layout>
       </div>
     </v-flex>
     <v-flex xs12 text-xs-center>
@@ -121,6 +129,7 @@ export default {
   watch: {
     async page(v) {
       if(!this.search){
+        console.log(v,'vvvvvvvvvvvvvvvv')
         await this.readPosts(v - 1, this.categoryForPostlist.value);
       }
       else{
@@ -138,6 +147,7 @@ export default {
       this.page = 1;
       await this.readPostsForSearch(this.page - 1, v.value);
       await this.getTotalPageNumForSearch(v.value);
+      console.log(v,'vvvvvvvvvvvvvvvvvvvvvvvv')
     }
   },
   async created() {
@@ -170,7 +180,7 @@ export default {
     },
 
     async readPosts(page, category) {
-      await this.$http.post(this.$store.state.testIp + "/post/alllist/" + page, {post_category:category})
+      await this.$http.post(this.$store.state.testIp + "/post/alllist/" + page, {post_category:category}) // 여기서 뒤 category가 넘어감
       .then((response) => {
         this.posts = response.data;
       })

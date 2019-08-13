@@ -108,47 +108,54 @@ router.post('/create', function(req, res, next) {
 
   pool.getConnection((ex, conn) => {
     if(ex){
-      console.log(ex);
+      console.log(ex, 'this is create_log');
     }
     else{
-      var sql = 'insert into user(user_id, user_password, user_email, user_name, user_image) values(?,?,?,?,?)';
-      var sql_data = [id, password, email, name, image];
-      var query = conn.query(sql,sql_data,function (err, result) {
+      /////////////////////////////////////////////////////////////////////////////////////////////////
+      var query = conn.query('select * from user where user_id = ?', id, function (err, result) {
         if (err) {
           console.error(err);
           conn.release();
           throw err;
         }
-
-        var user_num = result.insertId;
-
-        if(favor.length > 0){
-          var sql = "insert into favor(favor_user, favor_tech) values"
-
-          for(var i = 0; i < favor.length; i++){
-            sql += "("+user_num+"," + favor[i] +")"
-            if(i + 1 == favor.length){
-              sql += ";"
-            }
-            else{
-              sql += ","
-            }
-          }
-
-          var querry = conn.query(sql,function (err, result) {
+        
+        if(result == ''){
+          var sql = 'insert into user(user_id, user_password, user_email, user_name, user_image) values(?,?,?,?,?)';
+          var sql_data = [id, password, email, name, image];
+          var query = conn.query(sql,sql_data,function (err, result) {
             if (err) {
               console.error(err);
+              conn.release();
               throw err;
             }
+            var user_num = result.insertId;
+            
+            if(favor.length > 0){
+              var sql = "insert into favor(favor_user, favor_tech) values"
 
-            res.send("Success");
+              for(var i = 0; i < favor.length; i++){
+                sql += "("+user_num+"," + favor[i] +")"
+                if(i + 1 == favor.length){
+                  sql += ";"
+                }
+                else{
+                  sql += ","
+                }
+              }
+              var querry = conn.query(sql,function (err, result) {
+              if (err) {
+                console.error(err);
+                throw err;
+              }
+
+              res.send("Success");
+              })
+            }
           })
+        }else{
+          res.send("ID");
         }
-
-        else{
-          res.send("Success");
-        }
-      });
+      })
     }
     conn.release();
   });

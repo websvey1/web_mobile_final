@@ -31,8 +31,16 @@ export default {
       events: []
     }
   },
+  async created() {
+    if (this.$session.has('userInfo')) {
+      await this.getCal();
+    } else {
+      alert("로그인 해주세요.");
+      this.$router.push("/");
+    }
+  },
   mounted(){
-    this.getCal();
+    // this.getCal();
   },
   computed:
     mapState(['teamPlan'])

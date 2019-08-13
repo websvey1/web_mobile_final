@@ -46,6 +46,8 @@ router.post('/makeMember', function(req, res, next){
     var teamNum = req.body.teamNum;
     var members = req.body.member;
     var pool = db.getPool();
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    console.log(members)
 
     pool.getConnection((ex, conn) => {
         if(ex){
@@ -54,7 +56,6 @@ router.post('/makeMember', function(req, res, next){
             for(var i = 0; i < members.length; i++){
                 // 1st. user table로 가서, 지금 가져온 members에 있는 이름의 user의 user_num을 가져옴
                 // 2nd. 이 user_num과 teamNum을 이용하여 member table에 집어넣음
-
                 var query = conn.query('select user_num from user where user_name = ?', members[i], function (err, result) {
                     if (err) {
                       console.error(err);
@@ -88,7 +89,7 @@ router.post('/getTeamList', function(req, res, next){
                     console.log(err)
                     throw err
                 }
-                console.log(result);
+                // console.log(result);
                 res.send(result);
             })
             conn.release();
@@ -110,7 +111,7 @@ router.post('/getMember', function(req, res, next){
                     console.log(err)
                     throw err
                 }
-                console.log(result)
+                // console.log(result)
                 res.send(result);
             })
             conn.release();
@@ -204,7 +205,7 @@ router.post('/deleteTeam', function(req, res, next){
 
 router.post('/getLatestTeam', function(req, res, next){
     var teamNum = req.body.teamNum;
-    console.log(teamNum)
+    // console.log(teamNum)
     // console.log(req.body)    
     var pool = db.getPool();
 
@@ -227,8 +228,6 @@ router.post('/getLatestTeam', function(req, res, next){
     
 router.post('/checkNew', function(req, res, next){
     var id = req.body.id;
-    // console.log(id)
-    // console.log(req.body)    
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {

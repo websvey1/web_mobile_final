@@ -26,7 +26,7 @@
       </v-card-text>
 
       <v-card-text>
-      <span class="ptag">{{ teampjt.pjt.project_tech }}</span><br>
+      <span class="ptag">{{ teampjt.pjt.project_content }}</span><br>
       </v-card-text>
 
       <v-divider class="mx-0"></v-divider>

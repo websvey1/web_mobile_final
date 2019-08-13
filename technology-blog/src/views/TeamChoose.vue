@@ -69,27 +69,37 @@ export default {
     },
     watch:{
       members(v){
-        console.log(v);
+        // console.log(v);
       }
     },
+    async created() {
+        if (this.$session.has('userInfo')) {
+            await this.start()
+        } else {
+            alert("로그인 해주세요.");
+            this.$router.push("/");
+        }
+    },
     mounted(){
-        // 1st. DB에 가서, 존재하는 모든 Name 가져오기
-        this.$http.post(this.$store.state.testIp + '/team/getUser',{})
-        // this.$http.post(this.$store.state.testIp + '/team/getUser',{})
-        .then((response) => {
-
-            var items = response.body;
-
-            for(var i = 0; i < items.length; i++){
-                this.people.push({name: items[i].user_name, id: items[i].user_id});
-            }
-            console.log('모든 user 가져오기 완료.')
-        })
-        .catch((error) =>{
-            console.log(error)
-        })
     },
     methods:{
+        start(){
+            // 1st. DB에 가서, 존재하는 모든 Name 가져오기
+            this.$http.post(this.$store.state.testIp + '/team/getUser',{})
+            // this.$http.post(this.$store.state.testIp + '/team/getUser',{})
+            .then((response) => {
+
+                var items = response.body;
+
+                for(var i = 0; i < items.length; i++){
+                    this.people.push({name: items[i].user_name, id: items[i].user_id});
+                }
+                console.log('모든 user 가져오기 완료.')
+            })
+            .catch((error) =>{
+                console.log(error)
+            })
+        },
         async addTeam(){
             if(this.teamName == ''){
                 alert("Team Name을 입력하세요.")
@@ -102,7 +112,6 @@ export default {
             var temp = {
                 name: this.teamName
             }
-
             // 1st. DB에 가서, Team 만들기
             /////////////////////////// Team 만들기 /////////////////////////////////
 

@@ -22,7 +22,7 @@ router.post('/create', function(req, res, next) {
 
   pool.getConnection((ex, conn) => {
       if(ex){
-        console.log(ex);
+        console.log(ex, 'ex');
       }
       else{
         console.log()
@@ -32,7 +32,7 @@ router.post('/create', function(req, res, next) {
         status + '","' + git_url + '","' + share + '","' + category + '")',
           (err, result) => {
           if (err) {
-            console.error(err);
+            console.error(err,'err');
             throw err;
           }
 
@@ -114,6 +114,51 @@ router.post('/getPjt', function(req, res, next) {
   });
 })
 
+/////////////////////////////// ProjectList.vue에서 제목이 포함된 project만을 가져오려고 사용하는 것 ///////////////////////////////
+router.post('/searchNameProject', function(req, res, next) {
+  var content = req.body.content;
+  var pool = db.getPool();
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    }
+    else {
+      var query = conn.query('select project_num, project_user from project where project_share = 0 and project_category = 0 and project_title like concat("%", ?, "%")', content, function (err, result) {
+        if (err) {
+          console.log(err);
+          throw err;
+        }
+        res.send(result);
+      });
+    }
+    conn.release();
+  });
+})
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////// ProjectList.vue에서 제목이 포함된 project만을 가져오려고 사용하는 것 ///////////////////////////////
+router.post('/searchContProject', function(req, res, next) {
+  var content = req.body.content;
+  var pool = db.getPool();
+
+  pool.getConnection((ex, conn) => {
+    if (ex) {
+      console.log(ex);
+    }
+    else {
+      var query = conn.query('select project_num, project_user from project where project_share = 0 and project_category = 0 and project_content like concat("%", ?, "%")', content, function (err, result) {
+        if (err) {
+          console.log(err);
+          throw err;
+        }
+        res.send(result);
+      });
+    }
+    conn.release();
+  });
+})
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.post('/userproject', function(req, res, next) {
   var pool = db.getPool();
   var userNum = req.body.userNum
