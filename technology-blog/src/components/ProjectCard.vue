@@ -4,13 +4,19 @@
         style="border: 1px solid rgba(0,0,0,.15); cursor:pointer; border-radius: 7px;" @click="goReadProject(project.pjt.project_num)">
       </v-img>
 
-      <v-card-title>
-        <div class="posth1">{{ project.pjt.project_title }}</div>
-      </v-card-title>
+      <div style="margin-left: 5px;">
+        <v-card-title>
+          <div class="posth1">{{ project.pjt.project_title }}</div>
+        </v-card-title>
 
-      <v-card-text>
-        <span class="ptag">{{ project.pjt.project_content }}</span><br>
-      </v-card-text>
+        <v-card-text style="margin-top: 5px;">
+          <span class="ptag">{{ project.pjt.project_goal }}</span>
+        </v-card-text>
+
+        <v-card-text>
+          <span class="ptag">{{ project.pjt.project_tech }}</span><br>
+        </v-card-text>
+      </div>
 
       <v-divider class="mx-0"></v-divider>
 
@@ -60,7 +66,7 @@ export default {
     methods: {
       goReadProject(pjtNum) {
         console.log(pjtNum)
-        router.push({name:"ProjectReadPage", params:{id:pjtNum}})
+        this.$router.push(`/project/${pjtNum}`)
       }
     },
 

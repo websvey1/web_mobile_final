@@ -13,17 +13,23 @@
       >
       </v-img>
 
+      <div style="margin-left: 5px;">
       <v-card-title>
         <div class="posth1">{{ teampjt.pjt.team_name }}</div>
       </v-card-title>
 
-      <v-card-title>
-        <div class="posth1">{{ teampjt.pjt.project_title }}</div>
+      <v-card-title style="margin-top: 2px;">
+        <div class="posth2">{{ teampjt.pjt.project_title }}</div>
       </v-card-title>
 
-      <v-card-text>
-      <span class="ptag">{{ teampjt.pjt.project_content }}</span><br>
+      <v-card-text style="margin-top: 2px;">
+      <span class="ptag">{{ teampjt.pjt.project_goal }}</span>
       </v-card-text>
+
+      <v-card-text style="margin-top: 2px;">
+      <span class="ptag">{{ teampjt.pjt.project_tech }}</span><br>
+      </v-card-text>
+      </div>
 
       <v-divider class="mx-0"></v-divider>
 
@@ -112,12 +118,33 @@ export default {
   -webkit-box-orient: vertical ;
 }
 
+.posth2 {
+  /* padding-top: 3px; */
+  font-family: Open Sans;
+  font-weight: bold;
+  color: #222;
+  font-size: 20px;
+  margin: 0;
+  text-transform: uppercase;
+   /* 여러 줄 자르기 추가 스타일 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.2;
+  height:1.2em;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical ;
+}
+
 .ptag {
   padding-top: 3px;
   font-family: Open Sans;
   color: #333;
   line-height: 1.6;
-  font-size: 16px;
+  font-size: 15px;
   margin-top: 0;
   text-overflow: ellipsis;
   /* 여러 줄 자르기 추가 스타일 */

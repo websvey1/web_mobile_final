@@ -20,19 +20,21 @@
           style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/> -->
         </v-avatar>
       </v-flex>
-      <v-flex text-center style="padding-top:10px; margin-left: 10px;">
+      <v-flex text-center style="padding-top:10px; margin-left: 25px;">
         <v-container grid-list-lg pa-0>
           <v-layout column>
             <v-flex>
               ID
-              <h3>{{ user.userId }}</h3>
+              <h3>&nbsp;{{ user.userId }}</h3>
             </v-flex>
             <v-flex>
               Email
-              <h3>{{ user.userEmail }}</h3>
+              <h3>&nbsp;{{ user.userEmail }}</h3>
             </v-flex>
-            <v-flex>
-
+            <v-flex v-if="user.userTech.length > 0" style="margin-left: -5px;">
+              <span v-for="tech in user.userTech" :key="tech">
+                <v-chip color="#FFECB3"><b>{{ tech }}</b></v-chip>
+              </span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -103,16 +105,24 @@
           <table>
             <thead>
                 <tr style="background: rgba(0,0,0,0.05)">
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Created Time</th>
+                    <th>Project</th>
+                    <th>Post Title</th>
+                    <th>Post Tag</th>
+                    <th>Created_Time</th>
                 </tr>
             </thead>
-            <tbody  v-for="p in post" :key="p.post.post_num">
+            <tbody v-for="p in post" :key="p.post.post_num">
                 <tr v-if="p.post.post_category == 0" @click="goPost(p.post.post_num)">
+                    <td data-title="Project"> {{ p.post.project_title }}</td>
                     <td data-title="Title"> {{ p.post.post_title }}</td>
-                    <td data-title="Content">{{  p.post.post_content }}</td>
-                    <td data-title="Created Time">{{  p.post.post_created_at }}</td>
+                    <td data-title="Tag" v-if="p.tag.length > 0">
+                      <span v-for="t in p.tag" :key="t">
+                        <v-chip small>
+                          {{ t }}&nbsp;
+                        </v-chip>
+                      </span>
+                    </td>
+                    <td data-title="Created_Time">{{  p.post.post_created_at }}</td>
                 </tr>
             </tbody>
           </table>
@@ -121,20 +131,79 @@
           <table>
             <thead>
                 <tr style="background: rgba(0,0,0,0.05)">
-                    <th>Title</th>
-                    <th>Content</th>
+                    <th>Team</th>
+                    <th>Project</th>
+                    <th>Post Title</th>
+                    <th>Post Tag</th>
                     <th>Created Time</th>
                 </tr>
             </thead>
-            <tbody  v-for="p in post" :key="p.post.post_num">
+            <tbody v-for="p in post" :key="p.post.post_num">
                 <tr v-if="p.post.post_category == 1" @click="goPost(p.post.post_num)">
+                    <td data-title="Team">{{ p.post.team_name }}</td>
+                    <td data-title="Project">{{ p.post.project_title }}</td>
                     <td data-title="Title">{{ p.post.post_title }}</td>
-                    <td data-title="Content">{{  p.post.post_content }}</td>
-                    <td data-title="Created Time">{{  p.post.post_created_at  }}</td>
+                    <td data-title="Tag">
+                      <span v-if="p.tag[0] !== null">
+                        <span v-for="t in p.tag" :key="t">
+                          <v-chip small>
+                            {{ t }}&nbsp;
+                          </v-chip>
+                        </span>
+                      </span>
+                    </td>
+                    <td data-title="Created Time">{{  p.post.post_created_at }}</td>
                 </tr>
             </tbody>
           </table>
         </v-layout>
+        <v-layout wrap row v-if="item == 'Follow'">
+          <v-flex wrap xs12 style="margin-top: 20px;">
+            <v-select v-model="userfollow" :items="follows" 
+            item-text="text" :menu-props="{ bottom: true, offsetY: true }" return-object
+            style="max-width: 250px; text-align: center; margin-left: 10px;"></v-select>
+          </v-flex>
+          <v-layout wrap v-if="userfollow.text === 'Follower'">
+            <v-flex wrap xs3 pa-2 v-for="f in userfollowers" :key="f.user.user_num">
+              <div class="usercard">
+                <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
+                <img v-else class="profile" src="@/assets/profile.png/"/>
+                <div class="userinfo">
+                  <br>
+                  <h3>{{ f.user.user_id }}</h3>
+                  <p class="description" style="margin-bottom: 15px">{{ f.user.user_email }}</p>
+                  <span v-for="t in f.tech" :key="t">
+                    <v-chip color="#455A64" dark small>
+                        {{ t }}&nbsp;
+                    </v-chip>
+                  </span>
+                </div>
+              </div>
+            </v-flex>
+          </v-layout>
+
+          <v-layout wrap v-else-if="userfollow.text === 'Following'">
+            <v-flex wrap xs3 pa-2 v-for="f in userfollowings" :key="f.user.user_num">
+              <div class="usercard">
+                <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
+                <img v-else class="profile" src="@/assets/profile.png/"/>
+                <div class="userinfo">
+                  <br>
+                  <h3>{{ f.user.user_id }}</h3>
+                  <p class="description" style="margin-bottom: 15px">{{ f.user.user_email }}</p>
+                  <span v-for="t in f.tech" :key="t">
+                    <v-chip color="#455A64" dark small>
+                        {{ t }}&nbsp;
+                    </v-chip>
+                  </span>
+                </div>
+              </div>
+            </v-flex>
+          </v-layout>
+        
+        </v-layout>
+          
+          
         <!-- <div v-else-if="item == 'Follow'">
          SDFJSLDFJLSDKFJSLKJ
         </div> -->
@@ -142,11 +211,15 @@
     </v-tabs-items>
   </v-card>
 </div>
+  <div style="text-align:center">
+    <v-btn class="v-btn theme--dark" @click="another">목록</v-btn>
+  </div>
 </div>
 </template>
 
 <script>
 import {async} from 'q';
+import { mapState } from 'vuex';
 
 export default {
   name: 'AnotherUserRead',
@@ -154,15 +227,21 @@ export default {
       return {
         user: null,
         login_id: this.$session.get('userInfo').user_num,
+        project_user: this.$route.params.id,
         project: [],
         teamproject: [],
         post: [],
         tab: null,
         items: [
-          'My Project', 'Team Project', 'My Post', 'Team Post',
+          'My Project', 'Team Project', 'My Post', 'Team Post', 'Follow'
         ],
-        project_user: this.$route.params.id,
         status: null,
+        follows: [
+          {text: 'Follower', value: '0'},{text: 'Following', value: '1'}
+        ],
+        userfollow: {text: 'Follower', value: '0'},
+        userfollowers: [],
+        userfollowings: [],
       }
   },
   mounted() {
@@ -171,11 +250,14 @@ export default {
       this.getProject()
       this.getTeamProject()
       this.getPost()
+      this.userFollower()
+      this.userFollowing()
   },
   methods: {
-    asd(){
-      alert("씨발")
+    another() {
+      this.$router.push('/another')
     },
+
     readUser() {
       var user_num = this.$route.params.id
       var data = {
@@ -185,7 +267,7 @@ export default {
       .then((res) => {
           console.log(res.body)
           this.user = res.body
-          // console.log(this.user)
+          console.log(this.user)
       })
     },
     getProject() {
@@ -248,17 +330,65 @@ export default {
               })
             })
           }
-          // console.log(this.post)
+          console.log(this.post)
         }
       })
     },
 
+    async userFollower() {
+      var data = {
+        userNum: this.$route.params.id
+      }
+      await this.$http.post(this.$store.state.testIp + '/another/userfollower', data)
+      .then(async (res) => {
+        if (res.body.length > 0) {
+          for (var i=0; i < res.body.length; i++){
+            var temp = {
+              userNum: res.body[i].user_num
+            }
+            await this.$http.post(this.$store.state.testIp + '/another/usertech', temp)
+            .then(async (response) => {
+              this.userfollowers.push({
+                user: res.body[i],
+                tech: response.body
+              })
+            })
+          }
+        }
+        console.log(this.userfollowers)
+      })
+    },
+
+    async userFollowing() {
+      var data = {
+        userNum: this.$route.params.id
+      }
+      await this.$http.post(this.$store.state.testIp + '/another/userfollowing', data)
+      .then(async (res) => {
+        if (res.body.length > 0) {
+          for (var i=0; i < res.body.length; i++){
+            var temp = {
+              userNum: res.body[i].user_num
+            }
+            await this.$http.post(this.$store.state.testIp + '/another/usertech', temp)
+            .then(async (response) => {
+              this.userfollowings.push({
+                user: res.body[i],
+                tech: response.body
+              })
+            })
+          }
+        }
+        console.log(this.userfollowings)
+      })
+    },
+
     goProject(id) {
-      this.$router.push(`/myproject/${id}`)
+      this.$router.push(`/project/${id}`)
     },
 
     goTeamProject(id, num) {
-      this.$router.push(`/teamProject/${id}/project/${num}`)
+      this.$router.push(`/team/${id}/project/${num}`)
     },
 
     goPost(id) {
@@ -287,32 +417,36 @@ export default {
       }
     },
 
-    follow(following, follower) {
+    async follow(following, follower) {
       if (this.login_id != this.$route.params.id){
         var data = {
           followingUser: following,
           followerUser: follower
         }
         console.log(data)
-        this.$http.post(this.$store.state.testIp + '/another/follow', data)
-        .then((res) => {
+        await this.$http.post(this.$store.state.testIp + '/another/follow', data)
+        .then(async (res) => {
           console.log(res.body)
           this.status = 1
+          this.userfollowers = []
+          await this.userFollower()
         })
       }
     },
 
-    nofollow(following, follower) {
+    async nofollow(following, follower) {
       if (this.login_id != this.$route.params.id){
         var data = {
           followingUser: following,
           followerUser: follower
         }
         console.log(data)
-        this.$http.post(this.$store.state.testIp + '/another/nofollow', data)
-        .then((res) => {
+        await this.$http.post(this.$store.state.testIp + '/another/nofollow', data)
+        .then(async (res) => {
           console.log(res.body)
           this.status = 0
+          this.userfollowers = []
+          await this.userFollower()
         })
       }
       else{
@@ -381,6 +515,7 @@ export default {
     justify-content:space-between;
     flex: 1 0 auto;
   }
+
   .v-avatar img{
     border-radius: 50% !important;
   }
@@ -389,4 +524,54 @@ export default {
     cursor: pointer !important;
     border-radius: 0% !important;
   }
+
+  .usercard {
+    width: 230px;
+    height: 330px;
+    /* position: absolute; */
+    background-color: #fafafa;
+    border-radius: 3px;
+    box-shadow: 0 0 5px #333;
+  }
+
+  .profile {
+    width: 130px;
+    height: 130px;
+    border: 5px solid #eee;
+    border-radius: 50%;
+    margin: 30px 50px auto;
+    background-image: url("");
+    background-size: cover;
+    transition-duration: 0.3s;
+  }
+
+  .profile:hover {
+    opacity: 0.5;
+  }
+
+  .userinfo {
+    text-align: center;
+  }
+
+  .userinfo p {
+    padding-top: 10px;
+    font-size: 13px;
+  }
+
+  .description {
+    font-size: 0.8rem;
+    margin: 0 20px;
+  }
+
+
+  @media all and (max-width: 400px) {
+    .card {
+      margin: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
 </style>

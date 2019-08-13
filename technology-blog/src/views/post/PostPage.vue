@@ -1,6 +1,6 @@
 <template>
-<div style="background-color: white; width: 80%; margin: 0 auto;">
-  <v-layout v-if="!search" wrap row pa-4>
+<div style="background-color: white; width: 90%; margin: 0 auto;">
+  <v-layout v-if="!search" wrap row pa-3>
     <v-flex fill-height d-flex xs12>
       <div class="container">
         <div style="width:200px; display:inline-block; margin-left:50px; margin-bottom: 15px;">
@@ -60,8 +60,16 @@
             </v-sheet>
         </div>
       <h1 style="display:inline;">{{searchResult}}검색 결과</h1> -->
+      <v-layout v-if="posts.length > 0" wrap>
       <PostDownList :posts="posts" :category="'2'" ref="post">
       </PostDownList>
+      </v-layout>
+      <v-layout v-else>
+      <v-layout wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
+        <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+          <h1 style="margin:50px 0;">검색한 내용에 해당하는 POST가 없습니다.</h1>
+      </v-layout>
+      </v-layout>
       </div>
     </v-flex>
     <v-flex xs12 text-xs-center>

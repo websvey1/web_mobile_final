@@ -168,12 +168,11 @@ export default {
     await this.readTech();
     this.user = this.$session.get("userInfo")
     this.$refs.imagePicker.setImage(this.user.user_image);
-    console.log(this.user);
+    // console.log(this.user);
     for(var i = 0; i < this.user.favor.length; i++){
       this.favor.push(this.user.favor[i].tech_num);
     }
-
-    console.log(this.favor);
+    // console.log(this.favor);
   },
   beforeRouteLeave(to, from, next) {
 
