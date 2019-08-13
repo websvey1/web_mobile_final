@@ -1,14 +1,15 @@
 <template>
-<v-layout v-if="posts.length > 0" wrap>
+<v-layout wrap>
   <v-flex v-for="post in posts" xs12 mt-1 px-2>
     <PostDownCard :post="post"></PostDownCard>
   </v-flex>
 </v-layout>
-
+<!--
 <v-layout v-else wrap style="display:flex; justify-content:center; margin:0 20%; padding: 70px 0;">
     <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
     <h1 style="margin:50px 0;">검색한 내용에 해당하는 POST가 없습니다.</h1>
 </v-layout>
+-->
 </template>
 
 <script>
@@ -34,6 +35,7 @@ export default {
 
   },
   mounted() {
+    alert(posts.length)
   }
 }
 </script>
