@@ -53,8 +53,9 @@
     </v-flex>
   </v-layout>
 
-  <v-layout v-if="nonexist" wrap>
-    <h1 style="text-align: center">검색한 내용에 해당하는 User가 없습니다.</h1>
+  <v-layout v-if="nonexist" wrap style="display:flex; justify-content:center; margin:0 20%; padding-top: 70px;">
+    <img src="@/assets/crying.png" style="width:30%; position:relative;"/>
+    <h1 style="margin-top:50px;">검색한 내용에 해당하는 User가 없습니다.</h1>
   </v-layout>
 </div>
 </template>
