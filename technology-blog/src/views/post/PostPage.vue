@@ -121,6 +121,7 @@ export default {
   watch: {
     async page(v) {
       if(!this.search){
+        console.log(v,'vvvvvvvvvvvvvvvv')
         await this.readPosts(v - 1, this.categoryForPostlist.value);
       }
       else{
@@ -138,6 +139,7 @@ export default {
       this.page = 1;
       await this.readPostsForSearch(this.page - 1, v.value);
       await this.getTotalPageNumForSearch(v.value);
+      console.log(v,'vvvvvvvvvvvvvvvvvvvvvvvv')
     }
   },
   async created() {
@@ -170,7 +172,7 @@ export default {
     },
 
     async readPosts(page, category) {
-      await this.$http.post(this.$store.state.testIp + "/post/alllist/" + page, {post_category:category})
+      await this.$http.post(this.$store.state.testIp + "/post/alllist/" + page, {post_category:category}) // 여기서 뒤 category가 넘어감
       .then((response) => {
         this.posts = response.data;
       })
