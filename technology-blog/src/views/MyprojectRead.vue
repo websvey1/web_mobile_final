@@ -16,13 +16,13 @@
           </v-btn>
         </template>
         <v-btn fab dark large color="green" @click="postRead">
-          Post<br>보기
+          Post <br>보기
         </v-btn>
         <v-btn fab dark large color="indigo" @click="postWrite">
-          Post<br>작성
+          Post <br>작성
         </v-btn>
         <v-btn fab dark large color="red" @click="todo()">
-          To do<br>List
+          To do <br>List
         </v-btn>
       </v-speed-dial>
 
@@ -44,32 +44,36 @@
             <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
             <div style="margin:15px 20p;">
               <h2 style="padding:5px 0;">Title</h2>
-              <p>{{ project.project_title }}</p>
+              <p style="font-size: 16px;">{{ project.project_title }}</p>
 
               <h2 style="padding:5px 0;">Goal</h2>
-              <p>{{ project.project_goal }}</p>
+              <p style="font-size: 16px;">{{ project.project_goal }}</p>
 
               <h2 style="padding:5px 0;">Term</h2>
               <v-menu v-model="menu" bottom right transition="scale-transition" origin="top left">
                 <template v-slot:activator="{ on }">
-                  <v-chip pill v-on="on">
+                  <v-chip pill v-on="on" style="margin-left: -2px;" color="#FFCDD2">
                     <v-icon left>event</v-icon>
-                    <span style="cursor: pointer">{{ project.project_start_date }} ~ {{ project.project_end_date }}</span>
+                    <span style="cursor: pointer; font-size: 14px;"><b>{{ project.project_start_date }} ~ {{ project.project_end_date }}</b></span>
                   </v-chip>
                 </template>
                 <v-layout justify-center>
-                  <v-date-picker v-model="picker" no-title :show-current="false" locale="ko-kr"></v-date-picker>
+                  <v-date-picker v-model="picker" readonly multiple no-title :show-current="false" locale="ko-kr"></v-date-picker>
                 </v-layout>
               </v-menu>
               <br>
 
-              <h2>Status</h2>
-              <v-btn rounded color="warning" dark>{{ project.project_status }}</v-btn>
+              <h2>Status</h2>    
+                <v-chip color="#E1BEE7" style="margin-left: -2px;">
+                  <span style="font-size: 13.5px;"><b>{{ project.project_status }}</b></span>
+                </v-chip>
               <br>
 
-              <h2 style="padding:5px 0;">git_url</h2>
-              <p>{{ project.project_git_url }}</p><br>
-              <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
+              <br>
+              <h2>Tech</h2>
+              <p>{{ project.project_tech }}</p>
+
+              <v-btn fab dark small color="#F57F17" style="float: right;" @click="dialog = true">
                 <v-icon dark>add</v-icon>
               </v-btn>
             </div>
@@ -118,7 +122,7 @@
       <v-flex>
         <fieldset style="padding:10px 15px; height:80%">
           <h2 style="padding:10px 0;">Post</h2>
-          <ul v-for="post in posts">
+          <ul v-for="post in posts" :key="post">
             <li><a @click="postMove(post)">{{ post.post_title }} / {{ post.user_name }} / {{ post.post_updated_at.split(' ')[0] }}</a></li>
           </ul>
         </fieldset>
@@ -149,10 +153,10 @@ export default {
       images: null,
       modify: false,
       menu: false,
-      picker: new Date().toISOString().substr(0, 10),
+      picker: [],
       posts: [],
       direction: 'left',
-      fab: false,
+      fab: true,
       fling: false,
       hover: false,
       tabs: null,
@@ -178,7 +182,8 @@ export default {
         this.created = this.project.project_created_at.substring(0, 10)
         this.modified = this.project.project_updated_at.substring(0, 10)
         this.images = res.data.images;
-        // console.log(this.images)
+        this.picker.push(res.data.project[0].project_start_date)
+        this.picker.push(res.data.project[0].project_end_date)
       });
     // console.log(this.$session.get('userInfo').user_num)
     this.getPostList()
@@ -247,6 +252,10 @@ export default {
 <style scoped>
 v-container {
   max-width: 100px !important;
+}
+
+.container {
+  padding-top: 10px !important;
 }
 
 #preview {
