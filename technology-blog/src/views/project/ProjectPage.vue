@@ -114,9 +114,13 @@ export default {
     },
     methods: {
       searchPosts(){
-        if (this.textForSearch != "") {
+        if(this.textForSearch == ''){
+                alert("검색할 단어 혹은 문구를 입력해주세요.")
+            }
+        else {
           this.search = true;
       }
+
         this.$refs.project.selectProject(this.categoryForPostlist.value, this.categoryForSearch.value, this.textForSearch);
       },
       allPosts(){

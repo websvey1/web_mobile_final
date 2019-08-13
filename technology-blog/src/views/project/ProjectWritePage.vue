@@ -334,6 +334,32 @@ export default {
       this.isRandom = false;
     },
     allValued(){
+      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/";
+      console.log(this.title, '중간체크')
+      for (var i=0; i<this.title.length; i++){
+        for (var j=0; j<num.length; j++){
+          if (this.title[i] == num[j]){
+            alert("제목에 특수문자 사용 금지입니다");
+            return false;
+          }
+        }
+      }
+      for (var i=0; i<this.goal.length; i++){
+        for (var j=0; j<num.length; j++){
+          if (this.goal[i] == num[j]){
+            alert("목표에 특수문자 사용 금지입니다");
+            return false;
+          }
+        }
+      }
+      for (var i=0; i<this.content.length; i++){
+        for (var j=0; j<num.length; j++){
+          if (this.content[i] == num[j]){
+            alert("내용에 특수문자 사용 금지입니다");
+            return false;
+          }
+        }
+      }
       if(this.title == ''){
         alert("Project title is required")
         return false
@@ -355,6 +381,7 @@ export default {
       }else{
         return true
       }
+      
     }
   },
 }
