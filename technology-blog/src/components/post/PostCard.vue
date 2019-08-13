@@ -6,7 +6,7 @@
 
     <v-card-title primary-title>
       <h3 class="headline mb-0 oneline">
-        <i v-if="post.post_share=='1'" class="fas fa-lock">&nbsp;&nbsp;</i>
+        <i v-if="post.post_share=='1'"><img src="@/assets/lock.png/" style="width:20px; height:20px; margin-right:5px;"/></i>
         {{post.post_title}}</h3>
     </v-card-title>
     <v-card-text>
