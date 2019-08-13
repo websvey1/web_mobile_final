@@ -28,6 +28,10 @@ export const store = new Vuex.Store({
     teamNum: '',
     exist: false,
 
+<<<<<<< HEAD
+    testIp:'http://192.168.31.85:3000'
+=======
     testIp:'http://192.168.31.61:3000'
+>>>>>>> 169a15e5c7a9dc4f3c8d4dda50b0a4c6a156acab
 	}
 });
