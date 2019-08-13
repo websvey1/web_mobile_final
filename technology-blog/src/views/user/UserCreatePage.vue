@@ -156,6 +156,12 @@ export default {
             alert("가입 성공")
             this.$router.push("/")
           }
+          else if(req.data == "ID"){
+            alert("아이디가 이미 있습니다")
+            console.log("Login Fail")
+            this.resetForm()
+          }
+
           else{
             alert("가입 실패")
             this.resetForm();
