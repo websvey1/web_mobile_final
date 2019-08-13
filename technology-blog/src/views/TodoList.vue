@@ -131,19 +131,23 @@ export default {
 
       async createTodo() {
         // var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함
-        // console.log(this.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
-        var content = this.inputTodo;
-        if (!content ==""){
-          this.myArray1.push({
-          todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨
-          todo_category: 0,
-          // todo_user: user_num ,
-          todo_project: this.$route.params.id
-          ,
-          })
-        this.inputTodo = "";
-        }
+        // console.log(thi s.$session.get("userInfo"))// 여기서 pjt_num을 받아야 함
+        if (this.checkvalid()){
+          var content = this.inputTodo;
+          if (!content ==""){
+            this.myArray1.push({
+            todo_content: content,        // 이부분이 maArray1로 들어가고, myArray1이 form으로 back으로 전송됨
+            todo_category: 0,
+            // todo_user: user_num ,
+            todo_project: this.$route.params.id
+            ,
+            })
+          this.inputTodo = "";
+          }
         this.dialog = false;
+        }
+
+        
       },
       async deleteTodo1(id){
         this.myArray1.splice(id,1);
@@ -180,6 +184,21 @@ export default {
       closeDialog(){
         this.dialog = false;
         console.log("false")
+      },
+
+      checkvalid(){
+      var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/";
+      console.log(this.title, '중간체크')
+      for (var i=0; i<this.inputTodo.length; i++){
+        for (var j=0; j<num.length; j++){
+          if (this.inputTodo[i] == num[j]){
+            alert("Todolist에 특수문자를 입력할 수 없습니다");
+            return false;
+          }
+          
+        }
+      }
+      return true;
       }
 	},
 }
