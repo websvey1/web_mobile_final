@@ -43,6 +43,8 @@
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>
+
+    
 </v-layout>
 
 <v-layout v-else wrap>
