@@ -1,16 +1,7 @@
  <template>
-   <v-card
-      class="mx-auto"
-      max-width="450"
-      flat
-    >
-      <v-img
-        class="white--text"
-        height="285px"
-        :src="teampjt.image[0]"
-        style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
-        @click="goReadProject(teampjt.pjt.project_team, teampjt.pjt.project_num)"
-      >
+   <v-card class="mx-auto" max-width="450" flat>
+      <v-img class="white--text" height="285px" :src="teampjt.image[0]" style="border: 1px solid #c5c5c5; cursor:pointer; border-radius: 7px;"
+        @click="goReadProject(teampjt.pjt.project_team, teampjt.pjt.project_num)">
       </v-img>
     
       <v-card-title>
@@ -26,7 +17,7 @@
       </v-card-text>
 
       <v-card-text>
-      <span class="ptag">{{ teampjt.pjt.project_tech }}</span><br>
+      <span class="ptag">{{ teampjt.pjt.project_content }}</span><br>
       </v-card-text>
 
       <v-divider class="mx-0"></v-divider>

@@ -1,7 +1,5 @@
 <template>
 <div style="background-color: white;">
-  <!-- <v-btn class="v-btn theme--dark" style="margin-bottom: 20px;" to="/myproject/create">프로젝트 작성</v-btn> -->
-  <!-- <v-btn class="v-btn theme--dark" style="margin-bottom: 20px;" to="/todolist">Todo-List 작성</v-btn> -->
   <div class="searchbar-total">
     <div class="searchbar-first">
       <v-select v-model="categoryForSearch" :items="categorysForSearch" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
@@ -20,17 +18,14 @@
       <v-select v-model="categoryForPostlist" :items="categorysForPostlist" item-text="text" :menu-props="{ top: true, offsetY: true }" label="Category" return-object></v-select>
     </div>
     <h1 style="display:inline;">{{categoryForPostlist.text}}</h1>
-    <v-divider style="padding-bottom:20px;">
-      </slot>></v-divider>
+    <v-divider style="padding-bottom:20px;"></v-divider>
 
-
-  <ProjectList ref="project"></ProjectList>
+    <ProjectList ref="project"></ProjectList>
   </div>
 </div>
 </template>
 
-
- <script>
+<script>
 import ProjectList from '@/components/ProjectList'
 import ProjectCard from '@/components/ProjectCard'
 
@@ -52,23 +47,23 @@ export default {
           categorysForSearch: [
             {text:'제목', value:'0'},
             {text:'내용', value:'1'},
-            {text:'제목 + 내용', value:'2'},
-            {text:'ID', value:'3'},
-            {text:'TAG', value:'4'},
+            // {text:'제목 + 내용', value:'2'},
+            // {text:'ID', value:'3'},
+            // {text:'TAG', value:'4'},
           ],
 
           textForSearch: '',
           categoryForSearch: {text:'제목', value:'0'} ,
 
           categorysForPostlist: [
-            {text: 'My Project', value: '0'},{text: 'Team Project', value: '1'}
+            {text: 'Personal Project', value: '0'},{text: 'Team Project', value: '1'}
           ],
-          categoryForPostlist:{text: 'My Project', value: '0'},
+          categoryForPostlist:{text: 'Personal Project', value: '0'},
 
           categorysForPostlistBySearch: [
-            {text: 'My Project', value: '0'},{text: 'Team Project', value: '1'}
+            {text: 'Personal Project', value: '0'},{text: 'Team Project', value: '1'}
           ],
-          categoryForPostlistBySearch:{text: 'My Project', value: '0'},
+          categoryForPostlistBySearch:{text: 'Personal Project', value: '0'},
 
           page: 1,
           length: 1,
@@ -76,12 +71,18 @@ export default {
         }
     },
     watch:{
-      categoryForPostlist(v){
-        this.$refs.project.selectProject(v.value);
+      categoryForPostlist(){
+        this.textForSearch = ''
+        this.$refs.project.selectProject(this.categoryForPostlist.value, this.categoryForSearch.value, this.textForSearch);
       }
     },
     methods: {
-
+      searchPosts(){
+        this.$refs.project.selectProject(this.categoryForPostlist.value, this.categoryForSearch.value, this.textForSearch);
+      },
+      allPosts(){
+        this.$refs.project.selectProject(this.categoryForPostlist.value, '', '');
+      }
     }
 
  }
