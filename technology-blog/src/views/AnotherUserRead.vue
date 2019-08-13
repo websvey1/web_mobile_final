@@ -5,15 +5,22 @@
       <v-flex shrink style="padding-right:50px;">
         <v-avatar color="rgb(140, 140, 140)" size="175">
           <img :src="user.userImage|image"/>
-
-          <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/"
-          style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px;"/>
-
+          <v-icon class="imgclick" color="blue lighten-2" large @click="follow(user.usernum, login_id)" v-if="status === 0"
+          style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 93px;">
+            fas fa-user-plus
+          </v-icon>
+          <v-icon class="imgclick" color="blue lighten-2" large @click="nofollow(user.usernum, login_id)" v-else-if="status === 1"
+          style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 93px;">
+            fas fa-user-check
+          </v-icon>
+          <!-- <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/"
+          style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px; border-radius: 0px"/> -->
+<!-- 
           <img class="imgclick" @click="nofollow(user.usernum, login_id)" v-else-if="status === 1" src="@/assets/31.png/"
-          style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/>
+          style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/> -->
         </v-avatar>
       </v-flex>
-      <v-flex text-center style="padding-top:10px;">
+      <v-flex text-center style="padding-top:10px; margin-left: 10px;">
         <v-container grid-list-lg pa-0>
           <v-layout column>
             <v-flex>
@@ -378,10 +385,12 @@ export default {
     justify-content:space-between;
     flex: 1 0 auto;
   }
-  .v-avatar img {
-    border-radius: 0px !important;
+  .v-avatar img{
+    border-radius: 50% !important;
   }
-  .imgclick {
+
+  .imgclick[data-v-75298a4c] {
     cursor: pointer !important;
+    border-radius: 0% !important;
   }
 </style>

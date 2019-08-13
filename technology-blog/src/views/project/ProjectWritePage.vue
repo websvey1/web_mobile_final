@@ -104,7 +104,7 @@
           <input v-else value="Random image is selected" disabled/>
         </label>
 
-        <v-btn v-if="isRandom" small dark small style="border-radius: 15px;" @click="removeRandom()">
+        <v-btn v-if="isRandom" small dark style="border-radius: 15px;" @click="removeRandom()">
           Cancel
         </v-btn>
 

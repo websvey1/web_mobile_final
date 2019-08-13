@@ -6,8 +6,6 @@ var db = require("../database");
 router.post('/create', function(req, res, next) {
   var pool = db.getPool();
 
-  // console.log(req.body);
-
   var user = req.body.user;
   var title = req.body.title;
   var goal = req.body.goal;
@@ -20,7 +18,7 @@ router.post('/create', function(req, res, next) {
   var share = req.body.share;
   var category = '0';
   var images = req.body.imgArray;
-  var pjt_num = a;
+  console.log(req.body)
 
   pool.getConnection((ex, conn) => {
       if(ex){
@@ -39,8 +37,6 @@ router.post('/create', function(req, res, next) {
           }
 
           var project_num = result.insertId;
-          // console.log(project_num)
-          // var query = conn.query('inset into todolist(todo_project) values('+project_num+')');
           var img_query = 'insert into image(image_url) values';
 
           if (images.length > 0) {

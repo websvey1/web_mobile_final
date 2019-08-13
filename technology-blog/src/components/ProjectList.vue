@@ -4,12 +4,12 @@
         <v-select v-model="status" :items="items" :label="status" solo></v-select>
     </v-flex> -->
     <v-layout wrap v-if="status == 'Project'">
-        <v-flex v-for="project in projects" :key="project.pjt.project_num" xs6 style=" margin-bottom: 40px;">
+        <v-flex v-for="project in projects" :key="project.pjt.project_num" px-3 xs6 style=" margin-bottom: 40px;">
             <ProjectCard :project="project"></ProjectCard>
         </v-flex>
     </v-layout>
     <v-layout wrap v-else-if="status == 'TeamProject'">
-        <v-flex v-for="teampjt in teamprojects" :key="teampjt" xs6 style=" margin-bottom: 40px;">
+        <v-flex v-for="teampjt in teamprojects" :key="teampjt" px-3 xs6 style=" margin-bottom: 40px;">
             <TeamCard :teampjt="teampjt"></TeamCard>
         </v-flex>
     </v-layout>

@@ -26,37 +26,41 @@
       width:47%; float:right;
       ">
         <v-flex wrap>
-          <fieldset style="margin-right:4px; height:100%; padding:20px 10px;">
+          <fieldset wrap style="margin-right:4px; height: 100%; padding:20px 5px 15px;">
             <!-- <legend style="text-align:right; padding-bottom:10px;"><h1>&nbsp;Project&nbsp;</h1></legend> -->
             <div style="margin:0 20px;">
               <h2 style="padding:5px 0;">Title</h2>
-              <p>{{ project.project_title }}</p>
+              <p style="font-size: 16px;">{{ project.project_title }}</p>
 
               <h2 style="padding:5px 0;">Goal</h2>
-              <p>{{ project.project_goal }}</p>
+              <p style="font-size: 16px;">{{ project.project_goal }}</p>
 
               <h2 style="padding:5px 0;">Term</h2>
               <v-menu v-model="menu" bottom right transition="scale-transition" origin="top left">
                 <template v-slot:activator="{ on }">
-                  <v-chip pill v-on="on">
+                  <v-chip pill v-on="on" style="margin-left: -2px;" color="#FFCDD2">
                     <v-icon left>event</v-icon>
-                    <span style="cursor: pointer">{{ project.project_start_date }} ~ {{ project.project_end_date }}</span>
+                    <span style="cursor: pointer; font-size: 14px;"><b>{{ project.project_start_date }} ~ {{ project.project_end_date }}</b></span>
                   </v-chip>
                 </template>
                 <v-layout justify-center>
-                  <v-date-picker v-model="picker" no-title :show-current="false" locale="ko-kr"></v-date-picker>
+                  <v-date-picker v-model="picker" readonly multiple no-title :show-current="false" locale="ko-kr"></v-date-picker>
                 </v-layout>
               </v-menu>
               <br>
 
-              <h2>Status</h2>
-              <v-btn rounded color="warning" dark>{{ project.project_status }}</v-btn>
+              <h2>Status</h2>    
+              <v-chip color="#E1BEE7" style="margin-left: -2px;">
+                <span style="font-size: 13.5px;"><b>{{ project.project_status }}</b></span>
+                </v-chip>
+              <!-- <v-btn rounded color="warning" dark>{{ project.project_status }}</v-btn> -->
               <br>
 
-              <h2 style="padding:5px 0;">git_url</h2>
-              <p>{{ project.project_git_url }}</p>
               <br>
-              <v-btn fab dark color="indigo" style="float: right;" @click="dialog = true">
+              <h2>Tech</h2>
+              <p>{{ project.project_tech }}</p>
+
+              <v-btn fab dark small color="indigo" style="float: right; margin-top: -8px;" @click="dialog = true">
                 <v-icon dark>add</v-icon>
               </v-btn>
             </div>
@@ -87,8 +91,8 @@
             <v-flex xs12>
               - 프로젝트 생성일 : {{ project.project_created_at.substring(0, 10) }}<br>
               - 프로젝트 최종 수정일 : {{ project.project_updated_at.substring(0, 10) }}<br>
-              - Git-url : {{ project.project_git_url }}<br>
-              - Tech : {{ project.project_tech }}
+              - Tech : {{ project.project_tech }}<br>
+              - Git-url : {{ project.project_git_url }}
             </v-flex>
           </v-layout>
         </v-container>
@@ -124,7 +128,7 @@ export default {
       images: null,
       modify: false,
       menu: false,
-      picker: new Date().toISOString().substr(0, 10),
+      picker: [],
       loginUser: null,
       dialog: false
     }
@@ -133,11 +137,11 @@ export default {
     var id = this.$route.params.id;
     this.$http.get(`http://192.168.31.63:3000/myproject/${id}`)
       .then((res) => {
-        console.log(res)
         this.project = res.data.project[0];
         this.images = res.data.images;
-        this.loginUser= this.$session.get('userInfo').user_num;
-        console.log(this.images)
+        this.loginUser = this.$session.get('userInfo').user_num;
+        this.picker.push(res.data.project[0].project_start_date)
+        this.picker.push(res.data.project[0].project_end_date)
       });
   },
   methods: {

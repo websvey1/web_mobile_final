@@ -281,8 +281,8 @@ ul a:last-of-type {
 .searchbar-total {
   display: flex;
   justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   /* background-color: rgba(9,9,9,0.1); */
 }
 
