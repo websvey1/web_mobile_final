@@ -14,9 +14,9 @@
             <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
           </div>
           <div style="display: inline-block; margin: 5px 0px; vertical-align: center;">
-            <v-btn fab dark small color="black" @click="searchPosts" style="margin-top: 12px;"> 
+            <v-btn fab dark small color="black" @click="searchPosts" style="margin-top: 12px;">
             <v-icon dark>fas fa-search</v-icon>
-            </v-btn> 
+            </v-btn>
           </div>
         </div>
       <!-- <v-divider></v-divider> -->
@@ -43,13 +43,13 @@
           <v-text-field xs12 label="검색어를 입력해 주세요." v-model='textForSearch'></v-text-field>
         </div>
         <div style="display: inline-block; margin: 5px 0px; vertical-align: center;">
-          <v-btn fab dark small color="black" @click="searchPosts" style="margin-top: 12px;"> 
+          <v-btn fab dark small color="black" @click="searchPosts" style="margin-top: 12px;">
           <v-icon dark>fas fa-search</v-icon>
-          </v-btn> 
-          <v-btn fab dark small color="black" @click="allPosts" style="margin-left: -2px; margin-top: 12px;"> 
+          </v-btn>
+          <v-btn fab dark small color="black" @click="allPosts" style="margin-left: -2px; margin-top: 12px;">
           <!-- <v-icon dark>fas fa-search</v-icon> -->
-          목록 
-          </v-btn> 
+          목록
+          </v-btn>
         </div>
       </div>
       <!-- <v-divider style="margin-left:45px; margin-bottom: 30px;"></v-divider> -->
@@ -96,7 +96,7 @@ export default {
         {text:'제목', value:'0'},
         {text:'내용', value:'1'},
         {text:'제목 + 내용', value:'2'},
-        {text:'ID', value:'3'},
+        {text:'작성자', value:'3'},
         {text:'TAG', value:'4'},
       ],
 
