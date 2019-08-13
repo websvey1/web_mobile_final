@@ -21,9 +21,10 @@
                 </v-flex>
                 <v-flex v-else style="margin-top: -20px; margin-left: auto;">
                   <v-btn flat class="outlined_first" @click="openDialog(item)">팀원보기</v-btn>
+                  <v-btn flat class="outlined_second" @click="addMember(item)">팀원추가</v-btn>
                   <v-btn flat class="outlined_fourth" @click="go(item.teamNum)">선택</v-btn>
+                  <v-btn flat class="outlined_third" @click="del(item.title)">팀 나가기</v-btn>
                 </v-flex>
-
               </v-layout>
             </v-container>
           </v-flex>
@@ -56,6 +57,38 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <v-dialog v-model="showModal" persistent max-width="600px">
+    <v-card>
+      <v-card-title>
+        <span class="headline">Team member추가하기</span>
+      </v-card-title>
+      <v-card-text>
+        <v-container grid-list-xl>
+          <v-layout wrap>
+            <v-flex xs12>
+              <v-autocomplete v-model="members" :disabled="isUpdating" :items="people" filled chips color="blue-grey lighten-2"
+                label="Member *" item-text="name" item-value="name" required multiple>
+              <template v-slot:item="data">
+                <template v-if="typeof data.item !== 'object'">
+                  <span v-text="data.item"></span>
+                </template>
+                <template v-else>
+                  <span>{{data.item.name}} ({{data.item.id}})</span>
+                </template>
+              </template>
+              </v-autocomplete>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" flat @click="updateMember">Add</v-btn>
+        <v-btn color="blue darken-1" flat @click="showModal = false">CANCEL</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </v-app>
 </template>
 
@@ -68,8 +101,14 @@ export default {
   data() {
     return {
       items: [],
+      tempPeople: [],
+      people: [],
+      members: [],
       dialog: false,
+      showModal: false,
+      isUpdating: false,
       selectItem: "",
+      data: []
     }
   },
   props: {
@@ -77,8 +116,62 @@ export default {
   },
   mounted() {
     this.start();
+    this.getUsers();
   },
   methods: {
+    addMember(item){
+      this.data = item
+      this.people = []
+      this.showModal = true
+      var temp = item.member.split(' ')
+
+      for(var i = 0; i < this.tempPeople.length; i++){
+        var tag = 0;
+        
+        for(var m = 0; m < temp.length; m++){
+          if(this.tempPeople[i].name == temp[m]){
+            tag = 1
+          }
+        }
+
+        if(tag == 0){
+          this.people.push(this.tempPeople[i])
+        }
+      }
+    },
+    async updateMember(){
+      var mem = {
+        teamNum: this.data.teamNum,
+        member: this.members
+      }
+      console.log(this.members)
+      ////////////////////////// Member table에 user들 넣기 /////////////////////////
+      await this.$http.post(this.$store.state.testIp + '/team/makeMember', mem)
+      .then(async (response) =>{
+        console.log('member 입력 완료.')
+        // await this.update(mem.teamNum);
+        this.items = []
+        this.members = []
+        this.start();
+        this.showModal = false;
+      })
+      .catch((error) => {
+        console.log(error)
+      })      
+    },
+    getUsers(){ // 전체 user 다 가져오는 함수
+      this.$http.post(this.$store.state.testIp + '/team/getUser')
+        .then((response) => {
+            var items = response.body;
+
+            for(var i = 0; i < items.length; i++){
+                this.tempPeople.push({name: items[i].user_name, id: items[i].user_id});
+            }
+        })
+        .catch((error) =>{
+            console.log(error)
+        })
+    },
     openDialog(item) {
       this.selectItem = item;
       this.dialog = true;
