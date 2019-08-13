@@ -102,35 +102,45 @@ router.post('/getInfo', function(req, res, next) {
                         info.userTech.push(result[i].tech_name)
                     }
 
-                    var query = conn.query('select project_num from project where project_user =' + userNum + ';',
+                    var query = conn.query('select project_num from project where project_share = 0 and project_category = 0 and project_user =' + userNum + ';',
                     function(err, result) {
                         if (err){
                             console.error(err);
                             throw err;
                         }
                         info.userProject = result.length
-
-                        var query = conn.query('select post_num from post where post_user =' + userNum + ';',
+                        
+                        var query = conn.query('select p.project_num from user as u inner join blog.member as m on u.user_num = m.member_user inner join team as t on m.member_team = t.team_num inner join project as p on p.project_team = t.team_num where m.member_auth = 1 and p.project_category = 1 and p.project_share = 0 and u.user_num = ?', userNum,
                         function(err, result) {
-                            if (err){
+                            if (err) {
                                 console.error(err);
                                 throw err;
                             }
+                            var teampjt = result.length
+                            info.userProject = info.userProject + teampjt
 
-                            info.userPost = result.length
-
-                            var query = conn.query('select user_num, user_id, user_email, user_image from user where user_num = ' + userNum + ';',
+                            var query = conn.query('select p.post_num from post as p inner join project as pjt on p.post_project = pjt.project_num left join team as t on pjt.project_team = t.team_num where pjt.project_share = 0 and p.post_share = 0 and p.post_user = ?',userNum,
                             function(err, result) {
                                 if (err){
                                     console.error(err);
                                     throw err;
                                 }
-                                info.userN = result[0].user_num
-                                info.userId = result[0].user_id
-                                info.userEmail = result[0].user_email
-                                info["user_image"] = result[0].user_image;
-                                
-                                res.send(info)
+    
+                                info.userPost = result.length
+    
+                                var query = conn.query('select user_num, user_id, user_email, user_image from user where user_num = ' + userNum + ';',
+                                function(err, result) {
+                                    if (err){
+                                        console.error(err);
+                                        throw err;
+                                    }
+                                    info.userN = result[0].user_num
+                                    info.userId = result[0].user_id
+                                    info.userEmail = result[0].user_email
+                                    info["user_image"] = result[0].user_image;
+                                    
+                                    res.send(info)
+                                })
                             })
                         })
                     })
@@ -274,7 +284,7 @@ router.post('/getpost', function(req, res, next) {
             console.log(ex);
         }
         else {
-            var query = conn.query('select * from post where post_user = ?', userNum,
+            var query = conn.query('select p.*, pjt.project_title, t.team_name from post as p inner join project as pjt on p.post_project = pjt.project_num left join team as t on pjt.project_team = t.team_num where pjt.project_share = 0 and p.post_share = 0 and p.post_user = ?', userNum,
             function(err, result) {
                 if (err){
                     console.error(err)
@@ -384,6 +394,85 @@ router.post('/nofollow', function(req, res, next){
                 res.send("Success")
             })
         }
+        conn.release();
     })
 })
+
+router.post('/usertech', function(req, res, next) {
+    var userNum = req.body.userNum
+    var pool = db.getPool()
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query(
+            'select t.tech_name from user as u inner join favor as f on f.favor_user = u.user_num inner join tech as t on f.favor_tech = t.tech_num where u.user_num =' + userNum + ';',
+            function(err, result) {
+                if (err){
+                    console.error(err);
+                    throw err;
+                }
+                var tech = []
+
+                if (result == '[]') {
+                    tech = null
+                }
+                else {
+                    for (var i=0; i < result.length; i++){
+                        tech.push(result[i].tech_name)
+                    }
+                }
+                res.send(tech)
+            })
+        }
+        conn.release()
+    })
+})
+
+router.post('/userfollower', function(req, res, next) {
+    var pool = db.getPool()
+    var userNum = req.body.userNum
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else{
+            var query = conn.query('select u.* from follow as f inner join user as u on follower_user = u.user_num where following_user = ?', userNum,
+            function(err, result) {
+                if (err) {
+                    console.error(err)
+                    throw err
+                }
+                res.send(result)
+            })
+        }
+        conn.release();
+    })
+})
+
+router.post('/userfollowing', function(req, res, next) {
+    var pool = db.getPool()
+    var userNum = req.body.userNum
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else{
+            var query = conn.query('select u.* from follow as f inner join user as u on following_user = u.user_num where follower_user = ?', userNum,
+            function(err, result) {
+                if (err) {
+                    console.error(err)
+                    throw err
+                }
+                res.send(result)
+            })
+        }
+        conn.release();
+    })
+})
+
 module.exports = router;

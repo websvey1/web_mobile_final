@@ -1,14 +1,14 @@
 <template>
 <div style="background-color: white; padding-bottom:50px;">
     <div style="padding:50px 17%;">
-    <v-btn @click="back" outline color="indigo" round style="float:left;">
-        <v-icon dark left>arrow_back</v-icon>Back</v-btn>
-    <v-btn @click="move" outline color="indigo" round style="float:right;">Project 추가</v-btn>
+        <v-btn @click="back" outline color="indigo" round style="float:left;">
+            <v-icon dark left>arrow_back</v-icon>Back</v-btn>
+        <v-btn @click="move" outline color="indigo" round style="float:right;">Project 추가</v-btn>
     </div>
     <span class="mdi mdi-home"></span>
     <div class="container project">
-        <v-layout wrap>
-            <v-flex v-for="project in projects" xs6 style="margin-bottom: 65px;">
+        <v-layout wrap mt-2>
+            <v-flex v-for="project in projects" px-3 xs6 style="margin-bottom: 70px;">
                 <TeamProjectCard :project="project"></TeamProjectCard>
             </v-flex>
         </v-layout>
@@ -68,7 +68,7 @@ export default {
  <style>
    .container.project {
     background-color: white;
-    width: 75%;
+    width: 80%;
     margin: 0 auto;
   }
  </style>

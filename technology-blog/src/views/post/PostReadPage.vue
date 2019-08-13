@@ -4,8 +4,11 @@
     <v-img v-if="post != null" :src="post.image_url" aspect-ratio="1.7">
       <v-layout wrap pa-5 fill-height>
         <v-flex pa-5 ma-5 white xs12>
-          <h1 class="multipleline">{{post.post_title}} [{{post.project_title}}]</h1>
-          <h3 style="text-align:right;color:grey;">작성자 : {{post.user_name}}</h3>
+          <span>
+            <v-chip color="light-green lighten-4" large style="margin-top: -30px; font-size: 20px;"><b>{{post.project_title}}</b></v-chip>
+          </span>
+          <h1 class="multipleline" style="display: inline-block">&nbsp;{{post.post_title}}</h1>
+          <h3 style="text-align:right; color:grey;">작성자 : {{post.user_name}}</h3>
           <v-divider></v-divider>
           <h3 style="text-align:right;color:grey;">마지막 수정 날짜 : {{post.post_updated_at}}</h3>
           <v-divider dark></v-divider>
