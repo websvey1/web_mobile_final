@@ -34,7 +34,7 @@
         </v-chip>
 
         <v-chip v-if="project.pjt.project_status ==='완료'" style="float: right;" class="ma-2" color="rgb(255, 180, 180)">
-          <b>{{ project.pjt.project_status }}</b> 
+          <b>{{ project.pjt.project_status }}</b>
         </v-chip>
 
         <v-chip style="float: right;" class="ma-2" color="#c9e2f7">
@@ -55,7 +55,7 @@ export default {
     name: 'ProjectCard',
     data(){
       return{
-        
+
       }
     },
 

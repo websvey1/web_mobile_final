@@ -74,7 +74,7 @@ export default {
     name: 'TeamCard',
     data(){
       return{
-        
+
       }
     },
     props: {
