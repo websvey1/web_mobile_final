@@ -92,8 +92,16 @@ export default {
       }
     }
   },
+  async created() {
+    if (this.$session.has('userInfo')) {
+      await this.onUser()
+    } else {
+      alert("로그인 해주세요.");
+      this.$router.push("/");
+    }
+  },
   mounted() {
-    this.onUser();
+    // this.onUser();
   },
   methods: {
     async onUser() {
