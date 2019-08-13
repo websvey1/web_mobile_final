@@ -267,31 +267,6 @@ export default {
     mapState(['exist'])
   ,
   methods: {
-    // fetchData () {
-    //     // console.log("&&&",this.$route.params.id)
-    //     // if(this.$route.params.id == 'undefined' || this.$route.params.id == null){
-    //     //   this.TeamId = null;
-    //     // }
-    //     // else{
-    //     //   this.TeamId = this.$route.params.id;
-    //     //   console.log(this.TeamId)
-    //     //   var data = {
-    //     //     teamNum : this.TeamId
-    //     //   }
-
-    //     //   console.log(data)
-    //     //   this.$http.post('http://192.168.31.63:3000/team/getLatestTeam', data)
-    //     //   .then((response) => {
-    //     //     this.teamName = response.body[0].team_name
-    //     //   })
-    //     //   .catch((error) => {
-    //     //     console.log(error)
-    //     //   })
-    //     // }
-    // },
-    // go(id){
-    //   this.$router.push({ name: "TeamProjectPage", params: {id: id} })
-    // }
     logstate(){
       if(this.$session.has('userInfo')){
         this.user = this.$session.get('userInfo');
@@ -308,8 +283,6 @@ export default {
       }
     }
   }
-
-
 }
 </script>
 <style scoped>

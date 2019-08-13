@@ -227,8 +227,6 @@ router.post('/getLatestTeam', function(req, res, next){
     
 router.post('/checkNew', function(req, res, next){
     var id = req.body.id;
-    // console.log(id)
-    // console.log(req.body)    
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
