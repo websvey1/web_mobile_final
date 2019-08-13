@@ -12,7 +12,7 @@
         @click="goReadProject(teampjt.pjt.project_team, teampjt.pjt.project_num)"
       >
       </v-img>
-    
+
       <v-card-title>
         <div class="posth1">{{ teampjt.pjt.team_name }}</div>
       </v-card-title>
@@ -20,10 +20,6 @@
       <v-card-title>
         <div class="posth1">{{ teampjt.pjt.project_title }}</div>
       </v-card-title>
-
-      <v-card-text>
-      <span class="ptag">{{ teampjt.pjt.project_goal }}</span><br>
-      </v-card-text>
 
       <v-card-text>
       <span class="ptag">{{ teampjt.pjt.project_content }}</span><br>
@@ -72,7 +68,7 @@ export default {
     name: 'TeamCard',
     data(){
       return{
-        
+
       }
     },
     props: {
