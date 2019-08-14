@@ -63,7 +63,7 @@
               </v-menu>
               <br>
 
-              <h2>Status</h2>    
+              <h2>Status</h2>
                 <v-chip color="#E1BEE7" style="margin-left: -2px;">
                   <span style="font-size: 13.5px;"><b>{{ project.project_status }}</b></span>
                 </v-chip>
@@ -179,11 +179,17 @@ export default {
       .then((res) => {
         // console.log(res)
         this.project = res.data.project[0];
-        this.created = this.project.project_created_at.substring(0, 10)
-        this.modified = this.project.project_updated_at.substring(0, 10)
-        this.images = res.data.images;
-        this.picker.push(res.data.project[0].project_start_date)
-        this.picker.push(res.data.project[0].project_end_date)
+        if(!this.$session.has("userInfo") || this.$session.get("userInfo").user_num != this.project.project_user){
+          alert("권한이 없습니다.");
+          this.$router.push("/");
+        }
+        else{
+          this.created = this.project.project_created_at.substring(0, 10)
+          this.modified = this.project.project_updated_at.substring(0, 10)
+          this.images = res.data.images;
+          this.picker.push(res.data.project[0].project_start_date)
+          this.picker.push(res.data.project[0].project_end_date)
+        }
       });
     // console.log(this.$session.get('userInfo').user_num)
     this.getPostList()
