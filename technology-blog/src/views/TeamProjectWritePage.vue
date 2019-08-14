@@ -139,7 +139,7 @@
       <div style="margin:16px;">
         <markdown-editor v-model="project.content" ref="markdownEditor" :rules="contentRules" required></markdown-editor>
       </div>
-    </fieldset> 
+    </fieldset>
 
     <v-layout wrap>
       <v-flex xs9>
@@ -270,7 +270,7 @@ export default {
           for (var i=0; i < this.files.length; i++){
             var data = {
               teamNum: team_num,
-              pjtNum: pjt_num, 
+              pjtNum: pjt_num,
               image: this.files[i]
             }
             // console.log(data)
@@ -284,7 +284,7 @@ export default {
           var teamNum = this.$route.params.id
           // console.log(res)
           alert("글 작성 완료");
-          this.$router.push(`/teamProject/${teamNum}`)            
+          this.$router.push(`/teamProject/${teamNum}`)
         })
       }
     },
@@ -296,6 +296,10 @@ export default {
       this.$refs.files.click();
     },
     onFilePicked(e) {
+      if(this.files.length >= 5){
+        alert("사진은 5개까지 등록할 수 있습니다.");
+        return;
+      }
       const files = e.target.files
       if (files[0] !== undefined) {
         this.img.imageName = files[0].name
@@ -382,6 +386,6 @@ export default {
 
 <style scoped>
 .container {
-    padding-top: 10px !important; 
+    padding-top: 10px !important;
 }
 </style>
