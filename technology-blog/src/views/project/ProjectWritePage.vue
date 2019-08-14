@@ -273,11 +273,15 @@ export default {
     addFiles(){
       if(this.isRandom){
         alert("You picked a random image.\nIf you want to use some files, press cancel button.")
-        return
+        return;
       }
       this.$refs.files.click();
     },
     onFilePicked(e) {
+      if(this.files.length >= 5){
+        alert("사진은 5개까지 등록할 수 있습니다.");
+        return;
+      }
       const files = e.target.files
       if (files[0] !== undefined) {
         this.img.imageName = files[0].name
@@ -329,6 +333,8 @@ export default {
     },
     useRandom(){
       this.isRandom = true;
+
+      this.files = [];
     },
     removeRandom(){
       this.isRandom = false;
@@ -381,7 +387,7 @@ export default {
       }else{
         return true
       }
-      
+
     }
   },
 }
