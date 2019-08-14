@@ -27,10 +27,7 @@
                   <v-list-item three-line>
                     <v-list-item-content>
                       <v-list-item-title>
-                        <v-chip
-                          color="#00C853"
-                          text-color="white"
-                        >
+                        <v-chip color="#00C853" text-color="white">
                           <v-avatar left>
                             <v-icon>account_circle</v-icon>
                           </v-avatar>
@@ -62,9 +59,9 @@
                 </v-list-item>
               </div>
               <div v-else>
-                  <v-list-item-title>
+                <v-list-item-title>
                   새로운 메세지가 없습니다.
-                  </v-list-item-title>
+                </v-list-item-title>
               </div>
             </v-list>
           </v-menu>
