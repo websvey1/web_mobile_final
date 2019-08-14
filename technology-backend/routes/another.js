@@ -522,6 +522,27 @@ router.post('/checkNew', function(req, res, next) {
     })
 })
 
+router.post('/checkRead', function(req, res, next) {
+    var userNum = req.body.id
+    var pool = db.getPool()
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query('select count(*) as total from message where receive_user = ? and message_read = 0', userNum, function(err, result) {
+                if(err){
+                    console.error(err)
+                    throw err
+                }
+                res.send(result)
+            })
+        }
+        conn.release()
+    })
+})
+
 router.post('/messageread', function(req, res, next) {
     var msgNum = req.body.msg
     var pool = db.getPool()
