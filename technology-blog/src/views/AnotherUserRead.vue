@@ -4,7 +4,7 @@
     <v-layout py-4 pl-4>
       <v-flex shrink style="padding-right:50px;">
         <v-avatar color="rgb(140, 140, 140)" size="175">
-          <img :src="user.userImage"/>
+          <img :src="user.userImage|image"/>
           <v-icon class="imgclick" color="blue lighten-2" large @click="follow(user.usernum, login_id)" v-if="status === 0"
           style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 93px;">
             fas fa-user-plus
@@ -252,6 +252,15 @@ export default {
       this.getPost()
       this.userFollower()
       this.userFollowing()
+  },
+  filters: {
+    image(v) {
+      if (!v) {
+        return "https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927";
+      } else {
+        return v;
+      }
+    }
   },
   methods: {
     another() {
