@@ -317,6 +317,13 @@ export default {
     },
     userpage(userNum) {
       this.$router.push(`/another/${userNum}`)
+      this.check()
+      this.readUser()
+      this.getProject()
+      this.getTeamProject()
+      this.getPost()
+      this.userFollower()
+      this.userFollowing()
     },
     sendMessage() {
       var data = {

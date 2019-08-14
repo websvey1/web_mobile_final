@@ -15,27 +15,23 @@
 
       <div style="margin-left: 5px;">
       <v-card-title>
-        <div class="posth1">{{ teampjt.pjt.team_name }}</div>
+        <div class="posth1" style="font-family: 'Do Hyeon', sans-serif;"><b>{{ teampjt.pjt.project_title }}</b></div>
       </v-card-title>
-
-      <v-card-title style="margin-top: 2px;">
-        <div class="posth2">{{ teampjt.pjt.project_title }}</div>
+      <v-card-title>
+        <img src="@/assets/team.png" style="width:7%;">&nbsp&nbsp
+        <div class="posth2" style="font-family: 'Do Hyeon', sans-serif;">{{ teampjt.pjt.team_name }}</div>
       </v-card-title>
 
       <v-card-text style="margin-top: 2px;">
-      <span class="ptag">{{ teampjt.pjt.project_goal }}</span>
-      </v-card-text>
-
-      <v-card-text style="margin-top: 2px;">
-      <span class="ptag">{{ teampjt.pjt.project_tech }}</span><br>
+        <span style="float:right; font-family: 'Do Hyeon', sans-serif;" >작성일: {{ teampjt.pjt.project_created_at.substring(0, 10) }}</span><br>
       </v-card-text>
       </div>
 
-      <v-divider class="mx-0"></v-divider>
+      <v-divider class="mx-0" style="font-family: 'Do Hyeon', sans-serif;"></v-divider>
 
       <v-card-text>
         <v-chip style="float: right;"
-          class="ma-2" color="green"
+          class="ma-2" color="rgba(176, 52, 218, 0.23)"
         >
           <b>{{ teampjt.pjt.user_id }}</b>
         </v-chip>
@@ -96,6 +92,8 @@ export default {
 @import url(https://fonts.googleapis.com/css?family=Play);
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+@import url(https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap);
 
 .posth1 {
   /* padding-top: 3px; */
@@ -167,6 +165,10 @@ export default {
   padding: 0px !important;
   padding-top: 15px !important;
   padding-bottom: 5px !important;
+}
+
+.v-chip {
+  font-family: 'Do Hyeon', sans-serif;
 }
 
 

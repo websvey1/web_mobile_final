@@ -105,7 +105,7 @@ export default {
         {text:'내용', value:'1'},
         {text:'제목 + 내용', value:'2'},
         {text:'작성자', value:'3'},
-        {text:'TAG', value:'4'},
+        // {text:'TAG', value:'4'},
       ],
 
       textForSearch: '',

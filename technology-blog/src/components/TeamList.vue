@@ -2,7 +2,7 @@
 <v-app>
   <sequential-entrance fromTop v-if="items.length > 0">
     <!-- <v-card flat v-for="item in items" max-width="1000" max-height="170" style="margin: auto; margin-bottom:30px; border:1px solid rgb(143, 143, 143);"> -->
-    <v-card v-for="item in items" :key="item" max-width="1000" max-height="135" style="margin: auto; margin-bottom:30px; border-radius: 15px;">
+    <v-card v-for="item in items" max-width="1000" max-height="135" style="margin: auto; margin-bottom:30px; border-radius: 15px;">
       <div v-if="item.exist == true">
         <v-layout py-4 pl-4>
           <v-flex shrink>
@@ -17,13 +17,13 @@
                 <v-flex v-if="item.auth == 0" style="margin-top: -20px; margin-left: auto;">
                   <v-btn flat class="outlined_first" @click="openDialog(item)">팀원보기</v-btn>
                   <v-btn flat class="outlined_second" @click="item.auth = 1 && accept(item.title)">수락</v-btn>
-                  <v-btn flat class="outlined_third" @click="del(item.title)">거절</v-btn>
+                  <v-btn flat class="outlined_third" @click="del(item)">거절</v-btn>
                 </v-flex>
                 <v-flex v-else style="margin-top: -20px; margin-left: auto;">
                   <v-btn flat class="outlined_first" @click="openDialog(item)">팀원보기</v-btn>
                   <v-btn flat class="outlined_second" @click="addMember(item)">팀원추가</v-btn>
                   <v-btn flat class="outlined_fourth" @click="go(item.teamNum)">선택</v-btn>
-                  <v-btn flat class="outlined_third" @click="del(item.title)">팀 나가기</v-btn>
+                  <v-btn flat class="outlined_third" @click="del(item)">팀 나가기</v-btn>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -120,14 +120,14 @@ export default {
   },
   methods: {
     addMember(item){
-      this.data = item
       this.people = []
+      this.data = item
       this.showModal = true
       var temp = item.member.split(' ')
 
       for(var i = 0; i < this.tempPeople.length; i++){
         var tag = 0;
-        
+
         for(var m = 0; m < temp.length; m++){
           if(this.tempPeople[i].name == temp[m]){
             tag = 1
@@ -157,7 +157,7 @@ export default {
       })
       .catch((error) => {
         console.log(error)
-      })      
+      })
     },
     getUsers(){ // 전체 user 다 가져오는 함수
       this.$http.post(this.$store.state.testIp + '/team/getUser')
@@ -285,34 +285,47 @@ export default {
         })
 
     },
-    del(titleData) {
-      for (var i = 0; i < this.items.length; i++) {
-        if (this.items[i].title == titleData) {
-          this.items[i].exist = false
-        }
+    del(team) {
+      var state;
+
+      if(team.auth == 0){
+        state = confirm("정말 거절하시겠습니까?");
+      }
+      else{
+        state = confirm("팀에서 나가시겠습니까?");
       }
 
-      var temp = {
-        num: this.$session.get('userInfo').user_num,
-        teamName: titleData
-      }
-      this.$http.post(this.$store.state.testIp + '/team/getTeamNum', temp)
-        .then((response) => {
-          var auth = {
-            num: this.$session.get('userInfo').user_num,
-            teamNum: response.body[0].team_num
+      if(state){
+        var titleData = team.title;
+        for (var i = 0; i < this.items.length; i++) {
+          if (this.items[i].title == titleData) {
+            this.items[i].exist = false
           }
-          this.$http.post(this.$store.state.testIp + '/team/deleteTeam', auth)
-            .then((response) => {
-              console.log("Delete complete")
-            })
-            .catch((error) => {
-              console.log(error)
-            })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+        }
+
+        var temp = {
+          num: this.$session.get('userInfo').user_num,
+          teamName: titleData
+        }
+        this.$http.post(this.$store.state.testIp + '/team/getTeamNum', temp)
+          .then((response) => {
+            var auth = {
+              num: this.$session.get('userInfo').user_num,
+              teamNum: response.body[0].team_num
+            }
+            this.$http.post(this.$store.state.testIp + '/team/deleteTeam', auth)
+              .then((response) => {
+                console.log("Delete complete")
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+
     },
     async update(pk) {
       console.log("여기다 이자식아")
