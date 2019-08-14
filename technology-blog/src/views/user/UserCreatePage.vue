@@ -147,24 +147,47 @@ export default {
         this.isLoading = true;
         var form = this.form;
         /////////////////////////////////////////////////////
+        if(this.user.name == ''){
+          alert("이름을 입력해주세요.")
+          this.isLoading = false;
+          return
+        }
+        if(this.user.id == ''){
+          alert("아이디를 입력해주세요.")
+          this.isLoading = false;
+          return
+        }else if(this.user.id.length < 6){
+          alert("아이디의 길이는 6글자 이상입니다.")
+          this.isLoading = false;
+          return
+        }
+        if(this.user.email == ''){
+          alert("E-mail을 입력해주세요.")
+          this.isLoading = false;
+          return
+        }
+        if(this.user.password == ''){
+          alert("비밀번호를 입력해주세요.")
+          this.isLoading = false;
+          return
+        }else if(this.user.password.length < 6){
+          alert("비밀번호의 길이는 6글자 이상입니다.")
+          this.isLoading = false;
+          return
+        }
         if(form.favor.length > 3){
           alert("관심기술은 3개까지 등록할 수 있습니다.")
           this.isLoading = false;
           return
         }
         /////////////////////////////////////////////////////
+        console.log(form)
         await this.$http.post(this.$store.state.testIp + "/user/create", form)
         .then((req) => {
           if(req.data == "Success"){
             alert("가입 성공")
             this.$router.push("/")
           }
-          // else if(req.data == "ID"){
-          //   alert("아이디가 이미 있습니다")
-          //   console.log("Login Fail")
-          //   this.resetForm()
-          // }
-
           else{
             alert("가입 실패")
             this.resetForm();
