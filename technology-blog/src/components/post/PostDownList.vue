@@ -1,7 +1,12 @@
 <template>
-<v-layout wrap>
+<v-layout wrap v-if="posts.length < 0">
   <v-flex v-for="post in posts" xs12 mt-1 px-2>
     <PostDownCard :post="post"></PostDownCard>
+  </v-flex>
+</v-layout>
+<v-layout v-else wrap>
+  <v-flex xs12 px-2 mt-4 style="margin-bottom: 35px;">
+    <h1 style="margin-top:50px;text-align:center;">POST가 없습니다.</h1>
   </v-flex>
 </v-layout>
 <!--
