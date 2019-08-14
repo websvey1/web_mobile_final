@@ -97,6 +97,9 @@ export default {
           else if(this.$route.params.route == 'ProjectRead'){
             this.$router.go(-1)
           }
+          else if(this.$route.params.route == 'AnoterUser'){
+            this.$router.go(-1)
+          }
           else{
             this.$router.push("/post")
           }

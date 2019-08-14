@@ -4,7 +4,7 @@
     <v-layout py-4 pl-4>
       <v-flex shrink style="padding-right:50px;">
         <v-avatar color="rgb(140, 140, 140)" size="175">
-          <img :src="user.userImage|image"/>
+          <img :src="user.userImage"/>
           <v-icon class="imgclick" color="blue lighten-2" large @click="follow(user.usernum, login_id)" v-if="status === 0"
           style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 93px;">
             fas fa-user-plus
@@ -15,7 +15,7 @@
           </v-icon>
           <!-- <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/"
           style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px; border-radius: 0px"/> -->
-<!-- 
+<!--
           <img class="imgclick" @click="nofollow(user.usernum, login_id)" v-else-if="status === 1" src="@/assets/31.png/"
           style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/> -->
         </v-avatar>
@@ -112,7 +112,7 @@
                 </tr>
             </thead>
             <tbody v-for="p in post" :key="p.post.post_num">
-                <tr v-if="p.post.post_category == 0" @click="goPost(p.post.post_num)">
+                <tr v-if="p.post.post_category == 0" @click="goPost(p.post)">
                     <td data-title="Project"> {{ p.post.project_title }}</td>
                     <td data-title="Title"> {{ p.post.post_title }}</td>
                     <td data-title="Tag" v-if="p.tag.length > 0">
@@ -139,7 +139,7 @@
                 </tr>
             </thead>
             <tbody v-for="p in post" :key="p.post.post_num">
-                <tr v-if="p.post.post_category == 1" @click="goPost(p.post.post_num)">
+                <tr v-if="p.post.post_category == 1" @click="goPost(p.post)">
                     <td data-title="Team">{{ p.post.team_name }}</td>
                     <td data-title="Project">{{ p.post.project_title }}</td>
                     <td data-title="Title">{{ p.post.post_title }}</td>
@@ -159,7 +159,7 @@
         </v-layout>
         <v-layout wrap row v-if="item == 'Follow'">
           <v-flex wrap xs12 style="margin-top: 20px;">
-            <v-select v-model="userfollow" :items="follows" 
+            <v-select v-model="userfollow" :items="follows"
             item-text="text" :menu-props="{ bottom: true, offsetY: true }" return-object
             style="max-width: 250px; text-align: center; margin-left: 10px;"></v-select>
           </v-flex>
@@ -200,10 +200,10 @@
               </div>
             </v-flex>
           </v-layout>
-        
+
         </v-layout>
-          
-          
+
+
         <!-- <div v-else-if="item == 'Follow'">
          SDFJSLDFJLSDKFJSLKJ
         </div> -->
@@ -391,8 +391,17 @@ export default {
       this.$router.push(`/team/${id}/project/${num}`)
     },
 
-    goPost(id) {
-      this.$router.push(`/post/read/${id}`)
+    goPost(post) {
+      var postNum = post.post_num;
+      this.$router.push({
+        name: "PostReadPage",
+        params: {
+          id: postNum,
+          user: post.user_id,
+          share: post.post_share,
+          route:'AnoterUser'
+        }
+      })
     },
 
     check() {
