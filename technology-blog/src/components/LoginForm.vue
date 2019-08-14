@@ -3,6 +3,76 @@
   <template v-slot:activator="{ on }">
     <v-flex v-if="isLogin">
         <div style="float:left; padding-top:12px; padding-right:10px; font-family: 'Nanum Pen Script', cursive; font-size:25px; ">
+         <div class="text-center">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-badge>
+                <template v-slot:badge>{{ messages.length }}</template>
+                <v-icon v-on="on">mail</v-icon>
+              </v-badge>
+            </template>
+            <v-list>
+              <div v-if="messages.length > 0">
+                <v-list-item
+                  v-for="message in messages"
+                  :key="message.message_num"
+                  @click=""
+                >
+                  <v-list-item-title>
+                    {{ message.message_title }}
+                    <br>
+                    {{ message.message_content }}
+                  </v-list-item-title>
+                </v-list-item>
+              </div>
+              <div v-else>
+                  <v-list-item-title>
+                  새로운 메세지가 없습니다.
+                  </v-list-item-title>
+              </div>
+            </v-list>
+          </v-menu>
+        </div>
+
+          <!-- <div class="text-center">
+            <v-badge>
+              <template v-slot:badge>{{ messages.length }}</template>
+              <v-icon v-if="!alert"
+                  @click="alert = true">mail</v-icon>
+            </v-badge>
+              <span v-if="messages.length > 0">
+                <div v-for="message in messages" :key="message.message_num">
+                  <v-alert
+                    v-model="alert"
+                    dismissible
+                    color="cyan"
+                    border="left"
+                    elevation="2"
+                    colored-border
+                    icon="mdi-twitter"
+                    style="margin-top: 60px; z-index: 8"
+                  >
+                  <h3>{{ message.user_id }}</h3>
+                   <strong>{{ message.message_title }}</strong> {{ message.message_content }}.
+                  </v-alert>
+                </div>
+              </span>
+              <span v-else>
+                <div>
+                  <v-alert
+                    v-model="alert"
+                    dismissible
+                    color="cyan"
+                    border="left"
+                    elevation="2"
+                    colored-border
+                    icon="mdi-twitter"
+                  >
+                    새로운 메세지가 없습니다.
+                  </v-alert>
+                </div>
+              </span>
+          </div> -->
           <p>{{ userName }}님 환영합니다</p>
         </div>
         <v-btn flat class="outlined" @click="signout" v-on="" color="rgb(57, 117, 72)">Logout</v-btn>
@@ -55,7 +125,9 @@ export default {
       isLoading: false,
       isLoadingForSignout: false,
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
-      pwRules: [v => !!v || '비밀번호를 입력해 주세요.']
+      pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
+      alert: false,
+      messages: []
     }
   },
   components:{
@@ -73,6 +145,7 @@ export default {
   },
   mounted(){
     this.isLoading = false;
+    this.messageCheck();
   },
   computed: {
     form () {
@@ -83,6 +156,21 @@ export default {
     }
   },
   methods: {
+    messageCheck() {
+      if (this.$session.has('userInfo')){
+        var data = {
+          id : this.$session.get('userInfo').user_num
+        }
+        this.$http.post(this.$store.state.testIp + '/another/checkNew', data)
+        .then((response) => {
+          console.log(response.body)
+          this.messages = response.body
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
+    },
     checkValidation() {
       var validation = true;
 
