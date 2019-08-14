@@ -1,7 +1,7 @@
 <template>
 <form @submit.prevent="handleSubmit">
   <div class="input2">
-    <v-select :error-messages="['Please select a team']" label="　Team" :items="teamList" v-model="event.team"></v-select>
+    <v-select :error-messages="['Please select a team']" label="　Team" :items="teamList" v-model="team" item-text="team_name" return-object></v-select>
   </div>
   <div class="input-holder">
     <input type="text" placeholder="Event title" v-model="event.title" />
@@ -38,6 +38,7 @@ export default {
   },
   data() {
     return {
+      team:'',
       event: {
         team: '',
         title: '',
@@ -51,6 +52,12 @@ export default {
       teamList: []
     }
   },
+  watch:{
+    team (v){
+      this.$store.state.calendarTeam = v;
+      this.$emit('selectTeam');
+    }
+  },
   mounted(){
     this.getTeam();
   },
@@ -62,22 +69,23 @@ export default {
 
       this.$http.post(this.$store.state.testIp + '/team/getTeamList', data)
       .then((response) => {
-        for(var i = 0; i < response.body.length; i++){
-          this.teamList.push(response.body[i].team_name)
-        }
+        this.teamList = response.data;
+        // for(var i = 0; i < response.body.length; i++){
+        //   this.teamList.push(response.body[i].team_name)
+        // }
       })
       .catch((error) => {
         console.log(error)
       })
     },
     async handleSubmit() {
-      if(this.event.team == ''){
+      if(this.team.team_name == ''){
         alert("Please select a team")
         return
       }
       var data = {
         num: this.$session.get('userInfo').user_num,
-        teamName: this.event.team
+        teamName: this.team.team_name
       }
       this.$http.post(this.$store.state.testIp + '/team/getTeamNum', data)
       .then((response) => {

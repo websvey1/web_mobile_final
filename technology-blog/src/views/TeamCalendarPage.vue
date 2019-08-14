@@ -8,7 +8,7 @@
 
         <div class="form-holder">
           <h3>Schedule an event</h3>
-          <team-event-form />
+          <team-event-form v-on:selectTeam="getCal"/>
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@ export default {
   },
   async created() {
     if (this.$session.has('userInfo')) {
-      await this.getCal();
+      // await this.getCal();
     } else {
       alert("로그인 해주세요.");
       this.$router.push("/");
@@ -55,10 +55,15 @@ export default {
     }
   },
   methods:{
+    selectTeam(){
+
+    },
     getCal(){
       var data = {
-        num : this.$session.get('userInfo').user_num
+        num : this.$session.get('userInfo').user_num,
+        team : this.$store.state.calendarTeam.team_num
       }
+      this.events = [];
       this.$http.post(this.$store.state.testIp + '/plan/getTeamPlan', data)
       .then((response) => {
         var items = response.body;

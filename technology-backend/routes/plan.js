@@ -6,7 +6,7 @@ router.post('/personal', function(req, res, next){
     var user_num = req.body.data.num;
     var data = req.body.body;
     // console.log(data)
-    
+
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -20,7 +20,7 @@ router.post('/personal', function(req, res, next){
                 }
 
                 res.send(data);
-        
+
                 conn.release();
             });
         }
@@ -31,7 +31,7 @@ router.post('/team', function(req, res, next){
     var user_num = req.body.data.num;
     var data = req.body.body;
     // console.log(data)
-    
+
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -45,7 +45,7 @@ router.post('/team', function(req, res, next){
                 }
 
                 res.send(data);
-        
+
                 conn.release();
             });
         }
@@ -67,7 +67,7 @@ router.post('/getPlan', function(req, res, next){
                 }
                 // console.log(result)
                 res.send(result);
-        
+
                 conn.release();
             });
         }
@@ -76,20 +76,21 @@ router.post('/getPlan', function(req, res, next){
 
 router.post('/getTeamPlan', function(req, res, next){
     var user_num = req.body.num;
+    var team_num = req.body.team;
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
         if(ex){
             console.log(ex);
         }else{
-            var query = conn.query('select cal_title, cal_start, cal_end, cal_color, cal_description, cal_teamNum from calendar where user_num = ? and cal_category = 1', user_num, function (err, result) {
+            var query = conn.query('select cal_title, cal_start, cal_end, cal_color, cal_description, cal_teamNum from calendar where cal_teamNum = ? and cal_category = 1', team_num, function (err, result) {
                 if (err) {
                   console.error(err);
                   throw err;
                 }
                 // console.log(result)
                 res.send(result);
-        
+
                 conn.release();
             });
         }
@@ -115,9 +116,9 @@ router.post('/getCalId', function(req, res, next){
                   console.error(err);
                   throw err;
                 }
-                
+
                 res.send(result);
-        
+
                 conn.release();
             });
         }
@@ -132,7 +133,7 @@ router.post('/modifyPersonal', function(req, res, next){
     var end = req.body.end;
     var cssClass = req.body.cssClass;
     var description = req.body.description;
-    
+
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -146,7 +147,7 @@ router.post('/modifyPersonal', function(req, res, next){
                 }
 
                 res.send(result);
-        
+
                 conn.release();
             });
         }
@@ -155,7 +156,7 @@ router.post('/modifyPersonal', function(req, res, next){
 
 router.post('/delete', function(req, res, next){
     var id = req.body.id;
-    
+
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -169,7 +170,7 @@ router.post('/delete', function(req, res, next){
                 }
 
                 res.send(result);
-        
+
                 conn.release();
             });
         }
