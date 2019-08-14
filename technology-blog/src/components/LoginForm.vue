@@ -2,8 +2,8 @@
 <v-dialog v-model="dialog" persistent max-width="550px" @keydown.esc="closeDialog">
   <template v-slot:activator="{ on }">
     <v-flex v-if="isLogin">
-        <div style="float:left; padding-top:12px; padding-right:10px; font-family: 'Nanum Pen Script', cursive; font-size:25px; ">
-         <div class="text-center">
+        <div style="float:left; padding-top:12px; padding-right:10px; font-family: 'Nanum Pen Script', cursive; font-size:25px; width:210px; ">
+         <div class="text-center" style="float:left; margin-right:40px;">
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-badge>
