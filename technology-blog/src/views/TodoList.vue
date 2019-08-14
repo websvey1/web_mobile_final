@@ -39,6 +39,7 @@
   <div style="display:flex; justify-content:center; margin-top:50px; margin-bottom:20px;">
     <v-btn class="v-btn theme--dark" @click="openDialog">추가</v-btn>
     <v-btn class="v-btn theme--dark" @click="updateTodo">저장</v-btn>
+    <v-btn class="v-btn theme--dark" @click="back">뒤로</v-btn>
   </div>
 
   <v-dialog hide-overlay v-model="dialog" persistent max-width="400px">
@@ -128,6 +129,9 @@ export default {
           }
         })
       },
+      back(){
+      this.$router.go(-1);
+    },
 
       async createTodo() {
         // var user_num = this.$session.get("userInfo").user_num; // require login ㅍ해야함

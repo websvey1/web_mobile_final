@@ -44,7 +44,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" flat @click="updateUser">수정</v-btn>
-        <v-btn color="blue darken-1" flat @click="">취소</v-btn>
+        <v-btn color="blue darken-1" flat @click="goHome">취소</v-btn>
       </v-card-actions>
 
     </v-card>
@@ -180,6 +180,7 @@ export default {
   },
   destroyed() {
 
-  }
+  },
+  
 }
 </script>

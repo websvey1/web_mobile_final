@@ -15,7 +15,7 @@
           </v-icon>
           <!-- <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/"
           style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px; border-radius: 0px"/> -->
-<!-- 
+<!--
           <img class="imgclick" @click="nofollow(user.usernum, login_id)" v-else-if="status === 1" src="@/assets/31.png/"
           style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/> -->
         </v-avatar>
@@ -112,7 +112,7 @@
                 </tr>
             </thead>
             <tbody v-for="p in post" :key="p.post.post_num">
-                <tr v-if="p.post.post_category == 0" @click="goPost(p.post.post_num)">
+                <tr v-if="p.post.post_category == 0" @click="goPost(p.post)">
                     <td data-title="Project"> {{ p.post.project_title }}</td>
                     <td data-title="Title"> {{ p.post.post_title }}</td>
                     <td data-title="Tag" v-if="p.tag.length > 0">
@@ -139,7 +139,7 @@
                 </tr>
             </thead>
             <tbody v-for="p in post" :key="p.post.post_num">
-                <tr v-if="p.post.post_category == 1" @click="goPost(p.post.post_num)">
+                <tr v-if="p.post.post_category == 1" @click="goPost(p.post)">
                     <td data-title="Team">{{ p.post.team_name }}</td>
                     <td data-title="Project">{{ p.post.project_title }}</td>
                     <td data-title="Title">{{ p.post.post_title }}</td>
@@ -159,13 +159,13 @@
         </v-layout>
         <v-layout wrap row v-if="item == 'Follow'">
           <v-flex wrap xs12 style="margin-top: 20px;">
-            <v-select v-model="userfollow" :items="follows" 
+            <v-select v-model="userfollow" :items="follows"
             item-text="text" :menu-props="{ bottom: true, offsetY: true }" return-object
             style="max-width: 250px; text-align: center; margin-left: 10px;"></v-select>
           </v-flex>
           <v-layout wrap v-if="userfollow.text === 'Follower'">
             <v-flex wrap xs3 pa-2 v-for="f in userfollowers" :key="f.user.user_num">
-              <div class="usercard">
+              <div class="usercard" @click="userpage(f.user.user_num)">
                 <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
                 <img v-else class="profile" src="@/assets/profile.png/"/>
                 <div class="userinfo">
@@ -184,7 +184,7 @@
 
           <v-layout wrap v-else-if="userfollow.text === 'Following'">
             <v-flex wrap xs3 pa-2 v-for="f in userfollowings" :key="f.user.user_num">
-              <div class="usercard">
+              <div class="usercard" @click="userpage(f.user.user_num)">
                 <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
                 <img v-else class="profile" src="@/assets/profile.png/"/>
                 <div class="userinfo">
@@ -200,10 +200,10 @@
               </div>
             </v-flex>
           </v-layout>
-        
+
         </v-layout>
-          
-          
+
+
         <!-- <div v-else-if="item == 'Follow'">
          SDFJSLDFJLSDKFJSLKJ
         </div> -->
@@ -253,11 +253,29 @@ export default {
       this.userFollower()
       this.userFollowing()
   },
+  filters: {
+    image(v) {
+      if (!v) {
+        return "https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927";
+      } else {
+        return v;
+      }
+    }
+  },
   methods: {
     another() {
       this.$router.push('/another')
     },
-
+    userpage(userNum) {
+      this.$router.push(`/another/${userNum}`)
+      this.check()
+      this.readUser()
+      this.getProject()
+      this.getTeamProject()
+      this.getPost()
+      this.userFollower()
+      this.userFollowing()
+    },
     readUser() {
       var user_num = this.$route.params.id
       var data = {
@@ -265,9 +283,9 @@ export default {
       }
       this.$http.post(this.$store.state.testIp + '/another/readuser', data)
       .then((res) => {
-          console.log(res.body)
+          // console.log(res.body)
           this.user = res.body
-          console.log(this.user)
+          // console.log(this.user)
       })
     },
     getProject() {
@@ -330,7 +348,7 @@ export default {
               })
             })
           }
-          console.log(this.post)
+          // console.log(this.post)
         }
       })
     },
@@ -355,7 +373,7 @@ export default {
             })
           }
         }
-        console.log(this.userfollowers)
+        // console.log(this.userfollowers)
       })
     },
 
@@ -379,7 +397,7 @@ export default {
             })
           }
         }
-        console.log(this.userfollowings)
+        // console.log(this.userfollowings)
       })
     },
 
@@ -391,8 +409,17 @@ export default {
       this.$router.push(`/team/${id}/project/${num}`)
     },
 
-    goPost(id) {
-      this.$router.push(`/post/read/${id}`)
+    goPost(post) {
+      var postNum = post.post_num;
+      this.$router.push({
+        name: "PostReadPage",
+        params: {
+          id: postNum,
+          user: post.user_id,
+          share: post.post_share,
+          route:'AnoterUser'
+        }
+      })
     },
 
     check() {
@@ -401,7 +428,7 @@ export default {
           loginId: this.login_id,
           user: this.$route.params.id
         }
-        console.log(data)
+        // console.log(data)
         this.$http.post(this.$store.state.testIp + '/another/check', data)
         .then((res) => {
           if (res.body.length === 0){
@@ -423,10 +450,10 @@ export default {
           followingUser: following,
           followerUser: follower
         }
-        console.log(data)
+        // console.log(data)
         await this.$http.post(this.$store.state.testIp + '/another/follow', data)
         .then(async (res) => {
-          console.log(res.body)
+          // console.log(res.body)
           this.status = 1
           this.userfollowers = []
           await this.userFollower()
@@ -440,7 +467,7 @@ export default {
           followingUser: following,
           followerUser: follower
         }
-        console.log(data)
+        // console.log(data)
         await this.$http.post(this.$store.state.testIp + '/another/nofollow', data)
         .then(async (res) => {
           console.log(res.body)
@@ -532,6 +559,7 @@ export default {
     background-color: #fafafa;
     border-radius: 3px;
     box-shadow: 0 0 5px #333;
+    cursor: pointer;
   }
 
   .profile {
