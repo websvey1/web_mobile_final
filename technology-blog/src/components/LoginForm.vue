@@ -7,30 +7,18 @@
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-badge>
-                <template v-slot:badge>{{ messages.length }}</template>
+                <template v-slot:badge>{{ messagesLength }}</template>
                 <v-icon v-on="on">mail</v-icon>
               </v-badge>
             </template>
             <v-list style="border-radius: 20px;">
               <div v-if="messages.length > 0">
-                <v-list-item
-                  v-for="(message, key) in messages"
-                  :key="key"
-                  @click=""
-                >
-                <v-card
-                    class="mx-auto"
-                    width="600"
-                    tile
-                    style="margin-bottom: 20px; border-radius: 10px;"
-                  >
+                <v-list-item v-for="(message, key) in messages" :key="key" @click="ccc">
+                <v-card class="mx-auto" width="600" tile style="margin-bottom: 20px; border-radius: 10px;">
                   <v-list-item three-line>
                     <v-list-item-content>
                       <v-list-item-title>
-                        <v-chip
-                          color="#00C853"
-                          text-color="white"
-                        >
+                        <v-chip color="#00C853" text-color="white">
                           <v-avatar left>
                             <v-icon>account_circle</v-icon>
                           </v-avatar>
@@ -51,7 +39,7 @@
                         {{ message.created_at }}
                       </v-list-item-subtitle>
                       <span style="float: right; margin-top: -40px; margin-right: 10px;">
-                        <v-icon @click="messageSend(message.user_id, message.user_num)" color="#FF3D00" style="cursor: pointer; margin-right: 5px;">fas fa-reply</v-icon>
+                        <v-icon @click="" color="#FF3D00" style="cursor: pointer; margin-right: 5px;">fas fa-reply</v-icon>
                         <v-icon v-if="message.message_read === 0" @click="messageRead(message.message_num)" color="primary" style="cursor: pointer;">fas fa-envelope</v-icon>
                         <v-icon v-else-if="message.message_read === 1" color="primary">fas fa-envelope-open</v-icon>
                         <v-icon @click="messageDelete(message.message_num, key)" color="#FF3D00" style="cursor: pointer; margin-left: 5px;">fas fa-trash-alt</v-icon>
@@ -62,9 +50,9 @@
                 </v-list-item>
               </div>
               <div v-else>
-                  <v-list-item-title>
+                <v-list-item-title>
                   새로운 메세지가 없습니다.
-                  </v-list-item-title>
+                </v-list-item-title>
               </div>
             </v-list>
           </v-menu>
@@ -100,7 +88,6 @@
       <v-btn color="blue darken-1" flat @click="closeDialog">CANCEL</v-btn>
     </v-card-actions>
     <Loading :isLoading="isLoading" :isFullPage="false"/>
-    <Loading :isLoading="isLoadingForSignout" :isFullPage="true"/>
   </v-card>
 </v-dialog>
 </template>
@@ -119,29 +106,29 @@ export default {
       isLogin: true,
 
       isLoading: false,
-      isLoadingForSignout: false,
-
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
       messages: [],
 
-      gomsg: {
-        sender: {text: this.$session.get('userInfo').user_id , value: this.$session.get('userInfo').user_num},
-        receiver: {text: '', value: ''},
-        msg_title: '',
-        msg_content: ''
-      },
-      
+      // gomsg: {
+      //   sender: {text: this.$session.get('userInfo').user_id , value: this.$session.get('userInfo').user_num},
+      //   receiver: {text: '', value: ''},
+      //   msg_title: '',
+      //   msg_content: ''
+      // },
+
       flag: true,
+      messagesLength: 0
     }
   },
   components:{
     Loading
   },
   created() {
-    if(this.$session.has("userInfo")){
-      console.log(this.$session.get("userInfo"));
+    this.isLogin = this.$session.has("userInfo")
+
+    if(this.isLogin){
       this.userName = this.$session.get('userInfo').user_name
     }
   },
@@ -149,8 +136,7 @@ export default {
   //   this.messageCheck()
   // },
   mounted(){
-    this.isLoading = false;
-    // this.messageCheck();
+
   },
   computed: {
     form () {
@@ -161,6 +147,9 @@ export default {
     }
   },
   methods: {
+    ccc(){
+      this.flag = true
+    },
     messageCheck() {
       if (this.$session.has('userInfo')){
         var data = {
@@ -170,6 +159,14 @@ export default {
         .then((response) => {
           console.log(response.body)
           this.messages = response.body
+
+          this.$http.post(this.$store.state.testIp + '/another/checkRead', {id: this.$session.get('userInfo').user_num})
+          .then((response) => {
+            this.messagesLength = response.body[0].total
+          })
+          .catch((error) => {
+            console.log(error)
+          })
         })
         .catch((error) => {
           console.log(error)
@@ -188,6 +185,7 @@ export default {
     },
 
     messageRead(msgNum) {
+      this.messagesLength = this.messagesLength - 1
       var data = {
         msg: msgNum
       }

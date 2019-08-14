@@ -52,7 +52,7 @@
               </v-date-picker>
             </v-menu>
           </v-flex>
-        
+
           <span id="date_div" style="width:30px; margin-left: 10px; margin-top: 20px;">~</span>
 
           <v-flex style="width: 20%; margin-right: 18px;">
@@ -133,7 +133,7 @@
         <markdown-editor v-model="project.project_content" ref="markdownEditor">
         </markdown-editor>
       </div>
-    </fieldset> 
+    </fieldset>
 
     <v-layout wrap>
       <v-flex xs9>
@@ -203,7 +203,7 @@ export default {
             updateimgs: null,
             newfiles: [],
             delfiles: []
-            
+
         }
     },
     mounted() {

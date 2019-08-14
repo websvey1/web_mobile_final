@@ -28,13 +28,34 @@ export default {
     },
     data() {
         return {
-            projects: [], 
+            projects: [],
         }
     },
     created(){
+
     },
-    mounted(){
-        this.getProject()
+    async mounted(){
+        if(this.$session.has("userInfo")){
+          var data = {
+            user_num:this.$session.get("userInfo").user_num,
+            team_num:this.$route.params.id
+          }
+
+          await this.$http.post(this.$store.state.testIp + '/team/isMember', data)
+          .then((res) =>{
+              if(res.data == 'f'){
+                alert("권한이 없습니다.");
+                this.$router.go(-1);
+              }
+              else{
+                this.getProject();
+              }
+          })
+        }
+        else{
+          alert("권한이 없습니다.");
+          this.$router.go(-1);
+        }
     },
     methods: {
         back(){
@@ -49,13 +70,14 @@ export default {
             }
             await this.$http.post(this.$store.state.testIp + '/teamProject', data)
             .then(async (response) => {
+
+
                 for (var i=0; i < response.body.length; i++){
                     var temp = {
                         pjtNum: response.body[i].project_num
                     }
                     await this.$http.post(this.$store.state.testIp + '/teamProject/getpjt', temp)
                     .then(async (res) => {
-                        console.log(res.body)
                         this.projects.push({ pjt: res.body.project[0], image: res.body.image })
                     })
                 }
