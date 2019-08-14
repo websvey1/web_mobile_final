@@ -7,23 +7,14 @@
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-badge>
-                <template v-slot:badge>{{ messages.length }}</template>
+                <template v-slot:badge>{{ messagesLength }}</template>
                 <v-icon v-on="on">mail</v-icon>
               </v-badge>
             </template>
             <v-list style="border-radius: 20px;">
               <div v-if="messages.length > 0">
-                <v-list-item
-                  v-for="(message, key) in messages"
-                  :key="key"
-                  @click=""
-                >
-                <v-card
-                    class="mx-auto"
-                    width="600"
-                    tile
-                    style="margin-bottom: 20px; border-radius: 10px;"
-                  >
+                <v-list-item v-for="(message, key) in messages" :key="key" @click="ccc">
+                <v-card class="mx-auto" width="600" tile style="margin-bottom: 20px; border-radius: 10px;">
                   <v-list-item three-line>
                     <v-list-item-content>
                       <v-list-item-title>
@@ -130,6 +121,7 @@ export default {
       },
       
       flag: true,
+      messagesLength: 0
     }
   },
   components:{
@@ -158,6 +150,9 @@ export default {
     }
   },
   methods: {
+    ccc(){
+      this.flag = true
+    },
     messageCheck() {
       if (this.$session.has('userInfo')){
         var data = {
@@ -167,6 +162,14 @@ export default {
         .then((response) => {
           console.log(response.body)
           this.messages = response.body
+          
+          this.$http.post(this.$store.state.testIp + '/another/checkRead', {id: this.$session.get('userInfo').user_num})
+          .then((response) => {
+            this.messagesLength = response.body[0].total
+          })
+          .catch((error) => {
+            console.log(error)
+          })
         })
         .catch((error) => {
           console.log(error)
@@ -185,6 +188,7 @@ export default {
     },
 
     messageRead(msgNum) {
+      this.messagesLength = this.messagesLength - 1
       var data = {
         msg: msgNum
       }
