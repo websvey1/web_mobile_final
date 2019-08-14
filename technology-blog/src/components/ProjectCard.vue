@@ -6,22 +6,19 @@
 
       <div style="margin-left: 5px;">
         <v-card-title>
-          <div class="posth1">{{ project.pjt.project_title }}</div>
+          <div class="posth1" style="font-family: 'Do Hyeon', sans-serif;">{{ project.pjt.project_title }}</div>
         </v-card-title>
 
-        <v-card-text style="margin-top: 5px;">
-          <span class="ptag">{{ project.pjt.project_goal }}</span>
-        </v-card-text>
-
         <v-card-text>
-          <span class="ptag">{{ project.pjt.project_tech }}</span><br>
+
+          <span style="float:right; font-family: 'Do Hyeon', sans-serif;" >작성일: {{ project.pjt.project_created_at.substring(0, 10) }}</span><br>
         </v-card-text>
       </div>
 
       <v-divider class="mx-0"></v-divider>
 
       <v-card-text>
-        <v-chip style="float: right;" class="ma-2" color="green">
+        <v-chip style="float: right;" class="ma-2" color="rgba(176, 52, 218, 0.23)">
           <b>{{ project.pjt.user_id }}</b>
         </v-chip>
 
@@ -41,9 +38,11 @@
           <b>{{ project.pjt.project_start_date }} ~ {{ project.pjt.project_end_date }}</b>
         </v-chip>
 
-        <v-chip style="float: right;" class="ma-2" color="rgb(255, 220, 230)">
+        <!-- <v-chip style="float: right;" class="ma-2" color="rgb(255, 220, 230)">
           <b>{{ project.pjt.project_created_at.substring(0, 10) }}</b>
-        </v-chip>
+        </v-chip> -->
+
+
       </v-card-text>
     </v-card>
  </template>
@@ -77,7 +76,8 @@ export default {
 @import url(https://fonts.googleapis.com/css?family=Jura:300,400,500,600);
 @import url(https://fonts.googleapis.com/css?family=Play);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
-
+@import url(https://fonts.googleapis.com/css?family=Gaegu&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap);
 .posth1 {
   /* padding-top: 3px; */
   font-family: Open Sans;
@@ -127,6 +127,10 @@ export default {
   padding: 0px !important;
   padding-top: 15px !important;
   padding-bottom: 5px !important;
+}
+
+.v-chip {
+  font-family: 'Do Hyeon', sans-serif;
 }
 
 
