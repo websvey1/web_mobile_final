@@ -165,7 +165,7 @@
           </v-flex>
           <v-layout wrap v-if="userfollow.text === 'Follower'">
             <v-flex wrap xs3 pa-2 v-for="f in userfollowers" :key="f.user.user_num">
-              <div class="usercard">
+              <div class="usercard" @click="userpage(f.user.user_num)">
                 <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
                 <img v-else class="profile" src="@/assets/profile.png/"/>
                 <div class="userinfo">
@@ -184,7 +184,7 @@
 
           <v-layout wrap v-else-if="userfollow.text === 'Following'">
             <v-flex wrap xs3 pa-2 v-for="f in userfollowings" :key="f.user.user_num">
-              <div class="usercard">
+              <div class="usercard" @click="userpage(f.user.user_num)">
                 <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
                 <img v-else class="profile" src="@/assets/profile.png/"/>
                 <div class="userinfo">
@@ -257,7 +257,9 @@ export default {
     another() {
       this.$router.push('/another')
     },
-
+    userpage(userNum) {
+      this.$router.push(`/another/${userNum}`)
+    },
     readUser() {
       var user_num = this.$route.params.id
       var data = {
@@ -265,9 +267,9 @@ export default {
       }
       this.$http.post(this.$store.state.testIp + '/another/readuser', data)
       .then((res) => {
-          console.log(res.body)
+          // console.log(res.body)
           this.user = res.body
-          console.log(this.user)
+          // console.log(this.user)
       })
     },
     getProject() {
@@ -330,7 +332,7 @@ export default {
               })
             })
           }
-          console.log(this.post)
+          // console.log(this.post)
         }
       })
     },
@@ -355,7 +357,7 @@ export default {
             })
           }
         }
-        console.log(this.userfollowers)
+        // console.log(this.userfollowers)
       })
     },
 
@@ -379,7 +381,7 @@ export default {
             })
           }
         }
-        console.log(this.userfollowings)
+        // console.log(this.userfollowings)
       })
     },
 
@@ -401,7 +403,7 @@ export default {
           loginId: this.login_id,
           user: this.$route.params.id
         }
-        console.log(data)
+        // console.log(data)
         this.$http.post(this.$store.state.testIp + '/another/check', data)
         .then((res) => {
           if (res.body.length === 0){
@@ -423,10 +425,10 @@ export default {
           followingUser: following,
           followerUser: follower
         }
-        console.log(data)
+        // console.log(data)
         await this.$http.post(this.$store.state.testIp + '/another/follow', data)
         .then(async (res) => {
-          console.log(res.body)
+          // console.log(res.body)
           this.status = 1
           this.userfollowers = []
           await this.userFollower()
@@ -440,7 +442,7 @@ export default {
           followingUser: following,
           followerUser: follower
         }
-        console.log(data)
+        // console.log(data)
         await this.$http.post(this.$store.state.testIp + '/another/nofollow', data)
         .then(async (res) => {
           console.log(res.body)
@@ -532,6 +534,7 @@ export default {
     background-color: #fafafa;
     border-radius: 3px;
     box-shadow: 0 0 5px #333;
+    cursor: pointer;
   }
 
   .profile {
