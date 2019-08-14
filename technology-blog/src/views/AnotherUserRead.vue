@@ -268,6 +268,13 @@ export default {
     },
     userpage(userNum) {
       this.$router.push(`/another/${userNum}`)
+      this.check()
+      this.readUser()
+      this.getProject()
+      this.getTeamProject()
+      this.getPost()
+      this.userFollower()
+      this.userFollowing()
     },
     readUser() {
       var user_num = this.$route.params.id

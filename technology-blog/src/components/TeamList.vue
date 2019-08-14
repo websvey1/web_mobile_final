@@ -2,7 +2,7 @@
 <v-app>
   <sequential-entrance fromTop v-if="items.length > 0">
     <!-- <v-card flat v-for="item in items" max-width="1000" max-height="170" style="margin: auto; margin-bottom:30px; border:1px solid rgb(143, 143, 143);"> -->
-    <v-card v-for="item in items" :key="item" max-width="1000" max-height="135" style="margin: auto; margin-bottom:30px; border-radius: 15px;">
+    <v-card v-for="item in items" max-width="1000" max-height="135" style="margin: auto; margin-bottom:30px; border-radius: 15px;">
       <div v-if="item.exist == true">
         <v-layout py-4 pl-4>
           <v-flex shrink>
@@ -120,8 +120,8 @@ export default {
   },
   methods: {
     addMember(item){
-      this.data = item
       this.people = []
+      this.data = item
       this.showModal = true
       var temp = item.member.split(' ')
 
