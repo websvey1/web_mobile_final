@@ -2,7 +2,7 @@
   <div class="post-container" v-if="post.post_share=='0'">
     <span class="published">
       <v-chip
-        v-if="post.post_category == '0'" 
+        v-if="post.post_category == '0'"
         small
         color="#FFD54F">
         <b>personal</b>
@@ -40,9 +40,9 @@
     </div>
   </div>
   <div class="post-container" v-else>
-    <span class="published">      
+    <span class="published">
       <v-chip
-        v-if="post.post_category == '0'" 
+        v-if="post.post_category == '0'"
         small
         color="#FFD54F">
         <b>personal</b>
@@ -102,9 +102,6 @@ export default {
         name: "PostReadPage",
         params: {
           id: postNum,
-          user: post.user_id,
-          share: post.post_share,
-          route:'DownCard'
         }
       })
     }

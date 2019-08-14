@@ -57,9 +57,6 @@ export default {
         name: "PostReadPage",
         params: {
           id: postNum,
-          user: post.user_id,
-          share: post.post_share,
-          route: 'PostCard'
         }
       })
     }
