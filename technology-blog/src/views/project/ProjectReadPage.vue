@@ -18,7 +18,7 @@
       <v-carousel hide-delimiters style="
       width:50%; float:left; margin-top: 3px;
       ">
-        <v-carousel-item v-resize="onResize" v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
+        <v-carousel-item v-for="image in images" :key="image.imgnum" :src="image.imgurl"></v-carousel-item>
       </v-carousel>
 
       <!-- 상세 -->
@@ -49,7 +49,7 @@
               </v-menu>
               <br>
 
-              <h2>Status</h2>    
+              <h2>Status</h2>
               <v-chip color="#E1BEE7" style="margin-left: -2px;">
                 <span style="font-size: 13.5px;"><b>{{ project.project_status }}</b></span>
                 </v-chip>

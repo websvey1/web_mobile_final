@@ -1,5 +1,5 @@
 <template>
-<v-layout wrap v-if="posts.length < 0">
+<v-layout wrap v-if="posts.length > 0">
   <v-flex v-for="post in posts" xs12 mt-1 px-2>
     <PostDownCard :post="post"></PostDownCard>
   </v-flex>
