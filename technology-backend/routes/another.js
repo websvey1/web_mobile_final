@@ -475,4 +475,51 @@ router.post('/userfollowing', function(req, res, next) {
     })
 })
 
+router.post('/message', function(req, res, next) {
+    var pool = db.getPool()
+    var sender = req.body.message.sender.value
+    var receiver = req.body.message.receiver.value
+    var title = req.body.message.msg_title
+    var content = req.body.message.msg_content
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query('insert into message(send_user, receive_user, message_content, message_title, message_read) values(?, ?, ?, ?, 0)', 
+            [sender, receiver, content, title], function(err, result) {
+                if(err){
+                    console.error(err)
+                    throw err
+                }
+                res.send("Success")
+            })
+        }
+        conn.release();
+    })
+})
+
+router.post('/checkNew', function(req, res, next) {
+    var userNum = req.body.id
+    var pool = db.getPool()
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query('select * from message as m inner join user as u on m.send_user = u.user_num where m.receive_user = ?', userNum,
+            function(err, result) {
+                if(err){
+                    console.error(err)
+                    throw err
+                }
+                res.send(result)
+            })
+        }
+        conn.release()
+    })
+})
+
 module.exports = router;
