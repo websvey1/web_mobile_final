@@ -30,6 +30,7 @@ export default {
   },
   mounted(){
     this.firstCheck();
+    this.messageCheck();
   },
   methods:{
     firstCheck(){
@@ -44,6 +45,20 @@ export default {
           }else{
             this.$store.state.exist = false
           }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
+    },
+    messageCheck() {
+      if (this.$session.has('userInfo')){
+        var data = {
+          id : this.$session.get('userInfo').user_num
+        }
+        this.$http.post(this.$store.state.testIp + '/another/checkNew', data)
+        .then((response) => {
+          console.log(response.body)
         })
         .catch((error) => {
           console.log(error)

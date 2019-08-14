@@ -13,12 +13,54 @@
           style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 93px;">
             fas fa-user-check
           </v-icon>
-          <!-- <img class="imgclick" @click="follow(user.usernum, login_id)" v-if="status === 0" src="@/assets/3.png/"
-          style="position:absolute; bottom:0; height: 50px; width:50px; margin-left: 86px; border-radius: 0px"/> -->
-<!--
-          <img class="imgclick" @click="nofollow(user.usernum, login_id)" v-else-if="status === 1" src="@/assets/31.png/"
-          style="position:absolute; bottom:0; height: 60px; width:50px; margin-left: 93px;"/> -->
         </v-avatar>
+        <!-- <v-btn tile color="success" style="margin-left: 40px; border-radius: 20px;">
+          <v-icon left>edit</v-icon> Message
+        </v-btn> -->
+         <v-row justify="center">
+          <v-dialog v-model="dialog" persistent max-width="600px">
+            <template v-slot:activator="{ on }">
+              <v-btn tile color="success" v-on="on" style="margin-left: 40px; border-radius: 20px;">
+                <v-icon left>edit</v-icon> Message
+              </v-btn>
+              <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">User Profile</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-text-field v-model="message.sender.text" label="받는 사람*" required></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field v-model="message.receiver.text" label="보내는 사람*" required></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field v-model="message.msg_title" label="Title*" required></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-textarea
+                        v-model="message.msg_content"
+                        name="input-7-4"
+                        label="Content*"
+                      ></v-textarea>
+                      <!-- <v-text-field label="Content*" required></v-text-field> -->
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <small>*indicates required field</small>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="sendMessage">보내기</v-btn>
+                <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
       </v-flex>
       <v-flex text-center style="padding-top:10px; margin-left: 25px;">
         <v-container grid-list-lg pa-0>
@@ -242,6 +284,13 @@ export default {
         userfollow: {text: 'Follower', value: '0'},
         userfollowers: [],
         userfollowings: [],
+        dialog: false,
+        message: {
+          sender: {text: this.$session.get('userInfo').user_id , value: this.$session.get('userInfo').user_num},
+          receiver: {text: '', value: ''},
+          msg_title: '',
+          msg_content: ''
+        }
       }
   },
   mounted() {
@@ -268,6 +317,24 @@ export default {
     },
     userpage(userNum) {
       this.$router.push(`/another/${userNum}`)
+      this.check()
+      this.readUser()
+      this.getProject()
+      this.getTeamProject()
+      this.getPost()
+      this.userFollower()
+      this.userFollowing()
+    },
+    sendMessage() {
+      var data = {
+        message: this.message
+      }
+      console.log(data)
+      this.$http.post(this.$store.state.testIp + '/another/message', data)
+      .then((res) => {
+        console.log(res.body)
+        this.dialog = false
+      })
     },
     readUser() {
       var user_num = this.$route.params.id
@@ -278,6 +345,8 @@ export default {
       .then((res) => {
           // console.log(res.body)
           this.user = res.body
+          this.message.receiver.text = this.user.userId
+          this.message.receiver.value = this.$route.params.id
           // console.log(this.user)
       })
     },
