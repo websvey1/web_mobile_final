@@ -39,7 +39,7 @@
                         {{ message.created_at }}
                       </v-list-item-subtitle>
                       <span style="float: right; margin-top: -40px; margin-right: 10px;">
-                        <v-icon @click="messageSend(message.user_id, message.user_num)" color="#FF3D00" style="cursor: pointer; margin-right: 5px;">fas fa-reply</v-icon>
+                        <v-icon @click="" color="#FF3D00" style="cursor: pointer; margin-right: 5px;">fas fa-reply</v-icon>
                         <v-icon v-if="message.message_read === 0" @click="messageRead(message.message_num)" color="primary" style="cursor: pointer;">fas fa-envelope</v-icon>
                         <v-icon v-else-if="message.message_read === 1" color="primary">fas fa-envelope-open</v-icon>
                         <v-icon @click="messageDelete(message.message_num, key)" color="#FF3D00" style="cursor: pointer; margin-left: 5px;">fas fa-trash-alt</v-icon>
