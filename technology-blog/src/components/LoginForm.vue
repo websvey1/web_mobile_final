@@ -106,11 +106,7 @@ export default {
       isLogin: true,
 
       isLoading: false,
-<<<<<<< HEAD
       isLoadingForSignout: false,
-
-=======
->>>>>>> c9dab1cd196ac5a6b926ab52bc655787b32a5ac8
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
@@ -131,27 +127,18 @@ export default {
     Loading
   },
   created() {
-<<<<<<< HEAD
-    if(this.$session.has("userInfo")){
-      console.log(this.$session.get("userInfo"));
-=======
+    this.isLoading = true;
+
     this.isLogin = this.$session.has("userInfo")
 
     if(this.isLogin){
->>>>>>> c9dab1cd196ac5a6b926ab52bc655787b32a5ac8
+      console.log(this.$session.get("userInfo"));
       this.userName = this.$session.get('userInfo').user_name
     }
   },
-  // beforeCreate() {
-  //   this.messageCheck()
-  // },
   mounted(){
-<<<<<<< HEAD
     this.isLoading = false;
     // this.messageCheck();
-=======
-
->>>>>>> c9dab1cd196ac5a6b926ab52bc655787b32a5ac8
   },
   computed: {
     form () {
