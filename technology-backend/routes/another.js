@@ -487,7 +487,7 @@ router.post('/message', function(req, res, next) {
             console.log(ex)
         }
         else {
-            var query = conn.query('insert into message(send_user, receive_user, message_content, message_title, message_read) values(?, ?, ?, ?, 0)', 
+            var query = conn.query('insert into message(send_user, receive_user, message_content, message_title, message_read, created_at) values(?, ?, ?, ?, 0, now())', 
             [sender, receiver, content, title], function(err, result) {
                 if(err){
                     console.error(err)
@@ -522,4 +522,26 @@ router.post('/checkNew', function(req, res, next) {
     })
 })
 
+router.post('/messageread', function(req, res, next) {
+    var msgNum = req.body.msg
+    var pool = db.getPool()
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query('update message set message_read = 1 where message_num = ?', msgNum,
+            function(err, result) {
+                if(err){
+                    console.error(err)
+                    throw err
+                }
+                res.send("Read")
+            })
+        }
+        conn.release()
+    })
+
+})
 module.exports = router;
