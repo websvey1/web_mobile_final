@@ -88,7 +88,6 @@
       <v-btn color="blue darken-1" flat @click="closeDialog">CANCEL</v-btn>
     </v-card-actions>
     <Loading :isLoading="isLoading" :isFullPage="false"/>
-    <Loading :isLoading="isLoadingForSignout" :isFullPage="true"/>
   </v-card>
 </v-dialog>
 </template>
@@ -107,19 +106,18 @@ export default {
       isLogin: true,
 
       isLoading: false,
-      isLoadingForSignout: false,
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
       messages: [],
 
-      gomsg: {
-        sender: {text: this.$session.get('userInfo').user_id , value: this.$session.get('userInfo').user_num},
-        receiver: {text: '', value: ''},
-        msg_title: '',
-        msg_content: ''
-      },
-      
+      // gomsg: {
+      //   sender: {text: this.$session.get('userInfo').user_id , value: this.$session.get('userInfo').user_num},
+      //   receiver: {text: '', value: ''},
+      //   msg_title: '',
+      //   msg_content: ''
+      // },
+
       flag: true,
       messagesLength: 0
     }
@@ -128,18 +126,14 @@ export default {
     Loading
   },
   created() {
-    this.isLoading = true;
-
     this.isLogin = this.$session.has("userInfo")
 
     if(this.isLogin){
-      console.log(this.$session.get("userInfo"));
       this.userName = this.$session.get('userInfo').user_name
     }
   },
   mounted(){
-    this.isLoading = false;
-    this.messageCheck();
+
   },
   computed: {
     form () {
@@ -162,7 +156,7 @@ export default {
         .then((response) => {
           console.log(response.body)
           this.messages = response.body
-          
+
           this.$http.post(this.$store.state.testIp + '/another/checkRead', {id: this.$session.get('userInfo').user_num})
           .then((response) => {
             this.messagesLength = response.body[0].total
