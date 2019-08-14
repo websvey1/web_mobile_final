@@ -29,6 +29,6 @@ export const store = new Vuex.Store({
     exist: false,
 
     calendarTeam:null,
-    testIp:'http://192.168.31.65:3000'
+    testIp:'http://192.168.31.63:3000'
 	}
 });

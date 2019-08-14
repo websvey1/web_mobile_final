@@ -12,25 +12,13 @@
               </v-badge>
             </template>
             <v-list style="border-radius: 20px;">
-              <div v-if="messages.length > 0">
-                <v-list-item
-                  v-for="message in messages"
-                  :key="message.message_num"
-                  @click=""
-                >
-                <v-card
-                    class="mx-auto"
-                    width="600"
-                    tile
-                    style="margin-bottom: 20px; border-radius: 10px;"
-                  >
+              <div v-if="flag">
+                <v-list-item v-for="message in messages" :key="message.message_num" @click="">
+                <v-card class="mx-auto"  width="600" tile style="margin-bottom: 20px; border-radius: 10px;">
                   <v-list-item three-line>
                     <v-list-item-content>
                       <v-list-item-title>
-                        <v-chip
-                          color="#00C853"
-                          text-color="white"
-                        >
+                        <v-chip color="#00C853" text-color="white">
                           <v-avatar left>
                             <v-icon>account_circle</v-icon>
                           </v-avatar>
@@ -60,9 +48,9 @@
                 </v-list-item>
               </div>
               <div v-else>
-                  <v-list-item-title>
+                <v-list-item-title>
                   새로운 메세지가 없습니다.
-                  </v-list-item-title>
+                </v-list-item-title>
               </div>
             </v-list>
           </v-menu>
@@ -121,7 +109,9 @@ export default {
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
-      messages: []
+      messages: [],
+
+      flag: true
     }
   },
   components:{

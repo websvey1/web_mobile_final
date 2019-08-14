@@ -331,10 +331,10 @@ export default {
       var data = {
         message: this.message
       }
-      console.log(data)
+      // console.log(data)
       this.$http.post(this.$store.state.testIp + '/another/message', data)
       .then((res) => {
-        console.log(res.body)
+        // console.log(res.body)
         this.dialog = false
       })
     },
@@ -422,7 +422,7 @@ export default {
 
     async userFollower() {
       this.userfollowers = []
-      console.log(this.$route.params.id)
+      // console.log(this.$route.params.id)
       var data = {
         userNum: this.$route.params.id
       }
@@ -539,7 +539,7 @@ export default {
         // console.log(data)
         await this.$http.post(this.$store.state.testIp + '/another/nofollow', data)
         .then(async (res) => {
-          console.log(res.body)
+          // console.log(res.body)
           this.status = 0
           await this.userFollower()
         })
