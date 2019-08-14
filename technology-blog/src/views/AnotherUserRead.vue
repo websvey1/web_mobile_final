@@ -74,7 +74,7 @@
               <h3>&nbsp;{{ user.userEmail }}</h3>
             </v-flex>
             <v-flex v-if="user.userTech.length > 0" style="margin-left: -5px;">
-              <span v-for="tech in user.userTech" :key="tech">
+              <span v-for="tech in user.userTech">
                 <v-chip color="#FFECB3"><b>{{ tech }}</b></v-chip>
               </span>
             </v-flex>
@@ -87,12 +87,12 @@
 <div style="padding:50px 50px;">
   <v-card flat>
     <v-tabs v-model="tab" grow >
-      <v-tab v-for="item in items" :key="item">
+      <v-tab v-for="item in items">
         {{ item }}
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="item in items" :key="item">
+      <v-tab-item v-for="item in items">
         <div v-if="item == 'My Project'">
           <table>
             <thead>
@@ -103,7 +103,7 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody v-for="pjt in project" :key="pjt.project_num">
+            <tbody v-for="pjt in project">
                 <tr @click="goProject(pjt.project_num)">
                     <td data-title="Title">{{ pjt.project_title }}</td>
                     <td data-title="Goal">{{ pjt.project_goal }}</td>
@@ -125,7 +125,7 @@
                     <th>Member</th>
                 </tr>
             </thead>
-            <tbody v-for="team in teamproject" :key="team.project.project_num">
+            <tbody v-for="team in teamproject">
                 <tr @click="goTeamProject(team.project.team_num, team.project.project_num)">
                     <td data-title="Team" style="min-width:90px;">{{ team.project.team_name }}</td>
                     <td data-title="Title">{{ team.project.project_title }}</td>
@@ -133,7 +133,7 @@
                     <td data-title="Tech">{{ team.project.project_tech }}</td>
                     <td data-title="Status" style="min-width:90px;">{{ team.project.project_status }}</td>
                     <td data-title="Member" style="min-width:90px; max-width:300px;">
-                      <span v-for="name in team.member" :key="name">
+                      <span v-for="name in team.member">
                         <v-chip small>
                           {{ name }}
                         </v-chip>
@@ -153,12 +153,12 @@
                     <th>Created_Time</th>
                 </tr>
             </thead>
-            <tbody v-for="p in post" :key="p.post.post_num">
+            <tbody v-for="p in post">
                 <tr v-if="p.post.post_category == 0" @click="goPost(p.post)">
                     <td data-title="Project"> {{ p.post.project_title }}</td>
                     <td data-title="Title"> {{ p.post.post_title }}</td>
                     <td data-title="Tag" v-if="p.tag.length > 0">
-                      <span v-for="t in p.tag" :key="t">
+                      <span v-for="t in p.tag">
                         <v-chip small>
                           {{ t }}&nbsp;
                         </v-chip>
@@ -180,14 +180,14 @@
                     <th>Created Time</th>
                 </tr>
             </thead>
-            <tbody v-for="p in post" :key="p.post.post_num">
+            <tbody v-for="p in post">
                 <tr v-if="p.post.post_category == 1" @click="goPost(p.post)">
                     <td data-title="Team">{{ p.post.team_name }}</td>
                     <td data-title="Project">{{ p.post.project_title }}</td>
                     <td data-title="Title">{{ p.post.post_title }}</td>
                     <td data-title="Tag">
                       <span v-if="p.tag[0] !== null">
-                        <span v-for="t in p.tag" :key="t">
+                        <span v-for="t in p.tag">
                           <v-chip small>
                             {{ t }}&nbsp;
                           </v-chip>
@@ -199,6 +199,8 @@
             </tbody>
           </table>
         </v-layout>
+
+
         <v-layout wrap row v-if="item == 'Follow'">
           <v-flex wrap xs12 style="margin-top: 20px;">
             <v-select v-model="userfollow" :items="follows"
@@ -206,7 +208,7 @@
             style="max-width: 250px; text-align: center; margin-left: 10px;"></v-select>
           </v-flex>
           <v-layout wrap v-if="userfollow.text === 'Follower'">
-            <v-flex wrap xs3 pa-2 v-for="f in userfollowers" :key="f.user.user_num">
+            <v-flex wrap xs3 pa-2 v-for="f in userfollowers">
               <div class="usercard" @click="userpage(f.user.user_num)">
                 <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
                 <img v-else class="profile" src="@/assets/profile.png/"/>
@@ -214,7 +216,7 @@
                   <br>
                   <h3>{{ f.user.user_id }}</h3>
                   <p class="description" style="margin-bottom: 15px">{{ f.user.user_email }}</p>
-                  <span v-for="t in f.tech" :key="t">
+                  <span v-for="t in f.tech">
                     <v-chip color="#455A64" dark small>
                         {{ t }}&nbsp;
                     </v-chip>
@@ -225,7 +227,7 @@
           </v-layout>
 
           <v-layout wrap v-else-if="userfollow.text === 'Following'">
-            <v-flex wrap xs3 pa-2 v-for="f in userfollowings" :key="f.user.user_num">
+            <v-flex wrap xs3 pa-2 v-for="f in userfollowings">
               <div class="usercard" @click="userpage(f.user.user_num)">
                 <img v-if="f.user.user_image !== null" class="profile" :src="f.user.user_image"/>
                 <img v-else class="profile" src="@/assets/profile.png/"/>
@@ -233,7 +235,7 @@
                   <br>
                   <h3>{{ f.user.user_id }}</h3>
                   <p class="description" style="margin-bottom: 15px">{{ f.user.user_email }}</p>
-                  <span v-for="t in f.tech" :key="t">
+                  <span v-for="t in f.tech">
                     <v-chip color="#455A64" dark small>
                         {{ t }}&nbsp;
                     </v-chip>
@@ -390,6 +392,7 @@ export default {
     },
 
     async getPost() {
+      this.post = []
       var user_num = this.$route.params.id
       var data = {
         userNum: user_num
@@ -416,6 +419,8 @@ export default {
     },
 
     async userFollower() {
+      this.userfollowers = []
+      console.log(this.$route.params.id)
       var data = {
         userNum: this.$route.params.id
       }
@@ -517,7 +522,6 @@ export default {
         .then(async (res) => {
           // console.log(res.body)
           this.status = 1
-          this.userfollowers = []
           await this.userFollower()
         })
       }
