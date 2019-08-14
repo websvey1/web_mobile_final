@@ -106,6 +106,7 @@ export default {
       isLogin: true,
 
       isLoading: false,
+      isLoadingForSignout: false,
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
@@ -126,17 +127,18 @@ export default {
     Loading
   },
   created() {
+    this.isLoading = true;
+
     this.isLogin = this.$session.has("userInfo")
 
     if(this.isLogin){
+      console.log(this.$session.get("userInfo"));
       this.userName = this.$session.get('userInfo').user_name
     }
   },
-  // beforeCreate() {
-  //   this.messageCheck()
-  // },
   mounted(){
-
+    this.isLoading = false;
+    // this.messageCheck();
   },
   computed: {
     form () {
