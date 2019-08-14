@@ -544,4 +544,26 @@ router.post('/messageread', function(req, res, next) {
     })
 
 })
+
+router.post('/messagedelete', function(req, res, next) {
+    var msgNum = req.body.msg
+    var pool = db.getPool()
+
+    pool.getConnection((ex, conn) => {
+        if (ex){
+            console.log(ex)
+        }
+        else {
+            var query = conn.query('delete from message where message_num = ?', msgNum,
+            function(err, result) {
+                if(err){
+                    console.error(err)
+                    throw err
+                }
+                res.send("Delete")
+            })
+        }
+        conn.release()
+    })
+})
 module.exports = router;
