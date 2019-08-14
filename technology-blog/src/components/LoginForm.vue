@@ -120,6 +120,7 @@ export default {
 
       isLoading: false,
       isLoadingForSignout: false,
+
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
@@ -139,11 +140,7 @@ export default {
     Loading
   },
   created() {
-    this.isLoading = true;
-
-    this.isLogin = this.$session.has("userInfo")
-
-    if(this.isLogin){
+    if(this.$session.has("userInfo")){
       console.log(this.$session.get("userInfo"));
       this.userName = this.$session.get('userInfo').user_name
     }
