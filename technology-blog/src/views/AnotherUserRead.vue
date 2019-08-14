@@ -353,6 +353,7 @@ export default {
       })
     },
     getProject() {
+      this.project = []
       var user_num = this.$route.params.id
       var data = {
           userNum: user_num
@@ -366,6 +367,7 @@ export default {
     },
 
     async getTeamProject() {
+      this.teamproject = []
       var user_num = this.$route.params.id
       var data = {
         userNum: user_num
@@ -445,6 +447,7 @@ export default {
     },
 
     async userFollowing() {
+      this.userfollowings = []
       var data = {
         userNum: this.$route.params.id
       }
@@ -538,7 +541,6 @@ export default {
         .then(async (res) => {
           console.log(res.body)
           this.status = 0
-          this.userfollowers = []
           await this.userFollower()
         })
       }
