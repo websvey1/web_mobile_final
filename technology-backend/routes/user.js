@@ -104,8 +104,6 @@ router.post('/create', function(req, res, next) {
   var favor = req.body.favor;
   var image = req.body.image;
 
-  console.log(req.body);
-
   pool.getConnection((ex, conn) => {
     if(ex){
       console.log(ex, 'this is create_log');
