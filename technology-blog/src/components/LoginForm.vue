@@ -14,8 +14,8 @@
             <v-list style="border-radius: 20px;">
               <div v-if="messages.length > 0">
                 <v-list-item
-                  v-for="message in messages"
-                  :key="message.message_num"
+                  v-for="(message, key) in messages"
+                  :key="key"
                   @click=""
                 >
                 <v-card
@@ -51,8 +51,10 @@
                         {{ message.created_at }}
                       </v-list-item-subtitle>
                       <span style="float: right; margin-top: -40px; margin-right: 10px;">
-                        <v-icon v-if="message.message_read === 0" @click="messageRead(message.message_num)" color="#FF3D00" style="cursor: pointer; margin-right: 5px;">fas fa-reply</v-icon>
-                        <v-icon v-if="message.message_read === 0" @click="messageRead(message.message_num)" color="primary" style="cursor: pointer;">check_circle</v-icon>
+                        <v-icon @click="messageSend(message.user_id, message.user_num)" color="#FF3D00" style="cursor: pointer; margin-right: 5px;">fas fa-reply</v-icon>
+                        <v-icon v-if="message.message_read === 0" @click="messageRead(message.message_num)" color="primary" style="cursor: pointer;">fas fa-envelope</v-icon>
+                        <v-icon v-else-if="message.message_read === 1" color="primary">fas fa-envelope-open</v-icon>
+                        <v-icon @click="messageDelete(message.message_num, key)" color="#FF3D00" style="cursor: pointer; margin-left: 5px;">fas fa-trash-alt</v-icon>
                       </span>
                     </v-list-item-content>
                   </v-list-item>
@@ -121,7 +123,16 @@ export default {
       idRules: [v => !!v || '아이디를 입력해 주세요.'],
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
-      messages: []
+      messages: [],
+
+      gomsg: {
+        sender: {text: this.$session.get('userInfo').user_id , value: this.$session.get('userInfo').user_num},
+        receiver: {text: '', value: ''},
+        msg_title: '',
+        msg_content: ''
+      },
+      
+      flag: true,
     }
   },
   components:{
@@ -165,6 +176,17 @@ export default {
         })
       }
     },
+    messageDelete(msgNum, key) {
+      this.messages.splice( key, 1 )
+      var data = {
+        msg: msgNum
+      }
+      this.$http.post(this.$store.state.testIp + '/another/messagedelete', data)
+      .then((res) => {
+        console.log(res.body)
+      })
+    },
+
     messageRead(msgNum) {
       var data = {
         msg: msgNum
