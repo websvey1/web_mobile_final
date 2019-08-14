@@ -41,6 +41,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" flat @click="back">BACK</v-btn>
         <v-btn color="blue darken-1" flat @click="resetForm">RESET</v-btn>
         <v-btn color="blue darken-1" flat @click="signup">SIGN UP</v-btn>
       </v-card-actions>
@@ -138,7 +139,9 @@ export default {
 
       this.favor = [];
     },
-
+    back(){
+      this.$router.go(-1);
+    },
     async signup() {
       if(this.checkValidation()){
         this.isLoading = true;
