@@ -145,9 +145,12 @@ export default {
       this.userName = this.$session.get('userInfo').user_name
     }
   },
+  // beforeCreate() {
+  //   this.messageCheck()
+  // },
   mounted(){
     this.isLoading = false;
-    this.messageCheck();
+    // this.messageCheck();
   },
   computed: {
     form () {
@@ -190,7 +193,7 @@ export default {
       }
       this.$http.post(this.$store.state.testIp + '/another/messageread', data)
       .then((res) => {
-        this.messageCheck()
+        // this.messageCheck()
       })
     },
     checkValidation() {
