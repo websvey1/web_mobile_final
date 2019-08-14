@@ -61,7 +61,12 @@ export default {
       })
       .then((response) => {
         this.post = response.data.post
-
+        if(this.post.post_share == '1'){
+          if(!this.$session.has("userInfo") || this.$session.get('userInfo').user_num != this.post.post_user){
+            alert("권한이 없습니다.");
+            this.$router.go(-1);
+          }
+        }
         var colors =  ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'];
 
         this.tags = [];
@@ -79,51 +84,7 @@ export default {
     }
   },
   async created(){
-    var user = this.$route.params.user;
-
-    if(this.$route.params.share == '0'){
-      await this.fetchData();
-    }
-    else{
-      if(this.$session.has('userInfo')){
-        if(user == undefined || user != this.$session.get('userInfo').user_id){
-          alert("권한이 없습니다.");
-          if(this.$route.params.route == 'PostCard'){
-            this.$router.push("/")
-          }
-          else if(this.$route.params.route == 'DownCard'){
-            this.$router.push("/post")
-          }
-          else if(this.$route.params.route == 'ProjectRead'){
-            this.$router.go(-1)
-          }
-          else if(this.$route.params.route == 'AnoterUser'){
-            this.$router.go(-1)
-          }
-          else{
-            this.$router.push("/post")
-          }
-        }
-        else{
-          await this.fetchData();
-        }
-      }
-      else{
-        alert("권한이 없습니다.");
-        if(this.$route.params.route == 'PostCard'){
-          this.$router.push("/")
-        }
-        else if(this.$route.params.route == 'DownCard'){
-          this.$router.push("/post")
-        }
-        else if(this.$route.params.route == 'ProjectRead'){
-          this.$router.go(-1)
-        }
-        else{
-          this.$router.push("/post")
-        }
-      }
-    }
+    await this.fetchData();
   },
   beforeRouteLeave(to, from, next){
     next();

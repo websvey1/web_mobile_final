@@ -61,7 +61,7 @@ router.post('/makeMember', function(req, res, next){
                       console.error(err);
                       throw err;
                     }
-                    
+
                     var query = conn.query('insert into blog.member(member_user, member_team, member_auth) values(?, ?, 0)', [result[0].user_num, teamNum], function (err, result) {
                         if (err) {
                           console.error(err);
@@ -97,11 +97,42 @@ router.post('/getTeamList', function(req, res, next){
     });
 });
 
+router.post('/isMember',function(req, res, next){
+    var user_num = req.body.user_num;
+    var team_num = req.body.team_num;
+    var pool = db.getPool();
+
+    pool.getConnection((ex, conn) => {
+        if(ex){
+            console.log(ex);
+        }else{
+          var sql = 'select count(*) from blog.member where member_user = ? and member_team = ?'
+          var sql_data = [user_num, team_num];
+            var query = conn.query(sql, sql_data, function(err, result){
+                if(err){
+                    console.log(err)
+                    throw err
+                }
+                // console.log(result)
+                var r = result[0]["count(*)"];
+
+                if(r == '0'){
+                  res.send('f');
+                }
+                else{
+                  res.send('s');
+                }
+            })
+            conn.release();
+        }
+    });
+});
+
 router.post('/getMember', function(req, res, next){
     var teamNum = req.body.teamNum;
     var pool = db.getPool();
     console.log(teamNum);
-    
+
     pool.getConnection((ex, conn) => {
         if(ex){
             console.log(ex);
@@ -163,7 +194,7 @@ router.post('/getTeamNum', function(req, res, next){
 
 router.post('/changeAuth', function(req, res, next){
     var num = req.body.num;
-    var teamNum = req.body.teamNum; 
+    var teamNum = req.body.teamNum;
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -184,7 +215,7 @@ router.post('/changeAuth', function(req, res, next){
 
 router.post('/deleteTeam', function(req, res, next){
     var num = req.body.num;
-    var teamNum = req.body.teamNum; 
+    var teamNum = req.body.teamNum;
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -206,7 +237,7 @@ router.post('/deleteTeam', function(req, res, next){
 router.post('/getLatestTeam', function(req, res, next){
     var teamNum = req.body.teamNum;
     // console.log(teamNum)
-    // console.log(req.body)    
+    // console.log(req.body)
     var pool = db.getPool();
 
     pool.getConnection((ex, conn) => {
@@ -218,14 +249,14 @@ router.post('/getLatestTeam', function(req, res, next){
                     console.log(err)
                     throw err
                 }
-                
+
                 res.send(result);
             })
             conn.release();
         }
     });
 });
-    
+
 router.post('/checkNew', function(req, res, next){
     var id = req.body.id;
     var pool = db.getPool();
@@ -239,7 +270,7 @@ router.post('/checkNew', function(req, res, next){
                     console.log(err)
                     throw err
                 }
-                
+
                 res.send(result);
             })
             conn.release();
