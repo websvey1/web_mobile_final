@@ -111,7 +111,7 @@ export default {
       pwRules: [v => !!v || '비밀번호를 입력해 주세요.'],
       alert: false,
       messages: [],
-
+      message_status: 0,
       // gomsg: {
       //   sender: {text: this.$session.get('userInfo').user_id , value: this.$session.get('userInfo').user_num},
       //   receiver: {text: '', value: ''},
@@ -138,7 +138,7 @@ export default {
   },
   mounted(){
     this.isLoading = false;
-    // this.messageCheck();
+    this.messageCheck();
   },
   computed: {
     form () {
@@ -186,14 +186,15 @@ export default {
       })
     },
 
-    messageRead(msgNum) {
+    async messageRead(msgNum) {
       this.messagesLength = this.messagesLength - 1
       var data = {
         msg: msgNum
       }
       this.$http.post(this.$store.state.testIp + '/another/messageread', data)
-      .then((res) => {
-        // this.messageCheck()
+      .then(async (res) => {
+        await this.messageCheck()
+        
       })
     },
     checkValidation() {
@@ -218,16 +219,17 @@ export default {
       if (this.checkValidation()) {
         this.isLoading = true;
 
-        this.$http.post("http://192.168.31.65:3000/user/login", this.form)
-          .then((res) => {
+        await this.$http.post(this.$store.state.testIp + '/user/login', this.form)
+          .then(async (res) => {
             console.log(res.data);
             if (res.data == "fail") {
               alert("아이디와 비밀번호를 확인해 주세요.");
               this.resetForm();
             } else {
-              alert("로그인 되었습니다.")
               this.isLogin = true;
               this.$session.set("userInfo", res.data);
+              await this.messageCheck()
+              alert("로그인 되었습니다.")
               console.log(this.$session.get('userInfo').user_num)
               this.userName = this.$session.get('userInfo').user_name
               this.closeDialog();

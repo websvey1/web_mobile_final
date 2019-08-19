@@ -20,7 +20,7 @@
          <v-row justify="center">
           <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on }">
-              <v-btn tile color="success" v-on="on" style="margin-left: 40px; border-radius: 20px;">
+              <v-btn tile color="success" v-on="on" style="margin-left: 18px; border-radius: 20px;">
                 <v-icon left>edit</v-icon> Message
               </v-btn>
               <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
