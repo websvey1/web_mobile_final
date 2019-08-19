@@ -20,7 +20,7 @@
 
 ## 3. 데이터 베이스 설계
 
-![](C:\Users\multicampus\Pictures\database.PNG)
+![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\database.PNG)
 
 * User
 * Project
@@ -31,17 +31,18 @@
 ## 4. 기능
 
 1. **User**
+    
     * 회원 가입
     
-      ![](C:\Users\multicampus\Pictures\회원가입.PNG)
+      ![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\회원가입.PNG)
     
     * 회원 정보 수정
     
-      ![](C:\Users\multicampus\Pictures\회원정보수정.PNG)
+      ![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\회원정보수정.PNG)
     
     * 회원 탈퇴
     
-      ![](C:\Users\multicampus\Pictures\회원탈퇴.PNG)
+      ![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\회원탈퇴.PNG)
 
 
 
@@ -49,14 +50,14 @@
 
     * **Login**
 
-      ![](C:\Users\multicampus\Pictures\login.png)
+      ![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\login.png)
 
       * Login을 한 후에 자신의 id와 함께 새로운 message 알림이 나타난다.
       * Login을 하지 않는다면 header에 있는 project, post 기능을 제외한 나머지 기능들을 실행할 수 없다.
 
     * **Project**
 
-      ![](C:\Users\multicampus\Pictures\header_project.PNG)
+      ![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\header_project.PNG)
 
       * 로그인이 안 되어있는 상태에서도 볼 수 있는 project
       * 비공개 project를 제외한 모든 project를 볼 수 있다.
@@ -65,7 +66,7 @@
 
     * **Post**
 
-      ![](C:\Users\multicampus\Pictures\header_post.PNG)
+      ![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\header_post.PNG)
 
       * 로그인이 안 되어있는 상태에서도 볼 수 있는 post
       * 해당 project가 비공개 상태라면 post가 공개 상태여도 비공개로 나타난다.
@@ -78,7 +79,7 @@
 
    * Personal - Project
 
-     ![](C:\Users\multicampus\Pictures\project.PNG)
+     ![](C:\Users\multicampus\Desktop\예지\webmobile-final\images\project.PNG)
 
      
 
