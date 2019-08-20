@@ -20,7 +20,7 @@
 
 ## 3. 데이터 베이스 설계
 
-![](image\database.PNG)
+![database](/uploads/3a862719e75822084ee203d8ce099015/database.PNG)
 
 
 
@@ -30,7 +30,7 @@
    
     * **회원 가입**
     
-      ![](/uploads/d63b32c920678ba446a2cf99857bb777/회원가입.PNG)
+      ![회원가입](/uploads/cbf9050d92fef195a5f0b28761b80b85/회원가입.PNG)
     
       * profile 사진과 관심 기술(최대 3개)을 등록할 수 있다.
       * ID 중복검사를 SIGN UP 클릭시 자동으로 할 수 있다.
@@ -39,19 +39,19 @@
     
     * **회원 정보 수정**
     
-      ![](image\회원정보수정.PNG)
+      ![회원정보수정](/uploads/48039b1c2af7d5849a7a08ebf41834ed/회원정보수정.PNG)
     
       
     
     * **회원 탈퇴**
     
-      ![](.\image\회원탈퇴.PNG)
+      ![회원탈퇴](/uploads/5c0ab2077a6253023c907d9623f44f45/회원탈퇴.PNG)
 
 2. **Header**
 
     * **Login**
 
-      ![](.\image\login.png)
+      ![login](/uploads/7dfe62d7109f6e72ee268cb78f293eaf/login.png)
 
       * Login을 한 후에 자신의 id와 함께 새로운 message 알림이 나타난다.
       * Login을 하지 않는다면 header에 있는 project, post 기능을 제외한 나머지 기능들을 실행할 수 없다.
@@ -60,7 +60,7 @@
 
     * **Project**
     
-      ![](.\image\header_project.PNG)
+      ![header_project](/uploads/14f7078ed10c374dc95c76917d9e3ce9/header_project.PNG)
     
       * 로그인이 안 되어있는 상태에서도 볼 수 있는 project
       * 비공개 project를 제외한 모든 project를 볼 수 있다.
@@ -71,9 +71,9 @@
     
     * **Post**
     
-      ![](.\image\header_post.PNG)
+      ![header_post](/uploads/2ce8d056c31f20a718bf237500fee668/header_post.PNG)
     
-      ![](.\image\header_post2.PNG)
+      ![header_post2](/uploads/78e42685b9cb21be44d3be283729b506/header_post2.PNG)
     
       * 로그인이 안 되어있는 상태에서도 볼 수 있는 post
       * 해당 project가 비공개 상태라면 post가 공개 상태여도 비공개로 나타난다.
@@ -87,13 +87,13 @@
 
    * **Project**
 
-     ![](.\image\project.PNG)
+     ![project](/uploads/240947d2af9329544ca86fea33006d10/project.PNG)
 
      * MENU에 있는 Personal - Project를 클릭하면 로그인 한 User가 쓴 project만 나타난다.
      
      
      
-     ![](.\image\project_create.PNG)
+     ![project_create](/uploads/e1be2898b963dee0884158ca8009ab1a/project_create.PNG)
      
      * 새로운 프로젝트 생성 (프로젝트 명세서 작성)
      * 프로젝트의 시작일과 마감일을 선택하여 일정을 관리 할 수 있으며, 프로젝트의 상태(계획, 진행중, 완료)를 선택할 수 있다.
@@ -104,7 +104,7 @@
      
      
      
-     ![](.\image\myproject.PNG)
+     ![myproject](/uploads/48b5e1735d53c8dbc271f6b76b5e20f3/myproject.PNG)
      
      * User가 자신이 쓴 project를 클릭하면 project의 명세서 확인, To do list와 해당 project에 대한 post를 작성 할 수 있다.
      * User는 project를 추가, 확인, 수정, 삭제할 수 있다.
@@ -116,13 +116,13 @@
    
    * **Post**
 
-     ![](.\image\post.PNG)
+     ![post](/uploads/87b7389bcf093b2b4e9699685db41d42/post.PNG)
 
      * Project - Post보기를 클릭하면 User가 작성한 Project에 대한 Post들을 볼 수 있다.
      * Header에서 보이지 않던 비밀 Post를 작성자는 확인 할 수 있다.
      * Post를 추가, 확인, 수정, 삭제할 수 있다.
      
-     ![](.\image\post_create.PNG)
+     ![post_create](/uploads/a79eec3563050441cd7769ac41b08974/post_create.PNG)
      
      * Post를 작성할 때, 해당 Project 이름이 자동으로 설정된다.
      * Random Image 또는 자신이 선택한 Image를 첨부할 수 있다.
@@ -132,7 +132,7 @@
    
    * **To Do List**
    
-     ![](.\image\todolist.PNG)
+     ![todolist](/uploads/8b60500ac35a40ac0f7c6e2750c3ca41/todolist.PNG)
    
      * Drag and Drop을 사용하여 To do list를 구현하였다.
      * 해야할 일 / 하고 있는 일/ 완성한 일을 관리할 수 있다.
@@ -142,7 +142,7 @@
    
    * **Calendar**
    
-     ![](.\image\calendar.PNG)
+     ![calendar](/uploads/530b71a4014d8624136f789383ec5ef6/calendar.PNG)
    
      * User는 Calendar를 사용하여 자신의 일정관리를 할 수 있다.
      * 일정의 Title, Start date, Eed date, Event description을 작성할 수 있으며 자신이 원하는 color(THEME)를 선택할 수 있다.확인하고 싶은 일정을 누르면 모달로 일정의 정보를 확인, 수정, 삭제 할 수 있다
@@ -153,7 +153,7 @@
 
    * **Team 추가 / 확인**
 
-     ![](.\image\Team추가.PNG)
+     ![Team추가](/uploads/d2bddc2be2ee2ea5d7a84f5e0756948b/Team추가.PNG)
 
      * Team Project를 위해 Team을 추가한다.
      * Team Name을 정할 수 있고, 회원가입된 모든 User에서 팀원을 선택할 수 있다.
@@ -162,68 +162,66 @@
 
      
 
-     
+     ![Team확인](/uploads/5724676a359207b29bdb5e432142c930/Team확인.PNG)
 
-     ![](.\image\Team확인.PNG)
-
-     ![](.\image\Team_member.png)
+     ![Team_member](/uploads/001610e9c92b57ebc9b01266fcf58c45/Team_member.png)
 
      *  선택을 누르면 자신이 속한 Team을 모두 볼 수 있으며, 새로운 Team 초대가 왔을 시 MENU Navigation bar에 New라는 알림이 뜬다.
-     * 팀 초대를 수락하거나 거절할 수 있으며 수락 시에는 Team project를 관리할 수 있으며, 팀원을 추가할 수 있다.
+* 팀 초대를 수락하거나 거절할 수 있으며 수락 시에는 Team project를 관리할 수 있으며, 팀원을 추가할 수 있다.
      * Team member를 추가 할 수 있으며, 팀원을 확인할 수 있다.
-
+   
    
 
    * **Team Project**
 
-     ![](.\image\teampjt.PNG)
+     ![teampjt](/uploads/b24f6cebd9e2b15aa6c44bcd9d352b1d/teampjt.PNG)
 
      * 원하는 Team을 선택하면 해당 Team의 project들을 확인 할 수 있다.
 
      
 
-     ![](.\image\teampjt추가.PNG)
+     ![teampjt추가](/uploads/ebb74b668c2351a5adb5b3855d5c0c29/teampjt추가.PNG)
 
      * 새로운 Team Project를 추가할 수 있다.
-     * 개인 Project와 다르게 Team Project는 팀장을 선택할 수 있다.
-
+  * 개인 Project와 다르게 Team Project는 팀장을 선택할 수 있다.
+   
      
 
-     ![](.\image\teamproject.PNG)
+     ![teamproject](/uploads/44f231d5904170007662df779be3b53a/teamproject.PNG)
 
      * Team project를 클릭하면 project의 명세서 확인, To do list와 해당 project에 대한 post를 작성 할 수 있다.
-     * Team project는 팀원 모두 수정이 가능하며 삭제는 팀장만 권한을 가진다.
+  * Team project는 팀원 모두 수정이 가능하며 삭제는 팀장만 권한을 가진다.
      * +를 클릭하면 Tech(주요 기술), 생성일, 수정일, git_url 등 더 상세한 정보를 확인할 수 있다.
-
+   
    
 
    * **Team Post**
 
-     ![](.\image\teampost추가.PNG)
+     ![teampost추가](/uploads/f7272ffc8a272a1d0fe624b6343ecf55/teampost추가.PNG)
 
-     ![](.\image\teampost.PNG)
+     ![teampost](/uploads/ada06d1950a9561d517e3c497b1556a7/teampost.PNG)
 
      * Team Post는 팀원끼리 공유 할 수 있다.
-     * Post를 작성할 때, 해당 Team Project 이름이 자동으로 설정된다.
+  * Post를 작성할 때, 해당 Team Project 이름이 자동으로 설정된다.
      * Team Post들을 모아 볼 수 있다.
-
+   
    
 
    * **Team To Do List**
 
-     ![](.\image\team_todolist.PNG)
+     ![team_todolist](/uploads/36251edc5990623d6a415888192c43a0/team_todolist.PNG)
 
      * To Do List은 팀원 모두 작성, 삭제를 할 수 있다.
-     * 팀원 모두 해야할 일 / 하고 있는 일/ 완성한 일을 함께 관리할 수 있다.
-
+  * 팀원 모두 해야할 일 / 하고 있는 일/ 완성한 일을 함께 관리할 수 있다.
+   
    
 
    * **Team Calendar**
 
-     ![](.\image\teamcalendar.png)
+     ![teamcalendar](/uploads/04813c8f3bbaee575359eff1763a0ab7/teamcalendar.png)
 
      * Team을 선택하면 해당 Team의 일정을 보여준다.
-     * 해당 Team에 속해 있는 팀원들과 일정을 모두 공유할 수 있다.
+  * 해당 Team에 속해 있는 팀원들과 일정을 모두 공유할 수 있다.
      * 일정 추가, 수정, 삭제를 할 수 있다.
 
 
@@ -232,12 +230,12 @@
 
    * AnotherUser
 
-     ![](.\image\anotheruser.PNG)
+     ![anotheruser](/uploads/6d9f4cd33232f2fc53d63a406d345a41/anotheruser.PNG)
 
      * AnotherUser page에 접속하면 해당 사이트에 회원가입된 모든 User들을 확인할 수 있다.
      * ID, Email, 관심 기술로 User들을 검색할 수 있다.
 
-     ![](.\image\anotheruserdetail.PNG)
+     ![anotheruserdetail](/uploads/315910c4c60f7d069072661858ca04fb/anotheruserdetail.PNG)
 
      * 알고 싶은 User를 선택하면 해당 User의 Profile Image, ID, Email, 관심기술을 확인 할 수 있다.
      * 해당 User의 개인 Project/Post, Team Project/Post를 확인 할 수 있다.
@@ -246,7 +244,7 @@
    
    * **User Follow**
    
-     ![](.\image\userfollow.png)
+     ![userfollow](/uploads/59317c7e6a20c0928c63cd451107ea25/userfollow.png)
    
      * 만약 관심 있는 User라면 profile image 옆 icon을 클릭하여 follow할 수 있다.
      * 해당 User의 follower, following을 확인 할 수 있다.
@@ -255,6 +253,6 @@
    
    * **Message**
    
-     ![](.\image\message.PNG)
+     ![message](/uploads/f9e7af707c7d51df729b811e037991bd/message.PNG)
    
      * message를 누르면 해당 user에게 메세지를 보낼 수 있다.
