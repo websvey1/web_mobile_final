@@ -20,7 +20,7 @@
 
 ## 3. 데이터 베이스 설계
 
-![](.\images\database.PNG)
+![](images\database.PNG)
 
 
 
@@ -129,9 +129,9 @@
      * Post를 작성할 때, 해당 Project 이름이 자동으로 설정된다.
      * Random Image 또는 자신이 선택한 Image를 첨부할 수 있다.
      * 여러가지 Tag를 작성할 수 있으며, 공개 / 비공개 설정을 할 수 있다.
+
    
-   
-   
+
    * **To Do List**
      
      ![](.\images\todolist.PNG)
@@ -139,9 +139,9 @@
      * Drag and Drop을 사용하여 To do list를 구현하였다.
      * 해야할 일 / 하고 있는 일/ 완성한 일을 관리할 수 있다.
      * To do list 목록을 추가하거나 삭제 할 수 있다.
+
    
-   
-   
+
    * **Calendar**
    
      ![](.\images\calendar.PNG)
