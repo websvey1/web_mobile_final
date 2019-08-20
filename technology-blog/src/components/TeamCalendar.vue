@@ -113,9 +113,9 @@ export default {
             this.cssClass = event.cssClass;
             this.description = event.description;
             this.dialog = true
-
             this.$http.post(this.$store.state.testIp + '/plan/getCalId', data)
             .then((response) => {
+                console.log(response.body)
                 this.$store.state.cal_id = response.body[0].cal_id;
             })
             .catch((error) =>{

@@ -118,7 +118,6 @@ router.post('/getCalId', function(req, res, next){
                 }
 
                 res.send(result);
-
                 conn.release();
             });
         }
